@@ -1,0 +1,64 @@
+{
+  "source_id": "SRC001",
+  "publisher": "SEBI Investor",
+  "title": "Fake Trading App Scam Landscape",
+  "url": "https://investor.sebi.gov.in/pdf/Fake%20trading%20app%20scam%20Landscape.pdf",
+  "publication_date": "2024-02-26",
+  "retrieved_at": "2026-09-30T12:00:00Z",
+  "content_hash": "sha256:d8c525f25bf6034177d468087ab2ebf2a74c2e64ca620b784f1faee31cf64739",
+  "sections": [
+    {
+      "section_id": "SEC01_MODUS_OPERANDI",
+      "section_title": "Modus Operandi of Fake Trading Apps and Social Media Groups",
+      "page_number": 1,
+      "content": "Fraudsters create groups on social media platforms like WhatsApp and Telegram using names that resemble well-known SEBI registered intermediaries or foreign portfolio investors. Unsuspecting investors are added to these groups and lured with claims of high guaranteed returns, exclusive institutional trading access, and pre-IPO allocations.",
+      "key_takeaways": [
+        "Unsolicited addition to WhatsApp/Telegram trading groups",
+        "Impersonation of SEBI-registered entities or FIIs",
+        "Promises of high or guaranteed returns"
+      ]
+    },
+    {
+      "section_id": "SEC02_FAKE_PLATFORMS",
+      "section_title": "Deployment of Unauthorized Mobile Applications and APKs",
+      "page_number": 2,
+      "content": "Victims are instructed to download third-party applications via direct APK download links, unknown web URLs, or customized interfaces outside authorized app distribution stores. These fake applications simulate live market prices and display inflated fictitious trading profits on the user's dashboard to encourage larger deposits.",
+      "key_takeaways": [
+        "Distribution via APK links or untrusted websites",
+        "Fabricated profit numbers displayed on simulated dashboards",
+        "Lack of genuine exchange execution"
+      ]
+    },
+    {
+      "section_id": "SEC03_PAYMENT_COLLECTION",
+      "section_title": "Routing of Funds to Third-Party and Mule Bank Accounts",
+      "page_number": 2,
+      "content": "Payments for trading and margin deposits are solicited into personal bank accounts, third-party current accounts, or individual UPI handles rather than the designated registered client bank account of a recognized stockbroker.",
+      "key_takeaways": [
+        "Deposits directed to personal bank accounts or arbitrary UPI handles",
+        "Absence of official designated client account routing"
+      ]
+    },
+    {
+      "section_id": "SEC04_WITHDRAWAL_BLOCKADE",
+      "section_title": "Withdrawal Demands and Artificial Fee Traps",
+      "page_number": 3,
+      "content": "When an investor attempts to withdraw funds or claimed profits, the perpetrators deny access, demanding additional payments under the pretext of statutory taxes, platform fees, conversion charges, or account unfreezing fees. Once the demand is met, further fees are demanded or communication is abruptly cut off.",
+      "key_takeaways": [
+        "Refusal to process withdrawals without advance fees or taxes",
+        "Threat of account forfeiture to coerce further deposits"
+      ]
+    },
+    {
+      "section_id": "SEC05_REGULATORY_SAFEGUARDS",
+      "section_title": "Statutory Guidance and Verification Safeguards",
+      "page_number": 3,
+      "content": "SEBI reiterates that registered intermediaries never guarantee returns on stock market investments and never solicit funds into third-party accounts. Investors must verify registration status on the official SEBI website (www.sebi.gov.in) and download trading applications only from recognized app stores verified against registered brokers.",
+      "key_takeaways": [
+        "No registered intermediary guarantees market returns",
+        "Always verify intermediary registration on sebi.gov.in",
+        "Report cyber fraud immediately to 1930 / cybercrime.gov.in"
+      ]
+    }
+  ]
+}
