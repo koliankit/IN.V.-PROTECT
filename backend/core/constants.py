@@ -65,5 +65,25 @@ TARGET_USER_PERSONAS = [
     },
 ]
 
+# Layer 006: Explicit Product Non-Goals
+PRODUCT_NON_GOALS = [
+    "NO_BUY_SELL_HOLD",
+    "NO_PRICE_PREDICTION",
+    "NO_PORTFOLIO_RECOMMENDATION",
+    "NO_SPECULATIVE_TRADING",
+    "NO_BROKER_PROMOTION",
+    "NO_INVESTMENT_UPSELLING",
+]
+
+NON_GOAL_DESCRIPTIONS = {
+    "NO_BUY_SELL_HOLD": "No buy, sell, or hold recommendations for any security or asset.",
+    "NO_PRICE_PREDICTION": "No future stock price, cryptocurrency price, or market index predictions.",
+    "NO_PORTFOLIO_RECOMMENDATION": "No portfolio allocation, asset rebalancing, or investment strategy advisory.",
+    "NO_SPECULATIVE_TRADING": "No day-trading signals, algorithmic trading execution, or speculative arbitrage assistance.",
+    "NO_BROKER_PROMOTION": "No sponsorship, promotion, endorsement, or affiliate referral to any broker or exchange.",
+    "NO_INVESTMENT_UPSELLING": "No upselling of financial products, loans, insurance, or proprietary paid advisory services.",
+}
+
+
 
 
