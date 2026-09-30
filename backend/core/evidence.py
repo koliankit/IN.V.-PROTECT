@@ -45,7 +45,8 @@ class EvidenceStore:
 
             for sec in doc.get("sections", []):
                 content = sec.get("content", "")
-                if kw in content.lower():
+                title_sec = sec.get("section_title", "")
+                if kw in content.lower() or kw in title_sec.lower():
                     results.append(
                         EvidenceItem(
                             source_id=source_id,

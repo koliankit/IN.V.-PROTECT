@@ -1,0 +1,49 @@
+{
+  "source_id": "SRC007",
+  "publisher": "NCRB / data.gov.in",
+  "title": "Crime in India 2023 - Cyber Crime Incidence, Motives and Financial Fraud Analytics",
+  "url": "https://www.data.gov.in/catalog/crime-india-2023",
+  "publication_date": "2023-12-01",
+  "retrieved_at": "2026-09-30T12:00:00Z",
+  "content_hash": "sha256:d44f999b4321c33834d522d8d0e2acf7f70221afb07d51c3a60da4c0d4f7643c",
+  "source_type": "open_government_data",
+  "allowed_use": "impact_context",
+  "evaluation": {
+    "is_text_classification_training_eligible": false,
+    "has_labeled_text_samples": false,
+    "primary_utility": "macro_risk_context_and_impact_metrics",
+    "rationale": "NCRB reports aggregate demographic and offense counts per jurisdiction. It does not provide text-level scam messages or social media interaction transcripts."
+  },
+  "sections": [
+    {
+      "section_id": "SEC01_FRAUD_MOTIVE_DOMINANCE",
+      "section_title": "Cybercrime Motive Distribution - Financial Fraud Prevalence",
+      "page_number": 435,
+      "content": "According to NCRB Crime in India statistics, financial fraud (cheating and fraud under Section 420 IPC / Section 66D IT Act) accounts for approximately 69% of all reported cybercrimes in India, exceeding personal revenge, harassment, or espionage. Financial gain is the overwhelming driver of modern digital scams.",
+      "key_takeaways": [
+        "Financial fraud represents approximately 69% of reported cybercrime cases in India",
+        "Online financial deception is the single largest cybercrime category by incident volume"
+      ]
+    },
+    {
+      "section_id": "SEC02_GROWTH_TRAJECTORY",
+      "section_title": "Surge in Digital Financial Crime and Mobile Scams",
+      "page_number": 438,
+      "content": "The transition to digital payments and mobile trading has been accompanied by a sharp year-over-year rise in cybercrime complaints. Urban centers and tier-2/tier-3 cities report rapid proliferation of investment scams deployed via mobile messaging platforms and deceptive Android APK applications.",
+      "key_takeaways": [
+        "Rapid surge in complaints correlates with increased retail investor digital onboarding",
+        "Tier-2 and tier-3 cities increasingly targeted through messaging platforms"
+      ]
+    },
+    {
+      "section_id": "SEC03_INTERVENTION_URGENCY",
+      "section_title": "Need for Pre-Transaction Screening and Rapid Reporting",
+      "page_number": 442,
+      "content": "Low charge-sheeting rates and rapid dissipation of illicit funds across multi-hop mule account networks underscore that ex-post police investigation alone is insufficient. Pre-transaction scam resilience, user skepticism augmentation, and reporting within the first 'Golden Hours' to 1930 are essential to minimize victim loss.",
+      "key_takeaways": [
+        "Ex-post recovery is challenging due to rapid multi-layer mule account laundering",
+        "Proactive user-side screening and immediate 1930 reporting are vital safeguards"
+      ]
+    }
+  ]
+}
