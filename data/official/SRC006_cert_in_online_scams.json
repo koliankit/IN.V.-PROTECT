@@ -1,0 +1,54 @@
+{
+  "source_id": "SRC006",
+  "publisher": "CERT-In",
+  "title": "CERT-In Advisory CIAD-2024-0050: Preventing Online Scams and Phishing Attacks",
+  "url": "https://www.cert-in.org.in/s2cMainServlet?VLCODE=CIAD-2024-0050&pageid=PUBVLNOTES02",
+  "publication_date": "2024-05-10",
+  "retrieved_at": "2026-09-30T12:00:00Z",
+  "content_hash": "sha256:a5a98ec746eb23ddace15807df20b5cec73624a15c509cd7b4110ebba542f447",
+  "sections": [
+    {
+      "section_id": "SEC01_PHISHING_TYPOSQUATTING",
+      "section_title": "Deceptive Look-Alike Domains and Typosquatting",
+      "page_number": 1,
+      "content": "Adversaries register look-alike domain names and typosquatting URLs that mimic legitimate banking portals, stock trading platforms, and government websites. These domains employ visual character substitutions (homoglyphs) to trick users into submitting credentials and OTPs on fraudulent landing pages.",
+      "key_takeaways": [
+        "Inspect domain names carefully for subtle misspellings or abnormal TLDs",
+        "Do not click on shortened URLs (e.g., bit.ly, tinyurl) sent via SMS or messaging apps",
+        "Verify domain SSL certificate issuer and subject before logging in"
+      ]
+    },
+    {
+      "section_id": "SEC02_MALICIOUS_APK_DELIVERY",
+      "section_title": "Distribution of Malicious APK Packages via Social Messengers",
+      "page_number": 2,
+      "content": "Threat actors distribute malicious Android Package (APK) files directly via WhatsApp, Telegram, and SMS claiming to be specialized institutional investment portals or market update utilities. Once installed, these APKs request SMS read permissions to intercept two-factor authentication OTPs and exfiltrate contacts.",
+      "key_takeaways": [
+        "Never install Android APK files received from chat apps or untrusted websites",
+        "Disable installation from unknown sources on mobile devices",
+        "Scrutinize runtime app permissions, especially Accessibility and SMS services"
+      ]
+    },
+    {
+      "section_id": "SEC03_SOCIAL_ENGINEERING_URGENCY",
+      "section_title": "Urgency and Coercion in Financial Social Engineering",
+      "page_number": 2,
+      "content": "Scammers engineer psychological pressure through urgent deadlines, threats of immediate demat account deactivation, fictitious regulatory compliance fines, or expiring pre-IPO allocations. CERT-In cautions that genuine regulatory authorities and financial institutions never demand immediate funds transfer to avert account suspension.",
+      "key_takeaways": [
+        "Manufactured panic and tight deadlines are hallmark indicators of fraud",
+        "Never make urgent transfers to personal or unverified UPI IDs under pressure"
+      ]
+    },
+    {
+      "section_id": "SEC04_INCIDENT_REPORTING_DEFENSE",
+      "section_title": "Incident Reporting and Containment Guidelines",
+      "page_number": 3,
+      "content": "In the event of suspected compromise, victims should immediately disconnect devices from the network, notify their bank to freeze compromised accounts, report cybersecurity incidents to CERT-In (incident@cert-in.org.in or helpline 1800-11-4949), and file a cyber fraud report on cybercrime.gov.in.",
+      "key_takeaways": [
+        "Report security incidents to CERT-In at incident@cert-in.org.in or 1800-11-4949",
+        "Isolate compromised devices and change all passwords from a clean device",
+        "Preserve evidence including message logs, phone numbers, and payment receipts"
+      ]
+    }
+  ]
+}
