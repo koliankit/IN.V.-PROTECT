@@ -130,6 +130,31 @@ USER_JOURNEY_STAGES = [
     },
 ]
 
+# Layer 008: Supported Input Modalities
+SUPPORTED_INPUT_MODALITIES = {
+    "plain_text": {
+        "required": True,
+        "description": "Direct typed query or short message snippet.",
+        "fallback": "Primary modality; always active.",
+    },
+    "pasted_message": {
+        "required": True,
+        "description": "Multi-line forwarded chat, SMS, or post text.",
+        "fallback": "Processed as normalized text.",
+    },
+    "screenshot_image": {
+        "required": True,
+        "description": "Image/screenshot upload via OCR extraction.",
+        "fallback": "Safe fallback to requesting clearer image or manual paste if OCR is low confidence.",
+    },
+    "public_url": {
+        "required": False,
+        "description": "Optional URL to suspicious portal or APK landing page.",
+        "fallback": "Fallback to lexical/domain heuristic if external fetch is unavailable.",
+    },
+}
+
+
 
 
 
