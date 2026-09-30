@@ -92,3 +92,6 @@ models_cache/
 
 # Keep directory structure in data folders
 !data/**/.gitkeep
+
+Sangyan_AI_Investor_Shield_Build_Pack*
+
