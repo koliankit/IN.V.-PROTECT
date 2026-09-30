@@ -1,0 +1,65 @@
+{
+  "source_id": "SRC004",
+  "publisher": "SEBI Investor",
+  "title": "SEBI Investor Support and Grievance Redressal Guidance",
+  "url": "https://investor.sebi.gov.in/Investor-support.html",
+  "publication_date": "2024-01-15",
+  "retrieved_at": "2026-09-30T12:00:00Z",
+  "content_hash": "sha256:544b4d49276cafda3bdbec909180c29a23348dfe4c13722aa2ecb3ab4755aefa",
+  "sections": [
+    {
+      "section_id": "SEC01_SCORES_PORTAL",
+      "section_title": "SEBI Complaints Redress System (SCORES 2.0)",
+      "page_number": 1,
+      "content": "SCORES is SEBI's centralized web-based grievance redress system (https://scores.sebi.gov.in). Investors can lodge complaints against listed companies, registered brokers, investment advisers, research analysts, and other market intermediaries. The platform provides automated routing to designated entities, defined turnaround timelines (21 calendar days), and two-tier review mechanisms.",
+      "key_takeaways": [
+        "Lodge complaints against SEBI-registered entities on scores.sebi.gov.in",
+        "Mandatory resolution turnaround time of 21 calendar days",
+        "Multi-tier review including First Review by Designated Body and Second Review by SEBI"
+      ]
+    },
+    {
+      "section_id": "SEC02_SMART_ODR",
+      "section_title": "Securities Market Online Dispute Resolution (SMART ODR)",
+      "page_number": 1,
+      "content": "The SMART ODR Portal (https://smartodr.in) facilitates online conciliation and arbitration between investors and listed companies or intermediaries. If a grievance lodged through SCORES remains unresolved or the investor is dissatisfied with the outcome, the dispute can be escalated for independent digital conciliation and arbitration.",
+      "key_takeaways": [
+        "Online independent conciliation and arbitration through smartodr.in",
+        "Seamless digital dispute resolution for Indian securities markets"
+      ]
+    },
+    {
+      "section_id": "SEC03_TOLL_FREE_HELPLINE",
+      "section_title": "SEBI Toll-Free Investor Helpline",
+      "page_number": 1,
+      "content": "SEBI operates a dedicated toll-free investor helpline service accessible across India at 1800 266 7575 and 1800 22 7575, operating 7 days a week from 9:00 AM to 6:00 PM in English, Hindi, and major Indian languages. The helpline provides guidance on filing complaints, status of grievances, and verification of entity registration.",
+      "key_takeaways": [
+        "Toll-free national helplines: 1800 266 7575 and 1800 22 7575",
+        "Multi-lingual investor assistance 7 days a week (9 AM - 6 PM)",
+        "Guidance on SCORES filing and entity registration verification"
+      ]
+    },
+    {
+      "section_id": "SEC04_INTERMEDIARY_VERIFICATION",
+      "section_title": "SEBI Recognized Intermediary Verification Directory",
+      "page_number": 1,
+      "content": "Investors must verify the registration status and valid registration certificate number (e.g., INZ for brokers, INA for investment advisers, INH for research analysts) directly on the SEBI official directory (https://www.sebi.gov.in/intermediaries.html). Dealing with unregistered individuals or transferring money to personal bank accounts leaves investors outside the protection of SEBI dispute resolution mechanisms.",
+      "key_takeaways": [
+        "Verify intermediary license status directly on sebi.gov.in/intermediaries.html",
+        "Check registration categories: INZ (brokers), INA (advisers), INH (analysts)",
+        "Unregistered entities cannot be resolved through SEBI investor protection funds"
+      ]
+    },
+    {
+      "section_id": "SEC05_UNREGISTERED_ENTITY_REPORTING",
+      "section_title": "Reporting Unregistered Entities and Cyber Investment Fraud",
+      "page_number": 2,
+      "content": "Where an entity or group is not registered with SEBI (such as unauthorized Telegram channels, fake WhatsApp investment groups, or clone trading APKs), complaints cannot be resolved via SCORES. Such cases must be reported immediately as cyber fraud to the National Cyber Crime Reporting Portal (https://cybercrime.gov.in) or the 24x7 Citizen Financial Cyber Fraud Helpline number 1930.",
+      "key_takeaways": [
+        "Unregistered scam groups must be reported to 1930 and cybercrime.gov.in",
+        "Immediate reporting within Golden Hours increases chance of freezing illicit bank transfers",
+        "Provide transaction IDs, WhatsApp/Telegram phone numbers, and destination account numbers"
+      ]
+    }
+  ]
+}
