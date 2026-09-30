@@ -1,0 +1,51 @@
+{
+  "source_id": "SRC003",
+  "publisher": "SEBI Investor",
+  "title": "Investor Awareness: Fraud Red Flags and Protection Guidelines",
+  "url": "https://investor.sebi.gov.in/inv_aware_edu_videos.html",
+  "publication_date": "2024-03-15",
+  "retrieved_at": "2026-09-30T12:00:00Z",
+  "content_hash": "sha256:69b0faee21e06fa4df997a31bdfad09ff25d57b545f49e492cf5789fef1c855d",
+  "sections": [
+    {
+      "section_id": "SEBI_AW_01_DEEPFAKES",
+      "section_title": "Deepfakes and Fabricated Endorsements",
+      "page_number": 1,
+      "content": "SEBI cautions investors against AI-manipulated videos (deepfakes) and voice clones of senior government officials, corporate executives, or reputed analysts endorsing private investment schemes or algorithmic software. Genuine regulators and market leaders never promote private trading software or specific investment schemes.",
+      "key_takeaways": [
+        "AI deepfakes impersonating regulators and corporate leaders",
+        "Regulators never endorse private apps or investment schemes"
+      ]
+    },
+    {
+      "section_id": "SEBI_AW_02_UNREGISTERED_ADVICE",
+      "section_title": "Unregistered Financial Influencers and Telegram Tipsters",
+      "page_number": 1,
+      "content": "Offering investment advice, research analyst reports, or portfolio management services without valid SEBI registration is illegal under SEBI (Investment Advisers) Regulations, 2013. Unregistered entities operating across Telegram, YouTube, and WhatsApp frequently execute pump-and-dump manipulations to offload shares onto retail followers.",
+      "key_takeaways": [
+        "Advising without SEBI registration is illegal",
+        "Unregistered social media groups frequently conduct pump-and-dump schemes"
+      ]
+    },
+    {
+      "section_id": "SEBI_AW_03_OTP_REMOTE_ACCESS",
+      "section_title": "OTP Confidentiality and Prohibition of Remote-Access Software",
+      "page_number": 2,
+      "content": "Investors must never share One-Time Passwords (OTPs), PINs, or demat account login credentials under any circumstance. Legitimate stock exchanges and brokers will never ask users to install screen-sharing or remote desktop tools (e.g., AnyDesk, TeamViewer) to resolve trading or KYC issues.",
+      "key_takeaways": [
+        "Never share OTPs, PINs, or trading passwords",
+        "Never install remote screen-sharing tools for broker or KYC support"
+      ]
+    },
+    {
+      "section_id": "SEBI_AW_04_GUARANTEED_RETURNS_PROHIBITION",
+      "section_title": "Prohibition of Assured and Guaranteed Returns",
+      "page_number": 2,
+      "content": "Under SEBI regulations, no registered intermediary or collective scheme is permitted to promise fixed or guaranteed returns in equity and derivative markets. Any solicitation promising zero-risk, assured daily/weekly interest, or guaranteed capital doubling is a cardinal indicator of fraud.",
+      "key_takeaways": [
+        "Guaranteed returns in securities markets are prohibited by SEBI",
+        "Zero-risk claims are cardinal indicators of investment fraud"
+      ]
+    }
+  ]
+}
