@@ -19,3 +19,12 @@ FORBIDDEN_THEMES = [
     "day trading signals",
     "insider tip",
 ]
+
+# Layer 003: Primary Track Definition
+PRIMARY_TRACK_CODE = "Track A"
+PRIMARY_TRACK_NAME = "Digital Fraud & Scam Resilience"
+PRIMARY_TRACK_DESCRIPTION = (
+    "Empowering investors and citizens against digital scams, cyber fraud, "
+    "deceptive high-return solicitations, and fake trading apps."
+)
+
