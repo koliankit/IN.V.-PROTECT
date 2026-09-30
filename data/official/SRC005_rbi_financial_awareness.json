@@ -1,0 +1,64 @@
+{
+  "source_id": "SRC005",
+  "publisher": "RBI",
+  "title": "RBI Financial Awareness Messages (FAME 2024) & Fraud Prevention Advisory",
+  "url": "https://www.rbi.org.in/commonperson/images/FAME202426022024.pdf",
+  "publication_date": "2024-02-26",
+  "retrieved_at": "2026-09-30T12:00:00Z",
+  "content_hash": "sha256:e41d76abc8000f1207b8dcf98bb03d8e5d033a89d324fdd7980fa140f8c118ab",
+  "sections": [
+    {
+      "section_id": "SEC01_SENSITIVE_CREDENTIALS",
+      "section_title": "Protection of Financial Credentials and Passwords",
+      "page_number": 2,
+      "content": "Reserve Bank of India reiterates that banks, financial institutions, and regulators never ask for sensitive credentials such as Account passwords, PIN, OTP, UPI PIN, Card CVV, or biometric data over telephone calls, SMS, email, or messaging apps. Any request for such credentials is an indicator of digital financial fraud.",
+      "key_takeaways": [
+        "Never share OTP, UPI PIN, CVV, or net banking passwords with anyone",
+        "Regulators and banks never request confidential security credentials",
+        "UPI PIN is required ONLY to send/deduct money, NEVER to receive funds"
+      ]
+    },
+    {
+      "section_id": "SEC02_REMOTE_ACCESS_APPS",
+      "section_title": "Remote Access and Screen Sharing Application Traps",
+      "page_number": 4,
+      "content": "Fraudsters induce users to download screen sharing applications (e.g., AnyDesk, TeamViewer, QuickSupport) under the guise of technical support, KYC update, refund processing, or customer care verification. Once granted access, perpetrators capture financial credentials and execute unauthorized fund transfers.",
+      "key_takeaways": [
+        "Do not download remote desktop or screen sharing tools at the behest of callers",
+        "Granting remote screen viewing access exposes banking screens and SMS OTPs"
+      ]
+    },
+    {
+      "section_id": "SEC03_UNAUTHORIZED_LENDING_INVESTMENT_APPS",
+      "section_title": "Suspicious Mobile Apps and Unauthorized Financial Entities",
+      "page_number": 7,
+      "content": "Public is cautioned against downloading mobile applications from unverified third-party websites, social media links, or APK downloads. Unauthorized entities lure individuals with promise of instant loans, exorbitant returns, or virtual trading without regulatory approvals. Genuine banking and lending apps are hosted by RBI-regulated entities listed on the RBI whitelist.",
+      "key_takeaways": [
+        "Only install apps from verified official app stores and authorized publishers",
+        "Verify lending entities and regulated entities on RBI Sachet portal (sachet.rbi.org.in)",
+        "Beware of apps requesting excessive permissions (contacts, gallery, SMS access)"
+      ]
+    },
+    {
+      "section_id": "SEC04_UPI_QR_FRAUD",
+      "section_title": "UPI and QR Code Collect Request Frauds",
+      "page_number": 9,
+      "content": "Fraudsters send payment requests or QR codes claiming they are transferring lottery winnings, cashback, refund, or investment returns to the victim. Scanning a QR code or entering a UPI PIN always results in money being debited from the user's account, never credited.",
+      "key_takeaways": [
+        "Entering UPI PIN or scanning QR codes always debits money",
+        "Receiving money never requires entering a PIN or password"
+      ]
+    },
+    {
+      "section_id": "SEC05_SACHET_AND_INCIDENT_REPORTING",
+      "section_title": "Reporting to Sachet and Cybercrime Helplines",
+      "page_number": 12,
+      "content": "In case of illegal deposit taking or suspicious entities accepting deposits without authorization, report the matter to the RBI Sachet portal (https://sachet.rbi.org.in). In case of financial cyber fraud, immediately contact helpline 1930 and inform your bank to block compromised payment cards and accounts.",
+      "key_takeaways": [
+        "Report unauthorized deposit schemes on sachet.rbi.org.in",
+        "Call 1930 immediately to freeze financial transactions",
+        "Notify bank immediately to limit customer liability under RBI zero liability guidelines"
+      ]
+    }
+  ]
+}
