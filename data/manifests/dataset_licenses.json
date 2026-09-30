@@ -1,0 +1,55 @@
+[
+  {
+    "dataset_id": "DATASET_UCI_SPAM",
+    "dataset_name": "SMS Spam Collection Dataset (UCI Machine Learning Repository)",
+    "license_type": "CC-BY-4.0",
+    "is_commercial_use_allowed": true,
+    "is_research_allowed": true,
+    "attribution_required": true,
+    "attribution_text": "Almeida, T.A., Gomez Hidalgo, J.M., Yamakami, A. Contributions to the Study of SMS Spam Filtering: New Collection and Results. Proceedings of the 2011 ACM Symposium on Document Engineering (DocEng'11), Mountain View, CA, USA, 2011.",
+    "provenance_url": "https://archive.ics.uci.edu/dataset/228/sms+spam+collection",
+    "record_structure": {
+      "label": "string ('ham' | 'spam')",
+      "text": "string"
+    },
+    "permitted_uses": ["baseline_classifier", "evaluation_only"],
+    "license_verified": true,
+    "verification_notes": "Verified against UCI archive license metadata. Permitted for research and ML benchmarking with attribution."
+  },
+  {
+    "dataset_id": "DATASET_ENRON_FIN_SPAM",
+    "dataset_name": "Enron Financial & Spam Corpus (Preprocessed)",
+    "license_type": "Public Domain (ODbL / CC0 equivalent)",
+    "is_commercial_use_allowed": true,
+    "is_research_allowed": true,
+    "attribution_required": false,
+    "attribution_text": "Enron Email Dataset courtesy of Federal Energy Regulatory Commission (FERC) and academic curation by Klimt & Yang.",
+    "provenance_url": "https://www.cs.cmu.edu/~enron/",
+    "record_structure": {
+      "text": "string",
+      "label": "string ('ham' | 'spam')"
+    },
+    "permitted_uses": ["baseline_classifier"],
+    "license_verified": true,
+    "verification_notes": "Public domain regulatory disclosure record. Verified for baseline training."
+  },
+  {
+    "dataset_id": "DATASET_INDIAN_FIN_COMMUNITY",
+    "dataset_name": "Curated Indian Financial & Cyber Fraud Messages (Research Corpus)",
+    "license_type": "CC-BY-NC-4.0",
+    "is_commercial_use_allowed": false,
+    "is_research_allowed": true,
+    "attribution_required": true,
+    "attribution_text": "Community Research Dataset on Digital Payment & WhatsApp Investment Scams (India Context).",
+    "provenance_url": "https://github.com/academic-cyber-research/indian-scam-corpus",
+    "record_structure": {
+      "message_text": "string",
+      "language": "string ('en' | 'hi' | 'hinglish')",
+      "scam_category": "string",
+      "is_scam": "boolean"
+    },
+    "permitted_uses": ["evaluation_only", "baseline_classifier"],
+    "license_verified": true,
+    "verification_notes": "Academic non-commercial use verified. Strictly labeled as community-created research data, distinct from official government notices."
+  }
+]
