@@ -1,0 +1,67 @@
+[
+  {
+    "dataset_id": "DATASET_UCI_SPAM",
+    "dataset_name": "UCI SMS Spam Collection",
+    "origin_publisher": "UCI Machine Learning Repository",
+    "status": "RECOMMENDED_FOR_BASELINE",
+    "suitability_score": 0.88,
+    "license": "CC-BY-4.0",
+    "pros": [
+      "Standard international benchmark for text classification",
+      "Authoritative provenance and clean ground-truth binary labels",
+      "Captures core deceptive patterns (urgency, prize claims, short links)"
+    ],
+    "cons": [
+      "Lacks Indian securities market context and local financial vocabulary",
+      "Absence of Hinglish and regional language constructs"
+    ],
+    "recommendation": "Use as foundational baseline classifier for generic spam/scam signals; must be augmented with Indian financial context."
+  },
+  {
+    "dataset_id": "DATASET_ENRON_FIN_SPAM",
+    "dataset_name": "Enron Financial Email Spam Corpus",
+    "origin_publisher": "CMU / FERC",
+    "status": "SUITABLE_WITH_LIMITATIONS",
+    "suitability_score": 0.70,
+    "license": "Public Domain",
+    "pros": [
+      "Legitimate enterprise financial vocabulary",
+      "High quality negative (ham) examples of financial discourse"
+    ],
+    "cons": [
+      "Long-form corporate email format rather than short mobile messaging",
+      "Historical pre-2005 context lacks UPI, APK, or modern social media scams"
+    ],
+    "recommendation": "Useful for vocabulary calibration; not recommended as primary chat classifier."
+  },
+  {
+    "dataset_id": "DATASET_NAZARIO_PHISH",
+    "dataset_name": "Nazario Phishing Corpus",
+    "origin_publisher": "Monkey.org / Security Research",
+    "status": "SUITABLE_WITH_LIMITATIONS",
+    "suitability_score": 0.65,
+    "license": "Open Research Access",
+    "pros": [
+      "Real-world phishing email structures and deceptive URLs"
+    ],
+    "cons": [
+      "Lacks mobile chat context and investment fraud patterns"
+    ],
+    "recommendation": "Secondary source for phishing URL feature extraction only."
+  },
+  {
+    "dataset_id": "DATASET_UNVERIFIED_SCRAPED",
+    "dataset_name": "Anonymous Scraped Stock Scam Dumps",
+    "origin_publisher": "Anonymous / Public Forums",
+    "status": "REJECTED",
+    "suitability_score": 0.20,
+    "license": "Missing / Unverified",
+    "pros": [],
+    "cons": [
+      "Unverifiable provenance and unconsented personal data scraping",
+      "High probability of hallucinated or noisy labels",
+      "Violates data governance and reproducibility guidelines"
+    ],
+    "recommendation": "Rejected from all pipeline stages."
+  }
+]
