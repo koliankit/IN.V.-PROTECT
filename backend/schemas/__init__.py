@@ -9,6 +9,11 @@ from .analysis import (
     OfficialSourceLink,
     AnalysisResponse,
 )
+from .provenance import (
+    SourceType,
+    AllowedUse,
+    ProvenanceRecord,
+)
 
 __all__ = [
     "RiskLevel",
@@ -19,4 +24,8 @@ __all__ = [
     "EvidenceItem",
     "OfficialSourceLink",
     "AnalysisResponse",
+    "SourceType",
+    "AllowedUse",
+    "ProvenanceRecord",
 ]
+

@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ProvenanceRegistryRecord",
+  "type": "object",
+  "required": [
+    "source_id",
+    "publisher",
+    "title",
+    "url",
+    "license",
+    "publication_date",
+    "retrieved_at",
+    "content_hash",
+    "source_type",
+    "allowed_use"
+  ],
+  "properties": {
+    "source_id": {
+      "type": "string",
+      "pattern": "^SRC[0-9]{3,}$",
+      "description": "Unique immutable source identifier (e.g., SRC001)"
+    },
+    "publisher": {
+      "type": "string",
+      "minLength": 2,
+      "description": "Authoritative entity or research body publishing the resource"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3,
+      "description": "Official title of the document or dataset"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Canonical HTTP/HTTPS location of the source"
+    },
+    "license": {
+      "type": "string",
+      "description": "Licensing or legal terms governing public access and usage"
+    },
+    "publication_date": {
+      "type": ["string", "null"],
+      "description": "Publication or issuance date in YYYY-MM-DD format, or null"
+    },
+    "retrieved_at": {
+      "type": "string",
+      "description": "ISO 8601 timestamp when content was retrieved and snapshot taken"
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "description": "Cryptographic SHA-256 hash of the snapshot content"
+    },
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "official_advisory",
+        "official_portal",
+        "official_circular",
+        "public_dataset",
+        "community_dataset",
+        "open_government_data"
+      ]
+    },
+    "allowed_use": {
+      "type": "string",
+      "enum": [
+        "RAG_evidence_rules",
+        "verification_grievance",
+        "impact_context",
+        "baseline_classifier",
+        "evaluation_only"
+      ]
+    }
+  }
+}
