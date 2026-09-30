@@ -1,0 +1,5 @@
+# OCR and Retrieval Dependencies
+pillow>=10.0.0
+pytesseract>=0.3.10
+chromadb>=0.4.22
+sentence-transformers>=2.5.0
