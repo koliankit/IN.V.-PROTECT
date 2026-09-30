@@ -1,0 +1,53 @@
+{
+  "source_id": "SRC002",
+  "publisher": "I4C / National Cyber Crime Threat Analytics Unit",
+  "title": "Advisory: Fake Stock Market Investment Websites/Apps",
+  "url": "https://cybercrime.gov.in/pdf/Advisories/ADVISORY%20TAU-ADV-001%20%2822.04.2024%29.pdf",
+  "publication_date": "2024-04-22",
+  "retrieved_at": "2026-09-30T12:00:00Z",
+  "content_hash": "sha256:4b9d031e4284fc577ea58763073998b671c695bb81d4546522cbb5db4c6a65e0",
+  "sections": [
+    {
+      "section_id": "I4C_SEC01_THREAT_SUMMARY",
+      "section_title": "Surge in Fake Stock Market and Trading Platform Cyber Threats",
+      "page_number": 1,
+      "content": "The National Cyber Crime Threat Analytics Unit (TAU) of the Indian Cyber Crime Coordination Centre (I4C), Ministry of Home Affairs, has observed an alarming rise in organized cybercrime syndicates defrauding Indian citizens through counterfeit stock market investment portals and fraudulent trading applications.",
+      "key_takeaways": [
+        "Organized cybercrime syndicates targeting Indian investors",
+        "Counterfeit trading websites and investment platforms"
+      ]
+    },
+    {
+      "section_id": "I4C_SEC02_LURING_TECHNIQUES",
+      "section_title": "Social Media Solicitations and Deceptive Endorsements",
+      "page_number": 1,
+      "content": "Perpetrators run deceptive sponsored campaigns across major social media channels including Instagram, Facebook, Telegram, and WhatsApp. They claim affiliation with renowned domestic brokers, SEBI-registered portfolio managers, or foreign institutional desks, sharing fabricated profit screenshots to establish false credibility.",
+      "key_takeaways": [
+        "Sponsored social media advertisements",
+        "Fabricated profit screenshots and falsified endorsements",
+        "Pretended affiliation with registered Indian brokerage houses"
+      ]
+    },
+    {
+      "section_id": "I4C_SEC03_MULE_ACCOUNTS",
+      "section_title": "Layering of Stolen Capital via Mule Accounts",
+      "page_number": 2,
+      "content": "Victims are coerced into transferring investment capital into mule bank accounts registered in the names of third parties or unverified shell companies. These funds are swiftly layered through multiple intermediary bank accounts and often siphoned through crypto exchanges or peer-to-peer payment networks to obstruct asset recovery.",
+      "key_takeaways": [
+        "Transfer of funds to personal mule accounts",
+        "Rapid layering to evade immediate bank freezing"
+      ]
+    },
+    {
+      "section_id": "I4C_SEC04_DEFENSIVE_MEASURES",
+      "section_title": "Citizen Safety Protocols and National Reporting Escalation",
+      "page_number": 2,
+      "content": "Citizens are advised: (1) Never install APK files from untrusted links or chat messages. (2) Cross-verify broker authenticity on the SEBI portal prior to transferring funds. (3) Report cyber financial fraud immediately to the National Cyber Crime Reporting Portal at www.cybercrime.gov.in or call Helpline 1930 within the golden hour to facilitate account lien placement.",
+      "key_takeaways": [
+        "Never install untrusted APKs from messaging apps",
+        "Cross-verify broker details on SEBI portal",
+        "Immediate reporting to Helpline 1930 or cybercrime.gov.in"
+      ]
+    }
+  ]
+}
