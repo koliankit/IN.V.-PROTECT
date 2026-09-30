@@ -1,0 +1,50 @@
+[
+  {
+    "dataset_id": "OGD_IN_001",
+    "source_id": "SRC007",
+    "catalog_name": "Crime in India 2023 - Cyber Crimes",
+    "title": "Incidence of Cyber Crimes by Motive (Fraud, Cheating, Impersonation)",
+    "portal": "data.gov.in",
+    "url": "https://www.data.gov.in/catalog/crime-india-2023",
+    "ministry_or_department": "Ministry of Home Affairs / National Crime Records Bureau (NCRB)",
+    "license": "Government Open Data License - India (GODL-India) / NDSAP",
+    "data_type": "aggregate_statistics",
+    "granularity": "state_ut_wise_annual",
+    "content_hash": "sha256:7b55f17d848b61dc65c5c16301389de78a63be3d489b43d2c1409ab44c205739",
+    "relevant_keywords": ["cyber fraud", "financial fraud", "cheating", "identity theft", "credit/debit card fraud"],
+    "allowed_use": "impact_context",
+    "evaluation_notes": "Aggregate statistical counts by state/motive. Crucial for demonstrating real-world macro risk context; NOT suitable as direct text-classification training labels due to absence of raw scam text."
+  },
+  {
+    "dataset_id": "OGD_IN_002",
+    "source_id": "SRC008",
+    "catalog_name": "Reserve Bank of India Banking Ombudsman Inquiries",
+    "title": "Digital Banking & Electronic Transaction Complaints Breakdown",
+    "portal": "data.gov.in",
+    "url": "https://www.data.gov.in/resource/banking-ombudsman-complaints-and-resolutions",
+    "ministry_or_department": "Reserve Bank of India / data.gov.in",
+    "license": "Government Open Data License - India (GODL-India) / NDSAP",
+    "data_type": "aggregate_statistics",
+    "granularity": "category_wise_annual",
+    "content_hash": "sha256:d8c525f25bf6034177d468087ab2ebf2a74c2e64ca620b784f1faee31cf64739",
+    "relevant_keywords": ["digital payments", "unauthorized transactions", "ATM/card fraud", "internet banking"],
+    "allowed_use": "impact_context",
+    "evaluation_notes": "Summarizes complaint volumes related to unauthorized electronic transactions and phishing. Suitable for risk context and vulnerability benchmarking."
+  },
+  {
+    "dataset_id": "OGD_IN_003",
+    "source_id": "SRC009",
+    "catalog_name": "I4C National Cybercrime Reporting Statistics",
+    "title": "Citizen Financial Cyber Fraud Reporting System Metrics & Frozen Amounts",
+    "portal": "data.gov.in",
+    "url": "https://www.data.gov.in/catalog/cyber-financial-fraud-reports-and-advisories",
+    "ministry_or_department": "Ministry of Home Affairs / Indian Cyber Crime Coordination Centre (I4C)",
+    "license": "Government Open Data License - India (GODL-India) / NDSAP",
+    "data_type": "aggregate_statistics",
+    "granularity": "periodic_national_summary",
+    "content_hash": "sha256:544b4d49276cafda3bdbec909180c29a23348dfe4c13722aa2ecb3ab4755aefa",
+    "relevant_keywords": ["1930 helpline", "mule accounts", "illegal trading apps", "fund interception"],
+    "allowed_use": "impact_context",
+    "evaluation_notes": "Authoritative reporting metrics showing money frozen and account blocking operations under 1930. Provides quantitative justification for immediate reporting guidance."
+  }
+]
