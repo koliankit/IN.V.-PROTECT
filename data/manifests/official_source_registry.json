@@ -1,0 +1,98 @@
+[
+  {
+    "source_id": "SRC001",
+    "publisher": "SEBI Investor",
+    "title": "Fake Trading App Scam Landscape",
+    "url": "https://investor.sebi.gov.in/pdf/Fake%20trading%20app%20scam%20Landscape.pdf",
+    "license": "Government Public Advisory / Open Access",
+    "publication_date": "2024-02-26",
+    "retrieved_at": "2026-09-30T12:00:00Z",
+    "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_type": "official_advisory",
+    "allowed_use": "RAG_evidence_rules"
+  },
+  {
+    "source_id": "SRC002",
+    "publisher": "I4C / National Cyber Crime Threat Analytics Unit",
+    "title": "Advisory: Fake Stock Market Investment Websites/Apps",
+    "url": "https://cybercrime.gov.in/pdf/Advisories/ADVISORY%20TAU-ADV-001%20%2822.04.2024%29.pdf",
+    "license": "Government Public Advisory / Open Access",
+    "publication_date": "2024-04-22",
+    "retrieved_at": "2026-09-30T12:00:00Z",
+    "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_type": "official_advisory",
+    "allowed_use": "RAG_evidence_rules"
+  },
+  {
+    "source_id": "SRC003",
+    "publisher": "SEBI Investor",
+    "title": "Investor Awareness Video Modules",
+    "url": "https://investor.sebi.gov.in/inv_aware_edu_videos.html",
+    "license": "Government Public Educational Resource",
+    "publication_date": null,
+    "retrieved_at": "2026-09-30T12:00:00Z",
+    "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_type": "official_portal",
+    "allowed_use": "RAG_evidence_rules"
+  },
+  {
+    "source_id": "SRC004",
+    "publisher": "SEBI Investor",
+    "title": "Investor Support",
+    "url": "https://investor.sebi.gov.in/Investor-support.html",
+    "license": "Government Public Service Portal",
+    "publication_date": null,
+    "retrieved_at": "2026-09-30T12:00:00Z",
+    "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_type": "official_portal",
+    "allowed_use": "verification_grievance"
+  },
+  {
+    "source_id": "SRC005",
+    "publisher": "RBI",
+    "title": "Financial Awareness Messages",
+    "url": "https://www.rbi.org.in/commonperson/images/FAME202426022024.pdf",
+    "license": "Reserve Bank Public Educational Material",
+    "publication_date": "2024-02-26",
+    "retrieved_at": "2026-09-30T12:00:00Z",
+    "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_type": "official_advisory",
+    "allowed_use": "RAG_evidence_rules"
+  },
+  {
+    "source_id": "SRC006",
+    "publisher": "CERT-In",
+    "title": "Preventing Online Scams",
+    "url": "https://www.cert-in.org.in/s2cMainServlet?VLCODE=CIAD-2024-0050&pageid=PUBVLNOTES02",
+    "license": "Government Cybersecurity Advisory",
+    "publication_date": "2024-05-10",
+    "retrieved_at": "2026-09-30T12:00:00Z",
+    "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_type": "official_advisory",
+    "allowed_use": "RAG_evidence_rules"
+  },
+  {
+    "source_id": "SRC007",
+    "publisher": "data.gov.in / NCRB",
+    "title": "Crime in India 2023",
+    "url": "https://www.data.gov.in/catalog/crime-india-2023",
+    "license": "National Data Sharing and Accessibility Policy (NDSAP)",
+    "publication_date": "2023-12-01",
+    "retrieved_at": "2026-09-30T12:00:00Z",
+    "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_type": "open_government_data",
+    "allowed_use": "impact_context"
+  },
+  {
+    "source_id": "SRC008",
+    "publisher": "data.gov.in",
+    "title": "Fraud keyword catalog/resources",
+    "url": "https://ap.data.gov.in/keywords/Fraud",
+    "license": "National Data Sharing and Accessibility Policy (NDSAP)",
+    "publication_date": null,
+    "retrieved_at": "2026-09-30T12:00:00Z",
+    "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_type": "open_government_data",
+    "allowed_use": "impact_context"
+  }
+]
