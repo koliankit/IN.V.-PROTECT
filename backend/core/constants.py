@@ -36,4 +36,34 @@ SECONDARY_TRACK_DESCRIPTION = (
     "endorsements, and misleading media within a unified investor-safety workflow."
 )
 
+# Layer 005: Target User Personas
+TARGET_USER_PERSONAS = [
+    {
+        "id": "first_time_investor",
+        "name": "First-time Investors",
+        "description": "Novice retail participants unfamiliar with realistic market dynamics and statutory protections.",
+    },
+    {
+        "id": "young_social_media",
+        "name": "Young Social-Media Users",
+        "description": "Users exposed to viral trading reels, fake profit screenshots, and Telegram pump groups.",
+    },
+    {
+        "id": "regional_language",
+        "name": "Regional-Language Users",
+        "description": "Users communicating in Hindi, Marathi, Hinglish, and regional Indian vernaculars.",
+    },
+    {
+        "id": "elderly_investors",
+        "name": "Elderly Users",
+        "description": "Retirees targeted by impersonation, fake regulator notices, and digital arrest threats.",
+    },
+    {
+        "id": "limited_literacy",
+        "name": "Limited Digital/Financial Literacy",
+        "description": "Citizens needing plain-language warnings, fraud prevention steps, and official reporting routes.",
+    },
+]
+
+
 
