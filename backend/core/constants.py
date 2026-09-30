@@ -84,6 +84,53 @@ NON_GOAL_DESCRIPTIONS = {
     "NO_INVESTMENT_UPSELLING": "No upselling of financial products, loans, insurance, or proprietary paid advisory services.",
 }
 
+# Layer 007: Canonical 7-Stage User Journey
+USER_JOURNEY_STAGES = [
+    {
+        "stage": 1,
+        "key": "user_input",
+        "name": "User Input",
+        "description": "User submits text, screenshot image, or public URL for screening.",
+    },
+    {
+        "stage": 2,
+        "key": "extraction",
+        "name": "Extraction",
+        "description": "OCR, text normalization, claim/entity extraction, and PII masking.",
+    },
+    {
+        "stage": 3,
+        "key": "detection",
+        "name": "Detection",
+        "description": "Rule-based signal detection and ML-based risk assessment.",
+    },
+    {
+        "stage": 4,
+        "key": "evidence_retrieval",
+        "name": "Evidence Retrieval",
+        "description": "Authoritative semantic search across SEBI, RBI, I4C, and CERT-In advisories.",
+    },
+    {
+        "stage": 5,
+        "key": "explanation",
+        "name": "Explanation",
+        "description": "Plain-language evidence-first explanation citing official publications.",
+    },
+    {
+        "stage": 6,
+        "key": "safety_guidance",
+        "name": "Safety Guidance",
+        "description": "Immediate defensive precautions and investor protection best practices.",
+    },
+    {
+        "stage": 7,
+        "key": "official_reporting",
+        "name": "Official Verification & Reporting",
+        "description": "Direct routing to official regulator registers and 1930 / cybercrime.gov.in.",
+    },
+]
+
+
 
 
 
