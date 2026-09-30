@@ -28,3 +28,12 @@ PRIMARY_TRACK_DESCRIPTION = (
     "deceptive high-return solicitations, and fake trading apps."
 )
 
+# Layer 004: Secondary Capability Definition
+SECONDARY_TRACK_CODE = "Track E"
+SECONDARY_TRACK_NAME = "Misinformation & Content Literacy"
+SECONDARY_TRACK_DESCRIPTION = (
+    "Integrated supporting capability: analyzing deceptive claims, deepfaked "
+    "endorsements, and misleading media within a unified investor-safety workflow."
+)
+
+
