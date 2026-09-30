@@ -7,7 +7,31 @@
 
 ---
 
+## Project Structure
+This repository is organized as a clean monorepo:
+```
+sangyam-ai/
+├── frontend/          # Responsive web application interface
+├── backend/           # Core API services and business logic
+├── ml/                # Feature extraction, heuristic rules, and classification pipelines
+├── data/
+│   ├── raw/           # Raw uncurated data from approved sources
+│   ├── processed/     # Processed and normalized datasets
+│   ├── external/      # Verified external resources and public benchmark data
+│   ├── synthetic/     # Controlled synthetic examples for stress-testing and augmentation
+│   ├── official/      # Authoritative regulatory advisories, circulars, and notices
+│   ├── splits/        # Stratified train, validation, and test splits
+│   └── manifests/     # Provenance records, hashes, and licensing manifests
+├── docs/              # Architectural, specifications, and governance documentation
+├── scripts/           # Automation scripts for data fetching, verification, and tooling
+├── tests/             # End-to-end, integration, unit, and adversarial test suites
+└── infra/             # Deployment and infrastructure configurations
+```
+
+---
+
 ## 1. Problem Statement
+
 The retail investment landscape in India is witnessing an unprecedented influx of first-time investors, accompanied by a surge in cyber-enabled financial scams. Vulnerable citizens are systematically targeted via:
 - WhatsApp and Telegram "VIP" pump-and-dump groups promising guaranteed returns.
 - Malicious APKs and clone trading platforms impersonating SEBI-registered brokers.

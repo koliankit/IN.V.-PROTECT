@@ -47,3 +47,11 @@ warn_unused_ignores = true
 warn_no_return = true
 warn_unreachable = true
 
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v --strict-markers -p no:anyio"
+
+
+
