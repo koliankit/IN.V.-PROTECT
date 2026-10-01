@@ -1,0 +1,74 @@
+[
+  {
+    "query_id": "EVAL_Q01",
+    "query_text": "Someone added me to a VIP Telegram stock trading group promising 500% monthly returns. Is this legitimate or a scam?",
+    "target_source_ids": ["SRC001"],
+    "relevant_topics": ["telegram_vip", "guaranteed_returns"],
+    "required_keywords": ["guaranteed", "telegram", "returns"],
+    "scam_vector": "telegram_vip_trading",
+    "difficulty": "standard"
+  },
+  {
+    "query_id": "EVAL_Q02",
+    "query_text": "Can a stock trading platform or registered broker instruct me to deposit margin funds into an individual UPI ID or personal savings account?",
+    "target_source_ids": ["SRC001", "SRC005"],
+    "relevant_topics": ["payment_collection", "mule_accounts"],
+    "required_keywords": ["personal", "upi", "account"],
+    "scam_vector": "mule_account_routing",
+    "difficulty": "standard"
+  },
+  {
+    "query_id": "EVAL_Q03",
+    "query_text": "A self-proclaimed institutional broker is sending direct APK links on WhatsApp claiming it is an exclusive institutional trading app. Is downloading safe?",
+    "target_source_ids": ["SRC001", "SRC002"],
+    "relevant_topics": ["fake_apps", "apk_screen_sharing"],
+    "required_keywords": ["apk", "unauthorized", "simulated"],
+    "scam_vector": "malicious_apk",
+    "difficulty": "standard"
+  },
+  {
+    "query_id": "EVAL_Q04",
+    "query_text": "The trading app shows large fictitious profits on my dashboard, but refuses withdrawal demanding 20% advance tax and unfreezing fee. What is this?",
+    "target_source_ids": ["SRC001"],
+    "relevant_topics": ["withdrawal_blockade"],
+    "required_keywords": ["withdraw", "fee", "tax"],
+    "scam_vector": "withdrawal_lock_fee_trap",
+    "difficulty": "standard"
+  },
+  {
+    "query_id": "EVAL_Q05",
+    "query_text": "Where can an Indian investor lodge a formal complaint against an unauthorized investment platform or resolve grievance against a registered broker?",
+    "target_source_ids": ["SRC004"],
+    "relevant_topics": ["grievance_redressal"],
+    "required_keywords": ["scores", "grievance", "complaint"],
+    "scam_vector": "official_grievance",
+    "difficulty": "standard"
+  },
+  {
+    "query_id": "EVAL_Q06",
+    "query_text": "Urgent SMS claims my Demat account will be suspended today unless I click an unknown link for immediate e-KYC verification. What should I do?",
+    "target_source_ids": ["SRC006", "SRC001"],
+    "relevant_topics": ["demat_kyc"],
+    "required_keywords": ["kyc", "suspension", "phishing"],
+    "scam_vector": "demat_kyc_suspension",
+    "difficulty": "standard"
+  },
+  {
+    "query_id": "EVAL_Q07",
+    "query_text": "Is any SEBI-registered research analyst permitted to guarantee 100% success on upper circuit breakout calls?",
+    "target_source_ids": ["SRC001"],
+    "relevant_topics": ["guaranteed_returns"],
+    "required_keywords": ["guaranteed", "sebi", "registered"],
+    "scam_vector": "upper_circuit_guarantee",
+    "difficulty": "standard"
+  },
+  {
+    "query_id": "EVAL_Q08",
+    "query_text": "How can I verify whether an investment advisor or stockbroker is genuinely registered with the Securities and Exchange Board of India?",
+    "target_source_ids": ["SRC001", "SRC004"],
+    "relevant_topics": ["intermediary_verification"],
+    "required_keywords": ["sebi.gov.in", "verify", "registered"],
+    "scam_vector": "broker_verification",
+    "difficulty": "standard"
+  }
+]
