@@ -1,0 +1,64 @@
+[
+  {
+    "dataset_id": "COMMUNITY_HINGLISH_SCAM_01",
+    "title": "Indian Financial & Cyber Fraud Messages Corpus (Academic)",
+    "source_tier": "community_research",
+    "publisher_organization": "Cyber Security Research Lab / Open Community",
+    "is_official_government": false,
+    "language_mix": ["English", "Hindi", "Hinglish"],
+    "covered_patterns": [
+      "telegram_vip_trading",
+      "part_time_task_fraud",
+      "demat_kyc_suspension",
+      "guaranteed_upper_circuit"
+    ],
+    "license": "CC-BY-NC-4.0",
+    "provenance_url": "https://github.com/academic-cyber-research/indian-scam-corpus",
+    "evaluation_notes": "Community-curated corpus of real-world reported WhatsApp/SMS scam messages in code-mixed Hinglish. Evaluated for testing linguistic resilience; strictly distinguished from official government repositories."
+  },
+  {
+    "dataset_id": "COMMUNITY_TASK_SCAM_02",
+    "title": "Hinglish Work-From-Home & YouTube Like Scam Telemetry",
+    "source_tier": "community_research",
+    "publisher_organization": "Anti-Fraud Community Volunteers",
+    "is_official_government": false,
+    "language_mix": ["Hinglish", "Hindi"],
+    "covered_patterns": [
+      "part_time_task_fraud"
+    ],
+    "license": "MIT License",
+    "provenance_url": "https://github.com/anti-fraud-in/task-scams-hinglish",
+    "evaluation_notes": "Captures typical conversational bait (e.g. 'Daily 3000 rs earning via telegram task'). Valuable for evaluating vocabulary coverage."
+  },
+  {
+    "dataset_id": "SRC_SEBI_OFFICIAL_ADVISORIES",
+    "title": "SEBI Statutory Investor Protection Advisories & Warnings",
+    "source_tier": "regulator_official",
+    "publisher_organization": "Securities and Exchange Board of India (SEBI)",
+    "is_official_government": true,
+    "language_mix": ["English", "Hindi"],
+    "covered_patterns": [
+      "telegram_vip_trading",
+      "guaranteed_upper_circuit",
+      "demat_kyc_suspension"
+    ],
+    "license": "Government Public Advisory / Open Access",
+    "provenance_url": "https://investor.sebi.gov.in/pdf/Fake%20trading%20app%20scam%20Landscape.pdf",
+    "evaluation_notes": "Official statutory regulatory evidence used for authoritative RAG reasoning and rule matching. NOT community data."
+  },
+  {
+    "dataset_id": "SRC_I4C_OFFICIAL_WARNINGS",
+    "title": "I4C Cyber Crime Threat Analytics Unit Advisories",
+    "source_tier": "regulator_official",
+    "publisher_organization": "Ministry of Home Affairs / I4C",
+    "is_official_government": true,
+    "language_mix": ["English", "Hindi"],
+    "covered_patterns": [
+      "apk_screen_sharing",
+      "telegram_vip_trading"
+    ],
+    "license": "Government Public Advisory / Open Access",
+    "provenance_url": "https://cybercrime.gov.in/pdf/Advisories/ADVISORY%20TAU-ADV-001%20%2822.04.2024%29.pdf",
+    "evaluation_notes": "Official statutory cybersecurity threat warnings. Primary ground truth for modus operandi analysis."
+  }
+]
