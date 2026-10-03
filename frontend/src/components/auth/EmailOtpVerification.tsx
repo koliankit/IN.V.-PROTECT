@@ -22,6 +22,7 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
   purpose = 'REGISTRATION',
 }) => {
   const [digits, setDigits] = useState<string[]>(['', '', '', '', '', '']);
+  const [focusedIndex, setFocusedIndex] = useState<number | null>(0);
   const [timer, setTimer] = useState<number>(60);
   const [canResend, setCanResend] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -30,7 +31,45 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
   const [autoFilled, setAutoFilled] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [statusMessage, setStatusMessage] = useState<string>('Code sent');
+  const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const cardRef = useRef<HTMLDivElement | null>(null);
+
+  // Sequential typing animation with cursor advancing across slots
+  const typewriterAutoFill = (otpCode: string) => {
+    if (!otpCode || otpCode.length !== 6) return;
+    setDigits(['', '', '', '', '', '']);
+    setFocusedIndex(0);
+    inputRefs.current[0]?.focus();
+
+    const chars = otpCode.split('');
+    let idx = 0;
+
+    const interval = setInterval(() => {
+      if (idx < chars.length) {
+        const char = chars[idx];
+        const targetIdx = idx;
+        setDigits((prev) => {
+          const next = [...prev];
+          next[targetIdx] = char;
+          return next;
+        });
+        idx++;
+        if (idx < 6) {
+          setFocusedIndex(idx);
+          inputRefs.current[idx]?.focus();
+        } else {
+          clearInterval(interval);
+          setFocusedIndex(5);
+          inputRefs.current[5]?.focus();
+          setAutoFilled(true);
+          setStatusMessage(`Auto-filled: ${otpCode}`);
+        }
+      } else {
+        clearInterval(interval);
+      }
+    }, 70);
+  };
 
   const handleAutoFillOtp = async () => {
     setFetchingOtp(true);
@@ -43,10 +82,7 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
       if (resp.ok) {
         const data = await resp.json();
         if (data.otp && data.otp.length === 6) {
-          setDigits(data.otp.split(''));
-          setAutoFilled(true);
-          setStatusMessage(`Auto-filled: ${data.otp}`);
-          inputRefs.current[5]?.focus();
+          typewriterAutoFill(data.otp);
           return;
         }
       }
@@ -67,13 +103,13 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
     }
   }, [timer]);
 
-  // Focus and attempt autofill on mount
+  // Focus and attempt autofill with cursor animation on mount
   useEffect(() => {
     if (_initialSandboxOtp && _initialSandboxOtp.length === 6) {
-      setDigits(_initialSandboxOtp.split(''));
-      setAutoFilled(true);
-      setStatusMessage(`Auto-filled: ${_initialSandboxOtp}`);
-      inputRefs.current[5]?.focus();
+      const timerId = setTimeout(() => {
+        typewriterAutoFill(_initialSandboxOtp);
+      }, 140);
+      return () => clearTimeout(timerId);
     } else {
       handleAutoFillOtp();
     }
@@ -88,14 +124,16 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
     setDigits(newDigits);
     setErrorMessage(null);
 
-    // Auto-advance
+    // Auto-advance cursor
     if (val && index < 5) {
+      setFocusedIndex(index + 1);
       inputRefs.current[index + 1]?.focus();
     }
   };
 
   const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Backspace' && !digits[index] && index > 0) {
+      setFocusedIndex(index - 1);
       inputRefs.current[index - 1]?.focus();
     }
   };
@@ -215,14 +253,45 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
       overflow: 'hidden',
     }}>
       <div className="cyber-network-bg" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
-      <div className="glass-panel" style={{
-        maxWidth: '460px',
-        width: '100%',
-        borderRadius: '18px',
-        padding: '38px',
-        position: 'relative',
-        zIndex: 1,
-      }}>
+      <div
+        ref={cardRef}
+        className="glass-panel"
+        onMouseMove={(e) => {
+          if (!cardRef.current) return;
+          const rect = cardRef.current.getBoundingClientRect();
+          setMousePos({
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top,
+          });
+        }}
+        onMouseLeave={() => setMousePos(null)}
+        style={{
+          maxWidth: '460px',
+          width: '100%',
+          borderRadius: '18px',
+          padding: '38px',
+          position: 'relative',
+          zIndex: 1,
+          overflow: 'hidden',
+        }}
+      >
+        {/* Subtle Cyber Cursor Glow Effect following mouse inside card */}
+        {mousePos && (
+          <div
+            style={{
+              position: 'absolute',
+              top: mousePos.y - 120,
+              left: mousePos.x - 120,
+              width: '240px',
+              height: '240px',
+              borderRadius: '50%',
+              background: 'radial-gradient(circle, rgba(2, 195, 154, 0.08) 0%, transparent 70%)',
+              pointerEvents: 'none',
+              zIndex: 0,
+            }}
+          />
+        )}
+
         {/* Back Link */}
         <button
           onClick={onBack}
@@ -237,13 +306,15 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
             cursor: 'pointer',
             padding: 0,
             marginBottom: '20px',
+            position: 'relative',
+            zIndex: 1,
           }}
         >
           <ArrowLeft style={{ width: '14px', height: '14px' }} /> Back to Registration
         </button>
 
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '24px', position: 'relative', zIndex: 1 }}>
           <div style={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -283,6 +354,8 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
           marginBottom: '22px',
           fontSize: '11px',
           color: '#02C39A',
+          position: 'relative',
+          zIndex: 1,
         }}>
           <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
             <CheckCircle2 style={{ width: '13px', height: '13px' }} /> {statusMessage}
@@ -304,6 +377,8 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
+            position: 'relative',
+            zIndex: 1,
           }}>
             <AlertCircle style={{ width: '16px', height: '16px', flexShrink: 0 }} />
             <span>{errorMessage}</span>
@@ -311,7 +386,7 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
         )}
 
         {/* 6-Digit OTP Inputs */}
-        <form onSubmit={handleVerify}>
+        <form onSubmit={handleVerify} style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ marginBottom: '22px' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', padding: '0 4px' }}>
               <label style={{ fontSize: '12px', fontWeight: 600, color: '#A7A7A7' }}>
@@ -349,36 +424,72 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
                 gap: '10px',
               }}
             >
-              {digits.map((digit, idx) => (
-                <input
-                  key={idx}
-                  ref={(el) => (inputRefs.current[idx] = el)}
-                  type="text"
-                  inputMode="numeric"
-                  maxLength={1}
-                  value={digit}
-                  onChange={(e) => {
-                    handleDigitChange(idx, e.target.value);
-                    setAutoFilled(false);
-                  }}
-                  onKeyDown={(e) => handleKeyDown(idx, e)}
-                  style={{
-                    width: '46px',
-                    height: '54px',
-                    textAlign: 'center',
-                    fontSize: '22px',
-                    fontWeight: 800,
-                    fontFamily: 'monospace',
-                    backgroundColor: 'rgba(255, 255, 255, 0.04)',
-                    border: digit ? '2px solid #02C39A' : '1px solid rgba(255, 255, 255, 0.12)',
-                    borderRadius: '10px',
-                    color: '#FFFFFF',
-                    outline: 'none',
-                    boxShadow: digit ? '0 0 10px rgba(2, 195, 154, 0.35)' : 'none',
-                    transition: 'all 0.15s ease',
-                  }}
-                />
-              ))}
+              {digits.map((digit, idx) => {
+                const isFocused = focusedIndex === idx;
+                const isPopulated = Boolean(digit);
+                return (
+                  <div
+                    key={idx}
+                    onClick={() => {
+                      setFocusedIndex(idx);
+                      inputRefs.current[idx]?.focus();
+                    }}
+                    style={{
+                      position: 'relative',
+                      width: '46px',
+                      height: '54px',
+                    }}
+                  >
+                    <input
+                      ref={(el) => (inputRefs.current[idx] = el)}
+                      type="text"
+                      inputMode="numeric"
+                      maxLength={1}
+                      value={digit}
+                      onFocus={() => setFocusedIndex(idx)}
+                      onBlur={() => {
+                        setFocusedIndex((prev) => (prev === idx ? null : prev));
+                      }}
+                      onChange={(e) => {
+                        handleDigitChange(idx, e.target.value);
+                        setAutoFilled(false);
+                      }}
+                      onKeyDown={(e) => handleKeyDown(idx, e)}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        textAlign: 'center',
+                        fontSize: '22px',
+                        fontWeight: 800,
+                        fontFamily: 'monospace',
+                        backgroundColor: isFocused
+                          ? 'rgba(2, 195, 154, 0.06)'
+                          : 'rgba(255, 255, 255, 0.04)',
+                        border: isFocused
+                          ? '2px solid #02C39A'
+                          : isPopulated
+                          ? '2px solid rgba(2, 195, 154, 0.65)'
+                          : '1px solid rgba(255, 255, 255, 0.12)',
+                        borderRadius: '10px',
+                        color: '#FFFFFF',
+                        outline: 'none',
+                        boxShadow: isFocused
+                          ? '0 0 14px rgba(2, 195, 154, 0.45)'
+                          : isPopulated
+                          ? '0 0 8px rgba(2, 195, 154, 0.25)'
+                          : 'none',
+                        caretColor: 'transparent',
+                        transition: 'all 0.15s ease',
+                      }}
+                    />
+
+                    {/* Animated Blinking Cursor Bar when focused & empty */}
+                    {isFocused && !digit && (
+                      <div className="otp-cursor" />
+                    )}
+                  </div>
+                );
+              })}
             </div>
             {autoFilled && (
               <div style={{ fontSize: '11px', color: '#02C39A', marginTop: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px' }}>

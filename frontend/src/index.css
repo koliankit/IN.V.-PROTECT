@@ -278,6 +278,51 @@ input:focus, textarea:focus, select:focus {
   }
 }
 
+/* OTP Slot Animated Cursor & Digit Pop */
+@keyframes otpCursorBlink {
+  0%, 100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scaleY(1);
+  }
+  50% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scaleY(0.85);
+  }
+}
+
+.otp-cursor {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2.5px;
+  height: 24px;
+  background-color: #02C39A;
+  border-radius: 2px;
+  box-shadow: 0 0 10px #02C39A, 0 0 20px rgba(2, 195, 154, 0.6);
+  animation: otpCursorBlink 0.85s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+@keyframes digitPop {
+  0% {
+    transform: scale(0.65);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.digit-pop-anim {
+  animation: digitPop 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
