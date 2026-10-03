@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import {
   ShieldAlert,
   ShieldCheck,
@@ -230,10 +230,26 @@ export default function App() {
     showToast('Securely logged out from Sangyan AI Investor Shield.');
   };
 
-  const showToast = (msg: string) => {
+  const toastTimeoutRef = useRef<any>(null);
+
+  const showToast = useCallback((msg: string) => {
+    if (toastTimeoutRef.current) {
+      clearTimeout(toastTimeoutRef.current);
+    }
     setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 3500);
-  };
+    toastTimeoutRef.current = setTimeout(() => {
+      setToastMessage(null);
+      toastTimeoutRef.current = null;
+    }, 4000);
+  }, []);
+
+  const dismissToast = useCallback(() => {
+    if (toastTimeoutRef.current) {
+      clearTimeout(toastTimeoutRef.current);
+      toastTimeoutRef.current = null;
+    }
+    setToastMessage(null);
+  }, []);
 
   const fetchSecurityData = async () => {
     try {
@@ -592,6 +608,61 @@ export default function App() {
   const trustedMessages = messages.filter((m) => m.protection_tier === 'Trusted / Important' || m.risk_level === 'Low Concern');
 
   // =========================================================================
+  // SHARED TOAST NOTIFICATION COMPONENT
+  // =========================================================================
+  const renderToastNotification = () => {
+    if (!toastMessage) return null;
+    return (
+      <div
+        role="status"
+        aria-live="polite"
+        style={{
+          position: 'fixed',
+          bottom: '80px',
+          right: '24px',
+          backgroundColor: '#0f172a',
+          color: '#f8fafc',
+          border: '1px solid rgba(59, 130, 246, 0.4)',
+          boxShadow: '0 12px 32px rgba(0, 0, 0, 0.7), 0 0 12px rgba(59, 130, 246, 0.25)',
+          padding: '12px 18px',
+          borderRadius: '12px',
+          zIndex: 10000,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          fontSize: '13px',
+          fontWeight: 600,
+          maxWidth: 'calc(100vw - 48px)',
+          backdropFilter: 'blur(12px)',
+        }}
+        className="animate-fade-in"
+      >
+        <Bell style={{ width: '16px', height: '16px', color: '#60a5fa', flexShrink: 0 }} />
+        <span style={{ lineHeight: 1.4 }}>{toastMessage}</span>
+        <button
+          type="button"
+          onClick={dismissToast}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: '#94a3b8',
+            cursor: 'pointer',
+            padding: '4px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginLeft: '4px',
+            borderRadius: '4px',
+          }}
+          aria-label="Dismiss notification"
+        >
+          <X style={{ width: '15px', height: '15px' }} />
+        </button>
+      </div>
+    );
+  };
+
+  // =========================================================================
   // VIEW MODE ROUTING: AUTHENTICATION vs CONSOLE
   // =========================================================================
   if (viewMode === 'auth') {
@@ -608,6 +679,7 @@ export default function App() {
 
     return (
       <div style={{ minHeight: '100vh', backgroundColor: '#070a12', position: 'relative' }}>
+        {renderToastNotification()}
         {authFlowStep === 'FIRST_LAUNCH_REGISTER' && (
           <OwnerRegistration
             onSuccess={(regData) => {
@@ -673,32 +745,7 @@ export default function App() {
 
   return (
     <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-primary)', color: 'var(--text-main)' }}>
-      {/* Toast Notification */}
-      {toastMessage && (
-        <div
-          style={{
-            position: 'fixed',
-            bottom: '24px',
-            right: '24px',
-            backgroundColor: '#1e293b',
-            color: '#f8fafc',
-            border: '1px solid #3b82f6',
-            boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
-            padding: '12px 20px',
-            borderRadius: '10px',
-            zIndex: 9999,
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            fontSize: '13px',
-            fontWeight: 600,
-          }}
-          className="animate-fade-in"
-        >
-          <Bell style={{ width: '16px', height: '16px', color: '#60a5fa' }} />
-          <span>{toastMessage}</span>
-        </div>
-      )}
+      {renderToastNotification()}
 
       {/* Main Top Header */}
       <header

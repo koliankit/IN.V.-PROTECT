@@ -33,11 +33,19 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const progressIntervalRef = useRef<any>(null);
+  const completionTimeoutRef = useRef<any>(null);
+  const hasCompletedRef = useRef<boolean>(false);
+
+  const onSuccessRef = useRef(onSuccess);
+  useEffect(() => {
+    onSuccessRef.current = onSuccess;
+  }, [onSuccess]);
 
   // Stop camera tracks cleanly on unmount
   useEffect(() => {
     return () => {
       if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
+      if (completionTimeoutRef.current) clearTimeout(completionTimeoutRef.current);
       if (streamRef.current) {
         streamRef.current.getTracks().forEach((track) => track.stop());
       }
@@ -46,6 +54,7 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
 
   // Complete Identity Verification API Call
   const completeVerification = useCallback(async (sessionId: string) => {
+    if (hasCompletedRef.current) return;
     setStage('ANALYZING');
     setStatusNote('Cryptographic anti-spoofing verification...');
 
@@ -71,6 +80,10 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
         throw new Error(resData.detail || 'Identity verification failed.');
       }
 
+      hasCompletedRef.current = true;
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+      }
       setStage('SUCCESS');
       setStatusNote('✓ Owner identity confirmed! Activating account...');
       setScanProgress(100);
@@ -81,14 +94,14 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
       }
 
       // Seamlessly proceed to next step
-      setTimeout(() => {
-        onSuccess(resData);
+      completionTimeoutRef.current = setTimeout(() => {
+        onSuccessRef.current?.(resData);
       }, 900);
     } catch (err: any) {
       setStage('FAILED');
       setErrorMessage(err.message || 'Liveness verification could not be confirmed.');
     }
-  }, [onSuccess]);
+  }, [userId, isUnconfigured]);
 
   // Start animated scan once camera is active
   const startScanningSequence = useCallback((sessionId: string) => {
@@ -181,11 +194,11 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
           throw new Error(data.detail || 'Identity verification service unavailable.');
         }
 
-        if (isCancelled) return;
+        if (isCancelled || hasCompletedRef.current) return;
         setSessionData(data);
         await initCameraAndStream(data.session_id);
       } catch (err: any) {
-        if (isCancelled) return;
+        if (isCancelled || hasCompletedRef.current) return;
         if (err.message && err.message.toLowerCase().includes('not configured')) {
           setIsUnconfigured(true);
         }
@@ -199,7 +212,7 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
     return () => {
       isCancelled = true;
     };
-  }, [userId, initCameraAndStream]);
+  }, [userId]);
 
   // Fallback Device Authenticator Completion
   const handleFallbackBypass = async () => {
