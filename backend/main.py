@@ -613,13 +613,17 @@ if os.path.exists(dist_dir):
         raise HTTPException(status_code=404)
 
     @app.get("/IN_V_PROTECT_logo_cropped.mp4", response_model=None)
+    @app.get("/gemini_generated_video_63beae48.mp4", response_model=None)
     def get_static_logo_video() -> Response:
-        video_path = os.path.join(dist_dir, "IN_V_PROTECT_logo_cropped.mp4")
-        if os.path.exists(video_path):
-            return FileResponse(video_path, media_type="video/mp4")
-        alt_path = os.path.join(dist_dir, "assets", "IN_V_PROTECT_logo_cropped.mp4")
-        if os.path.exists(alt_path):
-            return FileResponse(alt_path, media_type="video/mp4")
+        candidates = [
+            os.path.join(dist_dir, "gemini_generated_video_63beae48.mp4"),
+            os.path.join(dist_dir, "IN_V_PROTECT_logo_cropped.mp4"),
+            os.path.join(dist_dir, "assets", "gemini_generated_video_63beae48.mp4"),
+            os.path.join(dist_dir, "assets", "IN_V_PROTECT_logo_cropped.mp4"),
+        ]
+        for path in candidates:
+            if os.path.exists(path):
+                return FileResponse(path, media_type="video/mp4")
         raise HTTPException(status_code=404)
 
     @app.get("/", response_model=None)

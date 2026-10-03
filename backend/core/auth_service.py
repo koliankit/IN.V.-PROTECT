@@ -146,7 +146,7 @@ class AuthService:
             "message": send_msg,
             "otp_sent": send_success,
             "email_provider_configured": email_provider.is_configured(),
-            "sandbox_otp": sandbox_otp,
+            "sandbox_otp": None,
         }
         return True, send_msg or "Owner registered successfully. Please verify your email with the one-time code.", response_data
 

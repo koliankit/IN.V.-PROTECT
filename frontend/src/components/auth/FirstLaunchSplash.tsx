@@ -171,8 +171,10 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
                 filter: 'drop-shadow(0 0 32px rgba(229, 62, 62, 0.18))',
               }}
             >
-              <source src="/assets/IN_V_PROTECT_logo_cropped.mp4" type="video/mp4" />
               <source src="/IN_V_PROTECT_logo_cropped.mp4" type="video/mp4" />
+              <source src="/assets/IN_V_PROTECT_logo_cropped.mp4" type="video/mp4" />
+              <source src="/gemini_generated_video_63beae48.mp4" type="video/mp4" />
+              <source src="/assets/gemini_generated_video_63beae48.mp4" type="video/mp4" />
             </video>
           </motion.div>
         )}
