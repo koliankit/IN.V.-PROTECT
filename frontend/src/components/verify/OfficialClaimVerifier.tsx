@@ -71,9 +71,9 @@ export const OfficialClaimVerifier: React.FC<OfficialClaimVerifierProps> = ({ on
     if (res.is_verified || res.status === 'SUPPORTED') {
       return {
         tag: 'SUPPORTED',
-        color: '#10B981',
-        badgeBg: 'rgba(16, 185, 129, 0.12)',
-        badgeBorder: 'rgba(16, 185, 129, 0.35)',
+        color: '#e53e3e',
+        badgeBg: 'rgba(229, 62, 62, 0.12)',
+        badgeBorder: 'rgba(229, 62, 62, 0.35)',
         icon: CheckCircle2,
         description: 'Entity and registration confirmed in official government & regulatory repositories.',
       };
@@ -136,8 +136,8 @@ export const OfficialClaimVerifier: React.FC<OfficialClaimVerifierProps> = ({ on
               transition: 'all 0.2s ease',
             }}
             onFocus={(e) => {
-              e.currentTarget.style.borderColor = '#02C39A';
-              e.currentTarget.style.boxShadow = '0 0 10px rgba(2, 195, 154, 0.25)';
+              e.currentTarget.style.borderColor = '#e53e3e';
+              e.currentTarget.style.boxShadow = '0 0 10px rgba(229, 62, 62, 0.25)';
             }}
             onBlur={(e) => {
               e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.10)';
@@ -168,8 +168,8 @@ export const OfficialClaimVerifier: React.FC<OfficialClaimVerifierProps> = ({ on
                 transition: 'all 0.15s ease',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = '#02C39A';
-                e.currentTarget.style.color = '#02C39A';
+                e.currentTarget.style.borderColor = '#e53e3e';
+                e.currentTarget.style.color = '#e53e3e';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
@@ -186,8 +186,8 @@ export const OfficialClaimVerifier: React.FC<OfficialClaimVerifierProps> = ({ on
             onClick={() => handleRunVerification()}
             disabled={isVerifying || !claimText.trim()}
             style={{
-              backgroundColor: '#02C39A',
-              color: '#171717',
+              backgroundColor: '#e53e3e',
+              color: '#ffffff',
               fontWeight: 800,
               fontSize: '13px',
               padding: '11px 24px',
@@ -196,7 +196,7 @@ export const OfficialClaimVerifier: React.FC<OfficialClaimVerifierProps> = ({ on
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              boxShadow: '0 4px 16px rgba(2, 195, 154, 0.35)',
+              boxShadow: '0 4px 16px rgba(229, 62, 62, 0.35)',
               cursor: isVerifying || !claimText.trim() ? 'not-allowed' : 'pointer',
               opacity: isVerifying || !claimText.trim() ? 0.6 : 1,
               transition: 'all 0.2s ease',
@@ -215,10 +215,10 @@ export const OfficialClaimVerifier: React.FC<OfficialClaimVerifierProps> = ({ on
           style={{
             borderRadius: '16px',
             padding: '24px',
-            border: '1px solid rgba(2, 195, 154, 0.35)',
+            border: '1px solid rgba(229, 62, 62, 0.35)',
           }}
         >
-          <div style={{ fontSize: '13px', fontWeight: 800, color: '#02C39A', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '14px' }}>
+          <div style={{ fontSize: '13px', fontWeight: 800, color: '#e53e3e', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '14px' }}>
             Multi-Source Official Check in Progress
           </div>
 
@@ -234,7 +234,7 @@ export const OfficialClaimVerifier: React.FC<OfficialClaimVerifierProps> = ({ on
                   color: verifyStep >= i ? '#FFFFFF' : '#666666',
                 }}
               >
-                <span style={{ color: verifyStep > i ? '#02C39A' : verifyStep === i ? '#FFFFFF' : '#666666' }}>
+                <span style={{ color: verifyStep > i ? '#e53e3e' : verifyStep === i ? '#FFFFFF' : '#666666' }}>
                   {verifyStep > i ? '✓' : verifyStep === i ? '◉' : '○'}
                 </span>
                 <span>{st}</span>
@@ -269,7 +269,7 @@ export const OfficialClaimVerifier: React.FC<OfficialClaimVerifierProps> = ({ on
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <ArrowDown style={{ width: '16px', height: '16px', color: '#02C39A' }} />
+              <ArrowDown style={{ width: '16px', height: '16px', color: '#e53e3e' }} />
             </div>
 
             {/* Step 2: ENTITY */}
@@ -307,7 +307,7 @@ export const OfficialClaimVerifier: React.FC<OfficialClaimVerifierProps> = ({ on
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <ArrowDown style={{ width: '16px', height: '16px', color: '#02C39A' }} />
+              <ArrowDown style={{ width: '16px', height: '16px', color: '#e53e3e' }} />
             </div>
 
             {/* Step 3: OFFICIAL SOURCE CHECK */}
@@ -344,7 +344,7 @@ export const OfficialClaimVerifier: React.FC<OfficialClaimVerifierProps> = ({ on
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <strong style={{ color: '#FFFFFF', fontSize: '12px' }}>{src.name}</strong>
-                      <span style={{ fontSize: '10px', color: '#02C39A', fontWeight: 700 }}>✓ Checked</span>
+                      <span style={{ fontSize: '10px', color: '#e53e3e', fontWeight: 700 }}>✓ Checked</span>
                     </div>
                     <span style={{ fontSize: '10px', color: '#A7A7A7' }}>{src.desc}</span>
                   </div>
@@ -353,7 +353,7 @@ export const OfficialClaimVerifier: React.FC<OfficialClaimVerifierProps> = ({ on
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <ArrowDown style={{ width: '16px', height: '16px', color: '#02C39A' }} />
+              <ArrowDown style={{ width: '16px', height: '16px', color: '#e53e3e' }} />
             </div>
 
             {/* Step 4: EVIDENCE PANEL (Section 11) */}
@@ -415,14 +415,14 @@ export const OfficialClaimVerifier: React.FC<OfficialClaimVerifierProps> = ({ on
                             fontWeight: 800,
                             padding: '2px 8px',
                             borderRadius: '4px',
-                            backgroundColor: 'rgba(2, 195, 154, 0.12)',
-                            color: '#02C39A',
-                            border: '1px solid rgba(2, 195, 154, 0.25)',
+                            backgroundColor: 'rgba(229, 62, 62, 0.12)',
+                            color: '#e53e3e',
+                            border: '1px solid rgba(229, 62, 62, 0.25)',
                           }}
                         >
                           {ev.source || ev.source_id || 'SEBI'}
                         </span>
-                        <span style={{ fontSize: '12px', fontWeight: 600, color: '#10B981' }}>
+                        <span style={{ fontSize: '12px', fontWeight: 600, color: '#e53e3e' }}>
                           ✓ {ev.status || 'Source checked'}
                         </span>
                       </div>
@@ -445,7 +445,7 @@ export const OfficialClaimVerifier: React.FC<OfficialClaimVerifierProps> = ({ on
                           display: 'inline-flex',
                           alignItems: 'center',
                           gap: '6px',
-                          color: '#02C39A',
+                          color: '#e53e3e',
                           fontSize: '11px',
                           fontWeight: 700,
                           textDecoration: 'none',
@@ -461,7 +461,7 @@ export const OfficialClaimVerifier: React.FC<OfficialClaimVerifierProps> = ({ on
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <ArrowDown style={{ width: '16px', height: '16px', color: '#02C39A' }} />
+              <ArrowDown style={{ width: '16px', height: '16px', color: '#e53e3e' }} />
             </div>
 
             {/* Step 5: RESULT */}

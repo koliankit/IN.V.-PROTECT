@@ -196,7 +196,7 @@ export const SecureLogin: React.FC<SecureLoginProps> = ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#171717',
+        backgroundColor: 'var(--bg-primary)',
         padding: '24px',
         color: '#FFFFFF',
         position: 'relative',
@@ -248,17 +248,17 @@ export const SecureLogin: React.FC<SecureLoginProps> = ({
             width: '52px',
             height: '52px',
             borderRadius: '14px',
-            backgroundColor: 'rgba(2, 195, 154, 0.08)',
-            border: '1px solid rgba(2, 195, 154, 0.28)',
+            backgroundColor: 'rgba(229, 62, 62, 0.08)',
+            border: '1px solid rgba(229, 62, 62, 0.28)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             marginBottom: '20px',
-            boxShadow: '0 0 20px rgba(2, 195, 154, 0.15)',
+            boxShadow: '0 0 20px rgba(229, 62, 62, 0.15)',
           }}
           className="animate-breathing"
         >
-          <Shield style={{ width: '26px', height: '26px', color: '#02C39A' }} />
+          <Shield style={{ width: '26px', height: '26px', color: '#e53e3e' }} />
         </div>
 
         {/* Product Brand & Tagline */}
@@ -278,7 +278,7 @@ export const SecureLogin: React.FC<SecureLoginProps> = ({
           style={{
             fontSize: '14px',
             fontWeight: 600,
-            color: '#02C39A',
+            color: '#e53e3e',
             letterSpacing: '0.01em',
             marginBottom: '6px',
           }}
@@ -320,13 +320,13 @@ export const SecureLogin: React.FC<SecureLoginProps> = ({
         {infoMessage && (
           <div
             style={{
-              backgroundColor: 'rgba(2, 195, 154, 0.10)',
-              border: '1px solid rgba(2, 195, 154, 0.30)',
+              backgroundColor: 'rgba(229, 62, 62, 0.10)',
+              border: '1px solid rgba(229, 62, 62, 0.30)',
               borderRadius: '10px',
               padding: '11px 14px',
               marginBottom: '18px',
               fontSize: '12px',
-              color: '#02C39A',
+              color: '#e53e3e',
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
@@ -383,8 +383,8 @@ export const SecureLogin: React.FC<SecureLoginProps> = ({
                     transition: 'all 0.2s ease',
                   }}
                   onFocus={(e) => {
-                    e.currentTarget.style.borderColor = '#02C39A';
-                    e.currentTarget.style.boxShadow = '0 0 12px rgba(2, 195, 154, 0.25)';
+                    e.currentTarget.style.borderColor = '#e53e3e';
+                    e.currentTarget.style.boxShadow = '0 0 12px rgba(229, 62, 62, 0.25)';
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)';
@@ -399,8 +399,8 @@ export const SecureLogin: React.FC<SecureLoginProps> = ({
               disabled={loading}
               style={{
                 width: '100%',
-                backgroundColor: '#02C39A',
-                color: '#171717',
+                backgroundColor: '#e53e3e',
+                color: '#ffffff',
                 fontWeight: 800,
                 fontSize: '14px',
                 padding: '13px',
@@ -412,7 +412,7 @@ export const SecureLogin: React.FC<SecureLoginProps> = ({
                 gap: '8px',
                 cursor: loading ? 'not-allowed' : 'pointer',
                 opacity: loading ? 0.7 : 1,
-                boxShadow: '0 4px 18px rgba(2, 195, 154, 0.35)',
+                boxShadow: '0 4px 18px rgba(229, 62, 62, 0.35)',
                 transition: 'all 0.2s ease',
                 letterSpacing: '0.02em',
                 marginTop: '4px',
@@ -420,12 +420,12 @@ export const SecureLogin: React.FC<SecureLoginProps> = ({
               onMouseEnter={(e) => {
                 if (!loading) {
                   e.currentTarget.style.transform = 'translateY(-1px)';
-                  e.currentTarget.style.boxShadow = '0 6px 22px rgba(2, 195, 154, 0.45)';
+                  e.currentTarget.style.boxShadow = '0 6px 22px rgba(229, 62, 62, 0.45)';
                 }
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'none';
-                e.currentTarget.style.boxShadow = '0 4px 18px rgba(2, 195, 154, 0.35)';
+                e.currentTarget.style.boxShadow = '0 4px 18px rgba(229, 62, 62, 0.35)';
               }}
             >
               <span>{loading ? 'Securing...' : 'Continue'}</span>
@@ -459,15 +459,15 @@ export const SecureLogin: React.FC<SecureLoginProps> = ({
                 transition: 'all 0.15s ease',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(2, 195, 154, 0.4)';
-                e.currentTarget.style.backgroundColor = 'rgba(2, 195, 154, 0.04)';
+                e.currentTarget.style.borderColor = 'rgba(229, 62, 62, 0.4)';
+                e.currentTarget.style.backgroundColor = 'rgba(229, 62, 62, 0.04)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.10)';
                 e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.04)';
               }}
             >
-              <KeyRound style={{ width: '15px', height: '15px', color: '#02C39A' }} />
+              <KeyRound style={{ width: '15px', height: '15px', color: '#e53e3e' }} />
               Passkey / Hardware Key
             </button>
           </form>
@@ -512,8 +512,8 @@ export const SecureLogin: React.FC<SecureLoginProps> = ({
                   transition: 'all 0.2s ease',
                 }}
                 onFocus={(e) => {
-                  e.currentTarget.style.borderColor = '#02C39A';
-                  e.currentTarget.style.boxShadow = '0 0 12px rgba(2, 195, 154, 0.25)';
+                  e.currentTarget.style.borderColor = '#e53e3e';
+                  e.currentTarget.style.boxShadow = '0 0 12px rgba(229, 62, 62, 0.25)';
                 }}
                 onBlur={(e) => {
                   e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)';
@@ -527,8 +527,8 @@ export const SecureLogin: React.FC<SecureLoginProps> = ({
               disabled={loading || otp.length < 6}
               style={{
                 width: '100%',
-                backgroundColor: '#02C39A',
-                color: '#171717',
+                backgroundColor: '#e53e3e',
+                color: '#ffffff',
                 fontWeight: 800,
                 fontSize: '14px',
                 padding: '13px',
@@ -540,7 +540,7 @@ export const SecureLogin: React.FC<SecureLoginProps> = ({
                 gap: '8px',
                 cursor: loading || otp.length < 6 ? 'not-allowed' : 'pointer',
                 opacity: loading || otp.length < 6 ? 0.6 : 1,
-                boxShadow: '0 4px 18px rgba(2, 195, 154, 0.35)',
+                boxShadow: '0 4px 18px rgba(229, 62, 62, 0.35)',
                 transition: 'all 0.2s ease',
               }}
             >
@@ -571,7 +571,7 @@ export const SecureLogin: React.FC<SecureLoginProps> = ({
                 style={{
                   background: 'none',
                   border: 'none',
-                  color: '#02C39A',
+                  color: '#e53e3e',
                   fontSize: '12px',
                   fontWeight: 600,
                   cursor: resending ? 'not-allowed' : 'pointer',
@@ -605,7 +605,7 @@ export const SecureLogin: React.FC<SecureLoginProps> = ({
             style={{
               background: 'none',
               border: 'none',
-              color: '#02C39A',
+              color: '#e53e3e',
               fontWeight: 700,
               cursor: 'pointer',
               textDecoration: 'underline',

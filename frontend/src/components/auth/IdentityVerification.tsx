@@ -140,7 +140,7 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
     try {
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } },
+          video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } },
           audio: false,
         });
 
@@ -230,7 +230,7 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: '#171717',
+      backgroundColor: 'var(--bg-primary)',
       padding: '24px',
       color: '#FFFFFF',
       position: 'relative',
@@ -238,10 +238,10 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
     }}>
       <div className="cyber-network-bg" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
       <div className="glass-panel" style={{
-        maxWidth: '480px',
+        maxWidth: '600px',
         width: '100%',
         borderRadius: '18px',
-        padding: '36px',
+        padding: '32px',
         position: 'relative',
         zIndex: 1,
       }}>
@@ -273,9 +273,9 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
             width: '52px',
             height: '52px',
             borderRadius: '14px',
-            backgroundColor: stage === 'SUCCESS' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(2, 195, 154, 0.08)',
-            border: stage === 'SUCCESS' ? '1px solid rgba(16, 185, 129, 0.4)' : '1px solid rgba(2, 195, 154, 0.30)',
-            color: stage === 'SUCCESS' ? '#10B981' : '#02C39A',
+            backgroundColor: stage === 'SUCCESS' ? 'rgba(229, 62, 62, 0.15)' : 'rgba(229, 62, 62, 0.08)',
+            border: stage === 'SUCCESS' ? '1px solid rgba(229, 62, 62, 0.4)' : '1px solid rgba(229, 62, 62, 0.30)',
+            color: '#e53e3e',
             marginBottom: '12px',
             transition: 'all 0.3s ease',
           }}>
@@ -286,12 +286,12 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
             )}
           </div>
           <h2 style={{ fontSize: '20px', fontWeight: 800, margin: '0 0 6px 0', letterSpacing: '0.04em', color: '#FFFFFF' }}>
-            {stage === 'SUCCESS' ? 'IDENTITY CONFIRMED' : 'CAMERA LIVENESS SCAN'}
+            {stage === 'SUCCESS' ? 'IDENTITY CONFIRMED' : 'FACE SCAN'}
           </h2>
           <p style={{ fontSize: '13px', color: '#A7A7A7', margin: 0 }}>
             {stage === 'SUCCESS'
               ? 'Owner presence cryptographically confirmed'
-              : 'Keep your face within the frame for real-time verification'}
+              : 'Keep your face within the oval frame for real-time verification'}
           </p>
         </div>
 
@@ -339,8 +339,8 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
               onClick={handleFallbackBypass}
               style={{
                 width: '100%',
-                backgroundColor: '#02C39A',
-                color: '#171717',
+                backgroundColor: '#e53e3e',
+                color: '#ffffff',
                 border: 'none',
                 borderRadius: '10px',
                 padding: '13px',
@@ -351,7 +351,7 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '8px',
-                boxShadow: '0 4px 18px rgba(2, 195, 154, 0.35)',
+                boxShadow: '0 4px 18px rgba(229, 62, 62, 0.35)',
               }}
             >
               <KeyRound style={{ width: '15px', height: '15px' }} />
@@ -379,196 +379,203 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
           </div>
         )}
 
-        {/* Camera Viewport with Futuristic HUD */}
+        {/* Camera Viewport — Large, face-filling frame */}
         {!isUnconfigured && (
           <>
             <div style={{
               position: 'relative',
-          width: '100%',
-          height: '270px',
-          backgroundColor: '#030712',
-          borderRadius: '14px',
-          overflow: 'hidden',
-          border: stage === 'SUCCESS'
-            ? '2px solid #10B981'
-            : streamActive
-            ? '2px solid #02C39A'
-            : '2px solid rgba(255, 255, 255, 0.12)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: stage === 'SUCCESS'
-            ? '0 0 30px rgba(16, 185, 129, 0.3)'
-            : '0 0 25px rgba(2, 195, 154, 0.20)',
-          transition: 'border 0.3s ease, box-shadow 0.3s ease',
-        }}>
-          {/* Live Video Feed */}
-          <video
-            ref={videoRef}
-            autoPlay
-            playsInline
-            muted
-            style={{
               width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              transform: 'scaleX(-1)', // Mirror effect
-              opacity: streamActive ? 1 : 0.25,
-              filter: stage === 'SUCCESS' ? 'brightness(1.05)' : 'none',
-            }}
-          />
-
-          {/* Placeholder if camera stream not active yet */}
-          {!streamActive && (
-            <div style={{
-              position: 'absolute',
+              height: '420px',
+              backgroundColor: '#030712',
+              borderRadius: '16px',
+              overflow: 'hidden',
+              border: stage === 'SUCCESS'
+                ? '2px solid #e53e3e'
+                : streamActive
+                ? '2px solid rgba(229, 62, 62, 0.7)'
+                : '2px solid rgba(255, 255, 255, 0.10)',
               display: 'flex',
-              flexDirection: 'column',
               alignItems: 'center',
-              gap: '10px',
-              color: '#A7A7A7',
+              justifyContent: 'center',
+              boxShadow: stage === 'SUCCESS'
+                ? '0 0 40px rgba(229, 62, 62, 0.35)'
+                : '0 0 30px rgba(229, 62, 62, 0.18)',
+              transition: 'border 0.3s ease, box-shadow 0.3s ease',
             }}>
-              <Camera style={{ width: '36px', height: '36px', opacity: 0.5 }} />
-              <span style={{ fontSize: '12px' }}>
-                {cameraUnavailable ? 'Camera offline / permission required' : 'Initializing camera stream...'}
-              </span>
-            </div>
-          )}
+              {/* Live Video Feed */}
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
+                style={{
+                  position: 'absolute',
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  transform: 'scaleX(-1)', // Mirror effect
+                  opacity: streamActive ? 1 : 0.2,
+                  filter: stage === 'SUCCESS' ? 'brightness(1.05)' : 'none',
+                }}
+              />
 
-          {/* HUD Corner Brackets */}
-          <div style={{
-            position: 'absolute',
-            inset: '16px',
-            pointerEvents: 'none',
-            border: '2px solid transparent',
-          }}>
-            {/* Top-Left */}
-            <div style={{ position: 'absolute', top: 0, left: 0, width: '20px', height: '20px', borderTop: '3px solid #02C39A', borderLeft: '3px solid #02C39A', borderRadius: '3px 0 0 0' }} />
-            {/* Top-Right */}
-            <div style={{ position: 'absolute', top: 0, right: 0, width: '20px', height: '20px', borderTop: '3px solid #02C39A', borderRight: '3px solid #02C39A', borderRadius: '0 3px 0 0' }} />
-            {/* Bottom-Left */}
-            <div style={{ position: 'absolute', bottom: 0, left: 0, width: '20px', height: '20px', borderBottom: '3px solid #02C39A', borderLeft: '3px solid #02C39A', borderRadius: '0 0 0 3px' }} />
-            {/* Bottom-Right */}
-            <div style={{ position: 'absolute', bottom: 0, right: 0, width: '20px', height: '20px', borderBottom: '3px solid #02C39A', borderRight: '3px solid #02C39A', borderRadius: '0 0 3px 0' }} />
-          </div>
+              {/* Placeholder if camera stream not active */}
+              {!streamActive && (
+                <div style={{
+                  position: 'absolute',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '12px',
+                  color: '#A7A7A7',
+                  zIndex: 2,
+                }}>
+                  <Camera style={{ width: '48px', height: '48px', opacity: 0.4 }} />
+                  <span style={{ fontSize: '13px', textAlign: 'center', maxWidth: '200px' }}>
+                    {cameraUnavailable ? 'Camera offline / permission required' : 'Initializing camera stream...'}
+                  </span>
+                </div>
+              )}
 
-          {/* Target Biometric Oval Frame */}
-          <div style={{
-            position: 'absolute',
-            width: '160px',
-            height: '210px',
-            border: stage === 'SUCCESS' ? '2px solid #10B981' : '2px dashed #02C39A',
-            borderRadius: '50%',
-            pointerEvents: 'none',
-            boxShadow: stage === 'SUCCESS' ? '0 0 25px rgba(16, 185, 129, 0.4)' : '0 0 20px rgba(2, 195, 154, 0.3)',
-            transition: 'all 0.3s ease',
-          }} />
-
-          {/* Laser Scanning Line Animation */}
-          {streamActive && stage === 'SCANNING' && (
-            <div
-              style={{
+              {/* HUD Corner Brackets — larger to match bigger frame */}
+              <div style={{
                 position: 'absolute',
-                left: '20px',
-                right: '20px',
-                height: '2px',
-                background: 'linear-gradient(90deg, transparent, #02C39A, #2ee6bc, #02C39A, transparent)',
-                boxShadow: '0 0 14px #02C39A, 0 0 20px #2ee6bc',
-                top: `${(scanProgress % 90) + 5}%`,
-                transition: 'top 0.1s linear',
+                inset: '20px',
                 pointerEvents: 'none',
-              }}
-            />
-          )}
+              }}>
+                {/* Top-Left */}
+                <div style={{ position: 'absolute', top: 0, left: 0, width: '28px', height: '28px', borderTop: '3px solid #e53e3e', borderLeft: '3px solid #e53e3e', borderRadius: '4px 0 0 0' }} />
+                {/* Top-Right */}
+                <div style={{ position: 'absolute', top: 0, right: 0, width: '28px', height: '28px', borderTop: '3px solid #e53e3e', borderRight: '3px solid #e53e3e', borderRadius: '0 4px 0 0' }} />
+                {/* Bottom-Left */}
+                <div style={{ position: 'absolute', bottom: 0, left: 0, width: '28px', height: '28px', borderBottom: '3px solid #e53e3e', borderLeft: '3px solid #e53e3e', borderRadius: '0 0 0 4px' }} />
+                {/* Bottom-Right */}
+                <div style={{ position: 'absolute', bottom: 0, right: 0, width: '28px', height: '28px', borderBottom: '3px solid #e53e3e', borderRight: '3px solid #e53e3e', borderRadius: '0 0 4px 0' }} />
+              </div>
 
-          {/* Top Live Badge */}
-          <div style={{
-            position: 'absolute',
-            top: '12px',
-            left: '14px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-            backgroundColor: 'rgba(3, 7, 18, 0.8)',
-            padding: '4px 10px',
-            borderRadius: '12px',
-            fontSize: '11px',
-            fontWeight: 700,
-            color: streamActive ? '#38bdf8' : '#94a3b8',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(4px)',
-          }}>
+              {/* Face Oval — large enough to fill a real face */}
+              <div style={{
+                position: 'absolute',
+                width: '240px',
+                height: '320px',
+                border: stage === 'SUCCESS' ? '2px solid #e53e3e' : '2px dashed rgba(229, 62, 62, 0.75)',
+                borderRadius: '50%',
+                pointerEvents: 'none',
+                boxShadow: stage === 'SUCCESS'
+                  ? '0 0 40px rgba(229, 62, 62, 0.5), inset 0 0 30px rgba(229, 62, 62, 0.05)'
+                  : '0 0 25px rgba(229, 62, 62, 0.25), inset 0 0 20px rgba(229, 62, 62, 0.03)',
+                transition: 'all 0.4s ease',
+                zIndex: 3,
+              }} />
+
+              {/* Laser Scanning Line Animation */}
+              {streamActive && stage === 'SCANNING' && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: '24px',
+                    right: '24px',
+                    height: '2px',
+                    background: 'linear-gradient(90deg, transparent, #e53e3e, #ff6b6b, #e53e3e, transparent)',
+                    boxShadow: '0 0 16px #e53e3e, 0 0 24px #ff5555',
+                    top: `${(scanProgress % 90) + 5}%`,
+                    transition: 'top 0.1s linear',
+                    pointerEvents: 'none',
+                    zIndex: 4,
+                  }}
+                />
+              )}
+
+              {/* Top Live Badge */}
+              <div style={{
+                position: 'absolute',
+                top: '14px',
+                left: '16px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                backgroundColor: 'rgba(3, 7, 18, 0.85)',
+                padding: '5px 12px',
+                borderRadius: '20px',
+                fontSize: '11px',
+                fontWeight: 700,
+                color: streamActive ? '#FFFFFF' : '#94a3b8',
+                border: '1px solid rgba(229, 62, 62, 0.25)',
+                backdropFilter: 'blur(6px)',
+                zIndex: 5,
+              }}>
+                <div style={{
+                  width: '7px',
+                  height: '7px',
+                  borderRadius: '50%',
+                  backgroundColor: streamActive ? '#e53e3e' : '#f59e0b',
+                  boxShadow: streamActive ? '0 0 8px #e53e3e' : 'none',
+                }} />
+                <span>{streamActive ? 'LIVE FEED' : 'CONNECTING'}</span>
+              </div>
+
+              {/* Top Right Percentage Indicator */}
+              <div style={{
+                position: 'absolute',
+                top: '14px',
+                right: '16px',
+                backgroundColor: 'rgba(3, 7, 18, 0.85)',
+                padding: '5px 12px',
+                borderRadius: '20px',
+                fontSize: '12px',
+                fontWeight: 800,
+                fontFamily: 'monospace',
+                color: '#e53e3e',
+                border: '1px solid rgba(229, 62, 62, 0.25)',
+                backdropFilter: 'blur(6px)',
+                zIndex: 5,
+              }}>
+                {scanProgress}%
+              </div>
+
+              {/* Bottom Floating Status Pill */}
+              <div style={{
+                position: 'absolute',
+                bottom: '16px',
+                backgroundColor: 'rgba(10, 10, 10, 0.90)',
+                padding: '8px 18px',
+                borderRadius: '20px',
+                fontSize: '12px',
+                color: stage === 'SUCCESS' ? '#e53e3e' : '#f8fafc',
+                fontWeight: 600,
+                backdropFilter: 'blur(8px)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '7px',
+                border: '1px solid rgba(229, 62, 62, 0.20)',
+                zIndex: 5,
+              }}>
+                {stage === 'SUCCESS' ? (
+                  <CheckCircle2 style={{ width: '14px', height: '14px', color: '#e53e3e' }} />
+                ) : (
+                  <Eye style={{ width: '14px', height: '14px', color: '#e53e3e' }} />
+                )}
+                <span>{statusNote}</span>
+              </div>
+            </div>
+
+            {/* Linear Progress Bar */}
             <div style={{
-              width: '7px',
-              height: '7px',
-              borderRadius: '50%',
-              backgroundColor: streamActive ? '#10b981' : '#f59e0b',
-              boxShadow: streamActive ? '0 0 8px #10b981' : 'none',
-            }} />
-            <span>{streamActive ? 'LIVE OPTICAL FEED' : 'CONNECTING'}</span>
-          </div>
-
-          {/* Top Right Percentage Indicator */}
-          <div style={{
-            position: 'absolute',
-            top: '12px',
-            right: '14px',
-            backgroundColor: 'rgba(3, 7, 18, 0.8)',
-            padding: '4px 10px',
-            borderRadius: '12px',
-            fontSize: '11px',
-            fontWeight: 800,
-            fontFamily: 'monospace',
-            color: stage === 'SUCCESS' ? '#10b981' : '#38bdf8',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(4px)',
-          }}>
-            {scanProgress}%
-          </div>
-
-          {/* Bottom Floating Status Pill */}
-          <div style={{
-            position: 'absolute',
-            bottom: '12px',
-            backgroundColor: 'rgba(15, 23, 42, 0.88)',
-            padding: '6px 14px',
-            borderRadius: '20px',
-            fontSize: '12px',
-            color: stage === 'SUCCESS' ? '#10b981' : '#f8fafc',
-            fontWeight: 600,
-            backdropFilter: 'blur(6px)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-          }}>
-            {stage === 'SUCCESS' ? (
-              <CheckCircle2 style={{ width: '14px', height: '14px', color: '#10b981' }} />
-            ) : (
-              <Eye style={{ width: '14px', height: '14px', color: '#38bdf8' }} />
-            )}
-            <span>{statusNote}</span>
-          </div>
-        </div>
-
-        {/* Linear Progress Bar */}
-        <div style={{
-          width: '100%',
-          height: '4px',
-          backgroundColor: '#1e293b',
-          borderRadius: '2px',
-          marginTop: '16px',
-          overflow: 'hidden',
-        }}>
-          <div style={{
-            width: `${scanProgress}%`,
-            height: '100%',
-            background: stage === 'SUCCESS'
-              ? '#10b981'
-              : 'linear-gradient(90deg, #0284c7, #38bdf8)',
-            transition: 'width 0.1s linear',
-          }} />
-        </div>
+              width: '100%',
+              height: '3px',
+              backgroundColor: 'rgba(255,255,255,0.06)',
+              borderRadius: '2px',
+              marginTop: '14px',
+              overflow: 'hidden',
+            }}>
+              <div style={{
+                width: `${scanProgress}%`,
+                height: '100%',
+                background: '#e53e3e',
+                boxShadow: '0 0 8px rgba(229, 62, 62, 0.6)',
+                transition: 'width 0.1s linear',
+              }} />
+            </div>
           </>
         )}
 
@@ -580,18 +587,19 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
               onClick={handleFallbackBypass}
               style={{
                 width: '100%',
-                backgroundColor: '#0284c7',
+                backgroundColor: '#e53e3e',
                 color: '#ffffff',
                 border: 'none',
-                borderRadius: '8px',
-                padding: '12px',
+                borderRadius: '10px',
+                padding: '13px',
                 fontSize: '13px',
-                fontWeight: 700,
+                fontWeight: 800,
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '8px',
+                boxShadow: '0 4px 18px rgba(229, 62, 62, 0.35)',
                 transition: 'all 0.2s ease',
               }}
             >
@@ -611,7 +619,7 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
           fontSize: '11px',
           color: '#64748b',
         }}>
-          <Shield style={{ width: '12px', height: '12px', color: '#38bdf8' }} />
+          <Shield style={{ width: '12px', height: '12px', color: '#e53e3e' }} />
           <span>Biometric privacy: zero webcam frames or photos are saved to database.</span>
         </div>
       </div>

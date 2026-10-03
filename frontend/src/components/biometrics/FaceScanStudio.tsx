@@ -400,7 +400,7 @@ export const FaceScanStudio: React.FC<FaceScanStudioProps> = ({
               Real Connected Camera Optical Telemetry
             </span>
             <span style={{ fontSize: '11px', color: '#64748b' }}>•</span>
-            <span style={{ fontSize: '11px', fontWeight: 600, color: '#10b981' }}>
+            <span style={{ fontSize: '11px', fontWeight: 600, color: '#e53e3e' }}>
               Zero Biometric Storage Guarantee
             </span>
           </div>
@@ -492,11 +492,11 @@ export const FaceScanStudio: React.FC<FaceScanStudioProps> = ({
                   width: '8px',
                   height: '8px',
                   borderRadius: '50%',
-                  backgroundColor: streamActive ? '#10b981' : '#ef4444',
-                  boxShadow: streamActive ? '0 0 8px #10b981' : 'none',
+                  backgroundColor: streamActive ? '#e53e3e' : '#ef4444',
+                  boxShadow: streamActive ? '0 0 8px #e53e3e' : 'none',
                 }}
               />
-              <span style={{ fontSize: '12px', fontWeight: 700, color: streamActive ? '#10b981' : '#f87171' }}>
+              <span style={{ fontSize: '12px', fontWeight: 700, color: streamActive ? '#e53e3e' : '#f87171' }}>
                 {streamActive ? 'LIVE OPTICAL SENSOR' : 'CAMERA OFFLINE'}
               </span>
               <span style={{ fontSize: '11px', color: '#64748b' }}>•</span>
@@ -534,13 +534,13 @@ export const FaceScanStudio: React.FC<FaceScanStudioProps> = ({
               overflow: 'hidden',
               border:
                 status === 'VERIFIED'
-                  ? '2px solid #10b981'
+                  ? '2px solid #e53e3e'
                   : status === 'SCANNING' || status === 'ANALYZING'
                   ? '2px solid #06b6d4'
                   : '1px solid #1e293b',
               boxShadow:
                 status === 'VERIFIED'
-                  ? '0 0 35px rgba(16, 185, 129, 0.25)'
+                  ? '0 0 35px rgba(229, 62, 62, 0.25)'
                   : status === 'SCANNING' || status === 'ANALYZING'
                   ? '0 0 35px rgba(6, 182, 212, 0.25)'
                   : 'inset 0 0 30px rgba(0, 0, 0, 0.8)',
@@ -642,13 +642,13 @@ export const FaceScanStudio: React.FC<FaceScanStudioProps> = ({
                 borderRadius: '50%',
                 border:
                   status === 'VERIFIED'
-                    ? '3px solid #10b981'
+                    ? '3px solid #e53e3e'
                     : status === 'SCANNING' || status === 'ANALYZING'
                     ? '2px dashed #06b6d4'
                     : '2px dashed rgba(6, 182, 212, 0.4)',
                 boxShadow:
                   status === 'VERIFIED'
-                    ? '0 0 30px rgba(16, 185, 129, 0.5)'
+                    ? '0 0 30px rgba(229, 62, 62, 0.5)'
                     : status === 'SCANNING' || status === 'ANALYZING'
                     ? '0 0 25px rgba(6, 182, 212, 0.4)'
                     : 'none',
@@ -675,7 +675,7 @@ export const FaceScanStudio: React.FC<FaceScanStudioProps> = ({
               {status === 'VERIFIED' && (
                 <div
                   style={{
-                    backgroundColor: 'rgba(16, 185, 129, 0.9)',
+                    backgroundColor: 'rgba(229, 62, 62, 0.9)',
                     color: '#ffffff',
                     padding: '6px 14px',
                     borderRadius: '20px',
@@ -685,7 +685,7 @@ export const FaceScanStudio: React.FC<FaceScanStudioProps> = ({
                     display: 'flex',
                     alignItems: 'center',
                     gap: '6px',
-                    boxShadow: '0 4px 14px rgba(16, 185, 129, 0.5)',
+                    boxShadow: '0 4px 14px rgba(229, 62, 62, 0.5)',
                   }}
                 >
                   <CheckCircle2 style={{ width: '14px', height: '14px' }} />
@@ -721,10 +721,10 @@ export const FaceScanStudio: React.FC<FaceScanStudioProps> = ({
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '11px', color: '#94a3b8' }}>
                 <span>
-                  Lighting: <strong style={{ color: lightingScore >= 40 ? '#10b981' : '#f59e0b' }}>{lightingScore}%</strong>
+                  Lighting: <strong style={{ color: lightingScore >= 40 ? '#e53e3e' : '#f59e0b' }}>{lightingScore}%</strong>
                 </span>
                 <span>
-                  Stability: <strong style={{ color: '#10b981' }}>{stabilityScore}%</strong>
+                  Stability: <strong style={{ color: '#e53e3e' }}>{stabilityScore}%</strong>
                 </span>
               </div>
             </div>
@@ -766,7 +766,7 @@ export const FaceScanStudio: React.FC<FaceScanStudioProps> = ({
               disabled={status === 'SCANNING' || status === 'ANALYZING' || !streamActive}
               style={{
                 flex: 1,
-                backgroundColor: status === 'VERIFIED' ? '#10b981' : '#06b6d4',
+                backgroundColor: status === 'VERIFIED' ? '#e53e3e' : '#06b6d4',
                 color: status === 'VERIFIED' ? '#ffffff' : '#080c14',
                 fontWeight: 800,
                 fontSize: '13px',
@@ -778,7 +778,7 @@ export const FaceScanStudio: React.FC<FaceScanStudioProps> = ({
                 gap: '8px',
                 boxShadow:
                   status === 'VERIFIED'
-                    ? '0 4px 16px rgba(16, 185, 129, 0.35)'
+                    ? '0 4px 16px rgba(229, 62, 62, 0.35)'
                     : '0 4px 16px rgba(6, 182, 212, 0.35)',
                 cursor: status === 'SCANNING' || status === 'ANALYZING' ? 'not-allowed' : 'pointer',
                 opacity: status === 'SCANNING' || status === 'ANALYZING' ? 0.75 : 1,
@@ -849,10 +849,10 @@ export const FaceScanStudio: React.FC<FaceScanStudioProps> = ({
             <div
               style={{
                 backgroundColor: '#0b101d',
-                border: '1px solid rgba(16, 185, 129, 0.35)',
+                border: '1px solid rgba(229, 62, 62, 0.35)',
                 borderRadius: '16px',
                 padding: '24px',
-                boxShadow: '0 8px 30px rgba(16, 185, 129, 0.15)',
+                boxShadow: '0 8px 30px rgba(229, 62, 62, 0.15)',
               }}
               className="security-grid-bg"
             >
@@ -862,11 +862,11 @@ export const FaceScanStudio: React.FC<FaceScanStudioProps> = ({
                     width: '36px',
                     height: '36px',
                     borderRadius: '10px',
-                    backgroundColor: 'rgba(16, 185, 129, 0.15)',
+                    backgroundColor: 'rgba(229, 62, 62, 0.15)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: '#10b981',
+                    color: '#e53e3e',
                   }}
                 >
                   <Award style={{ width: '20px', height: '20px' }} />
@@ -875,7 +875,7 @@ export const FaceScanStudio: React.FC<FaceScanStudioProps> = ({
                   <div style={{ fontSize: '15px', fontWeight: 800, color: '#ffffff' }}>
                     Biometric Attestation Certificate
                   </div>
-                  <div style={{ fontSize: '11px', color: '#10b981', fontWeight: 600 }}>
+                  <div style={{ fontSize: '11px', color: '#e53e3e', fontWeight: 600 }}>
                     CRYPTOGRAPHICALLY CONFIRMED VIA WEBCAM
                   </div>
                 </div>
@@ -907,11 +907,11 @@ export const FaceScanStudio: React.FC<FaceScanStudioProps> = ({
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <span style={{ color: '#94a3b8' }}>Liveness Confidence:</span>
-                  <span style={{ color: '#10b981', fontWeight: 800 }}>98.6% (Attested)</span>
+                  <span style={{ color: '#e53e3e', fontWeight: 800 }}>98.6% (Attested)</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <span style={{ color: '#94a3b8' }}>Anti-Spoofing Score:</span>
-                  <span style={{ color: '#10b981', fontWeight: 800 }}>0.99 (Passed)</span>
+                  <span style={{ color: '#e53e3e', fontWeight: 800 }}>0.99 (Passed)</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <span style={{ color: '#94a3b8' }}>Storage Protocol:</span>
@@ -1019,7 +1019,7 @@ export const FaceScanStudio: React.FC<FaceScanStudioProps> = ({
                     <span style={{ fontSize: '12px', fontWeight: 600, color: '#cbd5e1' }}>
                       Environmental Lux / Brightness
                     </span>
-                    <span style={{ fontSize: '12px', fontWeight: 700, color: lightingScore >= 40 ? '#10b981' : '#f59e0b' }}>
+                    <span style={{ fontSize: '12px', fontWeight: 700, color: lightingScore >= 40 ? '#e53e3e' : '#f59e0b' }}>
                       {lightingScore}% ({lightingScore >= 40 ? 'Optimal' : 'Low Light'})
                     </span>
                   </div>
@@ -1028,7 +1028,7 @@ export const FaceScanStudio: React.FC<FaceScanStudioProps> = ({
                       style={{
                         height: '100%',
                         width: `${lightingScore}%`,
-                        backgroundColor: lightingScore >= 40 ? '#10b981' : '#f59e0b',
+                        backgroundColor: lightingScore >= 40 ? '#e53e3e' : '#f59e0b',
                         transition: 'width 0.4s ease',
                       }}
                     />
@@ -1048,7 +1048,7 @@ export const FaceScanStudio: React.FC<FaceScanStudioProps> = ({
                     <span style={{ fontSize: '12px', fontWeight: 600, color: '#cbd5e1' }}>
                       Facial Stability Vector
                     </span>
-                    <span style={{ fontSize: '12px', fontWeight: 700, color: '#10b981' }}>
+                    <span style={{ fontSize: '12px', fontWeight: 700, color: '#e53e3e' }}>
                       {stabilityScore}% (Steady Frame)
                     </span>
                   </div>
@@ -1057,7 +1057,7 @@ export const FaceScanStudio: React.FC<FaceScanStudioProps> = ({
                       style={{
                         height: '100%',
                         width: `${stabilityScore}%`,
-                        backgroundColor: '#10b981',
+                        backgroundColor: '#e53e3e',
                         transition: 'width 0.4s ease',
                       }}
                     />
@@ -1085,8 +1085,8 @@ export const FaceScanStudio: React.FC<FaceScanStudioProps> = ({
                   <span
                     style={{
                       fontSize: '11px',
-                      backgroundColor: 'rgba(16, 185, 129, 0.12)',
-                      color: '#10b981',
+                      backgroundColor: 'rgba(229, 62, 62, 0.12)',
+                      color: '#e53e3e',
                       padding: '2px 8px',
                       borderRadius: '4px',
                       fontWeight: 700,
@@ -1117,8 +1117,8 @@ export const FaceScanStudio: React.FC<FaceScanStudioProps> = ({
                   <span
                     style={{
                       fontSize: '11px',
-                      backgroundColor: detectedFaces === 1 ? 'rgba(16, 185, 129, 0.12)' : 'rgba(239, 68, 68, 0.12)',
-                      color: detectedFaces === 1 ? '#10b981' : '#ef4444',
+                      backgroundColor: detectedFaces === 1 ? 'rgba(229, 62, 62, 0.12)' : 'rgba(239, 68, 68, 0.12)',
+                      color: detectedFaces === 1 ? '#e53e3e' : '#ef4444',
                       padding: '2px 8px',
                       borderRadius: '4px',
                       fontWeight: 700,

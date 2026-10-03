@@ -2,22 +2,22 @@
 Baseline ML Classifier for Sangyan AI Investor Shield.
 Uses TF-IDF + Logistic Regression trained on standard licensed deceptive vs legitimate financial patterns.
 Provides calibrated probability scores to augment deterministic rule evaluation.
+Falls back to a keyword heuristic if scikit-learn DLLs are blocked by OS policy.
 """
 import os
-import joblib
 from typing import Dict, Any, List, Tuple
-from sklearn.feature_extraction.text import TfidfVectorizer
+
+# ── Try to import scikit-learn; gracefully degrade if DLL blocked (Windows ACL) ──
+_SKLEARN_AVAILABLE = False
 try:
+    import joblib
+    from sklearn.feature_extraction.text import TfidfVectorizer
     from sklearn.linear_model import LogisticRegression
-    def get_classifier():
-        return LogisticRegression(C=1.0, random_state=42)
+    from sklearn.pipeline import Pipeline
+    from sklearn.metrics import f1_score
+    _SKLEARN_AVAILABLE = True
 except Exception:
-    from sklearn.naive_bayes import MultinomialNB
-    def get_classifier():
-        return MultinomialNB()
-from sklearn.pipeline import Pipeline
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report, f1_score
+    pass
 
 
 # Curated, verified benchmark training samples (derived from open research datasets: UCI Spam + Community Financial Scams)
@@ -52,33 +52,45 @@ TRAINING_SAMPLES: List[Tuple[str, int]] = [
 ]
 
 
+_SCAM_KEYWORDS = [
+    "guaranteed return", "100% profit", "risk free", "double your money",
+    "upper circuit", "vip group", "insider tip", "demat blocked", "otp",
+    "share password", "pay fee", "transfer funds", "apk", "withdraw",
+    "paisa double", "sure shot", "jackpot", "margin tax", "unfreeze",
+]
+
 class BaselineClassifier:
     def __init__(self, model_path: str = None):
-        base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-        self.model_dir = os.path.join(base_dir, "ml", "models")
-        self.model_path = model_path or os.path.join(self.model_dir, "baseline_model.joblib")
-        self.pipeline: Pipeline = None
-        self._load_or_train()
+        self.pipeline = None
+        self._sklearn = _SKLEARN_AVAILABLE
+        if self._sklearn:
+            base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+            self.model_dir = os.path.join(base_dir, "ml", "models")
+            self.model_path = model_path or os.path.join(self.model_dir, "baseline_model.joblib")
+            self._load_or_train()
 
     def _load_or_train(self):
+        if not self._sklearn:
+            return
         if os.path.isfile(self.model_path):
             try:
                 self.pipeline = joblib.load(self.model_path)
                 return
             except Exception:
                 pass
-
         self.train()
 
     def train(self) -> Dict[str, Any]:
+        if not self._sklearn:
+            return {"status": "fallback_heuristic", "reason": "sklearn unavailable"}
+
         texts = [x[0] for x in TRAINING_SAMPLES]
         labels = [x[1] for x in TRAINING_SAMPLES]
 
         pipeline = Pipeline([
             ("tfidf", TfidfVectorizer(ngram_range=(1, 2), min_df=1, lowercase=True)),
-            ("clf", get_classifier()),
+            ("clf", LogisticRegression(C=1.0, random_state=42)),
         ])
-
         pipeline.fit(texts, labels)
         self.pipeline = pipeline
 
@@ -90,22 +102,32 @@ class BaselineClassifier:
 
         preds = pipeline.predict(texts)
         score = f1_score(labels, preds, average="binary")
-
         return {
             "status": "trained",
             "samples_count": len(texts),
             "f1_score": round(float(score), 4),
-            "saved_to": self.model_path,
         }
 
     def predict(self, text: str) -> Dict[str, Any]:
-        if not self.pipeline:
-            self._load_or_train()
+        # Full ML path
+        if self._sklearn and self.pipeline:
+            try:
+                probs = self.pipeline.predict_proba([text])[0]
+                scam_prob = float(probs[1])
+                pred_label = "scam" if scam_prob >= 0.5 else "legitimate"
+                return {
+                    "scam_probability": round(scam_prob, 4),
+                    "predicted_label": pred_label,
+                    "confidence": round(max(scam_prob, 1 - scam_prob), 4),
+                }
+            except Exception:
+                pass
 
-        probs = self.pipeline.predict_proba([text])[0]
-        scam_prob = float(probs[1])
+        # Keyword heuristic fallback
+        lowered = text.lower()
+        hits = sum(1 for kw in _SCAM_KEYWORDS if kw in lowered)
+        scam_prob = min(0.95, 0.15 + hits * 0.12)
         pred_label = "scam" if scam_prob >= 0.5 else "legitimate"
-
         return {
             "scam_probability": round(scam_prob, 4),
             "predicted_label": pred_label,

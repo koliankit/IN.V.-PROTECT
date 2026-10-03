@@ -86,7 +86,7 @@ export const QuarantineManager: React.FC<QuarantineManagerProps> = ({
             textAlign: 'center',
           }}
         >
-          <CheckCircle2 style={{ width: '42px', height: '42px', color: '#10B981', margin: '0 auto 12px auto' }} />
+          <CheckCircle2 style={{ width: '42px', height: '42px', color: '#e53e3e', margin: '0 auto 12px auto' }} />
           <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#FFFFFF', margin: '0 0 6px 0' }}>
             Quarantine Isolation Vault is Clean
           </h3>
@@ -227,8 +227,8 @@ export const QuarantineManager: React.FC<QuarantineManagerProps> = ({
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
-                  <FileText style={{ width: '13px', height: '13px', color: '#02C39A' }} />
-                  <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', color: '#02C39A', letterSpacing: '0.06em' }}>
+                  <FileText style={{ width: '13px', height: '13px', color: '#e53e3e' }} />
+                  <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', color: '#e53e3e', letterSpacing: '0.06em' }}>
                     EVIDENCE PACKAGE
                   </span>
                 </div>
@@ -329,9 +329,9 @@ export const QuarantineManager: React.FC<QuarantineManagerProps> = ({
                     onClick={() => onReleaseMessage(selectedMsg.id)}
                     style={{
                       flex: 1,
-                      backgroundColor: 'rgba(2, 195, 154, 0.12)',
-                      color: '#02C39A',
-                      border: '1px solid rgba(2, 195, 154, 0.35)',
+                      backgroundColor: 'rgba(229, 62, 62, 0.12)',
+                      color: '#e53e3e',
+                      border: '1px solid rgba(229, 62, 62, 0.35)',
                       fontWeight: 700,
                       fontSize: '12px',
                       padding: '10px',
@@ -343,8 +343,8 @@ export const QuarantineManager: React.FC<QuarantineManagerProps> = ({
                       gap: '6px',
                       transition: 'all 0.15s ease',
                     }}
-                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(2, 195, 154, 0.20)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(2, 195, 154, 0.12)')}
+                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(229, 62, 62, 0.20)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(229, 62, 62, 0.12)')}
                   >
                     <Unlock style={{ width: '13px', height: '13px' }} />
                     Release

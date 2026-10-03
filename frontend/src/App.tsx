@@ -1,15 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import {
-  Shield,
-  Activity,
-  Settings,
   ShieldAlert,
   ShieldCheck,
   AlertTriangle,
   FileSearch,
   ExternalLink,
   CheckCircle2,
-  Search,
   ArrowRight,
   Database,
   RefreshCw,
@@ -25,12 +21,9 @@ import {
   AlertOctagon,
   Cpu,
   X,
-  PhoneCall,
   Radio,
   Copy,
-  Sliders,
   Check,
-  PlayCircle,
   ChevronRight,
   ChevronLeft,
   TrendingUp,
@@ -62,10 +55,8 @@ import { IdentityVerification } from './components/auth/IdentityVerification';
 import { SecureLogin } from './components/auth/SecureLogin';
 import { DeviceManagerModal } from './components/auth/DeviceManagerModal';
 import { SecurityPrivacyModal } from './components/auth/SecurityPrivacyModal';
-import { OwnerProfileBadge } from './components/auth/OwnerProfileBadge';
 import { FirstLaunchSplash } from './components/auth/FirstLaunchSplash';
 import { AppSidebar } from './components/layout/AppSidebar';
-import { MobileNavBar } from './components/layout/MobileNavBar';
 import { SecurityStatusHero } from './components/dashboard/SecurityStatusHero';
 import { MessageAnalysisPipeline } from './components/analysis/MessageAnalysisPipeline';
 import { OfficialClaimVerifier } from './components/verify/OfficialClaimVerifier';
@@ -73,6 +64,8 @@ import { QuarantineManager } from './components/quarantine/QuarantineManager';
 import { SmartwatchAlertModal } from './components/devices/SmartwatchAlertModal';
 import { FaceScanStudio } from './components/biometrics/FaceScanStudio';
 import { VideoLessonHero } from './components/academy/VideoLessonHero';
+import { LandingPage } from './components/landing/LandingPage';
+import { AppTopBar } from './components/layout/AppTopBar';
 interface DemoExample {
   id: string;
   title: string;
@@ -108,8 +101,8 @@ type NavSection =
   | 'academy';
 
 export default function App() {
-  // View Mode: 'console' (Full shield dashboard) | 'auth' (Registration / Login)
-  const [viewMode, setViewMode] = useState<'console' | 'auth'>('auth');
+  // View Mode: 'landing' (Public marketing & interactive preview) | 'console' (Full shield dashboard) | 'auth' (Registration / Login)
+  const [viewMode, setViewMode] = useState<'landing' | 'console' | 'auth'>('landing');
   const [activeNav, setActiveNav] = useState<NavSection>('dashboard');
   const [language, setLanguage] = useState<'en' | 'hi' | 'hinglish'>('en');
 
@@ -201,6 +194,7 @@ export default function App() {
 
   const checkAuthStatus = async () => {
     try {
+      const params = new URLSearchParams(window.location.search);
       const token = localStorage.getItem('sangyan_access_token');
       const meRes = await fetch('/api/auth/me', {
         headers: token ? { Authorization: `Bearer ${token}` } : {},
@@ -210,18 +204,23 @@ export default function App() {
         if (profile.account_status === 'ACTIVE' && profile.identity_verified) {
           setOwnerProfile(profile);
           setAuthFlowStep('AUTHENTICATED');
-          setViewMode('console');
+          // Only switch directly to console if explicitly requested via URL parameter or hash
+          if (params.get('view') === 'console' || window.location.hash === '#console') {
+            setViewMode('console');
+          } else {
+            setViewMode('landing');
+          }
           fetchSecurityData();
           return;
         }
       }
 
-      // Default directly to Owner Registration / Sign Up window
+      // Default directly to Landing Page
       setAuthFlowStep('FIRST_LAUNCH_REGISTER');
-      setViewMode('auth');
+      setViewMode('landing');
     } catch {
       setAuthFlowStep('FIRST_LAUNCH_REGISTER');
-      setViewMode('auth');
+      setViewMode('landing');
     }
   };
 
@@ -236,7 +235,7 @@ export default function App() {
     localStorage.removeItem('sangyan_access_token');
     setOwnerProfile(null);
     setAuthFlowStep('FIRST_LAUNCH_REGISTER');
-    setViewMode('auth');
+    setViewMode('landing');
     showToast('Securely logged out from Sangyan AI Investor Shield.');
   };
 
@@ -596,13 +595,13 @@ export default function App() {
     if (level === 'Needs Verification' || level === 'Review / Verify') {
       return { bg: 'rgba(245, 158, 11, 0.15)', color: '#fbbf24', border: 'rgba(245, 158, 11, 0.35)', icon: AlertTriangle, label: 'Needs Verification' };
     }
-    return { bg: 'rgba(16, 185, 129, 0.15)', color: '#34d399', border: 'rgba(16, 185, 129, 0.35)', icon: ShieldCheck, label: 'Low Concern' };
+    return { bg: 'rgba(229, 62, 62, 0.15)', color: '#e53e3e', border: 'rgba(229, 62, 62, 0.35)', icon: ShieldCheck, label: 'Low Concern' };
   };
 
   const getTierColor = (tier: ProtectionTier | string) => {
     if (tier === 'Quarantined / High Risk') return '#f87171';
     if (tier === 'Review / Verify') return '#fbbf24';
-    return '#34d399';
+    return '#e53e3e';
   };
 
   const filteredMessages = messages.filter((m) => {
@@ -632,8 +631,8 @@ export default function App() {
           right: '24px',
           backgroundColor: '#0f172a',
           color: '#f8fafc',
-          border: '1px solid rgba(59, 130, 246, 0.4)',
-          boxShadow: '0 12px 32px rgba(0, 0, 0, 0.7), 0 0 12px rgba(59, 130, 246, 0.25)',
+          border: '1px solid rgba(229, 62, 62, 0.4)',
+          boxShadow: '0 12px 32px rgba(0, 0, 0, 0.7), 0 0 12px rgba(229, 62, 62, 0.25)',
           padding: '12px 18px',
           borderRadius: '12px',
           zIndex: 10000,
@@ -647,7 +646,7 @@ export default function App() {
         }}
         className="animate-fade-in"
       >
-        <Bell style={{ width: '16px', height: '16px', color: '#60a5fa', flexShrink: 0 }} />
+        <Bell style={{ width: '16px', height: '16px', color: '#e53e3e', flexShrink: 0 }} />
         <span style={{ lineHeight: 1.4 }}>{toastMessage}</span>
         <button
           type="button"
@@ -697,34 +696,47 @@ export default function App() {
     );
   }
 
+  if (viewMode === 'landing') {
+    return (
+      <LandingPage
+        ownerProfile={ownerProfile}
+        onOpenConsole={() => {
+          // If already authenticated, go directly to console (dashboard)
+          if (ownerProfile) {
+            setViewMode('console');
+          } else {
+            // Not signed in — show Register (Sign Up) first
+            setAuthFlowStep('FIRST_LAUNCH_REGISTER');
+            setViewMode('auth');
+          }
+        }}
+        onOpenLogin={() => {
+          setAuthFlowStep('SECURE_LOGIN');
+          setViewMode('auth');
+        }}
+        onOpenRegister={() => {
+          setAuthFlowStep('FIRST_LAUNCH_REGISTER');
+          setViewMode('auth');
+        }}
+        onLogout={handleLogout}
+        onOpenDevices={() => setShowDeviceModal(true)}
+        onOpenSecurityPrivacy={() => setShowSecurityPrivacyModal(true)}
+      />
+    );
+  }
+
   if (viewMode === 'auth') {
     return (
-      <div style={{ minHeight: '100vh', backgroundColor: '#171717', position: 'relative' }}>
-        {/* Floating Quick Reference Preview Button */}
-        <div style={{ position: 'absolute', top: '16px', right: '20px', zIndex: 100 }}>
-          <button
-            onClick={() => setActiveNav('academy')}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              backgroundColor: 'rgba(255, 92, 141, 0.15)',
-              color: '#FF5C8D',
-              border: '1px solid rgba(255, 92, 141, 0.35)',
-              padding: '8px 14px',
-              borderRadius: '20px',
-              fontSize: '12px',
-              fontWeight: 700,
-              cursor: 'pointer',
-              backdropFilter: 'blur(10px)',
-              transition: 'all 0.18s ease',
-            }}
-            title="Preview 16:9 Video Lesson Hero (Josh Garrison Reference Spec)"
-          >
-            <Video style={{ width: '14px', height: '14px' }} />
-            🎓 Video Lesson Hero (16:9)
-          </button>
-        </div>
+      <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-primary)', position: 'relative' }}>
+        {/* Unified Top Bar */}
+        <AppTopBar
+          mode="auth"
+          ownerProfile={null}
+          onOpenLanding={() => setViewMode('landing')}
+          onOpenLogin={() => setAuthFlowStep('SECURE_LOGIN')}
+          onOpenRegister={() => setAuthFlowStep('FIRST_LAUNCH_REGISTER')}
+        />
+        <div style={{ paddingTop: '56px' }}>
         {renderToastNotification()}
         {authFlowStep === 'FIRST_LAUNCH_REGISTER' && (
           <OwnerRegistration
@@ -783,6 +795,7 @@ export default function App() {
             onSwitchToRegister={() => setAuthFlowStep('FIRST_LAUNCH_REGISTER')}
           />
         )}
+        </div>
       </div>
     );
   }
@@ -791,308 +804,27 @@ export default function App() {
     <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-primary)', color: 'var(--text-main)' }}>
       {renderToastNotification()}
 
-      {/* Main Top Header */}
-      {/* Main Top Header - Premium Security Command Bar */}
-      <header
-        className="glossy-reflection"
-        style={{
-          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-          backgroundColor: 'rgba(8, 11, 15, 0.92)',
-          backdropFilter: 'blur(20px) saturate(140%)',
-          position: 'sticky',
-          top: 0,
-          zIndex: 100,
-          padding: '12px 28px',
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.45)',
-        }}
-      >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
-          {/* Logo & Product Title */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-            <div
-              style={{
-                width: '42px',
-                height: '42px',
-                borderRadius: '12px',
-                backgroundColor: 'rgba(32, 217, 138, 0.08)',
-                border: '1px solid rgba(32, 217, 138, 0.28)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: '0 0 20px rgba(32, 217, 138, 0.18)',
-              }}
-              className="animate-breathing"
-            >
-              <Shield style={{ width: '22px', height: '22px', color: '#20D98A' }} />
-            </div>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <h1 style={{ fontSize: '18px', fontWeight: 900, letterSpacing: '0.03em', margin: 0, color: '#FFFFFF' }}>
-                  IN.V. PROTECT
-                </h1>
-                <span
-                  style={{
-                    fontSize: '10px',
-                    fontWeight: 700,
-                    textTransform: 'uppercase',
-                    backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                    color: '#AEB7C2',
-                    padding: '3px 10px',
-                    borderRadius: '12px',
-                    border: '1px solid rgba(255, 255, 255, 0.12)',
-                    letterSpacing: '0.05em',
-                  }}
-                >
-                  Personal Digital Security Layer for Investors
-                </span>
-              </div>
-              <p style={{ fontSize: '12px', color: '#AEB7C2', margin: 0 }}>
-                {language === 'en'
-                  ? 'Continuous Device Firewall & Official Regulatory Verification Engine (SEBI, RBI, I4C grounded)'
-                  : 'भारतीय निवेशकों के लिए निरंतर डिजिटल वित्तीय सुरक्षा एवं साक्ष्य सत्यापन प्रणाली'}
-              </p>
-            </div>
-          </div>
+      {/* ── Unified Top Bar (same as landing & auth) ── */}
+      <AppTopBar
+        mode="console"
+        ownerProfile={ownerProfile}
+        onOpenLanding={() => setViewMode('landing')}
+        onLogout={handleLogout}
+        onOpenDevices={() => setShowDeviceModal(true)}
+        onOpenSecurityPrivacy={() => setShowSecurityPrivacyModal(true)}
+        onOpenDemoFlow={() => { setDemoFlowStepIndex(0); setShowDemoFlowModal(true); }}
+        onOpenWatchAlert={() => setShowSmartwatchModal(true)}
+        onOpenVerify={() => setShowVerifyModal(true)}
+        onOpenAcademy={() => setActiveNav('academy')}
+        onOpenSetup={() => { setOnboardingStep(1); setShowOnboardingModal(true); }}
+        language={language}
+        onSetLanguage={setLanguage}
+        systemProtected={true}
+      />
 
-          {/* Top Actions - Professional Command Controls */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-            {/* System Protected Live Status Indicator */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                backgroundColor: 'rgba(32, 217, 138, 0.08)',
-                color: '#20D98A',
-                border: '1px solid rgba(32, 217, 138, 0.28)',
-                padding: '6px 14px',
-                borderRadius: '20px',
-                fontSize: '11px',
-                fontWeight: 800,
-                letterSpacing: '0.06em',
-                boxShadow: '0 0 12px rgba(32, 217, 138, 0.12)',
-              }}
-            >
-              <div
-                style={{
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  backgroundColor: '#20D98A',
-                  boxShadow: '0 0 10px #20D98A',
-                }}
-                className="animate-breathing"
-              />
-              <span>● SYSTEM PROTECTED</span>
-            </div>
-
-            {/* Smartwatch Wrist Notification Preview */}
-            <button
-              type="button"
-              onClick={() => setShowSmartwatchModal(true)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                color: '#FFFFFF',
-                border: '1px solid rgba(255, 255, 255, 0.12)',
-                padding: '6px 12px',
-                borderRadius: '10px',
-                fontSize: '12px',
-                fontWeight: 700,
-                cursor: 'pointer',
-                transition: 'all 0.18s ease',
-              }}
-              title="Preview minimal Smartwatch Wrist Alert HUD"
-            >
-              <Watch style={{ width: '13px', height: '13px', color: '#20D98A' }} />
-              Watch Alert
-            </button>
-
-            {/* National Helpline 1930 Pill */}
-            <a
-              href="tel:1930"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                backgroundColor: 'rgba(255, 59, 59, 0.08)',
-                color: '#FF5252',
-                border: '1px solid rgba(255, 59, 59, 0.28)',
-                padding: '6px 12px',
-                borderRadius: '10px',
-                fontSize: '12px',
-                fontWeight: 700,
-                textDecoration: 'none',
-                transition: 'all 0.18s ease',
-              }}
-              title="National 24x7 Citizen Cyber Financial Fraud Helpline"
-            >
-              <PhoneCall style={{ width: '13px', height: '13px' }} />
-              Helpline 1930
-            </a>
-
-            {/* 9-Step Threat Interception Demo Trigger */}
-            <button
-              onClick={() => {
-                setDemoFlowStepIndex(0);
-                setShowDemoFlowModal(true);
-              }}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                backgroundColor: 'rgba(255, 176, 32, 0.08)',
-                color: '#FFB020',
-                border: '1px solid rgba(255, 176, 32, 0.28)',
-                padding: '6px 12px',
-                borderRadius: '10px',
-                fontSize: '12px',
-                fontWeight: 700,
-                cursor: 'pointer',
-                transition: 'all 0.18s ease',
-              }}
-              title="Run 9-Stage Fake SEBI Interception Demonstration"
-            >
-              <PlayCircle style={{ width: '13px', height: '13px', color: '#FFB020' }} />
-              ⚡ 9-Step Threat Demo
-            </button>
-
-            {/* Academy 16:9 Video Lesson Hero Trigger (Josh Garrison Reference Spec) */}
-            <button
-              onClick={() => setActiveNav('academy')}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                backgroundColor: 'rgba(255, 92, 141, 0.12)',
-                color: '#FF5C8D',
-                border: '1px solid rgba(255, 92, 141, 0.35)',
-                padding: '6px 12px',
-                borderRadius: '10px',
-                fontSize: '12px',
-                fontWeight: 700,
-                cursor: 'pointer',
-                transition: 'all 0.18s ease',
-              }}
-              title="Open 16:9 Academy Video Player (Josh Garrison Reference)"
-            >
-              <Video style={{ width: '13px', height: '13px', color: '#FF5C8D' }} />
-              🎓 Academy Lesson (16:9)
-            </button>
-
-            <button
-              onClick={() => setShowVerifyModal(true)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                color: '#FFFFFF',
-                border: '1px solid rgba(255, 255, 255, 0.12)',
-                padding: '6px 12px',
-                borderRadius: '10px',
-                fontSize: '12px',
-                fontWeight: 600,
-                cursor: 'pointer',
-                transition: 'all 0.18s ease',
-              }}
-            >
-              <Search style={{ width: '13px', height: '13px', color: '#AEB7C2' }} />
-              Verify SEBI ID
-            </button>
-
-            {/* 9-Stage Attack Demo Walkthrough Trigger */}
-            <button
-              onClick={() => {
-                fetchSecurityData();
-                setShowDemoFlowModal(true);
-              }}
-              style={{
-                backgroundColor: 'rgba(255, 59, 59, 0.08)',
-                color: '#FF5252',
-                border: '1px solid rgba(255, 59, 59, 0.28)',
-                padding: '6px 12px',
-                borderRadius: '10px',
-                fontSize: '12px',
-                fontWeight: 700,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                cursor: 'pointer',
-                transition: 'all 0.18s ease',
-              }}
-              title="Run interactive 9-stage scam interception walkthrough"
-            >
-              <PlayCircle style={{ width: '13px', height: '13px' }} />
-              ⚡ 9-Stage Attack Demo
-            </button>
-
-            {/* Local Setup Wizard Button */}
-            <button
-              onClick={() => {
-                setOnboardingStep(1);
-                setShowOnboardingModal(true);
-              }}
-              style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                color: '#AEB7C2',
-                border: '1px solid rgba(255, 255, 255, 0.12)',
-                padding: '6px 12px',
-                borderRadius: '10px',
-                fontSize: '12px',
-                fontWeight: 600,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                cursor: 'pointer',
-                transition: 'all 0.18s ease',
-              }}
-            >
-              <Sliders style={{ width: '13px', height: '13px' }} />
-              Setup Wizard
-            </button>
-
-            {/* 3-Language Selector: English / हिन्दी / Hinglish */}
-            <div style={{ display: 'flex', backgroundColor: 'rgba(255, 255, 255, 0.04)', borderRadius: '10px', border: '1px solid rgba(255, 255, 255, 0.10)', padding: '2px' }}>
-              {(['en', 'hi', 'hinglish'] as const).map((lang) => (
-                <button
-                  key={lang}
-                  onClick={() => setLanguage(lang)}
-                  style={{
-                    backgroundColor: language === lang ? 'rgba(255, 255, 255, 0.12)' : 'transparent',
-                    color: language === lang ? '#FFFFFF' : '#6F7A86',
-                    border: 'none',
-                    padding: '4px 9px',
-                    borderRadius: '8px',
-                    fontSize: '11px',
-                    fontWeight: 700,
-                    textTransform: 'capitalize',
-                    cursor: 'pointer',
-                    transition: 'all 0.15s ease',
-                  }}
-                >
-                  {lang === 'en' ? 'EN' : lang === 'hi' ? 'हिन्दी' : 'Hinglish'}
-                </button>
-              ))}
-            </div>
-
-            {/* Owner Profile Badge & Quick Menu */}
-            {ownerProfile && (
-              <OwnerProfileBadge
-                profile={ownerProfile}
-                onOpenDevices={() => setShowDeviceModal(true)}
-                onOpenSecurityPrivacy={() => setShowSecurityPrivacyModal(true)}
-                onLogout={handleLogout}
-              />
-            )}
-          </div>
-        </div>
-      </header>
 
       {/* Main Container with Professional Sidebar */}
-      <div style={{ display: 'flex', minHeight: 'calc(100vh - 65px)', backgroundColor: 'var(--bg-primary)' }}>
+      <div style={{ display: 'flex', minHeight: 'calc(100vh - 56px)', backgroundColor: 'var(--bg-primary)', marginTop: '56px' }}>
         {/* Professional FinTech Sidebar */}
         <AppSidebar
           activeNav={activeNav}
@@ -1101,10 +833,11 @@ export default function App() {
           reviewCount={reviewMessages.length}
           incidentsCount={incidents.length}
           onEmergencyCall={() => window.open('tel:1930')}
+          onOpenLanding={() => setViewMode('landing')}
         />
 
         {/* Main Content Area */}
-        <main style={{ flex: 1, padding: '24px 32px', maxWidth: '1440px', overflowX: 'hidden', paddingBottom: '90px' }}>
+        <main style={{ flex: 1, padding: '24px 32px', maxWidth: '1440px', overflowX: 'hidden', paddingBottom: '32px' }}>
           {/* ============================================================== */}
           {/* VIEW 1: DASHBOARD                                              */}
           {/* ============================================================== */}
@@ -1149,13 +882,13 @@ export default function App() {
                       width: '8px',
                       height: '8px',
                       borderRadius: '50%',
-                      backgroundColor: '#20D98A',
-                      boxShadow: '0 0 10px #20D98A',
+                      backgroundColor: '#e53e3e',
+                      boxShadow: '0 0 10px #e53e3e',
                       display: 'inline-block',
                     }}
                     className="animate-breathing"
                   />
-                  <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.10em', color: '#20D98A' }}>
+                  <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.10em', color: '#e53e3e' }}>
                     CONTINUOUS INVESTOR DEFENSE ACTIVE
                   </span>
                   <span style={{ fontSize: '11px', color: '#6F7A86' }}>•</span>
@@ -1171,7 +904,7 @@ export default function App() {
                 </p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '18px', marginTop: '14px', flexWrap: 'wrap' }}>
                   <div style={{ fontSize: '12px', color: '#AEB7C2' }}>
-                    Posture Score: <strong style={{ color: '#20D98A', fontWeight: 800 }}>{dailyReport?.posture_score || 96}/100</strong>
+                    Posture Score: <strong style={{ color: '#e53e3e', fontWeight: 800 }}>{dailyReport?.posture_score || 96}/100</strong>
                   </div>
                   <div style={{ fontSize: '12px', color: '#AEB7C2' }}>
                     Clean Rate: <strong style={{ color: '#FFFFFF', fontWeight: 800 }}>{dailyReport?.clean_rate || '98.4%'}</strong>
@@ -1201,7 +934,7 @@ export default function App() {
                     transition: 'all 0.18s ease',
                   }}
                 >
-                  <FileSearch style={{ width: '15px', height: '15px', color: '#20D98A' }} />
+                  <FileSearch style={{ width: '15px', height: '15px', color: '#e53e3e' }} />
                   Deep Analysis Studio
                 </button>
                 <button
@@ -1242,7 +975,7 @@ export default function App() {
                 { label: 'Messages Analyzed', val: overview?.messages_analysed ?? messages.length, color: '#FFFFFF', icon: Inbox, tint: 'rgba(255, 255, 255, 0.08)', border: 'rgba(255, 255, 255, 0.10)' },
                 { label: 'Quarantined High-Risk', val: quarantinedMessages.length, color: '#FF5252', icon: AlertOctagon, tint: 'rgba(255, 59, 59, 0.08)', border: 'rgba(255, 59, 59, 0.25)' },
                 { label: 'Review / Verify', val: reviewMessages.length, color: '#FFB020', icon: AlertTriangle, tint: 'rgba(255, 176, 32, 0.08)', border: 'rgba(255, 176, 32, 0.25)' },
-                { label: 'Trusted / Important', val: trustedMessages.length, color: '#20D98A', icon: CheckCircle2, tint: 'rgba(32, 217, 138, 0.08)', border: 'rgba(32, 217, 138, 0.25)' },
+                { label: 'Trusted / Important', val: trustedMessages.length, color: '#e53e3e', icon: CheckCircle2, tint: 'rgba(229, 62, 62, 0.08)', border: 'rgba(229, 62, 62, 0.25)' },
               ].map((card, idx) => {
                 const Icon = card.icon;
                 return (
@@ -1300,9 +1033,9 @@ export default function App() {
                     fontWeight: 700,
                     padding: '4px 12px',
                     borderRadius: '8px',
-                    backgroundColor: 'rgba(32, 217, 138, 0.08)',
-                    color: '#20D98A',
-                    border: '1px solid rgba(32, 217, 138, 0.28)',
+                    backgroundColor: 'rgba(229, 62, 62, 0.08)',
+                    color: '#e53e3e',
+                    border: '1px solid rgba(229, 62, 62, 0.28)',
                     letterSpacing: '0.04em',
                   }}
                 >
@@ -1324,7 +1057,7 @@ export default function App() {
                   <span style={{ fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.10em', color: '#6F7A86' }}>
                     SOC Pipeline Architecture
                   </span>
-                  <span style={{ fontSize: '10px', color: '#20D98A', fontWeight: 700 }}>
+                  <span style={{ fontSize: '10px', color: '#e53e3e', fontWeight: 700 }}>
                     ● 9 Sequential Verification Stages Active
                   </span>
                 </div>
@@ -1501,7 +1234,7 @@ export default function App() {
                         </>
                       ) : (
                         <>
-                          <FileSearch style={{ width: '14px', height: '14px', color: '#20D98A' }} />
+                          <FileSearch style={{ width: '14px', height: '14px', color: '#e53e3e' }} />
                           Run Core Scam Inspection
                         </>
                       )}
@@ -1521,7 +1254,7 @@ export default function App() {
                         ? 'rgba(255, 59, 59, 0.40)'
                         : quickAnalyzeResult.risk_level === 'Needs Verification'
                         ? 'rgba(255, 176, 32, 0.40)'
-                        : 'rgba(32, 217, 138, 0.40)'
+                        : 'rgba(229, 62, 62, 0.40)'
                     }`,
                     borderRadius: '14px',
                     padding: '20px',
@@ -1541,19 +1274,19 @@ export default function App() {
                               ? 'rgba(255, 59, 59, 0.12)'
                               : quickAnalyzeResult.risk_level === 'Needs Verification'
                               ? 'rgba(255, 176, 32, 0.12)'
-                              : 'rgba(32, 217, 138, 0.12)',
+                              : 'rgba(229, 62, 62, 0.12)',
                           color:
                             quickAnalyzeResult.risk_level === 'High Concern'
                               ? '#FF5252'
                               : quickAnalyzeResult.risk_level === 'Needs Verification'
                               ? '#FFB020'
-                              : '#20D98A',
+                              : '#e53e3e',
                           border: `1px solid ${
                             quickAnalyzeResult.risk_level === 'High Concern'
                               ? 'rgba(255, 59, 59, 0.30)'
                               : quickAnalyzeResult.risk_level === 'Needs Verification'
                               ? 'rgba(255, 176, 32, 0.30)'
-                              : 'rgba(32, 217, 138, 0.30)'
+                              : 'rgba(229, 62, 62, 0.30)'
                           }`,
                         }}
                       >
@@ -1572,7 +1305,7 @@ export default function App() {
 
                       {quickAnalyzeResult.pii_redacted_stats && (
                         <span style={{ fontSize: '11px', color: '#AEB7C2', backgroundColor: 'rgba(255, 255, 255, 0.06)', padding: '3px 8px', borderRadius: '6px' }}>
-                          PII Scrubbed: <strong style={{ color: '#20D98A' }}>{quickAnalyzeResult.pii_redacted_stats.total_redactions} elements</strong>
+                          PII Scrubbed: <strong style={{ color: '#e53e3e' }}>{quickAnalyzeResult.pii_redacted_stats.total_redactions} elements</strong>
                         </span>
                       )}
                     </div>
@@ -1600,7 +1333,7 @@ export default function App() {
                           </div>
                         ))}
                         {quickAnalyzeResult.detected_signals.length === 0 && (
-                          <div style={{ fontSize: '12px', color: '#20D98A' }}>No predatory scam signals detected.</div>
+                          <div style={{ fontSize: '12px', color: '#e53e3e' }}>No predatory scam signals detected.</div>
                         )}
                       </div>
                     </div>
@@ -1614,7 +1347,7 @@ export default function App() {
                           <div key={eIdx} style={{ fontSize: '12px', color: '#FFFFFF' }}>
                             <div style={{ fontWeight: 600, display: 'flex', justifyContent: 'space-between' }}>
                               <span>{ev.publisher} — {ev.title}</span>
-                              <span style={{ fontSize: '10px', color: ev.verification_status === 'CONTRADICTED' ? '#FF5252' : '#20D98A' }}>
+                              <span style={{ fontSize: '10px', color: ev.verification_status === 'CONTRADICTED' ? '#FF5252' : '#e53e3e' }}>
                                 {ev.verification_status || 'VERIFIED'}
                               </span>
                             </div>
@@ -1656,7 +1389,7 @@ export default function App() {
                   {[
                     { id: 'quarantine', label: '🛑 Quarantine / High Risk', count: quarantinedMessages.length, color: '#FF5252' },
                     { id: 'review', label: '⚠️ Review / Verify', count: reviewMessages.length, color: '#FFB020' },
-                    { id: 'trusted', label: '🛡️ Trusted / Important', count: trustedMessages.length, color: '#20D98A' },
+                    { id: 'trusted', label: '🛡️ Trusted / Important', count: trustedMessages.length, color: '#e53e3e' },
                   ].map((tab) => (
                     <button
                       key={tab.id}
@@ -1862,9 +1595,9 @@ export default function App() {
                           <button
                             onClick={() => handleMessageAction(msg.id, 'mark_safe')}
                             style={{
-                              backgroundColor: 'rgba(32, 217, 138, 0.08)',
-                              color: '#20D98A',
-                              border: '1px solid rgba(32, 217, 138, 0.28)',
+                              backgroundColor: 'rgba(229, 62, 62, 0.08)',
+                              color: '#e53e3e',
+                              border: '1px solid rgba(229, 62, 62, 0.28)',
                               padding: '6px 12px',
                               borderRadius: '8px',
                               fontSize: '11px',
@@ -1915,7 +1648,7 @@ export default function App() {
               {/* TIER 3: TRUSTED / IMPORTANT */}
               {activeTierTab === 'trusted' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                  <div style={{ backgroundColor: 'rgba(32, 217, 138, 0.08)', border: '1px solid rgba(32, 217, 138, 0.25)', borderRadius: '12px', padding: '12px 16px', fontSize: '12px', color: '#20D98A' }}>
+                  <div style={{ backgroundColor: 'rgba(229, 62, 62, 0.08)', border: '1px solid rgba(229, 62, 62, 0.25)', borderRadius: '12px', padding: '12px 16px', fontSize: '12px', color: '#e53e3e' }}>
                     <strong>Authorized Communications:</strong> Official notices from SEBI-registered depositories, stock exchanges, or verified financial institutions.
                   </div>
 
@@ -1924,8 +1657,8 @@ export default function App() {
                       key={msg.id}
                       className="glass-panel"
                       style={{
-                        backgroundColor: 'rgba(32, 217, 138, 0.04)',
-                        border: '1px solid rgba(32, 217, 138, 0.28)',
+                        backgroundColor: 'rgba(229, 62, 62, 0.04)',
+                        border: '1px solid rgba(229, 62, 62, 0.28)',
                         borderRadius: '14px',
                         padding: '18px 20px',
                         boxShadow: '0 8px 24px rgba(0, 0, 0, 0.35)',
@@ -1933,15 +1666,15 @@ export default function App() {
                     >
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', flexWrap: 'wrap', gap: '10px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <span style={{ fontSize: '10px', fontWeight: 800, padding: '3px 10px', borderRadius: '6px', backgroundColor: 'rgba(32, 217, 138, 0.15)', color: '#20D98A', border: '1px solid rgba(32, 217, 138, 0.35)', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
-                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#20D98A' }} />
+                          <span style={{ fontSize: '10px', fontWeight: 800, padding: '3px 10px', borderRadius: '6px', backgroundColor: 'rgba(32, 217, 138, 0.15)', color: '#e53e3e', border: '1px solid rgba(32, 217, 138, 0.35)', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#e53e3e' }} />
                             TRUSTED / IMPORTANT
                           </span>
                           <strong style={{ fontSize: '13px', color: '#FFFFFF' }}>{msg.sender}</strong>
                           <span style={{ fontSize: '11px', color: '#AEB7C2' }}>via {msg.source_channel} • {msg.timestamp}</span>
                         </div>
 
-                        <span style={{ fontSize: '11px', color: '#20D98A', fontWeight: 700 }}>
+                        <span style={{ fontSize: '11px', color: '#e53e3e', fontWeight: 700 }}>
                           ✓ Authoritative Source Confirmed
                         </span>
                       </div>
@@ -1950,7 +1683,7 @@ export default function App() {
                         {msg.content}
                       </p>
 
-                      <div style={{ fontSize: '12px', color: '#20D98A', backgroundColor: 'rgba(0, 0, 0, 0.35)', padding: '10px 14px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.06)' }}>
+                      <div style={{ fontSize: '12px', color: '#e53e3e', backgroundColor: 'rgba(0, 0, 0, 0.35)', padding: '10px 14px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.06)' }}>
                         <strong>Verification:</strong> {msg.snippet}
                       </div>
                     </div>
@@ -1979,8 +1712,8 @@ export default function App() {
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <div style={{ width: '28px', height: '28px', borderRadius: '8px', backgroundColor: 'rgba(32, 217, 138, 0.10)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <ShieldCheck style={{ width: '16px', height: '16px', color: '#20D98A' }} />
+                    <div style={{ width: '28px', height: '28px', borderRadius: '8px', backgroundColor: 'rgba(229, 62, 62, 0.10)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <ShieldCheck style={{ width: '16px', height: '16px', color: '#e53e3e' }} />
                     </div>
                     <h2 style={{ fontSize: '17px', fontWeight: 800, margin: 0, color: '#FFFFFF' }}>Daily Security Report</h2>
                   </div>
@@ -1992,7 +1725,7 @@ export default function App() {
                 {/* Large 96 Posture Score Display */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '18px', backgroundColor: 'rgba(0, 0, 0, 0.35)', padding: '16px 20px', borderRadius: '14px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
                   <div style={{ textAlign: 'center', minWidth: '90px' }}>
-                    <div style={{ fontSize: '42px', fontWeight: 900, color: '#20D98A', lineHeight: 1, letterSpacing: '-0.03em', textShadow: '0 0 20px rgba(32, 217, 138, 0.35)' }}>
+                    <div style={{ fontSize: '42px', fontWeight: 900, color: '#e53e3e', lineHeight: 1, letterSpacing: '-0.03em', textShadow: '0 0 20px rgba(32, 217, 138, 0.35)' }}>
                       {dailyReport?.posture_score || 96}
                     </div>
                     <div style={{ fontSize: '10px', color: '#6F7A86', textTransform: 'uppercase', marginTop: '6px', fontWeight: 800, letterSpacing: '0.10em' }}>
@@ -2014,7 +1747,7 @@ export default function App() {
                     <div style={{ fontSize: '10px', color: '#6F7A86', marginTop: '2px', textTransform: 'uppercase', fontWeight: 700 }}>Neutralized</div>
                   </div>
                   <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.04)', padding: '12px 10px', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                    <div style={{ fontSize: '20px', fontWeight: 800, color: '#20D98A' }}>{dailyReport?.clean_rate || '50.0%'}</div>
+                    <div style={{ fontSize: '20px', fontWeight: 800, color: '#e53e3e' }}>{dailyReport?.clean_rate || '50.0%'}</div>
                     <div style={{ fontSize: '10px', color: '#6F7A86', marginTop: '2px', textTransform: 'uppercase', fontWeight: 700 }}>Clear Rate</div>
                   </div>
                 </div>
@@ -2030,7 +1763,7 @@ export default function App() {
                       'SEBI/RBI/I4C Regulatory Evidence RAG',
                     ]).map((sf, idx) => (
                       <div key={idx} style={{ fontSize: '12px', color: '#AEB7C2', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <CheckCircle2 style={{ width: '14px', height: '14px', color: '#20D98A', flexShrink: 0 }} />
+                        <CheckCircle2 style={{ width: '14px', height: '14px', color: '#e53e3e', flexShrink: 0 }} />
                         <span>{sf}</span>
                       </div>
                     ))}
@@ -2053,8 +1786,8 @@ export default function App() {
                     </div>
                     <h2 style={{ fontSize: '17px', fontWeight: 800, margin: 0, color: '#FFFFFF' }}>Investor Safety Review</h2>
                   </div>
-                  <span style={{ fontSize: '11px', color: '#20D98A', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '5px' }}>
-                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#20D98A' }} />
+                  <span style={{ fontSize: '11px', color: '#e53e3e', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#e53e3e' }} />
                     Audited {safetyReview?.last_audited || 'Just now'}
                   </span>
                 </div>
@@ -2068,7 +1801,7 @@ export default function App() {
                       5-Point Investor Digital Hygiene Security Audit
                     </div>
                   </div>
-                  <div style={{ fontSize: '24px', fontWeight: 900, color: '#20D98A', letterSpacing: '-0.02em' }}>
+                  <div style={{ fontSize: '24px', fontWeight: 900, color: '#e53e3e', letterSpacing: '-0.02em' }}>
                     {safetyReview?.safety_score || 92}%
                   </div>
                 </div>
@@ -2086,7 +1819,7 @@ export default function App() {
                     const isWarning = item.status === 'WARNING';
 
                     const pillBg = isPassed
-                      ? 'rgba(32, 217, 138, 0.12)'
+                      ? 'rgba(229, 62, 62, 0.12)'
                       : isVerified
                       ? 'rgba(255, 176, 32, 0.12)'
                       : isWarning
@@ -2094,7 +1827,7 @@ export default function App() {
                       : 'rgba(255, 59, 59, 0.12)';
 
                     const pillColor = isPassed
-                      ? '#20D98A'
+                      ? '#e53e3e'
                       : isVerified
                       ? '#FFB020'
                       : isWarning
@@ -2102,7 +1835,7 @@ export default function App() {
                       : '#FF5252';
 
                     const pillBorder = isPassed
-                      ? 'rgba(32, 217, 138, 0.30)'
+                      ? 'rgba(229, 62, 62, 0.30)'
                       : isVerified
                       ? 'rgba(255, 176, 32, 0.30)'
                       : isWarning
@@ -2294,7 +2027,7 @@ export default function App() {
 
                       <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '12px', marginTop: '8px' }}>
                         <div style={{ fontSize: '11px', color: '#FFFFFF', marginBottom: '4px' }}>
-                          <strong style={{ color: '#20D98A' }}>Defensive Rule:</strong> {trend.defensive_advice}
+                          <strong style={{ color: '#e53e3e' }}>Defensive Rule:</strong> {trend.defensive_advice}
                         </div>
                         <div style={{ fontSize: '10px', color: '#6F7A86' }}>
                           Authority: {trend.regulatory_warning.slice(0, 75)}...
@@ -2373,7 +2106,7 @@ export default function App() {
                             style={{
                               fontSize: '11px',
                               fontWeight: 800,
-                              color: itg.status === 'CONNECTED' ? '#20D98A' : itg.status === 'AVAILABLE' ? '#AEB7C2' : '#FFB020',
+                              color: itg.status === 'CONNECTED' ? '#e53e3e' : itg.status === 'AVAILABLE' ? '#AEB7C2' : '#FFB020',
                               display: 'inline-flex',
                               alignItems: 'center',
                               gap: '6px',
@@ -2384,7 +2117,7 @@ export default function App() {
                                 width: '6px',
                                 height: '6px',
                                 borderRadius: '50%',
-                                backgroundColor: itg.status === 'CONNECTED' ? '#20D98A' : itg.status === 'AVAILABLE' ? '#AEB7C2' : '#FFB020',
+                                backgroundColor: itg.status === 'CONNECTED' ? '#e53e3e' : itg.status === 'AVAILABLE' ? '#AEB7C2' : '#FFB020',
                               }}
                             />
                             {itg.status}
@@ -2497,7 +2230,7 @@ export default function App() {
                             borderRadius: '4px',
                             backgroundColor: 'var(--bg-card)',
                             border: '1px solid var(--border-color)',
-                            color: '#60a5fa',
+                            color: '#e53e3e',
                           }}
                         >
                           {msg.source_channel}
@@ -2557,7 +2290,7 @@ export default function App() {
                             style={{
                               fontSize: '11px',
                               backgroundColor: 'var(--bg-card)',
-                              color: clm.verification_status === 'Contradicted' ? '#f87171' : clm.verification_status === 'Supported' ? '#34d399' : '#fbbf24',
+                              color: clm.verification_status === 'Contradicted' ? '#f87171' : clm.verification_status === 'Supported' ? '#e53e3e' : '#fbbf24',
                               border: '1px solid var(--border-color)',
                               padding: '2px 8px',
                               borderRadius: '6px',
@@ -2574,7 +2307,7 @@ export default function App() {
                       <button
                         onClick={() => setSelectedMessage(msg)}
                         style={{
-                          backgroundColor: '#2563eb',
+                          backgroundColor: '#e53e3e',
                           color: '#ffffff',
                           padding: '7px 14px',
                           borderRadius: '6px',
@@ -2708,7 +2441,7 @@ export default function App() {
                 {demoExamples.map((demo) => {
                   const isHigh = demo.title.includes('High Concern') || demo.title.includes('Scam') || demo.title.includes('Theft');
                   const isVerification = demo.title.includes('Needs Verification') || demo.title.includes('Ambiguous');
-                  const color = isHigh ? '#f87171' : isVerification ? '#fbbf24' : '#34d399';
+                  const color = isHigh ? '#f87171' : isVerification ? '#fbbf24' : '#e53e3e';
                   return (
                     <button
                       key={demo.id}
@@ -2761,7 +2494,7 @@ export default function App() {
                         backgroundColor: activeTab === tab.id ? 'var(--bg-card)' : 'transparent',
                         color: activeTab === tab.id ? '#ffffff' : 'var(--text-muted)',
                         fontWeight: activeTab === tab.id ? 700 : 500,
-                        borderBottom: activeTab === tab.id ? '2px solid #3b82f6' : 'none',
+                        borderBottom: activeTab === tab.id ? '2px solid #e53e3e' : 'none',
                       }}
                     >
                       <Icon style={{ width: '16px', height: '16px' }} />
@@ -2785,7 +2518,7 @@ export default function App() {
                       onClick={handleAnalyze}
                       disabled={loading || !inputText.trim()}
                       style={{
-                        backgroundColor: '#2563eb',
+                        backgroundColor: '#e53e3e',
                         color: '#ffffff',
                         padding: '10px 24px',
                         borderRadius: '8px',
@@ -2822,7 +2555,7 @@ export default function App() {
                       onClick={handleAnalyzeUpload}
                       disabled={loading || !selectedFile}
                       style={{
-                        backgroundColor: '#2563eb',
+                        backgroundColor: '#e53e3e',
                         color: '#ffffff',
                         padding: '10px 24px',
                         borderRadius: '8px',
@@ -2849,7 +2582,7 @@ export default function App() {
                       onClick={handleAnalyzeUrl}
                       disabled={loading || !inputUrl.trim()}
                       style={{
-                        backgroundColor: '#2563eb',
+                        backgroundColor: '#e53e3e',
                         color: '#ffffff',
                         padding: '10px 24px',
                         borderRadius: '8px',
@@ -2876,7 +2609,7 @@ export default function App() {
               <div style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '20px' }}>
                 <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '10px' }}>Domain Security Assessment</h3>
                 <div style={{ fontSize: '14px', marginBottom: '8px' }}>
-                  Risk Rating: <strong style={{ color: urlAnalysisResult.risk_rating === 'High Concern' ? '#f87171' : '#34d399' }}>{urlAnalysisResult.risk_rating}</strong>
+                  Risk Rating: <strong style={{ color: urlAnalysisResult.risk_rating === 'High Concern' ? '#f87171' : '#e53e3e' }}>{urlAnalysisResult.risk_rating}</strong>
                 </div>
                 <div style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '12px' }}>{urlAnalysisResult.action_guidance}</div>
                 {urlAnalysisResult.signals && (
@@ -2923,7 +2656,7 @@ export default function App() {
                         </span>
                       ) : (
                         <span>
-                          <strong style={{ color: '#34d399' }}>Low Concern</strong> — No acute scam signals detected
+                          <strong style={{ color: '#e53e3e' }}>Low Concern</strong> — No acute scam signals detected
                         </span>
                       )}
                     </div>
@@ -2935,11 +2668,11 @@ export default function App() {
                       <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', fontWeight: 700 }}>Red Flags</div>
                     </div>
                     <div style={{ backgroundColor: 'var(--bg-card)', padding: '10px 16px', borderRadius: '8px', textAlign: 'center', border: '1px solid var(--border-color)' }}>
-                      <div style={{ fontSize: '20px', fontWeight: 800, color: '#60a5fa' }}>{analysisResult.extracted_claims.length}</div>
+                      <div style={{ fontSize: '20px', fontWeight: 800, color: '#e53e3e' }}>{analysisResult.extracted_claims.length}</div>
                       <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', fontWeight: 700 }}>Claims</div>
                     </div>
                     <div style={{ backgroundColor: 'var(--bg-card)', padding: '10px 16px', borderRadius: '8px', textAlign: 'center', border: '1px solid var(--border-color)' }}>
-                      <div style={{ fontSize: '20px', fontWeight: 800, color: '#34d399' }}>{analysisResult.evidence.length}</div>
+                      <div style={{ fontSize: '20px', fontWeight: 800, color: '#e53e3e' }}>{analysisResult.evidence.length}</div>
                       <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', fontWeight: 700 }}>Regulatory Citations</div>
                     </div>
                   </div>
@@ -2947,7 +2680,7 @@ export default function App() {
 
                 {/* Evidence-Based Assessment Summary */}
                 <div style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '20px' }}>
-                  <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#60a5fa', marginBottom: '10px' }}>
+                  <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#e53e3e', marginBottom: '10px' }}>
                     📋 Evidence-Based Assessment
                   </h3>
                   <p style={{ fontSize: '14px', lineHeight: 1.6, color: 'var(--text-main)', whiteSpace: 'pre-line' }}>
@@ -2979,13 +2712,13 @@ export default function App() {
                   {/* Extracted Claims with Verification */}
                   <div style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '20px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
-                      <FileSearch style={{ width: '18px', height: '18px', color: '#60a5fa' }} />
+                      <FileSearch style={{ width: '18px', height: '18px', color: '#e53e3e' }} />
                       <h3 style={{ fontSize: '15px', fontWeight: 700 }}>Extracted Claims & Official Verification</h3>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                       {analysisResult.extracted_claims.map((claim, idx) => {
                         const ver = analysisResult.claim_verifications?.[idx];
-                        const statusColor = ver?.verification_status === 'Contradicted' ? '#f87171' : ver?.verification_status === 'Supported' ? '#34d399' : '#fbbf24';
+                        const statusColor = ver?.verification_status === 'Contradicted' ? '#f87171' : ver?.verification_status === 'Supported' ? '#e53e3e' : '#fbbf24';
                         return (
                           <div key={idx} style={{ backgroundColor: 'var(--bg-card)', padding: '12px', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
@@ -3011,14 +2744,14 @@ export default function App() {
                 {/* Authoritative Regulatory Evidence Cards */}
                 <div style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '20px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
-                    <Database style={{ width: '18px', height: '18px', color: '#34d399' }} />
+                    <Database style={{ width: '18px', height: '18px', color: '#e53e3e' }} />
                     <h3 style={{ fontSize: '15px', fontWeight: 700 }}>Authoritative Regulatory Evidence (SEBI / I4C / RBI / CERT-In)</h3>
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '14px' }}>
                     {analysisResult.evidence.map((ev, idx) => (
-                      <div key={idx} style={{ backgroundColor: 'var(--bg-card)', border: '1px solid rgba(52, 211, 153, 0.25)', borderRadius: '8px', padding: '14px' }}>
+                      <div key={idx} style={{ backgroundColor: 'var(--bg-card)', border: '1px solid rgba(229, 62, 62, 0.25)', borderRadius: '8px', padding: '14px' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                          <span style={{ fontSize: '11px', fontWeight: 700, color: '#34d399' }}>{ev.publisher}</span>
+                          <span style={{ fontSize: '11px', fontWeight: 700, color: '#e53e3e' }}>{ev.publisher}</span>
                           <a href={ev.url} target="_blank" rel="noreferrer" style={{ fontSize: '11px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                             Verify Source <ExternalLink style={{ width: '11px', height: '11px' }} />
                           </a>
@@ -3033,7 +2766,7 @@ export default function App() {
                 {/* Contextual Safe Actions & Escalation Links */}
                 <div style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '20px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-                    <ShieldCheck style={{ width: '18px', height: '18px', color: '#34d399' }} />
+                    <ShieldCheck style={{ width: '18px', height: '18px', color: '#e53e3e' }} />
                     <h3 style={{ fontSize: '15px', fontWeight: 700 }}>Recommended Safe Actions</h3>
                   </div>
                   <ul style={{ paddingLeft: '20px', fontSize: '13px', color: 'var(--text-main)', lineHeight: 1.6, marginBottom: '16px' }}>
@@ -3066,7 +2799,7 @@ export default function App() {
                           }}
                         >
                           <span>{link.title}</span>
-                          <ExternalLink style={{ width: '12px', height: '12px', color: '#60a5fa' }} />
+                          <ExternalLink style={{ width: '12px', height: '12px', color: '#e53e3e' }} />
                         </a>
                       ))}
                     </div>
@@ -3154,7 +2887,7 @@ export default function App() {
                           else showToast('Evidence package ready. Directing to 1930.');
                         }}
                         style={{
-                          backgroundColor: '#2563eb',
+                          backgroundColor: '#e53e3e',
                           color: '#ffffff',
                           padding: '6px 12px',
                           borderRadius: '6px',
@@ -3247,14 +2980,14 @@ export default function App() {
             <div style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: '14px', padding: '24px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                 <h3 style={{ fontSize: '16px', fontWeight: 700, margin: 0 }}>Daily Investor Defense Scorecard</h3>
-                <span style={{ fontSize: '11px', color: '#10b981', fontWeight: 700, backgroundColor: 'rgba(16, 185, 129, 0.12)', padding: '3px 8px', borderRadius: '4px' }}>
+                <span style={{ fontSize: '11px', color: '#e53e3e', fontWeight: 700, backgroundColor: 'rgba(229, 62, 62, 0.12)', padding: '3px 8px', borderRadius: '4px' }}>
                   ACTIVE DEFENSE
                 </span>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
                 <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
                   <div style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase', fontWeight: 800 }}>Security Posture Score</div>
-                  <div style={{ fontSize: '28px', fontWeight: 900, color: '#10b981', marginTop: '6px' }}>{dailyReport?.posture_score || 94}/100</div>
+                  <div style={{ fontSize: '28px', fontWeight: 900, color: '#e53e3e', marginTop: '6px' }}>{dailyReport?.posture_score || 94}/100</div>
                   <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '4px' }}>High resilience to digital fraud attacks</div>
                 </div>
                 <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
@@ -3312,9 +3045,9 @@ export default function App() {
                   fontWeight: 700,
                   padding: '4px 10px',
                   borderRadius: '16px',
-                  backgroundColor: 'rgba(2, 195, 154, 0.08)',
-                  color: '#02C39A',
-                  border: '1px solid rgba(2, 195, 154, 0.25)',
+                  backgroundColor: 'rgba(229, 62, 62, 0.10)',
+                  color: '#e53e3e',
+                  border: '1px solid rgba(229, 62, 62, 0.30)',
                 }}
               >
                 Zero Fabrications • Real Registries
@@ -3346,7 +3079,7 @@ export default function App() {
                     outline: 'none',
                   }}
                   onFocus={(e) => {
-                    e.currentTarget.style.borderColor = '#02C39A';
+                    e.currentTarget.style.borderColor = '#e53e3e';
                   }}
                   onBlur={(e) => {
                     e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.10)';
@@ -3356,8 +3089,8 @@ export default function App() {
                   onClick={handleVerifyEntity}
                   disabled={verifyLoading}
                   style={{
-                    backgroundColor: '#02C39A',
-                    color: '#171717',
+                    backgroundColor: '#e53e3e',
+                    color: '#ffffff',
                     padding: '10px 20px',
                     borderRadius: '8px',
                     fontWeight: 800,
@@ -3379,7 +3112,7 @@ export default function App() {
                     border: '1px solid rgba(255, 255, 255, 0.08)',
                   }}
                 >
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: verifyResult.is_valid_format ? '#10B981' : '#EF4444', marginBottom: '4px' }}>
+                  <div style={{ fontSize: '13px', fontWeight: 800, color: verifyResult.is_valid_format ? '#e53e3e' : '#EF4444', marginBottom: '4px' }}>
                     {verifyResult.status}
                   </div>
                   <div style={{ fontSize: '12px', color: '#A7A7A7', marginBottom: '10px', lineHeight: 1.5 }}>
@@ -3391,7 +3124,7 @@ export default function App() {
                     rel="noreferrer"
                     style={{
                       fontSize: '12px',
-                      color: '#02C39A',
+                      color: '#e53e3e',
                       fontWeight: 600,
                       display: 'inline-flex',
                       alignItems: 'center',
@@ -3427,14 +3160,14 @@ export default function App() {
                           fontWeight: 800,
                           padding: '2px 8px',
                           borderRadius: '4px',
-                          backgroundColor: 'rgba(2, 195, 154, 0.12)',
-                          color: '#02C39A',
-                          border: '1px solid rgba(2, 195, 154, 0.25)',
+                          backgroundColor: 'rgba(229, 62, 62, 0.12)',
+                          color: '#e53e3e',
+                          border: '1px solid rgba(229, 62, 62, 0.30)',
                         }}
                       >
                         {src.publisher}
                       </span>
-                      <span style={{ fontSize: '11px', color: '#10B981', fontWeight: 600 }}>
+                      <span style={{ fontSize: '11px', color: '#e53e3e', fontWeight: 600 }}>
                         ✓ Source checked
                       </span>
                     </div>
@@ -3459,7 +3192,7 @@ export default function App() {
                       style={{
                         fontSize: '12px',
                         fontWeight: 700,
-                        color: '#02C39A',
+                        color: '#e53e3e',
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: '5px',
@@ -3510,7 +3243,7 @@ export default function App() {
                         ) : dev.device_type === 'Mobile Smartphone' ? (
                           <Smartphone style={{ width: '24px', height: '24px', color: '#38bdf8' }} />
                         ) : (
-                          <Laptop style={{ width: '24px', height: '24px', color: '#60a5fa' }} />
+                          <Laptop style={{ width: '24px', height: '24px', color: '#e53e3e' }} />
                         )}
                         <div>
                           <h3 style={{ fontSize: '15px', fontWeight: 700, margin: 0 }}>{dev.name}</h3>
@@ -3523,8 +3256,8 @@ export default function App() {
                           fontWeight: 700,
                           padding: '3px 8px',
                           borderRadius: '12px',
-                          backgroundColor: dev.status === 'PROTECTED' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(251, 191, 36, 0.15)',
-                          color: dev.status === 'PROTECTED' ? '#34d399' : '#fbbf24',
+                          backgroundColor: dev.status === 'PROTECTED' ? 'rgba(229, 62, 62, 0.15)' : 'rgba(251, 191, 36, 0.15)',
+                          color: dev.status === 'PROTECTED' ? '#e53e3e' : '#fbbf24',
                         }}
                       >
                         {dev.status}
@@ -3549,7 +3282,7 @@ export default function App() {
                     <button
                       onClick={handleTriggerWatchAlert}
                       style={{
-                        backgroundColor: '#2563eb',
+                        backgroundColor: '#e53e3e',
                         color: '#ffffff',
                         padding: '8px 14px',
                         borderRadius: '6px',
@@ -3616,7 +3349,7 @@ export default function App() {
                       >
                         {itg.is_real ? 'REAL CONNECTOR' : 'DEMO / SIMULATED'}
                       </span>
-                      <span style={{ fontSize: '12px', fontWeight: 700, color: itg.status === 'CONNECTED' ? '#34d399' : '#fbbf24' }}>
+                      <span style={{ fontSize: '12px', fontWeight: 700, color: itg.status === 'CONNECTED' ? '#e53e3e' : '#fbbf24' }}>
                         {itg.status}
                       </span>
                     </div>
@@ -3680,7 +3413,7 @@ export default function App() {
                     <button
                       onClick={() => setReportingIncident(inc)}
                       style={{
-                        backgroundColor: '#2563eb',
+                        backgroundColor: '#e53e3e',
                         color: '#ffffff',
                         padding: '8px 16px',
                         borderRadius: '6px',
@@ -3728,14 +3461,14 @@ export default function App() {
             </div>
 
             {privacyStatus && (
-              <div style={{ backgroundColor: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.3)', borderRadius: '10px', padding: '16px' }}>
-                <div style={{ fontSize: '13px', fontWeight: 700, color: '#34d399', marginBottom: '8px' }}>
+              <div style={{ backgroundColor: 'rgba(229, 62, 62, 0.1)', border: '1px solid rgba(229, 62, 62, 0.3)', borderRadius: '10px', padding: '16px' }}>
+                <div style={{ fontSize: '13px', fontWeight: 700, color: '#e53e3e', marginBottom: '8px' }}>
                   🛡 LIVE SECURITY & PRIVACY TELEMETRY
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px', fontSize: '12px' }}>
                   <div><span style={{ color: 'var(--text-faint)' }}>Encryption:</span> <strong style={{ color: 'var(--text-main)' }}>{privacyStatus.encryption_standard}</strong></div>
-                  <div><span style={{ color: 'var(--text-faint)' }}>Password Storage:</span> <strong style={{ color: '#34d399' }}>{privacyStatus.password_storage}</strong></div>
-                  <div><span style={{ color: 'var(--text-faint)' }}>OTP Retention:</span> <strong style={{ color: '#34d399' }}>{privacyStatus.otp_storage}</strong></div>
+                  <div><span style={{ color: 'var(--text-faint)' }}>Password Storage:</span> <strong style={{ color: '#e53e3e' }}>{privacyStatus.password_storage}</strong></div>
+                  <div><span style={{ color: 'var(--text-faint)' }}>OTP Retention:</span> <strong style={{ color: '#e53e3e' }}>{privacyStatus.otp_storage}</strong></div>
                   <div><span style={{ color: 'var(--text-faint)' }}>Audit Retention:</span> <strong style={{ color: 'var(--text-main)' }}>{privacyStatus.evidence_retention_days} Days (Configurable)</strong></div>
                 </div>
               </div>
@@ -3762,8 +3495,8 @@ export default function App() {
                     }}
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                      <Icon style={{ width: '20px', height: '20px', color: '#34d399' }} />
-                      <span style={{ fontSize: '10px', fontWeight: 800, color: '#34d399', backgroundColor: 'rgba(16, 185, 129, 0.15)', padding: '2px 6px', borderRadius: '4px' }}>
+                      <Icon style={{ width: '20px', height: '20px', color: '#e53e3e' }} />
+                      <span style={{ fontSize: '10px', fontWeight: 800, color: '#e53e3e', backgroundColor: 'rgba(229, 62, 62, 0.15)', padding: '2px 6px', borderRadius: '4px' }}>
                         {item.status}
                       </span>
                     </div>
@@ -3808,14 +3541,14 @@ export default function App() {
                     <Laptop style={{ width: '20px', height: '20px', color: '#38bdf8' }} />
                     <span style={{ fontSize: '14px', fontWeight: 800, color: '#38bdf8' }}>STAGE 1: INVESTOR DEVICE ECOSYSTEM</span>
                   </div>
-                  <span style={{ fontSize: '11px', fontWeight: 700, color: '#34d399', backgroundColor: 'rgba(16, 185, 129, 0.15)', padding: '2px 8px', borderRadius: '6px' }}>
+                  <span style={{ fontSize: '11px', fontWeight: 700, color: '#e53e3e', backgroundColor: 'rgba(229, 62, 62, 0.15)', padding: '2px 8px', borderRadius: '6px' }}>
                     3 TIERS ACTIVE
                   </span>
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '10px', marginTop: '12px' }}>
                   <div style={{ backgroundColor: 'var(--bg-card)', padding: '10px 14px', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 700, color: '#ffffff' }}>
-                      <Laptop style={{ width: '14px', height: '14px', color: '#60a5fa' }} /> PC Workstation / Browser
+                      <Laptop style={{ width: '14px', height: '14px', color: '#e53e3e' }} /> PC Workstation / Browser
                     </div>
                     <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '4px' }}>
                       Full dashboard, deep ML forensic analysis, URL inspection, and evidence dossiers.
@@ -3844,13 +3577,13 @@ export default function App() {
               <div style={{ fontSize: '18px', color: '#38bdf8', fontWeight: 900 }}>↓</div>
 
               {/* STAGE 2: COMMUNICATION INGESTION */}
-              <div style={{ width: '100%', backgroundColor: 'var(--bg-secondary)', border: '1px solid #60a5fa', borderRadius: '12px', padding: '18px 22px' }}>
+              <div style={{ width: '100%', backgroundColor: 'var(--bg-secondary)', border: '1px solid #e53e3e', borderRadius: '12px', padding: '18px 22px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <Radio style={{ width: '20px', height: '20px', color: '#60a5fa' }} />
-                    <span style={{ fontSize: '14px', fontWeight: 800, color: '#60a5fa' }}>STAGE 2: COMMUNICATION INGESTION CONNECTORS</span>
+                    <Radio style={{ width: '20px', height: '20px', color: '#e53e3e' }} />
+                    <span style={{ fontSize: '14px', fontWeight: 800, color: '#e53e3e' }}>STAGE 2: COMMUNICATION INGESTION CONNECTORS</span>
                   </div>
-                  <span style={{ fontSize: '11px', fontWeight: 700, color: '#60a5fa', backgroundColor: 'rgba(96, 165, 250, 0.15)', padding: '2px 8px', borderRadius: '6px' }}>
+                  <span style={{ fontSize: '11px', fontWeight: 700, color: '#e53e3e', backgroundColor: 'rgba(229, 62, 62, 0.15)', padding: '2px 8px', borderRadius: '6px' }}>
                     REALISTIC ARCHITECTURE
                   </span>
                 </div>
@@ -3868,14 +3601,14 @@ export default function App() {
                     { label: 'Broker Push Hook', status: 'DEMO / SIMULATED' },
                   ].map((src, i) => (
                     <span key={i} style={{ fontSize: '11px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)', padding: '4px 10px', borderRadius: '6px', color: '#ffffff' }}>
-                      {src.label} <strong style={{ color: src.status === 'REAL' ? '#34d399' : '#fbbf24', marginLeft: '4px' }}>[{src.status}]</strong>
+                      {src.label} <strong style={{ color: src.status === 'REAL' ? '#e53e3e' : '#fbbf24', marginLeft: '4px' }}>[{src.status}]</strong>
                     </span>
                   ))}
                 </div>
               </div>
 
               {/* Connector Arrow */}
-              <div style={{ fontSize: '18px', color: '#60a5fa', fontWeight: 900 }}>↓</div>
+              <div style={{ fontSize: '18px', color: '#e53e3e', fontWeight: 900 }}>↓</div>
 
               {/* STAGE 3: NORMALIZATION & PRIVACY SCRUBBING */}
               <div style={{ width: '100%', backgroundColor: 'var(--bg-secondary)', border: '1px solid #818cf8', borderRadius: '12px', padding: '18px 22px' }}>
@@ -3884,7 +3617,7 @@ export default function App() {
                     <Lock style={{ width: '20px', height: '20px', color: '#818cf8' }} />
                     <span style={{ fontSize: '14px', fontWeight: 800, color: '#818cf8' }}>STAGE 3: NORMALIZATION & FINANCIAL PRIVACY FIREWALL</span>
                   </div>
-                  <span style={{ fontSize: '11px', fontWeight: 700, color: '#34d399', backgroundColor: 'rgba(16, 185, 129, 0.15)', padding: '2px 8px', borderRadius: '6px' }}>
+                  <span style={{ fontSize: '11px', fontWeight: 700, color: '#e53e3e', backgroundColor: 'rgba(229, 62, 62, 0.15)', padding: '2px 8px', borderRadius: '6px' }}>
                     ZERO SECRETS STORED
                   </span>
                 </div>
@@ -3961,7 +3694,7 @@ export default function App() {
                 </p>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '8px', fontSize: '11px' }}>
                   <div style={{ backgroundColor: 'var(--bg-card)', padding: '8px 12px', borderRadius: '6px' }}>
-                    <span style={{ color: '#34d399', fontWeight: 700 }}>SUPPORTED:</span> Verified against official register.
+                    <span style={{ color: '#e53e3e', fontWeight: 700 }}>SUPPORTED:</span> Verified against official register.
                   </div>
                   <div style={{ backgroundColor: 'var(--bg-card)', padding: '8px 12px', borderRadius: '6px' }}>
                     <span style={{ color: '#f87171', fontWeight: 700 }}>CONTRADICTED:</span> Directly violates statutory directives.
@@ -3982,7 +3715,7 @@ export default function App() {
                     <Database style={{ width: '20px', height: '20px', color: '#e879f9' }} />
                     <span style={{ fontSize: '14px', fontWeight: 800, color: '#e879f9' }}>STAGE 6: EVIDENCE RETRIEVAL (RAG) & CITATION PROVENANCE</span>
                   </div>
-                  <span style={{ fontSize: '11px', fontWeight: 700, color: '#34d399', backgroundColor: 'rgba(16, 185, 129, 0.15)', padding: '2px 8px', borderRadius: '6px' }}>
+                  <span style={{ fontSize: '11px', fontWeight: 700, color: '#e53e3e', backgroundColor: 'rgba(229, 62, 62, 0.15)', padding: '2px 8px', borderRadius: '6px' }}>
                     ZERO HALLUCINATIONS
                   </span>
                 </div>
@@ -4014,21 +3747,21 @@ export default function App() {
               <div style={{ fontSize: '18px', color: '#f43f5e', fontWeight: 900 }}>↓</div>
 
               {/* STAGE 8: THREE-TIER MESSAGE PROTECTION */}
-              <div style={{ width: '100%', backgroundColor: 'var(--bg-secondary)', border: '2px solid #3b82f6', borderRadius: '12px', padding: '18px 22px' }}>
+              <div style={{ width: '100%', backgroundColor: 'var(--bg-secondary)', border: '2px solid #e53e3e', borderRadius: '12px', padding: '18px 22px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <Inbox style={{ width: '20px', height: '20px', color: '#3b82f6' }} />
-                    <span style={{ fontSize: '14px', fontWeight: 800, color: '#3b82f6' }}>STAGE 8: THREE-TIER MESSAGE PROTECTION MODEL</span>
+                    <Inbox style={{ width: '20px', height: '20px', color: '#e53e3e' }} />
+                    <span style={{ fontSize: '14px', fontWeight: 800, color: '#e53e3e' }}>STAGE 8: THREE-TIER MESSAGE PROTECTION MODEL</span>
                   </div>
-                  <span style={{ fontSize: '11px', fontWeight: 700, color: '#34d399', backgroundColor: 'rgba(16, 185, 129, 0.15)', padding: '2px 8px', borderRadius: '6px' }}>
+                  <span style={{ fontSize: '11px', fontWeight: 700, color: '#e53e3e', backgroundColor: 'rgba(229, 62, 62, 0.15)', padding: '2px 8px', borderRadius: '6px' }}>
                     ZERO AUTO-DELETE
                   </span>
                 </div>
                 
                 {/* 3 Outcome Buckets */}
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '12px' }}>
-                  <div style={{ backgroundColor: 'var(--bg-card)', border: '1px solid rgba(16, 185, 129, 0.4)', padding: '14px', borderRadius: '8px' }}>
-                    <div style={{ fontSize: '13px', fontWeight: 800, color: '#34d399', marginBottom: '4px' }}>
+                  <div style={{ backgroundColor: 'var(--bg-card)', border: '1px solid rgba(229, 62, 62, 0.4)', padding: '14px', borderRadius: '8px' }}>
+                    <div style={{ fontSize: '13px', fontWeight: 800, color: '#e53e3e', marginBottom: '4px' }}>
                       🟢 Trusted / Important
                     </div>
                     <div style={{ fontSize: '11px', color: 'var(--text-muted)', lineHeight: 1.4 }}>
@@ -4058,13 +3791,13 @@ export default function App() {
               <div style={{ fontSize: '18px', color: '#f87171', fontWeight: 900 }}>↓</div>
 
               {/* STAGE 9: INCIDENT RESPONSE & REPORTING */}
-              <div style={{ width: '100%', backgroundColor: 'var(--bg-secondary)', border: '1px solid #10b981', borderRadius: '12px', padding: '18px 22px' }}>
+              <div style={{ width: '100%', backgroundColor: 'var(--bg-secondary)', border: '1px solid #e53e3e', borderRadius: '12px', padding: '18px 22px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <AlertTriangle style={{ width: '20px', height: '20px', color: '#10b981' }} />
-                    <span style={{ fontSize: '14px', fontWeight: 800, color: '#10b981' }}>STAGE 9: INCIDENT RESPONSE & USER-CONFIRMED REPORTING</span>
+                    <AlertTriangle style={{ width: '20px', height: '20px', color: '#e53e3e' }} />
+                    <span style={{ fontSize: '14px', fontWeight: 800, color: '#e53e3e' }}>STAGE 9: INCIDENT RESPONSE & USER-CONFIRMED REPORTING</span>
                   </div>
-                  <span style={{ fontSize: '11px', fontWeight: 700, color: '#34d399', backgroundColor: 'rgba(16, 185, 129, 0.15)', padding: '2px 8px', borderRadius: '6px' }}>
+                  <span style={{ fontSize: '11px', fontWeight: 700, color: '#e53e3e', backgroundColor: 'rgba(229, 62, 62, 0.15)', padding: '2px 8px', borderRadius: '6px' }}>
                     USER IN FULL CONTROL
                   </span>
                 </div>
@@ -4089,10 +3822,10 @@ export default function App() {
           <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                <span style={{ fontSize: '11px', fontWeight: 800, color: '#60a5fa', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                <span style={{ fontSize: '11px', fontWeight: 800, color: '#e53e3e', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                   Investor Configuration
                 </span>
-                <span style={{ fontSize: '10px', backgroundColor: 'rgba(96, 165, 250, 0.15)', color: '#60a5fa', padding: '2px 8px', borderRadius: '10px', border: '1px solid rgba(96, 165, 250, 0.3)' }}>
+                <span style={{ fontSize: '10px', backgroundColor: 'rgba(229, 62, 62, 0.15)', color: '#e53e3e', padding: '2px 8px', borderRadius: '10px', border: '1px solid rgba(229, 62, 62, 0.3)' }}>
                   LOCAL USER MODE
                 </span>
               </div>
@@ -4105,8 +3838,8 @@ export default function App() {
             {/* Zero Auto-Delete Enforced Guarantee Banner */}
             <div
               style={{
-                backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                border: '1px solid rgba(16, 185, 129, 0.35)',
+                backgroundColor: 'rgba(229, 62, 62, 0.1)',
+                border: '1px solid rgba(229, 62, 62, 0.35)',
                 borderRadius: '12px',
                 padding: '16px 20px',
                 display: 'flex',
@@ -4114,9 +3847,9 @@ export default function App() {
                 gap: '14px',
               }}
             >
-              <ShieldCheck style={{ width: '28px', height: '28px', color: '#34d399', flexShrink: 0 }} />
+              <ShieldCheck style={{ width: '28px', height: '28px', color: '#e53e3e', flexShrink: 0 }} />
               <div>
-                <div style={{ fontSize: '13px', fontWeight: 800, color: '#34d399', marginBottom: '2px' }}>
+                <div style={{ fontSize: '13px', fontWeight: 800, color: '#e53e3e', marginBottom: '2px' }}>
                   ENFORCED SAFETY PRINCIPLE: ZERO AUTOMATIC DELETION
                 </div>
                 <div style={{ fontSize: '12px', color: 'var(--text-muted)', lineHeight: 1.4 }}>
@@ -4151,7 +3884,7 @@ export default function App() {
                     level: 'ENHANCED' as ProtectionLevel,
                     title: 'Enhanced Protection (Recommended)',
                     desc: 'Proactive inspection. Flags unverified financial claims, suspicious WhatsApp/Telegram trading channels, and unknown broker URLs.',
-                    accent: '#3b82f6',
+                    accent: '#e53e3e',
                   },
                   {
                     level: 'STRICT' as ProtectionLevel,
@@ -4241,7 +3974,7 @@ export default function App() {
                     <button
                       onClick={() => handleUpdateSettings({ [item.key]: !item.val })}
                       style={{
-                        backgroundColor: item.val ? '#2563eb' : 'var(--bg-secondary)',
+                        backgroundColor: item.val ? '#e53e3e' : 'var(--bg-secondary)',
                         color: item.val ? '#ffffff' : 'var(--text-faint)',
                         border: '1px solid var(--border-color)',
                         padding: '6px 14px',
@@ -4340,7 +4073,7 @@ export default function App() {
                   setShowOnboardingModal(true);
                 }}
                 style={{
-                  backgroundColor: '#2563eb',
+                  backgroundColor: '#e53e3e',
                   color: '#ffffff',
                   padding: '8px 16px',
                   borderRadius: '6px',
@@ -4357,13 +4090,6 @@ export default function App() {
         )}
         </main>
       </div>
-
-      {/* Mobile Responsive Bottom Navigation */}
-      <MobileNavBar
-        activeNav={activeNav}
-        onSelectNav={(nav: any) => setActiveNav(nav)}
-        alertCount={quarantinedMessages.length}
-      />
 
       {/* Smartwatch Companion Minimal Wrist Alert Modal */}
       <SmartwatchAlertModal
@@ -4442,7 +4168,7 @@ export default function App() {
                 <div key={i} style={{ backgroundColor: 'var(--bg-card)', padding: '10px', borderRadius: '6px', marginBottom: '6px', fontSize: '12px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
                     <span style={{ fontWeight: 600 }}>"{clm.claim_text}"</span>
-                    <span style={{ fontWeight: 700, color: clm.verification_status === 'Contradicted' ? '#f87171' : clm.verification_status === 'Supported' ? '#34d399' : '#fbbf24' }}>
+                    <span style={{ fontWeight: 700, color: clm.verification_status === 'Contradicted' ? '#f87171' : clm.verification_status === 'Supported' ? '#e53e3e' : '#fbbf24' }}>
                       {clm.verification_status}
                     </span>
                   </div>
@@ -4459,7 +4185,7 @@ export default function App() {
                 </div>
                 {selectedMessage.evidence.map((ev, i) => (
                   <div key={i} style={{ backgroundColor: 'var(--bg-card)', padding: '10px', borderRadius: '6px', marginBottom: '6px', fontSize: '12px' }}>
-                    <div style={{ fontWeight: 700, color: '#34d399' }}>{ev.publisher} — {ev.title}</div>
+                    <div style={{ fontWeight: 700, color: '#e53e3e' }}>{ev.publisher} — {ev.title}</div>
                     <div style={{ color: 'var(--text-muted)', marginTop: '2px' }}>"{ev.passage}"</div>
                   </div>
                 ))}
@@ -4482,7 +4208,7 @@ export default function App() {
                       if (inc) setReportingIncident(inc);
                       else showToast('Directing to National Cybercrime Helpline 1930.');
                     }}
-                    style={{ backgroundColor: '#2563eb', color: '#ffffff', padding: '8px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: 700 }}
+                    style={{ backgroundColor: '#e53e3e', color: '#ffffff', padding: '8px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: 700 }}
                   >
                     Report Suspect (1930)
                   </button>
@@ -4556,7 +4282,7 @@ export default function App() {
                   setWatchAlertData(null);
                   setActiveNav('quarantine');
                 }}
-                style={{ backgroundColor: '#2563eb', color: '#ffffff', padding: '10px', borderRadius: '12px', fontSize: '12px', fontWeight: 700 }}
+                style={{ backgroundColor: '#e53e3e', color: '#ffffff', padding: '10px', borderRadius: '12px', fontSize: '12px', fontWeight: 700 }}
               >
                 Open Sangyan Shield on Phone
               </button>
@@ -4655,7 +4381,7 @@ export default function App() {
                   }}
                   style={{
                     backgroundColor: 'var(--bg-card)',
-                    color: copiedText ? '#34d399' : '#60a5fa',
+                    color: copiedText ? '#e53e3e' : '#e53e3e',
                     border: '1px solid var(--border-color)',
                     padding: '4px 8px',
                     borderRadius: '4px',
@@ -4735,7 +4461,7 @@ export default function App() {
               <button
                 onClick={handleVerifyEntity}
                 disabled={verifyLoading}
-                style={{ backgroundColor: '#2563eb', color: '#ffffff', padding: '8px 16px', borderRadius: '8px', fontWeight: 700 }}
+                style={{ backgroundColor: '#e53e3e', color: '#ffffff', padding: '8px 16px', borderRadius: '8px', fontWeight: 700 }}
               >
                 {verifyLoading ? 'Checking...' : 'Check'}
               </button>
@@ -4743,7 +4469,7 @@ export default function App() {
 
             {verifyResult && (
               <div style={{ backgroundColor: 'var(--bg-card)', padding: '14px', borderRadius: '8px', border: '1px solid var(--border-color)', marginBottom: '14px' }}>
-                <div style={{ fontSize: '13px', fontWeight: 700, color: verifyResult.is_valid_format ? '#34d399' : '#f87171', marginBottom: '4px' }}>
+                <div style={{ fontSize: '13px', fontWeight: 700, color: verifyResult.is_valid_format ? '#e53e3e' : '#f87171', marginBottom: '4px' }}>
                   {verifyResult.status}
                 </div>
                 <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>{verifyResult.advisory}</div>
@@ -4829,9 +4555,9 @@ export default function App() {
                       flex: 1,
                       minWidth: '55px',
                       padding: '8px 4px',
-                      backgroundColor: isActive ? '#2563eb' : isPast ? 'rgba(59, 130, 246, 0.2)' : 'var(--bg-card)',
-                      color: isActive ? '#ffffff' : isPast ? '#60a5fa' : 'var(--text-faint)',
-                      border: isActive ? '1px solid #3b82f6' : '1px solid var(--border-color)',
+                      backgroundColor: isActive ? '#e53e3e' : isPast ? 'rgba(229, 62, 62, 0.2)' : 'var(--bg-card)',
+                      color: isActive ? '#ffffff' : isPast ? '#e53e3e' : 'var(--text-faint)',
+                      border: isActive ? '1px solid #e53e3e' : '1px solid var(--border-color)',
                       borderRadius: '8px',
                       fontSize: '11px',
                       fontWeight: 800,
@@ -4886,7 +4612,7 @@ export default function App() {
 
                     <div style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '12px', marginBottom: '12px' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-                        <span style={{ fontSize: '11px', fontWeight: 800, color: '#34d399', textTransform: 'uppercase' }}>
+                        <span style={{ fontSize: '11px', fontWeight: 800, color: '#e53e3e', textTransform: 'uppercase' }}>
                           Status / Action:
                         </span>
                         <span style={{ fontSize: '10px', fontWeight: 800, color: '#fbbf24', backgroundColor: 'rgba(251, 191, 36, 0.15)', padding: '2px 6px', borderRadius: '4px' }}>
@@ -4973,7 +4699,7 @@ export default function App() {
                           target="_blank"
                           rel="noreferrer"
                           style={{
-                            backgroundColor: '#2563eb',
+                            backgroundColor: '#e53e3e',
                             color: '#ffffff',
                             padding: '8px 14px',
                             borderRadius: '8px',
@@ -4994,9 +4720,9 @@ export default function App() {
                           setActiveNav('academy');
                         }}
                         style={{
-                          backgroundColor: 'rgba(255, 92, 141, 0.15)',
-                          color: '#FF5C8D',
-                          border: '1px solid rgba(255, 92, 141, 0.35)',
+                          backgroundColor: 'rgba(229, 62, 62, 0.15)',
+                          color: '#e53e3e',
+                          border: '1px solid rgba(229, 62, 62, 0.35)',
                           padding: '8px 14px',
                           borderRadius: '8px',
                           fontSize: '12px',
@@ -5016,7 +4742,7 @@ export default function App() {
                         onClick={() => setDemoFlowStepIndex(Math.min(demoAttackFlow.steps.length - 1, demoFlowStepIndex + 1))}
                         disabled={demoFlowStepIndex === demoAttackFlow.steps.length - 1}
                         style={{
-                          backgroundColor: '#2563eb',
+                          backgroundColor: '#e53e3e',
                           color: '#ffffff',
                           padding: '8px 16px',
                           borderRadius: '8px',
@@ -5125,7 +4851,7 @@ export default function App() {
                             <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{dev.desc}</div>
                           </div>
                         </div>
-                        <span style={{ fontSize: '10px', fontWeight: 800, color: '#34d399', backgroundColor: 'rgba(16, 185, 129, 0.15)', padding: '3px 8px', borderRadius: '4px' }}>
+                        <span style={{ fontSize: '10px', fontWeight: 800, color: '#e53e3e', backgroundColor: 'rgba(229, 62, 62, 0.15)', padding: '3px 8px', borderRadius: '4px' }}>
                           READY
                         </span>
                       </div>
@@ -5135,7 +4861,7 @@ export default function App() {
                 <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
                   <button
                     onClick={() => setOnboardingStep(2)}
-                    style={{ backgroundColor: '#2563eb', color: '#ffffff', padding: '8px 18px', borderRadius: '8px', fontSize: '12px', fontWeight: 700, cursor: 'pointer' }}
+                    style={{ backgroundColor: '#e53e3e', color: '#ffffff', padding: '8px 18px', borderRadius: '8px', fontSize: '12px', fontWeight: 700, cursor: 'pointer' }}
                   >
                     Next: Choose Sources →
                   </button>
@@ -5163,7 +4889,7 @@ export default function App() {
                         <div style={{ fontSize: '12px', fontWeight: 700, color: '#ffffff' }}>{src.title}</div>
                         <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{src.desc}</div>
                       </div>
-                      <span style={{ fontSize: '10px', fontWeight: 800, color: src.badge === 'REAL' ? '#34d399' : '#fbbf24', backgroundColor: 'var(--bg-secondary)', padding: '2px 8px', borderRadius: '4px' }}>
+                      <span style={{ fontSize: '10px', fontWeight: 800, color: src.badge === 'REAL' ? '#e53e3e' : '#fbbf24', backgroundColor: 'var(--bg-secondary)', padding: '2px 8px', borderRadius: '4px' }}>
                         {src.badge}
                       </span>
                     </div>
@@ -5178,7 +4904,7 @@ export default function App() {
                   </button>
                   <button
                     onClick={() => setOnboardingStep(3)}
-                    style={{ backgroundColor: '#2563eb', color: '#ffffff', padding: '8px 18px', borderRadius: '8px', fontSize: '12px', fontWeight: 700, cursor: 'pointer' }}
+                    style={{ backgroundColor: '#e53e3e', color: '#ffffff', padding: '8px 18px', borderRadius: '8px', fontSize: '12px', fontWeight: 700, cursor: 'pointer' }}
                   >
                     Next: Protection Level →
                   </button>
@@ -5230,7 +4956,7 @@ export default function App() {
                   </button>
                   <button
                     onClick={() => setOnboardingStep(4)}
-                    style={{ backgroundColor: '#2563eb', color: '#ffffff', padding: '8px 18px', borderRadius: '8px', fontSize: '12px', fontWeight: 700, cursor: 'pointer' }}
+                    style={{ backgroundColor: '#e53e3e', color: '#ffffff', padding: '8px 18px', borderRadius: '8px', fontSize: '12px', fontWeight: 700, cursor: 'pointer' }}
                   >
                     Next: Activate Protection →
                   </button>
@@ -5246,23 +4972,23 @@ export default function App() {
                   Review your setup before arming Sangyan AI Investor Shield.
                 </p>
                 <div style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '10px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '12px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#34d399' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#e53e3e' }}>
                     <CheckCircle2 style={{ width: '16px', height: '16px' }} />
                     <span style={{ color: '#ffffff' }}>3 Devices Configured (PC, Mobile, Smartwatch Companion)</span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#34d399' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#e53e3e' }}>
                     <CheckCircle2 style={{ width: '16px', height: '16px' }} />
                     <span style={{ color: '#ffffff' }}>5 Communication Ingestion Connectors Initialized</span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#34d399' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#e53e3e' }}>
                     <CheckCircle2 style={{ width: '16px', height: '16px' }} />
                     <span style={{ color: '#ffffff' }}>Protection Profile: <strong>{settings?.protection_level || 'ENHANCED'}</strong></span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#34d399' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#e53e3e' }}>
                     <CheckCircle2 style={{ width: '16px', height: '16px' }} />
                     <span style={{ color: '#ffffff' }}>Enforced Zero Auto-Delete Guarantee Active</span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#34d399' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#e53e3e' }}>
                     <CheckCircle2 style={{ width: '16px', height: '16px' }} />
                     <span style={{ color: '#ffffff' }}>Zero Secret / Zero OTP Persistence Active</span>
                   </div>
@@ -5281,7 +5007,7 @@ export default function App() {
                       showToast('Sangyan AI Investor Shield is actively protecting your financial life!');
                     }}
                     style={{
-                      backgroundColor: '#10b981',
+                      backgroundColor: '#e53e3e',
                       color: '#ffffff',
                       padding: '10px 22px',
                       borderRadius: '8px',
@@ -5631,102 +5357,6 @@ export default function App() {
         ownerProfile={ownerProfile}
         onLogout={handleLogout}
       />
-
-      {/* Mobile Bottom Navigation Bar (Section 14: Responsive Design) */}
-      <nav className="mobile-bottom-nav">
-        <button
-          type="button"
-          onClick={() => setActiveNav('dashboard')}
-          style={{
-            background: 'none',
-            border: 'none',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '4px',
-            color: activeNav === 'dashboard' ? '#02C39A' : '#A7A7A7',
-            cursor: 'pointer',
-            padding: '6px',
-          }}
-        >
-          <Activity style={{ width: '18px', height: '18px' }} />
-          <span style={{ fontSize: '10px', fontWeight: activeNav === 'dashboard' ? 700 : 500 }}>Home</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActiveNav('alerts')}
-          style={{
-            background: 'none',
-            border: 'none',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '4px',
-            color: activeNav === 'alerts' || activeNav === 'quarantine' ? '#02C39A' : '#A7A7A7',
-            cursor: 'pointer',
-            padding: '6px',
-            position: 'relative',
-          }}
-        >
-          <AlertOctagon style={{ width: '18px', height: '18px' }} />
-          <span style={{ fontSize: '10px', fontWeight: activeNav === 'alerts' || activeNav === 'quarantine' ? 700 : 500 }}>Alerts</span>
-          {quarantinedMessages.length > 0 && (
-            <span
-              style={{
-                position: 'absolute',
-                top: '2px',
-                right: '10px',
-                width: '6px',
-                height: '6px',
-                borderRadius: '50%',
-                backgroundColor: '#EF4444',
-              }}
-            />
-          )}
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActiveNav('verify')}
-          style={{
-            background: 'none',
-            border: 'none',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '4px',
-            color: activeNav === 'verify' ? '#02C39A' : '#A7A7A7',
-            cursor: 'pointer',
-            padding: '6px',
-          }}
-        >
-          <ShieldCheck style={{ width: '18px', height: '18px' }} />
-          <span style={{ fontSize: '10px', fontWeight: activeNav === 'verify' ? 700 : 500 }}>Verify</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => {
-            if (activeNav === 'settings') setActiveNav('dashboard');
-            else setActiveNav('settings');
-          }}
-          style={{
-            background: 'none',
-            border: 'none',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '4px',
-            color: activeNav === 'settings' || activeNav === 'evidence' || activeNav === 'reports' ? '#02C39A' : '#A7A7A7',
-            cursor: 'pointer',
-            padding: '6px',
-          }}
-        >
-          <Settings style={{ width: '18px', height: '18px' }} />
-          <span style={{ fontSize: '10px', fontWeight: activeNav === 'settings' ? 700 : 500 }}>More</span>
-        </button>
-      </nav>
     </div>
   );
 }

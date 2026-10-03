@@ -108,7 +108,7 @@ export const SecurityPrivacyModal: React.FC<SecurityPrivacyModalProps> = ({
         </div>
 
         {actionMessage && (
-          <div style={{ backgroundColor: 'rgba(16, 185, 129, 0.15)', border: '1px solid #10b981', borderRadius: '8px', padding: '10px 14px', marginBottom: '16px', fontSize: '12px', color: '#6ee7b7' }}>
+          <div style={{ backgroundColor: 'rgba(229, 62, 62, 0.15)', border: '1px solid #e53e3e', borderRadius: '8px', padding: '10px 14px', marginBottom: '16px', fontSize: '12px', color: '#ff7878' }}>
             {actionMessage}
           </div>
         )}
@@ -117,7 +117,7 @@ export const SecurityPrivacyModal: React.FC<SecurityPrivacyModalProps> = ({
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '20px' }}>
           <div style={{ backgroundColor: '#080d1a', border: '1px solid #1e293b', borderRadius: '10px', padding: '14px' }}>
             <div style={{ fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>Identity Verification</div>
-            <div style={{ fontSize: '14px', fontWeight: 700, color: '#34d399', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <div style={{ fontSize: '14px', fontWeight: 700, color: '#e53e3e', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <CheckCircle2 style={{ width: '16px', height: '16px' }} />
               {ownerProfile?.identity_verified ? 'Verified' : 'Pending'}
             </div>
@@ -125,7 +125,7 @@ export const SecurityPrivacyModal: React.FC<SecurityPrivacyModalProps> = ({
 
           <div style={{ backgroundColor: '#080d1a', border: '1px solid #1e293b', borderRadius: '10px', padding: '14px' }}>
             <div style={{ fontSize: '11px', color: '#94a3b8', marginBottom: '4px' }}>Email Address</div>
-            <div style={{ fontSize: '14px', fontWeight: 700, color: '#34d399', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <div style={{ fontSize: '14px', fontWeight: 700, color: '#e53e3e', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <CheckCircle2 style={{ width: '16px', height: '16px' }} />
               {ownerProfile?.email_verified ? 'Verified' : 'Pending'}
             </div>

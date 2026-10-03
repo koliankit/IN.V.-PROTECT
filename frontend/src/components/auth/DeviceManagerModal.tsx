@@ -132,7 +132,7 @@ export const DeviceManagerModal: React.FC<DeviceManagerModalProps> = ({
         </div>
 
         {actionSuccess && (
-          <div style={{ backgroundColor: 'rgba(16, 185, 129, 0.15)', border: '1px solid #10b981', borderRadius: '8px', padding: '10px 14px', marginBottom: '16px', fontSize: '12px', color: '#6ee7b7' }}>
+          <div style={{ backgroundColor: 'rgba(229, 62, 62, 0.15)', border: '1px solid #e53e3e', borderRadius: '8px', padding: '10px 14px', marginBottom: '16px', fontSize: '12px', color: '#ff7878' }}>
             {actionSuccess}
           </div>
         )}
@@ -251,8 +251,8 @@ export const DeviceManagerModal: React.FC<DeviceManagerModalProps> = ({
                     fontWeight: 700,
                     padding: '3px 8px',
                     borderRadius: '4px',
-                    backgroundColor: isRevoked ? 'rgba(239, 68, 68, 0.15)' : 'rgba(16, 185, 129, 0.15)',
-                    color: isRevoked ? '#ef4444' : '#34d399',
+                    backgroundColor: isRevoked ? 'rgba(239, 68, 68, 0.15)' : 'rgba(229, 62, 62, 0.15)',
+                    color: isRevoked ? '#ef4444' : '#e53e3e',
                   }}>
                     {dev.status}
                   </span>

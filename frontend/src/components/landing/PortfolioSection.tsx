@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 
@@ -11,55 +11,39 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ onOpenConsol
     <section
       id="portfolio-shield"
       style={{
-        padding: '140px 24px',
-        backgroundColor: '#0A0A0D',
+        padding: '140px 0',
+        backgroundColor: 'var(--bg-primary)',
         borderTop: '1px solid rgba(255, 255, 255, 0.05)',
         position: 'relative',
         overflow: 'hidden',
       }}
     >
-      <div
-        style={{
-          maxWidth: '1240px',
-          margin: '0 auto',
-        }}
-      >
+      <div className="editorial-container">
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: '1fr 1.2fr',
+            gridTemplateColumns: '1fr 1.15fr',
             gap: '64px',
             alignItems: 'center',
           }}
-          className="portfolio-grid"
+          className="portfolio-editorial-grid"
         >
           {/* Left: Narrative */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
+            initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div
-              style={{
-                fontSize: '11px',
-                fontWeight: 700,
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                color: '#10B981',
-                marginBottom: '16px',
-              }}
-            >
-              CAPITAL ISOLATION & DEFENSE
+            <div className="chapter-eyebrow">
+              <span className="chapter-eyebrow-bullet" />
+              <span>Chapter 06: [ Capital Isolation &amp; Defense ]</span>
             </div>
 
             <h2
+              className="editorial-display-heading"
               style={{
-                fontSize: 'clamp(32px, 4vw, 48px)',
-                fontWeight: 800,
-                lineHeight: 1.15,
-                letterSpacing: '-0.03em',
-                color: '#FFFFFF',
+                fontSize: 'clamp(32px, 4vw, 50px)',
                 marginBottom: '20px',
               }}
             >
@@ -68,9 +52,10 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ onOpenConsol
 
             <p
               style={{
-                fontSize: '16px',
-                lineHeight: 1.65,
-                color: '#8E8E93',
+                fontFamily: 'var(--font-sans)',
+                fontSize: '15px',
+                lineHeight: '1.68',
+                color: 'rgba(255, 255, 255, 0.58)',
                 marginBottom: '28px',
               }}
             >
@@ -84,69 +69,47 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ onOpenConsol
                 'Cryptographic proof of custody for depository accounts',
               ].map((item, idx) => (
                 <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <CheckCircle2 style={{ width: '18px', height: '18px', color: '#10B981', flexShrink: 0 }} />
-                  <span style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.85)' }}>{item}</span>
+                  <CheckCircle2 style={{ width: '16px', height: '16px', color: 'var(--color-trusted)', flexShrink: 0 }} />
+                  <span style={{ fontFamily: 'var(--font-sans)', fontSize: '14px', color: 'rgba(255, 255, 255, 0.82)' }}>
+                    {item}
+                  </span>
                 </div>
               ))}
             </div>
 
-            <button
-              onClick={onOpenConsole}
-              style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                color: '#FFFFFF',
-                fontWeight: 600,
-                fontSize: '13px',
-                padding: '12px 22px',
-                borderRadius: '8px',
-                border: '1px solid rgba(255, 255, 255, 0.12)',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
-                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)';
-              }}
-            >
+            <button onClick={onOpenConsole} className="btn-secondary-hairline">
               <span>View Connected Integrations</span>
-              <ArrowRight style={{ width: '15px', height: '15px' }} />
+              <ArrowRight style={{ width: '14px', height: '14px' }} />
             </button>
           </motion.div>
 
           {/* Right: Portfolio Screenshot */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
+            initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            style={{
-              position: 'relative',
-            }}
+            style={{ position: 'relative' }}
           >
             <div
               style={{
                 position: 'absolute',
-                inset: '-10px',
-                background: 'radial-gradient(circle at 60% 50%, rgba(16, 185, 129, 0.12), transparent 70%)',
+                inset: '-12px',
+                background: 'radial-gradient(circle at 60% 50%, rgba(229, 62, 62, 0.08), transparent 70%)',
                 filter: 'blur(30px)',
                 zIndex: 0,
               }}
             />
 
             <div
+              className="editorial-panel glossy-reflection"
               style={{
                 position: 'relative',
                 zIndex: 1,
-                borderRadius: '16px',
                 overflow: 'hidden',
-                backgroundColor: '#121318',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                boxShadow: '0 30px 70px -15px rgba(0, 0, 0, 0.8)',
+                borderRadius: '16px',
+                border: '1px solid rgba(255, 255, 255, 0.09)',
+                boxShadow: '0 30px 80px -20px rgba(0, 0, 0, 0.9)',
               }}
             >
               <img
@@ -168,9 +131,9 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({ onOpenConsol
 
       <style>{`
         @media (max-width: 900px) {
-          .portfolio-grid {
+          .portfolio-editorial-grid {
             grid-template-columns: 1fr !important;
-            gap: 40px !important;
+            gap: 48px !important;
           }
         }
       `}</style>

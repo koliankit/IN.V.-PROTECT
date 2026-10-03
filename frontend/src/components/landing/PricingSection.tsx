@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Check, ArrowRight } from 'lucide-react';
+import { Check, ArrowUpRight } from 'lucide-react';
 
 interface PricingSectionProps {
   onOpenRegister: () => void;
@@ -8,192 +8,242 @@ interface PricingSectionProps {
 }
 
 export const PricingSection: React.FC<PricingSectionProps> = ({ onOpenRegister, onOpenConsole }) => {
+  const tiers = [
+    {
+      name: 'Retail Shield',
+      price: 'Free',
+      period: 'Forever, for every Indian investor',
+      features: [
+        'Unlimited scam message analysis',
+        'SEBI & RBI regulatory grounding',
+        'PII redaction & zero data retention',
+        'Automated 1930 incident evidence packs',
+        'Official SEBI SCORES filing guides',
+      ],
+      primary: false,
+      cta: 'Launch Console Free',
+    },
+    {
+      name: 'Sovereign Pro',
+      price: '₹299',
+      period: 'per month, billed annually',
+      features: [
+        'Everything in Retail Shield',
+        'Real-time smartwatch threat HUD',
+        'Advanced RAG semantic knowledge search',
+        'Direct wealth manager & broker API sync',
+        'Air-gapped enterprise family office deployment',
+      ],
+      primary: true,
+      cta: 'Activate Sovereign Pro',
+    },
+  ];
+
   return (
     <section
       id="pricing"
       style={{
-        padding: '140px 24px',
-        backgroundColor: '#08080B',
+        padding: '140px 0',
+        backgroundColor: 'var(--bg-primary)',
         borderTop: '1px solid rgba(255, 255, 255, 0.05)',
-        position: 'relative',
-        overflow: 'hidden',
       }}
     >
-      <div
-        style={{
-          maxWidth: '1240px',
-          margin: '0 auto',
-        }}
-      >
+      <div className="editorial-container">
+        {/* Section Header */}
+        <div style={{ marginBottom: '72px' }}>
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.55 }}
+            className="chapter-eyebrow"
+          >
+            <span className="chapter-eyebrow-bullet" />
+            <span>Chapter 07: [ Sovereign Access ]</span>
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+            className="editorial-display-heading"
+            style={{
+              fontSize: 'clamp(36px, 4.8vw, 60px)',
+              maxWidth: '520px',
+              marginBottom: '18px',
+            }}
+          >
+            What it costs.
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.6, delay: 0.16 }}
+            style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: 'clamp(15px, 1.5vw, 18px)',
+              lineHeight: 1.68,
+              color: 'rgba(255, 255, 255, 0.55)',
+              maxWidth: '520px',
+            }}
+          >
+            Investor protection must never be paywalled. The sovereign core is free for every retail investor in India.
+          </motion.p>
+        </div>
+
+        {/* Pricing Grid */}
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: '1fr 1.25fr',
-            gap: '64px',
-            alignItems: 'center',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '24px',
           }}
-          className="pricing-grid"
+          className="pricing-editorial-grid"
         >
-          {/* Left: Heading & Philosophy */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <div
+          {tiers.map((tier, i) => (
+            <motion.div
+              key={tier.name}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
               style={{
-                fontSize: '11px',
-                fontWeight: 700,
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                color: '#38BDF8',
-                marginBottom: '16px',
+                backgroundColor: tier.primary ? 'rgba(255, 92, 141, 0.035)' : 'rgba(255, 255, 255, 0.02)',
+                border: tier.primary ? '1px solid var(--accent-border)' : '1px solid rgba(255, 255, 255, 0.08)',
+                borderRadius: '16px',
+                padding: '48px 40px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                position: 'relative',
               }}
             >
-              SOVEREIGN ACCESS
-            </div>
+              {tier.primary && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '20px',
+                    right: '24px',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '10px',
+                    fontWeight: 700,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    color: 'var(--accent)',
+                    backgroundColor: 'var(--accent-bg)',
+                    padding: '4px 10px',
+                    borderRadius: '20px',
+                    border: '1px solid rgba(255, 92, 141, 0.25)',
+                  }}
+                >
+                  RECOMMENDED
+                </div>
+              )}
 
-            <h2
-              style={{
-                fontSize: 'clamp(36px, 4.5vw, 56px)',
-                fontWeight: 800,
-                lineHeight: 1.1,
-                letterSpacing: '-0.03em',
-                color: '#FFFFFF',
-                marginBottom: '20px',
-              }}
-            >
-              What it costs.
-            </h2>
+              <div>
+                <div
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                    color: tier.primary ? 'var(--accent)' : 'rgba(255, 255, 255, 0.4)',
+                    marginBottom: '20px',
+                  }}
+                >
+                  {tier.name}
+                </div>
 
-            <p
-              style={{
-                fontSize: '16px',
-                lineHeight: 1.65,
-                color: '#8E8E93',
-                marginBottom: '32px',
-              }}
-            >
-              Investor protection must never be a luxury paywalled behind closed doors. The Sangyan AI sovereign core is free for every individual retail investor in India, anchored by public regulatory infrastructure.
-            </p>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '36px' }}>
-              {[
-                'Free and unrestricted personal scam analysis',
-                'Zero password harvesting & zero telemetry tracking',
-                'Direct statutory citations from SEBI and RBI registries',
-                'Air-gapped enterprise deployments available for wealth desks',
-              ].map((point, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <div
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '6px' }}>
+                  <span
                     style={{
-                      width: '18px',
-                      height: '18px',
-                      borderRadius: '50%',
-                      backgroundColor: 'rgba(56, 189, 248, 0.1)',
-                      border: '1px solid rgba(56, 189, 248, 0.3)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexShrink: 0,
+                      fontFamily: 'var(--font-display)',
+                      fontSize: 'clamp(44px, 5vw, 58px)',
+                      fontWeight: 800,
+                      letterSpacing: '-0.04em',
+                      color: '#FFFFFF',
+                      lineHeight: 1,
                     }}
                   >
-                    <Check style={{ width: '11px', height: '11px', color: '#38BDF8' }} />
-                  </div>
-                  <span style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.85)' }}>{point}</span>
+                    {tier.price}
+                  </span>
                 </div>
-              ))}
-            </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
+                <div
+                  style={{
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '13px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    marginBottom: '40px',
+                  }}
+                >
+                  {tier.period}
+                </div>
+
+                {/* Features List */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '40px' }}>
+                  {tier.features.map((f) => (
+                    <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                      <Check
+                        style={{
+                          width: '15px',
+                          height: '15px',
+                          color: tier.primary ? 'var(--accent)' : 'var(--color-trusted)',
+                          marginTop: '2px',
+                          flexShrink: 0,
+                        }}
+                      />
+                      <span
+                        style={{
+                          fontFamily: 'var(--font-sans)',
+                          fontSize: '14px',
+                          color: 'rgba(255, 255, 255, 0.72)',
+                          lineHeight: 1.45,
+                        }}
+                      >
+                        {f}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Action */}
               <button
-                onClick={onOpenRegister}
-                style={{
-                  backgroundColor: '#38BDF8',
-                  color: '#08080B',
-                  fontWeight: 600,
-                  fontSize: '13px',
-                  padding: '12px 22px',
-                  borderRadius: '8px',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                }}
+                onClick={tier.primary ? onOpenRegister : onOpenConsole}
+                className={tier.primary ? 'btn-primary-titanium' : 'btn-secondary-hairline'}
+                style={{ width: '100%', justifyContent: 'center' }}
               >
-                <span>Activate Retail Shield</span>
-                <ArrowRight style={{ width: '15px', height: '15px' }} />
+                <span>{tier.cta}</span>
+                <ArrowUpRight style={{ width: '14px', height: '14px' }} />
               </button>
-              <button
-                onClick={onOpenConsole}
-                style={{
-                  backgroundColor: 'transparent',
-                  color: '#8E8E93',
-                  fontSize: '13px',
-                  padding: '12px 16px',
-                  borderRadius: '8px',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                }}
-              >
-                Preview Tiers in Console
-              </button>
-            </div>
-          </motion.div>
-
-          {/* Right: Large Minimalist Dark Pricing Card Image */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            style={{
-              position: 'relative',
-            }}
-          >
-            {/* Subtle Glow */}
-            <div
-              style={{
-                position: 'absolute',
-                inset: '-10px',
-                background: 'radial-gradient(circle at 60% 40%, rgba(56, 189, 248, 0.1), transparent 70%)',
-                filter: 'blur(30px)',
-                zIndex: 0,
-              }}
-            />
-
-            <div
-              style={{
-                position: 'relative',
-                zIndex: 1,
-                borderRadius: '16px',
-                overflow: 'hidden',
-                backgroundColor: '#121318',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                boxShadow: '0 30px 80px -15px rgba(0, 0, 0, 0.85)',
-              }}
-            >
-              <img
-                src="/images/pricing-chart.png"
-                alt="Sovereign Investor Shield Pricing Tiers and Architecture"
-                width={1200}
-                height={800}
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                  display: 'block',
-                }}
-                loading="lazy"
-              />
-            </div>
-          </motion.div>
+            </motion.div>
+          ))}
         </div>
+
+        {/* Security guarantee footnote */}
+        <p
+          style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: '12px',
+            color: 'rgba(255, 255, 255, 0.3)',
+            marginTop: '32px',
+            textAlign: 'center',
+            letterSpacing: '0.02em',
+          }}
+        >
+          Zero password harvesting • Zero telemetry tracking • Air-gapped enterprise deployments available for wealth desks
+        </p>
       </div>
 
       <style>{`
-        @media (max-width: 900px) {
-          .pricing-grid {
+        @media (max-width: 760px) {
+          .pricing-editorial-grid {
             grid-template-columns: 1fr !important;
-            gap: 40px !important;
           }
         }
       `}</style>

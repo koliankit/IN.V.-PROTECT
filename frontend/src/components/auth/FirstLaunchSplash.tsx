@@ -76,7 +76,7 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
       style={{
         position: 'fixed',
         inset: 0,
-        backgroundColor: '#171717',
+        backgroundColor: 'var(--bg-primary)',
         color: '#FFFFFF',
         zIndex: 9999,
         display: 'flex',
@@ -122,7 +122,7 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.color = '#FFFFFF';
-          e.currentTarget.style.borderColor = '#02C39A';
+          e.currentTarget.style.borderColor = '#e53e3e';
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.color = '#A7A7A7';
@@ -168,7 +168,7 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
                 maxHeight: '65vh',
                 objectFit: 'contain',
                 borderRadius: '16px',
-                filter: 'drop-shadow(0 0 32px rgba(2, 195, 154, 0.18))',
+                filter: 'drop-shadow(0 0 32px rgba(229, 62, 62, 0.18))',
               }}
             >
               <source src="/assets/IN_V_PROTECT_logo_cropped.mp4" type="video/mp4" />
@@ -203,15 +203,15 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
                 gap: '8px',
                 padding: '5px 14px',
                 borderRadius: '24px',
-                background: 'rgba(2, 195, 154, 0.08)',
-                border: '1px solid rgba(2, 195, 154, 0.30)',
-                color: '#02C39A',
+                background: 'rgba(229, 62, 62, 0.08)',
+                border: '1px solid rgba(229, 62, 62, 0.30)',
+                color: '#e53e3e',
                 fontSize: '11px',
                 fontWeight: 700,
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
                 marginBottom: '20px',
-                boxShadow: '0 0 16px rgba(2, 195, 154, 0.20)',
+                boxShadow: '0 0 16px rgba(229, 62, 62, 0.20)',
               }}
             >
               <span
@@ -219,8 +219,8 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
                   width: '6px',
                   height: '6px',
                   borderRadius: '50%',
-                  backgroundColor: '#02C39A',
-                  boxShadow: '0 0 8px #02C39A',
+                  backgroundColor: '#e53e3e',
+                  boxShadow: '0 0 8px #e53e3e',
                 }}
               />
               SYSTEM PROTECTED
@@ -237,7 +237,7 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
                 letterSpacing: '0.04em',
                 color: '#FFFFFF',
                 margin: '0 0 12px 0',
-                textShadow: '0 0 36px rgba(2, 195, 154, 0.35)',
+                textShadow: '0 0 36px rgba(229, 62, 62, 0.35)',
               }}
             >
               IN.V. PROTECT
@@ -251,7 +251,7 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
               style={{
                 fontSize: '17px',
                 fontWeight: 600,
-                color: '#02C39A',
+                color: '#e53e3e',
                 margin: '0 0 14px 0',
                 letterSpacing: '0.01em',
               }}
@@ -287,8 +287,8 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
                   handleComplete();
                 }}
                 style={{
-                  backgroundColor: '#02C39A',
-                  color: '#171717',
+                  backgroundColor: '#e53e3e',
+                  color: '#ffffff',
                   fontWeight: 800,
                   fontSize: '14px',
                   padding: '12px 28px',
@@ -298,17 +298,17 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
                   alignItems: 'center',
                   gap: '8px',
                   cursor: 'pointer',
-                  boxShadow: '0 4px 20px rgba(2, 195, 154, 0.40)',
+                  boxShadow: '0 4px 20px rgba(229, 62, 62, 0.40)',
                   letterSpacing: '0.02em',
                   transition: 'all 0.2s ease',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-1px)';
-                  e.currentTarget.style.boxShadow = '0 6px 24px rgba(2, 195, 154, 0.55)';
+                  e.currentTarget.style.boxShadow = '0 6px 24px rgba(229, 62, 62, 0.55)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'none';
-                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(2, 195, 154, 0.40)';
+                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(229, 62, 62, 0.40)';
                 }}
               >
                 <span>Enter Protection Layer</span>

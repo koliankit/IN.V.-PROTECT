@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import {
   CheckCircle2,
   Upload,
@@ -141,9 +141,9 @@ export const MessageAnalysisPipeline: React.FC<MessageAnalysisPipelineProps> = (
     }
     return {
       label: 'TRUSTED',
-      color: '#10B981',
-      badgeBg: 'rgba(16, 185, 129, 0.12)',
-      badgeBorder: 'rgba(16, 185, 129, 0.35)',
+      color: '#e53e3e',
+      badgeBg: 'rgba(229, 62, 62, 0.12)',
+      badgeBorder: 'rgba(229, 62, 62, 0.35)',
     };
   };
 
@@ -178,9 +178,9 @@ export const MessageAnalysisPipeline: React.FC<MessageAnalysisPipelineProps> = (
               borderRadius: '8px',
               fontSize: '12px',
               fontWeight: 700,
-              backgroundColor: activeTab === 'text' ? 'rgba(2, 195, 154, 0.12)' : 'rgba(255, 255, 255, 0.04)',
-              color: activeTab === 'text' ? '#02C39A' : '#A7A7A7',
-              border: activeTab === 'text' ? '1px solid rgba(2, 195, 154, 0.35)' : '1px solid rgba(255, 255, 255, 0.08)',
+              backgroundColor: activeTab === 'text' ? 'rgba(229, 62, 62, 0.12)' : 'rgba(255, 255, 255, 0.04)',
+              color: activeTab === 'text' ? '#e53e3e' : '#A7A7A7',
+              border: activeTab === 'text' ? '1px solid rgba(229, 62, 62, 0.35)' : '1px solid rgba(255, 255, 255, 0.08)',
               cursor: 'pointer',
               transition: 'all 0.15s ease',
             }}
@@ -195,9 +195,9 @@ export const MessageAnalysisPipeline: React.FC<MessageAnalysisPipelineProps> = (
               borderRadius: '8px',
               fontSize: '12px',
               fontWeight: 700,
-              backgroundColor: activeTab === 'image' ? 'rgba(2, 195, 154, 0.12)' : 'rgba(255, 255, 255, 0.04)',
-              color: activeTab === 'image' ? '#02C39A' : '#A7A7A7',
-              border: activeTab === 'image' ? '1px solid rgba(2, 195, 154, 0.35)' : '1px solid rgba(255, 255, 255, 0.08)',
+              backgroundColor: activeTab === 'image' ? 'rgba(229, 62, 62, 0.12)' : 'rgba(255, 255, 255, 0.04)',
+              color: activeTab === 'image' ? '#e53e3e' : '#A7A7A7',
+              border: activeTab === 'image' ? '1px solid rgba(229, 62, 62, 0.35)' : '1px solid rgba(255, 255, 255, 0.08)',
               cursor: 'pointer',
               transition: 'all 0.15s ease',
             }}
@@ -228,8 +228,8 @@ export const MessageAnalysisPipeline: React.FC<MessageAnalysisPipelineProps> = (
                 lineHeight: 1.5,
               }}
               onFocus={(e) => {
-                e.currentTarget.style.borderColor = '#02C39A';
-                e.currentTarget.style.boxShadow = '0 0 10px rgba(2, 195, 154, 0.2)';
+                e.currentTarget.style.borderColor = '#e53e3e';
+                e.currentTarget.style.boxShadow = '0 0 10px rgba(229, 62, 62, 0.2)';
               }}
               onBlur={(e) => {
                 e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.10)';
@@ -264,7 +264,7 @@ export const MessageAnalysisPipeline: React.FC<MessageAnalysisPipelineProps> = (
                 gap: '8px',
               }}
             >
-              <Upload style={{ width: '28px', height: '28px', color: '#02C39A' }} />
+              <Upload style={{ width: '28px', height: '28px', color: '#e53e3e' }} />
               <span style={{ fontSize: '13px', fontWeight: 600, color: '#FFFFFF' }}>
                 {selectedFile ? selectedFile.name : 'Upload Screenshot (PNG, JPG)'}
               </span>
@@ -309,8 +309,8 @@ export const MessageAnalysisPipeline: React.FC<MessageAnalysisPipelineProps> = (
                 transition: 'all 0.15s ease',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = '#02C39A';
-                e.currentTarget.style.color = '#02C39A';
+                e.currentTarget.style.borderColor = '#e53e3e';
+                e.currentTarget.style.color = '#e53e3e';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
@@ -328,8 +328,8 @@ export const MessageAnalysisPipeline: React.FC<MessageAnalysisPipelineProps> = (
             onClick={() => handleRunAnalysis()}
             disabled={isAnalyzing || (!inputText.trim() && !selectedFile)}
             style={{
-              backgroundColor: '#02C39A',
-              color: '#171717',
+              backgroundColor: '#e53e3e',
+              color: 'var(--bg-primary)',
               fontWeight: 800,
               fontSize: '13px',
               padding: '11px 24px',
@@ -338,7 +338,7 @@ export const MessageAnalysisPipeline: React.FC<MessageAnalysisPipelineProps> = (
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              boxShadow: '0 4px 16px rgba(2, 195, 154, 0.35)',
+              boxShadow: '0 4px 16px rgba(229, 62, 62, 0.35)',
               cursor: isAnalyzing || (!inputText.trim() && !selectedFile) ? 'not-allowed' : 'pointer',
               opacity: isAnalyzing || (!inputText.trim() && !selectedFile) ? 0.6 : 1,
               transition: 'all 0.2s ease',
@@ -357,8 +357,8 @@ export const MessageAnalysisPipeline: React.FC<MessageAnalysisPipelineProps> = (
           style={{
             borderRadius: '16px',
             padding: '24px',
-            border: '1px solid rgba(2, 195, 154, 0.35)',
-            boxShadow: '0 0 24px rgba(2, 195, 154, 0.15)',
+            border: '1px solid rgba(229, 62, 62, 0.35)',
+            boxShadow: '0 0 24px rgba(229, 62, 62, 0.15)',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '18px' }}>
@@ -367,12 +367,12 @@ export const MessageAnalysisPipeline: React.FC<MessageAnalysisPipelineProps> = (
                 width: '8px',
                 height: '8px',
                 borderRadius: '50%',
-                backgroundColor: '#02C39A',
-                boxShadow: '0 0 8px #02C39A',
+                backgroundColor: '#e53e3e',
+                boxShadow: '0 0 8px #e53e3e',
               }}
               className="animate-breathing"
             />
-            <span style={{ fontSize: '13px', fontWeight: 800, color: '#02C39A', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+            <span style={{ fontSize: '13px', fontWeight: 800, color: '#e53e3e', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
               Sequential Inspection Pipeline Active
             </span>
           </div>
@@ -392,12 +392,12 @@ export const MessageAnalysisPipeline: React.FC<MessageAnalysisPipelineProps> = (
                     padding: '8px 14px',
                     borderRadius: '8px',
                     backgroundColor: isCurrent
-                      ? 'rgba(2, 195, 154, 0.08)'
+                      ? 'rgba(229, 62, 62, 0.08)'
                       : isDone
                       ? 'rgba(255, 255, 255, 0.02)'
                       : 'transparent',
                     border: isCurrent
-                      ? '1px solid rgba(2, 195, 154, 0.30)'
+                      ? '1px solid rgba(229, 62, 62, 0.30)'
                       : '1px solid transparent',
                     transition: 'all 0.2s ease',
                   }}
@@ -413,11 +413,11 @@ export const MessageAnalysisPipeline: React.FC<MessageAnalysisPipelineProps> = (
                       fontSize: '11px',
                       fontWeight: 800,
                       backgroundColor: isDone
-                        ? '#02C39A'
+                        ? '#e53e3e'
                         : isCurrent
-                        ? 'rgba(2, 195, 154, 0.2)'
+                        ? 'rgba(229, 62, 62, 0.2)'
                         : 'rgba(255, 255, 255, 0.05)',
-                      color: isDone ? '#171717' : isCurrent ? '#02C39A' : '#A7A7A7',
+                      color: isDone ? 'var(--bg-primary)' : isCurrent ? '#e53e3e' : '#A7A7A7',
                     }}
                   >
                     {isDone ? '✓' : isCurrent ? '◉' : '○'}
@@ -475,7 +475,7 @@ export const MessageAnalysisPipeline: React.FC<MessageAnalysisPipelineProps> = (
                     }}
                     style={{ background: 'none', border: 'none', color: '#A7A7A7', fontSize: '11px', display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}
                   >
-                    {copied ? <Check style={{ width: '12px', height: '12px', color: '#02C39A' }} /> : <Copy style={{ width: '12px', height: '12px' }} />}
+                    {copied ? <Check style={{ width: '12px', height: '12px', color: '#e53e3e' }} /> : <Copy style={{ width: '12px', height: '12px' }} />}
                     {copied ? 'Copied' : 'Copy'}
                   </button>
                 </div>
@@ -580,7 +580,7 @@ export const MessageAnalysisPipeline: React.FC<MessageAnalysisPipelineProps> = (
                       </div>
                     ))
                   ) : (
-                    <div style={{ fontSize: '12px', color: '#10B981', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{ fontSize: '12px', color: '#e53e3e', display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <CheckCircle2 style={{ width: '15px', height: '15px' }} />
                       <span>No unauthorized harvest, credential, or urgency indicators detected.</span>
                     </div>
@@ -614,8 +614,8 @@ export const MessageAnalysisPipeline: React.FC<MessageAnalysisPipelineProps> = (
                     transition: 'all 0.15s ease',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = '#02C39A';
-                    e.currentTarget.style.color = '#02C39A';
+                    e.currentTarget.style.borderColor = '#e53e3e';
+                    e.currentTarget.style.color = '#e53e3e';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)';
@@ -639,9 +639,9 @@ export const MessageAnalysisPipeline: React.FC<MessageAnalysisPipelineProps> = (
                   }}
                   style={{
                     flex: 1,
-                    backgroundColor: analysisResult.risk_level === 'High Concern' ? 'rgba(239, 68, 68, 0.12)' : 'rgba(2, 195, 154, 0.12)',
-                    color: analysisResult.risk_level === 'High Concern' ? '#F87171' : '#02C39A',
-                    border: `1px solid ${analysisResult.risk_level === 'High Concern' ? 'rgba(239, 68, 68, 0.35)' : 'rgba(2, 195, 154, 0.35)'}`,
+                    backgroundColor: analysisResult.risk_level === 'High Concern' ? 'rgba(239, 68, 68, 0.12)' : 'rgba(229, 62, 62, 0.12)',
+                    color: analysisResult.risk_level === 'High Concern' ? '#F87171' : '#e53e3e',
+                    border: `1px solid ${analysisResult.risk_level === 'High Concern' ? 'rgba(239, 68, 68, 0.35)' : 'rgba(229, 62, 62, 0.35)'}`,
                     fontWeight: 700,
                     fontSize: '12px',
                     padding: '11px',
@@ -700,9 +700,9 @@ export const MessageAnalysisPipeline: React.FC<MessageAnalysisPipelineProps> = (
                   fontWeight: 700,
                   padding: '3px 8px',
                   borderRadius: '12px',
-                  backgroundColor: 'rgba(2, 195, 154, 0.08)',
-                  color: '#02C39A',
-                  border: '1px solid rgba(2, 195, 154, 0.25)',
+                  backgroundColor: 'rgba(229, 62, 62, 0.08)',
+                  color: '#e53e3e',
+                  border: '1px solid rgba(229, 62, 62, 0.25)',
                 }}
               >
                 Security Investigation Dossier
@@ -729,9 +729,9 @@ export const MessageAnalysisPipeline: React.FC<MessageAnalysisPipelineProps> = (
                             fontWeight: 800,
                             padding: '2px 8px',
                             borderRadius: '4px',
-                            backgroundColor: 'rgba(2, 195, 154, 0.12)',
-                            color: '#02C39A',
-                            border: '1px solid rgba(2, 195, 154, 0.25)',
+                            backgroundColor: 'rgba(229, 62, 62, 0.12)',
+                            color: '#e53e3e',
+                            border: '1px solid rgba(229, 62, 62, 0.25)',
                           }}
                         >
                           {ev.source_id || 'SEBI'}
@@ -740,7 +740,7 @@ export const MessageAnalysisPipeline: React.FC<MessageAnalysisPipelineProps> = (
                           {ev.title || ev.source_name || ev.publisher}
                         </strong>
                       </div>
-                      <span style={{ fontSize: '11px', color: '#10B981', fontWeight: 600 }}>
+                      <span style={{ fontSize: '11px', color: '#e53e3e', fontWeight: 600 }}>
                         ✓ Source checked
                       </span>
                     </div>
@@ -760,7 +760,7 @@ export const MessageAnalysisPipeline: React.FC<MessageAnalysisPipelineProps> = (
                             display: 'inline-flex',
                             alignItems: 'center',
                             gap: '4px',
-                            color: '#02C39A',
+                            color: '#e53e3e',
                             fontWeight: 600,
                             textDecoration: 'none',
                           }}

@@ -65,7 +65,7 @@ export const OwnerRegistration: React.FC<OwnerRegistrationProps> = ({ onSuccess,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#171717',
+        backgroundColor: 'var(--bg-primary)',
         padding: '24px',
         color: '#FFFFFF',
         position: 'relative',
@@ -114,17 +114,17 @@ export const OwnerRegistration: React.FC<OwnerRegistrationProps> = ({ onSuccess,
             width: '52px',
             height: '52px',
             borderRadius: '14px',
-            backgroundColor: 'rgba(2, 195, 154, 0.08)',
-            border: '1px solid rgba(2, 195, 154, 0.28)',
+            backgroundColor: 'rgba(229, 62, 62, 0.08)',
+            border: '1px solid rgba(229, 62, 62, 0.28)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             marginBottom: '20px',
-            boxShadow: '0 0 20px rgba(2, 195, 154, 0.15)',
+            boxShadow: '0 0 20px rgba(229, 62, 62, 0.15)',
           }}
           className="animate-breathing"
         >
-          <Shield style={{ width: '26px', height: '26px', color: '#02C39A' }} />
+          <Shield style={{ width: '26px', height: '26px', color: '#e53e3e' }} />
         </div>
 
         <h1
@@ -143,7 +143,7 @@ export const OwnerRegistration: React.FC<OwnerRegistrationProps> = ({ onSuccess,
           style={{
             fontSize: '14px',
             fontWeight: 600,
-            color: '#02C39A',
+            color: '#e53e3e',
             letterSpacing: '0.01em',
             marginBottom: '6px',
           }}
@@ -226,8 +226,8 @@ export const OwnerRegistration: React.FC<OwnerRegistrationProps> = ({ onSuccess,
                   transition: 'all 0.2s ease',
                 }}
                 onFocus={(e) => {
-                  e.currentTarget.style.borderColor = '#02C39A';
-                  e.currentTarget.style.boxShadow = '0 0 10px rgba(2, 195, 154, 0.25)';
+                  e.currentTarget.style.borderColor = '#e53e3e';
+                  e.currentTarget.style.boxShadow = '0 0 10px rgba(229, 62, 62, 0.25)';
                 }}
                 onBlur={(e) => {
                   e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)';
@@ -280,8 +280,8 @@ export const OwnerRegistration: React.FC<OwnerRegistrationProps> = ({ onSuccess,
                   transition: 'all 0.2s ease',
                 }}
                 onFocus={(e) => {
-                  e.currentTarget.style.borderColor = '#02C39A';
-                  e.currentTarget.style.boxShadow = '0 0 10px rgba(2, 195, 154, 0.25)';
+                  e.currentTarget.style.borderColor = '#e53e3e';
+                  e.currentTarget.style.boxShadow = '0 0 10px rgba(229, 62, 62, 0.25)';
                 }}
                 onBlur={(e) => {
                   e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)';
@@ -334,8 +334,8 @@ export const OwnerRegistration: React.FC<OwnerRegistrationProps> = ({ onSuccess,
                   transition: 'all 0.2s ease',
                 }}
                 onFocus={(e) => {
-                  e.currentTarget.style.borderColor = '#02C39A';
-                  e.currentTarget.style.boxShadow = '0 0 10px rgba(2, 195, 154, 0.25)';
+                  e.currentTarget.style.borderColor = '#e53e3e';
+                  e.currentTarget.style.boxShadow = '0 0 10px rgba(229, 62, 62, 0.25)';
                 }}
                 onBlur={(e) => {
                   e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)';
@@ -350,8 +350,8 @@ export const OwnerRegistration: React.FC<OwnerRegistrationProps> = ({ onSuccess,
             disabled={loading}
             style={{
               width: '100%',
-              backgroundColor: '#02C39A',
-              color: '#171717',
+              backgroundColor: '#e53e3e',
+              color: '#ffffff',
               fontWeight: 800,
               fontSize: '14px',
               padding: '13px',
@@ -363,7 +363,7 @@ export const OwnerRegistration: React.FC<OwnerRegistrationProps> = ({ onSuccess,
               gap: '8px',
               cursor: loading ? 'not-allowed' : 'pointer',
               opacity: loading ? 0.7 : 1,
-              boxShadow: '0 4px 18px rgba(2, 195, 154, 0.35)',
+              boxShadow: '0 4px 18px rgba(229, 62, 62, 0.35)',
               transition: 'all 0.2s ease',
               letterSpacing: '0.02em',
               marginTop: '6px',
@@ -391,7 +391,7 @@ export const OwnerRegistration: React.FC<OwnerRegistrationProps> = ({ onSuccess,
             style={{
               background: 'none',
               border: 'none',
-              color: '#02C39A',
+              color: '#e53e3e',
               fontWeight: 700,
               cursor: 'pointer',
               textDecoration: 'underline',

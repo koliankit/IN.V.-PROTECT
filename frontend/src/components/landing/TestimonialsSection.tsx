@@ -7,33 +7,31 @@ export const TestimonialsSection: React.FC = () => {
     <section
       id="community"
       style={{
-        padding: '160px 24px',
-        backgroundColor: '#F8F9FB',
-        color: '#08080B',
+        padding: '160px 0',
+        backgroundColor: 'var(--bg-primary)',
+        borderTop: '1px solid rgba(255, 255, 255, 0.05)',
         position: 'relative',
         overflow: 'hidden',
-        transition: 'background-color 0.4s ease',
       }}
     >
-      {/* Background Accent Mesh */}
+      {/* Concentric Ambient Glow */}
       <div
         style={{
           position: 'absolute',
-          top: '20%',
+          top: '30%',
           left: '50%',
           transform: 'translateX(-50%)',
-          width: '900px',
-          height: '450px',
-          background: 'radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, transparent 70%)',
+          width: '800px',
+          height: '480px',
+          background: 'radial-gradient(circle, var(--accent-bg) 0%, transparent 70%)',
           pointerEvents: 'none',
           zIndex: 0,
         }}
       />
 
       <div
+        className="editorial-container"
         style={{
-          maxWidth: '1080px',
-          margin: '0 auto',
           position: 'relative',
           zIndex: 1,
           textAlign: 'center',
@@ -41,174 +39,124 @@ export const TestimonialsSection: React.FC = () => {
       >
         {/* Eyebrow */}
         <motion.div
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.5 }}
-          style={{
-            fontSize: '11px',
-            fontWeight: 700,
-            letterSpacing: '0.14em',
-            textTransform: 'uppercase',
-            color: '#0284C7',
-            marginBottom: '16px',
-          }}
+          transition={{ duration: 0.55 }}
+          className="chapter-eyebrow"
+          style={{ justifyContent: 'center' }}
         >
-          COMMUNITY & INSTITUTIONAL TRUST
+          <span className="chapter-eyebrow-bullet" />
+          <span>Chapter 08: [ Community &amp; Institutional Trust ]</span>
         </motion.div>
 
-        {/* Large Centered Headline with Dark Typography */}
+        {/* Headline */}
         <motion.h2
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+          className="editorial-display-heading"
           style={{
-            fontSize: 'clamp(36px, 5vw, 60px)',
-            fontWeight: 800,
-            lineHeight: 1.1,
-            letterSpacing: '-0.03em',
-            color: '#0A0A0D',
+            fontSize: 'clamp(36px, 5vw, 62px)',
             maxWidth: '780px',
             margin: '0 auto 20px auto',
           }}
         >
-          Inspired by users,
+          Inspired by investors,
           <br />
-          built for the future.
+          engineered for certainty.
         </motion.h2>
 
         <motion.p
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.16 }}
           style={{
-            fontSize: '17px',
-            lineHeight: 1.6,
-            color: '#4B5563',
-            maxWidth: '580px',
+            fontFamily: 'var(--font-sans)',
+            fontSize: 'clamp(15px, 1.5vw, 18px)',
+            lineHeight: 1.68,
+            color: 'rgba(255, 255, 255, 0.55)',
+            maxWidth: '560px',
             margin: '0 auto 64px auto',
           }}
         >
           Empowering Indian retail investors and compliance desks with infallible regulatory verification.
         </motion.p>
 
-        {/* Stacked Cards Container */}
-        <div
+        {/* Editorial Testimonial Card Frame */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.75, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
+          className="editorial-panel glossy-reflection"
           style={{
-            position: 'relative',
-            maxWidth: '780px',
+            maxWidth: '860px',
             margin: '0 auto',
+            padding: '56px 48px',
+            backgroundColor: '#0E0B0E',
+            border: '1px solid var(--accent-border)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            textAlign: 'center',
+            boxShadow: '0 24px 70px -15px rgba(0, 0, 0, 0.8), 0 0 1px var(--accent-border)',
           }}
         >
-          {/* Background Stacked Card 2 */}
-          <div
-            style={{
-              position: 'absolute',
-              top: '-20px',
-              left: '4%',
-              right: '4%',
-              height: '100%',
-              backgroundColor: 'rgba(255, 255, 255, 0.5)',
-              borderRadius: '24px',
-              border: '1px solid rgba(0, 0, 0, 0.05)',
-              boxShadow: '0 8px 30px rgba(0, 0, 0, 0.03)',
-              transform: 'scale(0.96)',
-              zIndex: 1,
-            }}
-          />
+          {/* Star Ratings */}
+          <div style={{ display: 'flex', gap: '5px', marginBottom: '28px' }}>
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} style={{ width: '16px', height: '16px', color: '#F59E0B', fill: '#F59E0B' }} />
+            ))}
+          </div>
 
-          {/* Background Stacked Card 1 */}
-          <div
+          {/* Testimonial Quote */}
+          <blockquote
             style={{
-              position: 'absolute',
-              top: '-10px',
-              left: '2%',
-              right: '2%',
-              height: '100%',
-              backgroundColor: 'rgba(255, 255, 255, 0.8)',
-              borderRadius: '24px',
-              border: '1px solid rgba(0, 0, 0, 0.06)',
-              boxShadow: '0 12px 35px rgba(0, 0, 0, 0.04)',
-              transform: 'scale(0.98)',
-              zIndex: 2,
-            }}
-          />
-
-          {/* Foreground Primary Testimonial Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.7, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            style={{
-              position: 'relative',
-              zIndex: 3,
-              backgroundColor: '#FFFFFF',
-              borderRadius: '24px',
-              padding: '56px 48px',
-              border: '1px solid rgba(0, 0, 0, 0.08)',
-              boxShadow: '0 25px 60px -15px rgba(0, 0, 0, 0.08), 0 0 1px rgba(0, 0, 0, 0.1)',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              textAlign: 'center',
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(19px, 2.3vw, 26px)',
+              fontWeight: 500,
+              lineHeight: 1.5,
+              color: '#FFFFFF',
+              marginBottom: '36px',
+              letterSpacing: '-0.025em',
             }}
           >
-            {/* Stars */}
-            <div style={{ display: 'flex', gap: '4px', marginBottom: '28px' }}>
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} style={{ width: '18px', height: '18px', color: '#F59E0B', fill: '#F59E0B' }} />
-              ))}
-            </div>
+            "Sangyan AI eliminated 99.4% of impersonation scams across our investor network within the first 48 hours. The direct SEBI regulatory citations gave our clients incontrovertible proof before transferring capital."
+          </blockquote>
 
-            {/* Testimonial Quote */}
-            <blockquote
+          {/* User Metadata */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <img
+              src="/images/testimonial-avatar.png"
+              alt="Priya Sundaram - Chief Risk Officer"
+              width={56}
+              height={56}
               style={{
-                fontSize: 'clamp(18px, 2.2vw, 24px)',
-                fontWeight: 500,
-                lineHeight: 1.5,
-                color: '#111827',
-                marginBottom: '36px',
-                fontStyle: 'normal',
-                letterSpacing: '-0.02em',
+                width: '56px',
+                height: '56px',
+                borderRadius: '50%',
+                objectFit: 'cover',
+                border: '2px solid rgba(229,62,62,0.4)',
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.4)',
               }}
-            >
-              "Sangyan AI eliminated 99.4% of impersonation scams across our investor network within the first 48 hours. The direct SEBI regulatory citations gave our clients incontrovertible proof before transferring capital."
-            </blockquote>
-
-            {/* User Meta with Real Avatar */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <img
-                src="/images/testimonial-avatar.png"
-                alt="Priya Sundaram - Chief Risk Officer"
-                width={56}
-                height={56}
-                style={{
-                  width: '56px',
-                  height: '56px',
-                  borderRadius: '50%',
-                  objectFit: 'cover',
-                  border: '2px solid #E5E7EB',
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.06)',
-                }}
-                loading="lazy"
-              />
-              <div style={{ textAlign: 'left' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span style={{ fontSize: '16px', fontWeight: 700, color: '#111827' }}>
-                    Priya Sundaram
-                  </span>
-                  <ShieldCheck style={{ width: '16px', height: '16px', color: '#0284C7' }} />
-                </div>
-                <div style={{ fontSize: '13px', color: '#6B7280' }}>
-                  Head of Risk & Investor Protection // Bharat Wealth Partners
-                </div>
+              loading="lazy"
+            />
+            <div style={{ textAlign: 'left' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span style={{ fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 700, color: '#FFFFFF' }}>
+                  Priya Sundaram
+                </span>
+                <ShieldCheck style={{ width: '16px', height: '16px', color: 'var(--accent)' }} />
+              </div>
+              <div style={{ fontFamily: 'var(--font-sans)', fontSize: '13px', color: 'rgba(255, 255, 255, 0.5)' }}>
+                Head of Risk &amp; Investor Protection // Bharat Wealth Partners
               </div>
             </div>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

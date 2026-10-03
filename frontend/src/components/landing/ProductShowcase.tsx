@@ -7,32 +7,31 @@ export const ProductShowcase: React.FC = () => {
       id="product-showcase"
       style={{
         position: 'relative',
-        padding: '140px 24px',
-        backgroundColor: '#0A0A0D',
+        padding: '140px 0',
+        backgroundColor: 'var(--bg-primary)',
         borderTop: '1px solid rgba(255, 255, 255, 0.05)',
         borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
         overflow: 'hidden',
       }}
     >
-      {/* Background Subtle Radial Gradient */}
+      {/* Concentric Ambient Backdrop */}
       <div
         style={{
           position: 'absolute',
-          top: '30%',
+          top: '25%',
           left: '50%',
           transform: 'translateX(-50%)',
-          width: '900px',
-          height: '500px',
-          background: 'radial-gradient(circle, rgba(56, 189, 248, 0.06) 0%, transparent 70%)',
+          width: '960px',
+          height: '540px',
+          background: 'radial-gradient(ellipse 65% 50% at 50% 50%, rgba(224, 122, 95, 0.07) 0%, rgba(255, 92, 141, 0.03) 40%, transparent 70%)',
           pointerEvents: 'none',
           zIndex: 0,
         }}
       />
 
       <div
+        className="editorial-container"
         style={{
-          maxWidth: '1240px',
-          margin: '0 auto',
           position: 'relative',
           zIndex: 1,
           display: 'flex',
@@ -41,75 +40,67 @@ export const ProductShowcase: React.FC = () => {
           textAlign: 'center',
         }}
       >
-        {/* Eyebrow */}
+        {/* Editorial Eyebrow */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.6 }}
-          style={{
-            fontSize: '11px',
-            fontWeight: 700,
-            letterSpacing: '0.14em',
-            textTransform: 'uppercase',
-            color: '#38BDF8',
-            marginBottom: '16px',
-          }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.55 }}
+          className="chapter-eyebrow"
         >
-          SOVEREIGN DEFENSE PLANE
+          <span className="chapter-eyebrow-bullet" />
+          <span>Chapter 02: [ Sovereign Defense Plane ]</span>
         </motion.div>
 
-        {/* Large Centered Headline */}
+        {/* Headline */}
         <motion.h2
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.7, delay: 0.1 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+          className="editorial-display-heading"
           style={{
-            fontSize: 'clamp(36px, 5vw, 64px)',
-            fontWeight: 800,
-            lineHeight: 1.1,
-            letterSpacing: '-0.03em',
-            color: '#FFFFFF',
-            maxWidth: '840px',
+            fontSize: 'clamp(38px, 5.2vw, 68px)',
+            maxWidth: '860px',
             marginBottom: '20px',
           }}
         >
           Designed to defend every rupee.
         </motion.h2>
 
-        {/* Small Muted Description */}
+        {/* Narrative */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.6, delay: 0.16 }}
           style={{
+            fontFamily: 'var(--font-sans)',
             fontSize: 'clamp(15px, 1.5vw, 18px)',
             fontWeight: 400,
-            lineHeight: 1.6,
-            color: '#8E8E93',
-            maxWidth: '620px',
+            lineHeight: 1.68,
+            color: 'rgba(255, 255, 255, 0.58)',
+            maxWidth: '640px',
             marginBottom: '64px',
           }}
         >
           Unlike generic chatbots that hallucinate financial advice, Sangyan anchors every verdict in statutory registry databases, official SEBI circulars, and RBI master directions.
         </motion.p>
 
-        {/* Large Product Screenshot with Glass Frame */}
+        {/* Product Screenshot Frame */}
         <motion.div
-          initial={{ opacity: 0, y: 60, scale: 0.95 }}
+          initial={{ opacity: 0, y: 50, scale: 0.98 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.9, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.9, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
           style={{
             width: '100%',
-            maxWidth: '1140px',
+            maxWidth: '1160px',
             borderRadius: '16px',
             overflow: 'hidden',
-            backgroundColor: '#121318',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            boxShadow: '0 30px 80px -15px rgba(0, 0, 0, 0.9), 0 0 40px rgba(56, 189, 248, 0.08)',
+            backgroundColor: '#0F0C0F',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            boxShadow: '0 30px 90px -15px rgba(0, 0, 0, 0.95), 0 0 1px rgba(255, 255, 255, 0.15)',
             position: 'relative',
           }}
         >
@@ -117,7 +108,7 @@ export const ProductShowcase: React.FC = () => {
           <div
             style={{
               padding: '12px 20px',
-              backgroundColor: 'rgba(18, 19, 24, 0.9)',
+              backgroundColor: 'rgba(18, 14, 18, 0.95)',
               borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
               display: 'flex',
               alignItems: 'center',
@@ -125,38 +116,46 @@ export const ProductShowcase: React.FC = () => {
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#EF4444' }} />
-              <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#F59E0B' }} />
-              <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#10B981' }} />
+              <span style={{ width: '9px', height: '9px', borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.15)' }} />
+              <span style={{ width: '9px', height: '9px', borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.15)' }} />
+              <span style={{ width: '9px', height: '9px', borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.15)' }} />
               <span
                 style={{
                   marginLeft: '12px',
-                  fontSize: '12px',
+                  fontSize: '11px',
                   fontFamily: 'var(--font-mono)',
-                  color: 'rgba(255, 255, 255, 0.5)',
+                  color: 'rgba(255, 255, 255, 0.45)',
                 }}
               >
                 sangyan://console.sovereign/live-threat-radar
               </span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <span
                 style={{
                   fontSize: '11px',
+                  fontFamily: 'var(--font-mono)',
                   fontWeight: 600,
-                  color: '#10B981',
+                  color: 'var(--color-trusted)',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '6px',
                 }}
               >
-                <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#10B981', animation: 'subtlePulse 2s infinite' }} />
-                SEBI & RBI GROUNDED
+                <span
+                  style={{
+                    width: '6px',
+                    height: '6px',
+                    borderRadius: '50%',
+                    backgroundColor: 'var(--color-trusted)',
+                    boxShadow: '0 0 8px var(--color-trusted)',
+                  }}
+                />
+                STATUTORY GROUNDING ENFORCED
               </span>
             </div>
           </div>
 
-          {/* Actual Dashboard Screenshot */}
           <img
             src="/images/dashboard.png"
             alt="Sangyan AI Real-Time Investor Shield Dashboard"

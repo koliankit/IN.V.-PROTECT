@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowUpRight, Lock } from 'lucide-react';
+import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { OwnerProfile } from '../../types/auth';
 import { OwnerProfileBadge } from '../auth/OwnerProfileBadge';
@@ -27,49 +27,47 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navLinks = [
     { label: 'Overview', href: '#overview' },
+    { label: 'Defense Plane', href: '#product-showcase' },
     { label: 'Capabilities', href: '#capabilities' },
-    { label: 'Interactive Demo', href: '#interactive-demo' },
+    { label: 'Live Inspector', href: '#interactive-demo' },
     { label: 'Telemetry', href: '#telemetry' },
     { label: 'Pricing', href: '#pricing' },
   ];
 
   return (
     <motion.header
-      initial={{ y: -20, opacity: 0 }}
+      initial={{ y: -16, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
       style={{
         position: 'fixed',
         top: 0,
         left: 0,
         right: 0,
         zIndex: 100,
-        backgroundColor: scrolled ? 'rgba(8, 8, 11, 0.85)' : 'transparent',
+        backgroundColor: scrolled ? 'rgba(10, 10, 10, 0.92)' : 'transparent',
         backdropFilter: scrolled ? 'blur(16px)' : 'none',
-        borderBottom: scrolled ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid transparent',
-        transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+        borderBottom: scrolled ? '1px solid rgba(255, 255, 255, 0.07)' : '1px solid transparent',
+        transition: 'background-color 0.25s ease, border-color 0.25s ease, backdrop-filter 0.25s ease',
       }}
     >
       <div
+        className="editorial-container"
         style={{
-          maxWidth: '1240px',
-          margin: '0 auto',
-          padding: '16px 24px',
+          height: '64px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
         }}
       >
-        {/* Brand / Logo */}
+        {/* Brand */}
         <a
           href="#"
           style={{
@@ -77,89 +75,60 @@ export const Navbar: React.FC<NavbarProps> = ({
             alignItems: 'center',
             gap: '10px',
             textDecoration: 'none',
-            color: '#FFFFFF',
           }}
         >
-          <div
+          <span
             style={{
-              height: '32px',
-              padding: '2px 8px',
-              borderRadius: '6px',
-              backgroundColor: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 0 14px rgba(56, 189, 248, 0.15)',
+              fontFamily: 'var(--font-display)',
+              fontSize: '15px',
+              fontWeight: 800,
+              letterSpacing: '-0.03em',
+              color: '#FFFFFF',
             }}
           >
-            <img
-              src="/logo.png"
-              alt="SecurityDoor Solutions Logo"
-              style={{
-                height: '20px',
-                objectFit: 'contain',
-                display: 'block',
-              }}
-            />
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span
-              style={{
-                fontSize: '15px',
-                fontWeight: 700,
-                letterSpacing: '-0.02em',
-                lineHeight: 1.1,
-              }}
-            >
-              IN V PROTECT
-            </span>
-            <span
-              style={{
-                fontSize: '10px',
-                fontWeight: 600,
-                color: '#8E8E93',
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-              }}
-            >
-              SANGYAN • INVESTOR SECURITY
-            </span>
-          </div>
+            IN.V.PROTECT
+          </span>
+          <span
+            style={{
+              fontSize: '11px',
+              fontFamily: 'var(--font-mono)',
+              fontWeight: 500,
+              color: 'var(--accent)',
+              letterSpacing: '0.04em',
+              opacity: 0.85,
+            }}
+          >
+            / SANGYAN
+          </span>
         </a>
 
-        {/* Center Desktop Navigation */}
-        <nav
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '32px',
-          }}
-          className="desktop-nav"
-        >
+        {/* Desktop Nav */}
+        <nav className="inv-desktop-nav" style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
               style={{
+                fontFamily: 'var(--font-sans)',
                 fontSize: '13px',
-                fontWeight: 500,
-                color: 'rgba(255, 255, 255, 0.7)',
+                fontWeight: 450,
+                color: 'rgba(255, 255, 255, 0.55)',
                 textDecoration: 'none',
-                transition: 'color 0.2s ease',
+                letterSpacing: '-0.01em',
+                transition: 'color 0.18s ease',
               }}
               onMouseEnter={(e) => (e.currentTarget.style.color = '#FFFFFF')}
-              onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255, 255, 255, 0.7)')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255, 255, 255, 0.55)')}
             >
               {link.label}
             </a>
           ))}
         </nav>
 
-        {/* Right CTA / Auth Status */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }} className="desktop-nav">
+        {/* Right Actions */}
+        <div className="inv-desktop-nav" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           {ownerProfile ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <>
               {onLogout && onOpenDevices && onOpenSecurityPrivacy && (
                 <OwnerProfileBadge
                   profile={ownerProfile}
@@ -170,182 +139,131 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
               <button
                 onClick={onOpenConsole}
-                style={{
-                  backgroundColor: '#38BDF8',
-                  color: '#08080B',
-                  fontWeight: 600,
-                  fontSize: '13px',
-                  padding: '8px 16px',
-                  borderRadius: '6px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  boxShadow: '0 0 20px rgba(56, 189, 248, 0.25)',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#0284C7';
-                  e.currentTarget.style.color = '#FFFFFF';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#38BDF8';
-                  e.currentTarget.style.color = '#08080B';
-                }}
+                className="btn-primary-titanium"
+                style={{ padding: '8px 16px', fontSize: '12px' }}
               >
                 <span>Shield Console</span>
-                <ArrowUpRight style={{ width: '14px', height: '14px' }} />
+                <ArrowUpRight style={{ width: '13px', height: '13px' }} />
               </button>
-            </div>
+            </>
           ) : (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <>
               <button
                 onClick={onOpenLogin}
-                style={{
-                  backgroundColor: 'transparent',
-                  color: 'rgba(255, 255, 255, 0.8)',
-                  fontSize: '13px',
-                  fontWeight: 500,
-                  padding: '8px 14px',
-                  borderRadius: '6px',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = '#FFFFFF';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = 'rgba(255, 255, 255, 0.8)';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                }}
+                className="btn-secondary-hairline"
+                style={{ padding: '8px 16px', fontSize: '12px' }}
               >
-                <Lock style={{ width: '13px', height: '13px', color: '#8E8E93' }} />
-                <span>Sign In</span>
+                Sign In
               </button>
               <button
                 onClick={onOpenRegister}
-                style={{
-                  backgroundColor: '#FFFFFF',
-                  color: '#08080B',
-                  fontWeight: 600,
-                  fontSize: '13px',
-                  padding: '8px 16px',
-                  borderRadius: '6px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#E5E7EB')}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#FFFFFF')}
+                className="btn-secondary-hairline"
+                style={{ padding: '8px 16px', fontSize: '12px' }}
               >
-                <span>Get Started</span>
-                <ArrowUpRight style={{ width: '14px', height: '14px' }} />
+                Get Started
               </button>
-            </div>
+              <button
+                onClick={onOpenConsole}
+                className="btn-primary-titanium"
+                style={{ padding: '8px 16px', fontSize: '12px' }}
+              >
+                <span>Launch Console</span>
+                <ArrowUpRight style={{ width: '13px', height: '13px' }} />
+              </button>
+            </>
           )}
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile Toggle */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="inv-mobile-toggle"
           style={{
             display: 'none',
-            backgroundColor: 'transparent',
+            background: 'transparent',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '6px',
             color: '#FFFFFF',
-            padding: '6px',
+            padding: '6px 8px',
+            cursor: 'pointer',
           }}
-          className="mobile-toggle"
-          aria-label="Toggle menu"
+          aria-label="Toggle Navigation Menu"
         >
-          {mobileMenuOpen ? <X style={{ width: '22px', height: '22px' }} /> : <Menu style={{ width: '22px', height: '22px' }} />}
+          {mobileMenuOpen ? <X style={{ width: '18px', height: '18px' }} /> : <Menu style={{ width: '18px', height: '18px' }} />}
         </button>
       </div>
 
-      {/* Mobile Slide-down Drawer */}
+      {/* Mobile Drawer */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
             style={{
-              backgroundColor: '#0A0A0D',
-              borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-              padding: '20px 24px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '16px',
+              overflow: 'hidden',
+              backgroundColor: 'rgba(10, 10, 10, 0.98)',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.07)',
+              backdropFilter: 'blur(20px)',
             }}
           >
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                style={{
-                  fontSize: '15px',
-                  fontWeight: 500,
-                  color: 'rgba(255, 255, 255, 0.8)',
-                  textDecoration: 'none',
-                  padding: '8px 0',
-                }}
-              >
-                {link.label}
-              </a>
-            ))}
-            <div style={{ paddingTop: '12px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenConsole();
-                }}
-                style={{
-                  backgroundColor: '#38BDF8',
-                  color: '#08080B',
-                  fontWeight: 600,
-                  fontSize: '14px',
-                  padding: '10px 16px',
-                  borderRadius: '6px',
-                  textAlign: 'center',
-                }}
-              >
-                Launch Shield Console
-              </button>
-              {!ownerProfile && (
+            <div style={{ padding: '24px 20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {navLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  style={{
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '15px',
+                    fontWeight: 500,
+                    color: 'rgba(255, 255, 255, 0.75)',
+                    textDecoration: 'none',
+                    borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+                    paddingBottom: '12px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <span>{link.label}</span>
+                  <span style={{ color: 'var(--accent)', fontSize: '13px' }}>↗</span>
+                </a>
+              ))}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', paddingTop: '8px' }}>
                 <button
                   onClick={() => {
                     setMobileMenuOpen(false);
-                    onOpenLogin();
+                    onOpenConsole();
                   }}
-                  style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                    color: '#FFFFFF',
-                    fontWeight: 500,
-                    fontSize: '14px',
-                    padding: '10px 16px',
-                    borderRadius: '6px',
-                    textAlign: 'center',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                  }}
+                  className="btn-primary-titanium"
+                  style={{ width: '100%', justifyContent: 'center' }}
                 >
-                  Sign In
+                  Launch Shield Console
                 </button>
-              )}
+                {!ownerProfile && (
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onOpenLogin();
+                    }}
+                    className="btn-secondary-hairline"
+                    style={{ width: '100%', justifyContent: 'center' }}
+                  >
+                    Sign In
+                  </button>
+                )}
+              </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
       <style>{`
-        @media (max-width: 820px) {
-          .desktop-nav {
-            display: none !important;
-          }
-          .mobile-toggle {
-            display: block !important;
-          }
+        @media (max-width: 860px) {
+          .inv-desktop-nav { display: none !important; }
+          .inv-mobile-toggle { display: block !important; }
         }
       `}</style>
     </motion.header>

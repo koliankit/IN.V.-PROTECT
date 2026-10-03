@@ -51,7 +51,7 @@ export const OwnerProfileBadge: React.FC<OwnerProfileBadgeProps> = ({
           <div style={{ fontSize: '12px', fontWeight: 700, color: '#ffffff', display: 'flex', alignItems: 'center', gap: '4px' }}>
             {profile.full_name}
             {profile.identity_verified && (
-              <CheckCircle2 style={{ width: '12px', height: '12px', color: '#34d399' }} />
+              <CheckCircle2 style={{ width: '12px', height: '12px', color: '#e53e3e' }} />
             )}
           </div>
           <div style={{ fontSize: '10px', color: '#94a3b8', fontFamily: 'monospace' }}>
@@ -87,7 +87,7 @@ export const OwnerProfileBadge: React.FC<OwnerProfileBadgeProps> = ({
             {/* Status overview */}
             <div style={{ padding: '6px 8px 10px 8px', borderBottom: '1px solid #1e293b', fontSize: '11px' }}>
               <div style={{ color: '#64748b', marginBottom: '2px' }}>STATUS:</div>
-              <div style={{ color: '#34d399', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <div style={{ color: '#e53e3e', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
                 <CheckCircle2 style={{ width: '12px', height: '12px' }} /> Verified Owner Account
               </div>
             </div>

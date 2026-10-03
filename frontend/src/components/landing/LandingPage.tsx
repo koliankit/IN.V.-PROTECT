@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar } from './Navbar';
+import { AppTopBar } from '../layout/AppTopBar';
 import { Hero } from './Hero';
 import { ProductShowcase } from './ProductShowcase';
 import { FeatureSection } from './FeatureSection';
@@ -41,14 +41,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   return (
     <div
       style={{
-        backgroundColor: '#08080B',
+        backgroundColor: 'var(--bg-primary)',
         color: '#FFFFFF',
         minHeight: '100vh',
         overflowX: 'hidden',
       }}
     >
-      {/* Top Sticky Minimalist Navbar */}
-      <Navbar
+      {/* Unified Top Bar */}
+      <AppTopBar
+        mode="landing"
         ownerProfile={ownerProfile}
         onOpenConsole={onOpenConsole}
         onOpenLogin={onOpenLogin}
@@ -58,34 +59,34 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         onOpenSecurityPrivacy={onOpenSecurityPrivacy}
       />
 
-      {/* Hero Section */}
+      {/* Hero Section: Chapter 01 */}
       <Hero onOpenConsole={onOpenConsole} onExploreDemo={scrollToInteractiveDemo} />
 
-      {/* Section 02: Large Statement & Product Showcase */}
+      {/* Section 02: Sovereign Defense Plane */}
       <ProductShowcase />
 
-      {/* Feature Section: "Everything, unlike anything." */}
+      {/* Section 03: Architecture & Capabilities */}
       <FeatureSection />
 
-      {/* Large Interactive Product Section: "Always at your command." */}
+      {/* Section 04: Interactive Threat Forensics */}
       <InteractiveAnalyzer onOpenConsole={onOpenConsole} />
 
-      {/* Analytics & Data Section: "Telemetry rooted in certainty." */}
+      {/* Section 05: Telemetry & Threat Radar */}
       <AnalyticsSection onOpenConsole={onOpenConsole} />
 
-      {/* Capital Protection & Connected Depository Linkages */}
+      {/* Section 06: Capital Isolation & Defense */}
       <PortfolioSection onOpenConsole={onOpenConsole} />
 
-      {/* Pricing / Cost Section: "What it costs." */}
+      {/* Section 07: Sovereign Access & Pricing */}
       <PricingSection onOpenRegister={onOpenRegister} onOpenConsole={onOpenConsole} />
 
-      {/* Light Testimonial Section with high visual contrast */}
+      {/* Section 08: Community & Institutional Trust */}
       <TestimonialsSection />
 
-      {/* Final CTA Section: "Shield your capital today." */}
+      {/* Section 09: Final Call to Action */}
       <FinalCTA onOpenRegister={onOpenRegister} onOpenConsole={onOpenConsole} />
 
-      {/* Minimal Footer */}
+      {/* Institutional Editorial Footer */}
       <Footer />
     </div>
   );

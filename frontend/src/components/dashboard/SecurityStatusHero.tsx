@@ -38,8 +38,8 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
                 width: '7px',
                 height: '7px',
                 borderRadius: '50%',
-                backgroundColor: hasHighRisk ? '#FF3B3B' : '#20D98A',
-                boxShadow: `0 0 8px ${hasHighRisk ? '#FF3B3B' : '#20D98A'}`,
+                backgroundColor: '#e53e3e',
+                boxShadow: `0 0 8px #e53e3e`,
               }}
             />
             <h1
@@ -70,7 +70,7 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
           textAlign: 'center',
           position: 'relative',
           overflow: 'hidden',
-          backgroundColor: hasHighRisk ? 'rgba(255, 59, 59, 0.025)' : 'rgba(32, 217, 138, 0.02)',
+          backgroundColor: 'rgba(229, 62, 62, 0.025)',
         }}
       >
         {/* Ambient Radial Backlight */}
@@ -82,9 +82,7 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
             transform: 'translateX(-50%)',
             width: '420px',
             height: '240px',
-            background: hasHighRisk
-              ? 'radial-gradient(ellipse at 50% 20%, rgba(255, 59, 59, 0.14) 0%, transparent 70%)'
-              : 'radial-gradient(ellipse at 50% 20%, rgba(32, 217, 138, 0.12) 0%, transparent 70%)',
+            background: 'radial-gradient(ellipse at 50% 20%, rgba(229, 62, 62, 0.14) 0%, transparent 70%)',
             pointerEvents: 'none',
             zIndex: 0,
           }}
@@ -99,9 +97,9 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
             justifyContent: 'center',
             padding: '24px 48px',
             borderRadius: '22px',
-            backgroundColor: hasHighRisk ? 'rgba(255, 59, 59, 0.06)' : 'rgba(32, 217, 138, 0.06)',
-            border: hasHighRisk ? '1px solid rgba(255, 59, 59, 0.28)' : '1px solid rgba(32, 217, 138, 0.28)',
-            boxShadow: hasHighRisk ? '0 8px 32px rgba(255, 59, 59, 0.15)' : '0 8px 32px rgba(32, 217, 138, 0.12)',
+            backgroundColor: hasHighRisk ? 'rgba(229, 62, 62, 0.08)' : 'rgba(229, 62, 62, 0.06)',
+            border: '1px solid rgba(229, 62, 62, 0.28)',
+            boxShadow: '0 8px 32px rgba(229, 62, 62, 0.15)',
             marginBottom: '18px',
             position: 'relative',
             zIndex: 1,
@@ -113,8 +111,8 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
               style={{
                 width: '64px',
                 height: '64px',
-                color: '#FF3B3B',
-                filter: 'drop-shadow(0 0 16px rgba(255, 59, 59, 0.55))',
+                color: '#e53e3e',
+                filter: 'drop-shadow(0 0 16px rgba(229, 62, 62, 0.55))',
                 marginBottom: '12px',
               }}
             />
@@ -123,8 +121,8 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
               style={{
                 width: '64px',
                 height: '64px',
-                color: '#20D98A',
-                filter: 'drop-shadow(0 0 16px rgba(32, 217, 138, 0.55))',
+                color: '#e53e3e',
+                filter: 'drop-shadow(0 0 16px rgba(229, 62, 62, 0.55))',
                 marginBottom: '12px',
               }}
             />
@@ -149,7 +147,7 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
               gap: '6px',
               fontSize: '13px',
               fontWeight: 600,
-              color: hasHighRisk ? '#FF9F9F' : '#A7F3D0',
+              color: 'rgba(229, 62, 62, 0.85)',
               marginTop: '6px',
             }}
           >
@@ -158,7 +156,7 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
                 width: '6px',
                 height: '6px',
                 borderRadius: '50%',
-                backgroundColor: hasHighRisk ? '#FF3B3B' : '#20D98A',
+                backgroundColor: '#e53e3e',
               }}
             />
             {hasHighRisk
@@ -201,8 +199,8 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
           style={{
             borderRadius: '16px',
             padding: '22px',
-            backgroundColor: 'rgba(32, 217, 138, 0.03)',
-            borderColor: 'rgba(32, 217, 138, 0.22)',
+            backgroundColor: 'rgba(229, 62, 62, 0.03)',
+            borderColor: 'rgba(229, 62, 62, 0.22)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
@@ -215,15 +213,15 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
                   width: '8px',
                   height: '8px',
                   borderRadius: '50%',
-                  backgroundColor: '#20D98A',
-                  boxShadow: '0 0 8px #20D98A',
+                  backgroundColor: '#e53e3e',
+                  boxShadow: '0 0 8px #e53e3e',
                 }}
               />
               <span
                 style={{
                   fontSize: '11px',
                   fontWeight: 800,
-                  color: '#20D98A',
+                  color: '#e53e3e',
                   textTransform: 'uppercase',
                   letterSpacing: '0.08em',
                 }}
@@ -236,14 +234,14 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
                 width: '36px',
                 height: '36px',
                 borderRadius: '10px',
-                backgroundColor: 'rgba(32, 217, 138, 0.10)',
-                border: '1px solid rgba(32, 217, 138, 0.25)',
+                backgroundColor: 'rgba(229, 62, 62, 0.10)',
+                border: '1px solid rgba(229, 62, 62, 0.25)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
             >
-              <CheckCircle2 style={{ width: '18px', height: '18px', color: '#20D98A' }} />
+              <CheckCircle2 style={{ width: '18px', height: '18px', color: '#e53e3e' }} />
             </div>
           </div>
           <div>
@@ -340,8 +338,8 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
           style={{
             borderRadius: '16px',
             padding: '22px',
-            backgroundColor: 'rgba(255, 59, 59, 0.04)',
-            borderColor: 'rgba(255, 59, 59, 0.28)',
+            backgroundColor: 'rgba(229, 62, 62, 0.04)',
+            borderColor: 'rgba(229, 62, 62, 0.28)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
@@ -355,15 +353,15 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
                   width: '8px',
                   height: '8px',
                   borderRadius: '50%',
-                  backgroundColor: '#FF3B3B',
-                  boxShadow: '0 0 8px #FF3B3B',
+                  backgroundColor: '#e53e3e',
+                  boxShadow: '0 0 8px #e53e3e',
                 }}
               />
               <span
                 style={{
                   fontSize: '11px',
                   fontWeight: 800,
-                  color: '#FF3B3B',
+                  color: '#e53e3e',
                   textTransform: 'uppercase',
                   letterSpacing: '0.08em',
                 }}
@@ -376,14 +374,14 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
                 width: '36px',
                 height: '36px',
                 borderRadius: '10px',
-                backgroundColor: 'rgba(255, 59, 59, 0.12)',
-                border: '1px solid rgba(255, 59, 59, 0.30)',
+                backgroundColor: 'rgba(229, 62, 62, 0.12)',
+                border: '1px solid rgba(229, 62, 62, 0.30)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
             >
-              <AlertOctagon style={{ width: '18px', height: '18px', color: '#FF3B3B' }} />
+              <AlertOctagon style={{ width: '18px', height: '18px', color: '#e53e3e' }} />
             </div>
           </div>
           <div>
@@ -477,7 +475,7 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
           {recentMessages.slice(0, 5).map((msg, index) => {
             const isHighRisk = msg.protection_tier === 'Quarantined / High Risk' || msg.risk_level === 'High Concern';
             const isReview = msg.protection_tier === 'Review / Verify' || msg.risk_level === 'Needs Verification';
-            const statusColor = isHighRisk ? '#FF3B3B' : isReview ? '#FFB020' : '#20D98A';
+            const statusColor = isHighRisk ? '#e53e3e' : isReview ? '#FFB020' : '#e53e3e';
             const statusLabel = isHighRisk ? 'HIGH RISK' : isReview ? 'REVIEW' : 'TRUSTED';
 
             return (

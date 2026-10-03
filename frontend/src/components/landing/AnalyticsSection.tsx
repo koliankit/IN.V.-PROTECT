@@ -18,57 +18,51 @@ export const AnalyticsSection: React.FC<AnalyticsSectionProps> = ({ onOpenConsol
     <section
       id="telemetry"
       style={{
-        padding: '140px 24px',
-        backgroundColor: '#08080B',
+        padding: '140px 0',
+        backgroundColor: 'var(--bg-primary)',
         position: 'relative',
         overflow: 'hidden',
+        borderTop: '1px solid rgba(255, 255, 255, 0.05)',
       }}
     >
-      <div
-        style={{
-          maxWidth: '1240px',
-          margin: '0 auto',
-        }}
-      >
+      <div className="editorial-container">
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: '1.2fr 1fr',
+            gridTemplateColumns: '1.15fr 1fr',
             gap: '64px',
             alignItems: 'center',
           }}
-          className="analytics-grid"
+          className="analytics-editorial-grid"
         >
           {/* Left: Analytics Image Showcase */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
+            initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            style={{
-              position: 'relative',
-            }}
+            style={{ position: 'relative' }}
           >
-            {/* Subtle Glow */}
+            {/* Subtle Warm Backdrop Glow */}
             <div
               style={{
                 position: 'absolute',
-                inset: '-10px',
-                background: 'radial-gradient(circle at 40% 50%, rgba(56, 189, 248, 0.12), transparent 70%)',
+                inset: '-12px',
+                background: 'radial-gradient(circle at 40% 50%, var(--accent-bg), transparent 70%)',
                 filter: 'blur(30px)',
                 zIndex: 0,
               }}
             />
 
             <div
+              className="editorial-panel glossy-reflection"
               style={{
                 position: 'relative',
                 zIndex: 1,
-                borderRadius: '16px',
                 overflow: 'hidden',
-                backgroundColor: '#121318',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                boxShadow: '0 30px 70px -15px rgba(0, 0, 0, 0.8)',
+                borderRadius: '16px',
+                border: '1px solid rgba(255, 255, 255, 0.09)',
+                boxShadow: '0 30px 80px -20px rgba(0, 0, 0, 0.9)',
               }}
             >
               <img
@@ -88,57 +82,49 @@ export const AnalyticsSection: React.FC<AnalyticsSectionProps> = ({ onOpenConsol
 
           {/* Right: Narrative & Telemetry Badges */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
+            initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           >
             {/* Eyebrow */}
-            <div
-              style={{
-                fontSize: '11px',
-                fontWeight: 700,
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                color: '#38BDF8',
-                marginBottom: '16px',
-              }}
-            >
-              TELEMETRY & THREAT RADAR
+            <div className="chapter-eyebrow">
+              <span className="chapter-eyebrow-bullet" />
+              <span>Chapter 05: [ Telemetry &amp; Threat Radar ]</span>
             </div>
 
             {/* Headline */}
             <h2
+              className="editorial-display-heading"
               style={{
-                fontSize: 'clamp(32px, 4vw, 48px)',
-                fontWeight: 800,
-                lineHeight: 1.15,
-                letterSpacing: '-0.03em',
-                color: '#FFFFFF',
+                fontSize: 'clamp(32px, 4vw, 52px)',
                 marginBottom: '20px',
               }}
             >
-              Telemetry rooted in certainty.
+              Telemetry rooted
+              <br />
+              in certainty.
             </h2>
 
             {/* Description */}
             <p
               style={{
-                fontSize: '16px',
-                lineHeight: 1.65,
-                color: '#8E8E93',
+                fontFamily: 'var(--font-sans)',
+                fontSize: '15px',
+                lineHeight: '1.68',
+                color: 'rgba(255, 255, 255, 0.58)',
                 marginBottom: '36px',
               }}
             >
               Real-time monitoring of emerging scam syndicates operating across Indian social channels. Continuous correlation between suspicious promoters and active SEBI adjudication orders guarantees that false positives remain at an unprecedented near-zero threshold.
             </p>
 
-            {/* Stat Badges Grid */}
+            {/* Stat Matrix */}
             <div
               style={{
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr',
-                gap: '16px',
+                gap: '14px',
                 marginBottom: '36px',
               }}
             >
@@ -146,7 +132,7 @@ export const AnalyticsSection: React.FC<AnalyticsSectionProps> = ({ onOpenConsol
                 <div
                   key={st.label}
                   style={{
-                    padding: '16px',
+                    padding: '18px 20px',
                     borderRadius: '10px',
                     backgroundColor: 'rgba(255, 255, 255, 0.02)',
                     border: '1px solid rgba(255, 255, 255, 0.06)',
@@ -154,41 +140,48 @@ export const AnalyticsSection: React.FC<AnalyticsSectionProps> = ({ onOpenConsol
                 >
                   <div
                     style={{
-                      fontSize: '24px',
-                      fontWeight: 700,
+                      fontSize: '26px',
+                      fontWeight: 800,
                       color: '#FFFFFF',
                       fontFamily: 'var(--font-mono)',
+                      letterSpacing: '-0.03em',
                       marginBottom: '4px',
                     }}
                   >
                     {st.value}
                   </div>
-                  <div style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(255, 255, 255, 0.9)' }}>
+                  <div
+                    style={{
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '12px',
+                      fontWeight: 600,
+                      color: 'rgba(255, 255, 255, 0.88)',
+                    }}
+                  >
                     {st.label}
                   </div>
-                  <div style={{ fontSize: '11px', color: '#8E8E93', marginTop: '2px' }}>{st.sub}</div>
+                  <div
+                    style={{
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '11px',
+                      color: 'rgba(255, 255, 255, 0.4)',
+                      marginTop: '3px',
+                    }}
+                  >
+                    {st.sub}
+                  </div>
                 </div>
               ))}
             </div>
 
-            {/* CTA Link */}
+            {/* CTA */}
             <button
               onClick={onOpenConsole}
-              style={{
-                backgroundColor: 'transparent',
-                color: '#38BDF8',
-                fontWeight: 600,
-                fontSize: '14px',
-                padding: '0',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = '#FFFFFF')}
-              onMouseLeave={(e) => (e.currentTarget.style.color = '#38BDF8')}
+              className="btn-warm-accent"
+              style={{ padding: '10px 22px' }}
             >
               <span>Launch Live Telemetry Console</span>
-              <ArrowUpRight style={{ width: '16px', height: '16px' }} />
+              <ArrowUpRight style={{ width: '14px', height: '14px' }} />
             </button>
           </motion.div>
         </div>
@@ -196,9 +189,9 @@ export const AnalyticsSection: React.FC<AnalyticsSectionProps> = ({ onOpenConsol
 
       <style>{`
         @media (max-width: 900px) {
-          .analytics-grid {
+          .analytics-editorial-grid {
             grid-template-columns: 1fr !important;
-            gap: 40px !important;
+            gap: 48px !important;
           }
         }
       `}</style>

@@ -312,7 +312,7 @@ export const VideoLessonHero: React.FC<VideoLessonHeroProps> = ({
                   marginTop: '8px',
                   left: 0,
                   width: '320px',
-                  backgroundColor: '#171717',
+                  backgroundColor: 'var(--bg-primary)',
                   border: '1px solid rgba(255, 255, 255, 0.12)',
                   borderRadius: '16px',
                   boxShadow: '0 16px 40px rgba(0, 0, 0, 0.8)',
