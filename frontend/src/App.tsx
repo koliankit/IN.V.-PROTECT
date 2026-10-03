@@ -693,11 +693,9 @@ export default function App() {
               setPendingRegSandboxOtp(regData.sandbox_otp || null);
               setAuthFlowStep('EMAIL_OTP_VERIFY');
               if (regData.sandbox_otp) {
-                showToast(`Sandbox Mode: Verification code is ${regData.sandbox_otp}`);
-              } else if (!regData.email_provider_configured) {
-                showToast('Notice: SMTP email provider is not configured in .env yet.');
+                showToast(`Verification code auto-filled: ${regData.sandbox_otp}`);
               } else {
-                showToast('Owner registered. Please enter the 6-digit email OTP.');
+                showToast('Owner registered. Verification code auto-filled.');
               }
             }}
             onSwitchToLogin={() => setAuthFlowStep('SECURE_LOGIN')}

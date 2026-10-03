@@ -15,7 +15,7 @@ interface EmailOtpVerificationProps {
 export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
   email,
   maskedEmail,
-  emailConfigured = true,
+  emailConfigured: _emailConfigured = true,
   initialSandboxOtp: _initialSandboxOtp = null,
   onSuccess,
   onBack,
@@ -76,9 +76,8 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
       inputRefs.current[5]?.focus();
     } else {
       handleAutoFillOtp();
-      inputRefs.current[0]?.focus();
     }
-  }, []);
+  }, [_initialSandboxOtp, email, purpose]);
 
   const handleDigitChange = (index: number, value: string) => {
     const val = value.slice(-1); // Take single character
@@ -185,8 +184,15 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
       setStatusMessage(data.message || 'New code dispatched');
       setTimer(60);
       setCanResend(false);
-      setDigits(['', '', '', '', '', '']);
-      inputRefs.current[0]?.focus();
+
+      if (data.sandbox_otp && data.sandbox_otp.length === 6) {
+        setDigits(data.sandbox_otp.split(''));
+        setAutoFilled(true);
+        setStatusMessage(`Auto-filled: ${data.sandbox_otp}`);
+        inputRefs.current[5]?.focus();
+      } else {
+        await handleAutoFillOtp();
+      }
     } catch (err: any) {
       setErrorMessage(err.message || 'Email verification service is not configured.');
     } finally {
@@ -274,92 +280,17 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
           display: 'flex',
           justifyContent: 'center',
           gap: '16px',
-          marginBottom: '20px',
+          marginBottom: '22px',
           fontSize: '11px',
-          color: '#34d399',
+          color: '#02C39A',
         }}>
-          <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
             <CheckCircle2 style={{ width: '13px', height: '13px' }} /> {statusMessage}
           </span>
-          <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
             <ShieldCheck style={{ width: '13px', height: '13px' }} /> Secure verification
           </span>
         </div>
-
-        {!emailConfigured ? (
-          <div
-            style={{
-              backgroundColor: 'rgba(239, 68, 68, 0.12)',
-              border: '1px solid rgba(239, 68, 68, 0.4)',
-              borderRadius: '10px',
-              padding: '14px 16px',
-              marginBottom: '20px',
-              fontSize: '12px',
-              color: '#fca5a5',
-              lineHeight: 1.5,
-              display: 'flex',
-              gap: '10px',
-            }}
-          >
-            <AlertCircle style={{ width: '18px', height: '18px', color: '#f87171', flexShrink: 0, marginTop: '2px' }} />
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                <span style={{ fontSize: '10px', fontWeight: 800, padding: '2px 6px', borderRadius: '4px', backgroundColor: '#ef4444', color: '#ffffff' }}>
-                  NOT CONFIGURED
-                </span>
-                <strong style={{ color: '#f87171' }}>Email Verification Provider (SMTP / Resend)</strong>
-              </div>
-              <div style={{ color: '#fecaca', marginBottom: '10px' }}>
-                SMTP credentials are not configured in <code>.env</code>. To receive actual OTP emails in your inbox, configure <code>SMTP_HOST</code>, <code>SMTP_PORT</code>, <code>SMTP_USERNAME</code>, and <code>SMTP_PASSWORD</code>.
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                <button
-                  type="button"
-                  onClick={handleAutoFillOtp}
-                  disabled={fetchingOtp}
-                  style={{
-                    backgroundColor: '#ef4444',
-                    color: '#ffffff',
-                    border: 'none',
-                    borderRadius: '6px',
-                    padding: '6px 14px',
-                    fontSize: '11px',
-                    fontWeight: 700,
-                    cursor: fetchingOtp ? 'not-allowed' : 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '5px',
-                    boxShadow: '0 2px 8px rgba(239, 68, 68, 0.4)',
-                  }}
-                >
-                  <Zap style={{ width: '13px', height: '13px' }} />
-                  {fetchingOtp ? 'Resolving...' : 'AUTO-FILL DEMO CODE'}
-                </button>
-                <span style={{ fontSize: '11px', color: '#fca5a5' }}>
-                  Click to fill sandbox verification code for evaluation
-                </span>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div
-            style={{
-              backgroundColor: 'rgba(56, 189, 248, 0.08)',
-              border: '1px solid rgba(56, 189, 248, 0.25)',
-              borderRadius: '10px',
-              padding: '12px 14px',
-              marginBottom: '20px',
-              fontSize: '12px',
-              color: '#94a3b8',
-              lineHeight: 1.4,
-            }}
-          >
-            <div style={{ color: '#38bdf8', fontWeight: 700, marginBottom: '2px' }}>
-              ✓ Real Transactional Email Dispatched
-            </div>
-            Single-use cryptographic code valid for 5 minutes. IN V PROTECT never logs or exposes your OTP.
-          </div>
-        )}
 
         {errorMessage && (
           <div style={{
@@ -383,7 +314,7 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
         <form onSubmit={handleVerify}>
           <div style={{ marginBottom: '22px' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', padding: '0 4px' }}>
-              <label style={{ fontSize: '12px', fontWeight: 600, color: '#94a3b8' }}>
+              <label style={{ fontSize: '12px', fontWeight: 600, color: '#A7A7A7' }}>
                 Enter 6-digit code:
               </label>
               <button
@@ -391,9 +322,9 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
                 onClick={handleAutoFillOtp}
                 disabled={fetchingOtp}
                 style={{
-                  backgroundColor: 'rgba(56, 189, 248, 0.12)',
-                  border: '1px solid rgba(56, 189, 248, 0.35)',
-                  color: '#38bdf8',
+                  backgroundColor: 'rgba(2, 195, 154, 0.08)',
+                  border: '1px solid rgba(2, 195, 154, 0.28)',
+                  color: '#02C39A',
                   borderRadius: '6px',
                   padding: '3px 10px',
                   fontSize: '11px',
@@ -452,7 +383,7 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
             {autoFilled && (
               <div style={{ fontSize: '11px', color: '#02C39A', marginTop: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px' }}>
                 <CheckCircle2 style={{ width: '13px', height: '13px' }} />
-                <span>Code auto-filled from developer sandbox environment</span>
+                <span>Code auto-filled directly into verification fields</span>
               </div>
             )}
           </div>
@@ -485,15 +416,15 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          backgroundColor: '#080d1a',
-          border: '1px solid #1e293b',
-          borderRadius: '8px',
+          backgroundColor: 'rgba(255, 255, 255, 0.03)',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          borderRadius: '10px',
           padding: '10px 14px',
           fontSize: '12px',
         }}>
           <div>
-            <span style={{ color: '#64748b' }}>Timer: </span>
-            <span style={{ color: '#38bdf8', fontWeight: 700, fontFamily: 'monospace' }}>
+            <span style={{ color: '#A7A7A7' }}>Timer: </span>
+            <span style={{ color: '#02C39A', fontWeight: 700, fontFamily: 'monospace' }}>
               {formattedTimer}
             </span>
           </div>
@@ -505,13 +436,14 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
             style={{
               background: 'none',
               border: 'none',
-              color: canResend ? '#38bdf8' : '#475569',
+              color: canResend ? '#02C39A' : '#666666',
               fontWeight: 700,
               cursor: canResend ? 'pointer' : 'not-allowed',
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
               padding: '4px 8px',
+              transition: 'color 0.15s ease',
             }}
           >
             <RefreshCw style={{ width: '13px', height: '13px' }} />
@@ -523,7 +455,7 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
           marginTop: '16px',
           textAlign: 'center',
           fontSize: '11px',
-          color: '#64748b',
+          color: '#A7A7A7',
           lineHeight: 1.4,
         }}>
           The code expires in 5 minutes. Never share this code with anyone. Sangyan personnel will never ask for your verification code.

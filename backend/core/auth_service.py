@@ -135,7 +135,7 @@ class AuthService:
         # Trigger Email OTP
         send_success, send_msg = self.send_email_otp(clean_email, purpose="REGISTRATION", user_id=user_id)
         email_provider = get_email_provider()
-        sandbox_otp = getattr(email_provider, "last_otp", None)
+        sandbox_otp = getattr(email_provider, "last_otp", None) or self.get_active_otp(clean_email, purpose="REGISTRATION")
 
         response_data = {
             "user_id": user_id,
@@ -146,7 +146,7 @@ class AuthService:
             "message": send_msg,
             "otp_sent": send_success,
             "email_provider_configured": email_provider.is_configured(),
-            "sandbox_otp": None,
+            "sandbox_otp": sandbox_otp,
         }
         return True, send_msg or "Owner registered successfully. Please verify your email with the one-time code.", response_data
 

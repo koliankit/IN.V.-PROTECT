@@ -97,7 +97,7 @@ def register_owner(req: OwnerRegisterRequest, request: Request, response: Respon
         message=msg,
         otp_sent=data["otp_sent"],
         email_provider_configured=data["email_provider_configured"],
-        sandbox_otp=None,
+        sandbox_otp=data.get("sandbox_otp"),
     )
 
 
@@ -125,6 +125,7 @@ def send_email_otp(req: SendOtpRequest, request: Request) -> SendOtpResponse:
         raise HTTPException(status_code=429 if "wait" in msg else 400, detail=msg)
 
     from backend.core.security_crypto import security_crypto
+    active_otp = getattr(email_prov, "last_otp", None) or auth_service.get_active_otp(req.email, purpose=req.purpose or "REGISTRATION")
 
     return SendOtpResponse(
         success=True,
@@ -133,7 +134,7 @@ def send_email_otp(req: SendOtpRequest, request: Request) -> SendOtpResponse:
         expires_in_seconds=300,
         resend_cooldown_seconds=60,
         email_provider_configured=True,
-        sandbox_otp=None,
+        sandbox_otp=active_otp,
     )
 
 
