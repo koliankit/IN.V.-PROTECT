@@ -802,7 +802,7 @@ export default function App() {
         />
 
         {/* Main Content Area - Full Window Responsive */}
-        <main style={{ flex: 1, padding: '24px 32px', width: '100%', maxWidth: '100%', overflowX: 'hidden', paddingBottom: '32px' }}>
+        <main style={{ flex: 1, padding: '16px 24px', width: '100%', maxWidth: '100%', overflowX: 'hidden', paddingBottom: '20px' }}>
           {/* ============================================================== */}
           {/* VIEW 1: DASHBOARD                                              */}
           {/* ============================================================== */}
