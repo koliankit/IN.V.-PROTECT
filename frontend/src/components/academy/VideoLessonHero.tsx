@@ -1,14 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import {
-  Play,
-  Pause,
-  Subtitles,
-  Settings as SettingsIcon,
-  Maximize2,
-  Minimize2,
-  ArrowLeft,
-} from 'lucide-react';
+  AcademyLogoSvg,
+  PlayIconSvg,
+  PauseIconSvg,
+  CaptionsIconSvg,
+  VolumeIconSvg,
+  VolumeMuteIconSvg,
+  SettingsIconSvg,
+  FullscreenIconSvg,
+  ExitFullscreenIconSvg,
+} from './AcademySvgIcons';
+import { StatCardVisual } from './StatCardVisual';
+import { ConcentricRingsVisual } from './ConcentricRingsVisual';
 
 export interface LessonItem {
   id: string;
@@ -25,7 +29,7 @@ export const ACADEMY_LESSONS: LessonItem[] = [
     lessonNumber: 'Lesson 5',
     title: 'The art of A/B testing',
     subtitle: 'Building a World-Class Outbound Program | Josh Garrison',
-    duration: 345, // 5:45
+    duration: 345,
     initialProgress: 31, // 0:31 as in reference
   },
   {
@@ -62,10 +66,49 @@ export const ACADEMY_LESSONS: LessonItem[] = [
   },
 ];
 
+type LayoutVariant = 'video' | 'stat-card' | 'concentric-rings';
+
 interface VideoLessonHeroProps {
   onBackToDashboard?: () => void;
   defaultLessonIndex?: number;
 }
+
+// Reusable Control Icon Button with 1.15 scale on hover (0.2s duration)
+const ControlIconButton: React.FC<{
+  onClick?: () => void;
+  title?: string;
+  active?: boolean;
+  children: React.ReactNode;
+}> = ({ onClick, title, active = true, children }) => {
+  return (
+    <button
+      onClick={onClick}
+      title={title}
+      style={{
+        background: 'none',
+        border: 'none',
+        cursor: 'pointer',
+        padding: '4px',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: active ? '#A0A0A0' : '#555555',
+        transition: 'transform 0.2s ease, color 0.2s ease',
+        outline: 'none',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = 'scale(1.15)';
+        e.currentTarget.style.color = '#FFFFFF';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'scale(1)';
+        e.currentTarget.style.color = active ? '#A0A0A0' : '#555555';
+      }}
+    >
+      {children}
+    </button>
+  );
+};
 
 export const VideoLessonHero: React.FC<VideoLessonHeroProps> = ({
   onBackToDashboard,
@@ -74,20 +117,24 @@ export const VideoLessonHero: React.FC<VideoLessonHeroProps> = ({
   const [activeLessonIndex, setActiveLessonIndex] = useState<number>(defaultLessonIndex);
   const activeLesson = ACADEMY_LESSONS[activeLessonIndex];
 
+  // Visual layout mode: 'video' (default 16:9 player) | 'stat-card' (160×160 card + extension) | 'concentric-rings'
+  const [activeVariant, setActiveVariant] = useState<LayoutVariant>('video');
+
   // Video playback states
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [currentTime, setCurrentTime] = useState<number>(activeLesson.initialProgress);
+  const [isMuted, setIsMuted] = useState<boolean>(false);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const [showCaptions, setShowCaptions] = useState<boolean>(true);
   const [showChapterMenu, setShowChapterMenu] = useState<boolean>(false);
 
   // Animation DOM refs for GSAP
-  const containerRef = useRef<HTMLDivElement>(null);
-  const subheadingRef = useRef<HTMLDivElement>(null);
+  const pageContainerRef = useRef<HTMLDivElement>(null);
+  const videoFrameRef = useRef<HTMLDivElement>(null);
+  const chapterLabelRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const controlsRef = useRef<HTMLDivElement>(null);
-  const logoRef = useRef<HTMLDivElement>(null);
+  const controlsBarRef = useRef<HTMLDivElement>(null);
 
   // Format seconds to mm:ss
   const formatTime = (seconds: number) => {
@@ -96,59 +143,52 @@ export const VideoLessonHero: React.FC<VideoLessonHeroProps> = ({
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   };
 
-  // GSAP Entrance Animations
+  // GSAP Entrance Animations for Video Player View
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Subheading ("Lesson 5"): Fade in from opacity 0 to 1, translateY: -24px to 0, duration: 0.6s, ease: "power2.out"
-      if (subheadingRef.current) {
-        gsap.fromTo(
-          subheadingRef.current,
-          { opacity: 0, y: -24 },
-          { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }
-        );
-      }
+    if (activeVariant === 'video') {
+      const ctx = gsap.context(() => {
+        // Heading: opacity 0 -> 1, translateY: 32px -> 0, duration: 0.8s, ease: power2.out
+        if (headingRef.current) {
+          gsap.fromTo(
+            headingRef.current,
+            { opacity: 0, y: 32 },
+            { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', delay: 0.2 }
+          );
+        }
 
-      // Main heading ("The art of A/B testing"): Fade in from opacity 0 to 1, translateY: 24px to 0, duration: 0.8s, ease: "power2.out", delay: 0.2s
-      if (headingRef.current) {
-        gsap.fromTo(
-          headingRef.current,
-          { opacity: 0, y: 24 },
-          { opacity: 1, y: 0, duration: 0.8, delay: 0.2, ease: 'power2.out' }
-        );
-      }
+        // Chapter label: opacity 0 -> 1, translateY: -24px -> 0, duration: 0.6s, ease: power2.out
+        if (chapterLabelRef.current) {
+          gsap.fromTo(
+            chapterLabelRef.current,
+            { opacity: 0, y: -24 },
+            { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }
+          );
+        }
 
-      // Subtitle ("Building a World-Class Outbound Program | Josh Garrison"): Fade in from opacity 0 to 1, duration: 0.6s, delay: 0.5s
-      if (subtitleRef.current) {
-        gsap.fromTo(
-          subtitleRef.current,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.6, delay: 0.5, ease: 'power2.out' }
-        );
-      }
+        // Subtitle: fade in after main heading with slight upward movement
+        if (subtitleRef.current) {
+          gsap.fromTo(
+            subtitleRef.current,
+            { opacity: 0, y: 16 },
+            { opacity: 1, y: 0, duration: 0.6, delay: 0.45, ease: 'power2.out' }
+          );
+        }
 
-      // Video player controls: Fade in from opacity 0 to 1, duration: 0.8s, delay: 0.7s
-      if (controlsRef.current) {
-        gsap.fromTo(
-          controlsRef.current,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.8, delay: 0.7, ease: 'power2.out' }
-        );
-      }
+        // Video controls bar: opacity 0 -> 1, duration: 0.8s, delay: 0.65s
+        if (controlsBarRef.current) {
+          gsap.fromTo(
+            controlsBarRef.current,
+            { opacity: 0 },
+            { opacity: 1, duration: 0.8, delay: 0.65, ease: 'power2.out' }
+          );
+        }
+      }, pageContainerRef);
 
-      // Academy watermark logo fade in
-      if (logoRef.current) {
-        gsap.fromTo(
-          logoRef.current,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.8, delay: 0.6, ease: 'power2.out' }
-        );
-      }
-    }, containerRef);
+      return () => ctx.revert();
+    }
+  }, [activeLessonIndex, activeVariant]);
 
-    return () => ctx.revert();
-  }, [activeLessonIndex]);
-
-  // Video playback timer
+  // Playback timer
   useEffect(() => {
     let interval: ReturnType<typeof setInterval> | null = null;
     if (isPlaying) {
@@ -178,7 +218,7 @@ export const VideoLessonHero: React.FC<VideoLessonHeroProps> = ({
   // Fullscreen toggle
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
-      containerRef.current?.requestFullscreen().catch(() => {});
+      pageContainerRef.current?.requestFullscreen().catch(() => {});
       setIsFullscreen(true);
     } else {
       document.exitFullscreen().catch(() => {});
@@ -190,21 +230,23 @@ export const VideoLessonHero: React.FC<VideoLessonHeroProps> = ({
 
   return (
     <div
+      ref={pageContainerRef}
       className="academy-hero-page"
       style={{
         backgroundColor: '#000000',
+        width: '100vw',
+        height: '100vh',
         minHeight: '100vh',
-        width: '100%',
         display: 'flex',
-        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '24px 16px',
         position: 'relative',
         boxSizing: 'border-box',
+        overflow: 'hidden',
+        fontFamily: "'Inter', sans-serif",
       }}
     >
-      {/* Top Floating Navigation Toolbar (Context switch back to IN.V. PROTECT Console) */}
+      {/* Top Floating Controls Toolbar (Switch layout variants & back to console) */}
       <div
         style={{
           position: 'absolute',
@@ -214,52 +256,52 @@ export const VideoLessonHero: React.FC<VideoLessonHeroProps> = ({
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          zIndex: 40,
+          zIndex: 50,
+          pointerEvents: 'auto',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           {onBackToDashboard && (
             <button
               onClick={onBackToDashboard}
               style={{
-                display: 'flex',
+                display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                backgroundColor: 'rgba(23, 23, 23, 0.85)',
                 color: '#FFFFFF',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
                 padding: '8px 16px',
-                borderRadius: '20px',
-                fontSize: '13px',
+                borderRadius: '24px',
+                fontSize: '12px',
                 fontWeight: 600,
                 cursor: 'pointer',
-                backdropFilter: 'blur(10px)',
+                backdropFilter: 'blur(12px)',
                 transition: 'all 0.2s ease',
               }}
               title="Return to IN.V. PROTECT Security Console"
             >
-              <ArrowLeft style={{ width: '16px', height: '16px' }} />
-              Back to Security Hub
+              ← Back to Security Hub
             </button>
           )}
 
-          {/* Chapter Selector Dropdown */}
+          {/* Chapters Dropdown */}
           <div style={{ position: 'relative' }}>
             <button
               onClick={() => setShowChapterMenu(!showChapterMenu)}
               style={{
-                backgroundColor: 'rgba(255, 92, 141, 0.15)',
-                color: '#FF5C8D',
-                border: '1px solid rgba(255, 92, 141, 0.35)',
+                backgroundColor: 'rgba(241, 90, 138, 0.15)',
+                color: '#F15A8A',
+                border: '1px solid rgba(241, 90, 138, 0.35)',
                 padding: '8px 14px',
-                borderRadius: '20px',
-                fontSize: '13px',
+                borderRadius: '24px',
+                fontSize: '12px',
                 fontWeight: 600,
                 cursor: 'pointer',
-                backdropFilter: 'blur(10px)',
+                backdropFilter: 'blur(12px)',
               }}
             >
-              Chapters ({activeLesson.lessonNumber}) ▾
+              {activeLesson.lessonNumber} ▾
             </button>
 
             {showChapterMenu && (
@@ -270,16 +312,16 @@ export const VideoLessonHero: React.FC<VideoLessonHeroProps> = ({
                   marginTop: '8px',
                   left: 0,
                   width: '320px',
-                  backgroundColor: '#11161C',
-                  border: '1px solid rgba(255, 255, 255, 0.15)',
-                  borderRadius: '12px',
-                  boxShadow: '0 12px 36px rgba(0,0,0,0.7)',
+                  backgroundColor: '#171717',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  borderRadius: '16px',
+                  boxShadow: '0 16px 40px rgba(0, 0, 0, 0.8)',
                   padding: '8px',
-                  zIndex: 50,
+                  zIndex: 60,
                 }}
               >
-                <div style={{ fontSize: '11px', color: '#6F7A86', padding: '6px 10px', textTransform: 'uppercase', fontWeight: 800 }}>
-                  Masterclass Lessons
+                <div style={{ fontSize: '10px', color: '#A0A0A0', padding: '6px 12px', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.08em' }}>
+                  Lesson Chapters
                 </div>
                 {ACADEMY_LESSONS.map((les, idx) => (
                   <button
@@ -294,8 +336,8 @@ export const VideoLessonHero: React.FC<VideoLessonHeroProps> = ({
                       textAlign: 'left',
                       padding: '10px 12px',
                       borderRadius: '8px',
-                      backgroundColor: idx === activeLessonIndex ? 'rgba(255, 92, 141, 0.12)' : 'transparent',
-                      color: idx === activeLessonIndex ? '#FF5C8D' : '#E0E0E0',
+                      backgroundColor: idx === activeLessonIndex ? 'rgba(241, 90, 138, 0.14)' : 'transparent',
+                      color: idx === activeLessonIndex ? '#F15A8A' : '#FFFFFF',
                       border: 'none',
                       cursor: 'pointer',
                       display: 'flex',
@@ -304,7 +346,7 @@ export const VideoLessonHero: React.FC<VideoLessonHeroProps> = ({
                     }}
                   >
                     <span style={{ fontSize: '11px', fontWeight: 700 }}>{les.lessonNumber}</span>
-                    <span style={{ fontSize: '13px', fontWeight: 600, color: '#FFFFFF' }}>{les.title}</span>
+                    <span style={{ fontSize: '13px', fontWeight: 500, color: '#FFFFFF' }}>{les.title}</span>
                   </button>
                 ))}
               </div>
@@ -312,40 +354,87 @@ export const VideoLessonHero: React.FC<VideoLessonHeroProps> = ({
           </div>
         </div>
 
-        {/* Reference Spec Indicator */}
+        {/* Layout Variant Segmented Switcher */}
         <div
           style={{
-            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+            display: 'flex',
+            alignItems: 'center',
+            backgroundColor: 'rgba(23, 23, 23, 0.85)',
             border: '1px solid rgba(255, 255, 255, 0.12)',
-            padding: '6px 14px',
-            borderRadius: '20px',
-            fontSize: '12px',
-            color: '#AEB7C2',
-            backdropFilter: 'blur(10px)',
+            borderRadius: '24px',
+            padding: '3px',
+            backdropFilter: 'blur(12px)',
           }}
         >
-          <span style={{ color: '#FF5C8D', fontWeight: 700 }}>● Reference Mode:</span> Josh Garrison A/B Testing
+          <button
+            onClick={() => setActiveVariant('video')}
+            style={{
+              padding: '6px 12px',
+              borderRadius: '20px',
+              fontSize: '11px',
+              fontWeight: 700,
+              backgroundColor: activeVariant === 'video' ? '#F15A8A' : 'transparent',
+              color: activeVariant === 'video' ? '#FFFFFF' : '#A0A0A0',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+            }}
+          >
+            Video Frame (16:9)
+          </button>
+          <button
+            onClick={() => setActiveVariant('stat-card')}
+            style={{
+              padding: '6px 12px',
+              borderRadius: '20px',
+              fontSize: '11px',
+              fontWeight: 700,
+              backgroundColor: activeVariant === 'stat-card' ? '#F15A8A' : 'transparent',
+              color: activeVariant === 'stat-card' ? '#FFFFFF' : '#A0A0A0',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+            }}
+          >
+            Stat Card
+          </button>
+          <button
+            onClick={() => setActiveVariant('concentric-rings')}
+            style={{
+              padding: '6px 12px',
+              borderRadius: '20px',
+              fontSize: '11px',
+              fontWeight: 700,
+              backgroundColor: activeVariant === 'concentric-rings' ? '#F15A8A' : 'transparent',
+              color: activeVariant === 'concentric-rings' ? '#FFFFFF' : '#A0A0A0',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+            }}
+          >
+            Concentric Rings
+          </button>
         </div>
       </div>
 
       {/* ============================================================== */}
-      {/* 16:9 Aspect Ratio Main Container                               */}
+      {/* 16:9 Video Frame (Max-Width 900px, Centered, #1A0A1F Radial)    */}
       {/* ============================================================== */}
       <div
-        ref={containerRef}
-        className="academy-hero-container"
+        ref={videoFrameRef}
+        className="academy-video-frame"
         style={{
-          aspectRatio: '16 / 9',
-          maxWidth: '1200px',
           width: '90vw',
+          maxWidth: '900px',
+          aspectRatio: '16 / 9',
           borderRadius: '16px',
           overflow: 'hidden',
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.45)',
-          background: 'radial-gradient(circle at 50% 50%, #2B0A18 0%, #000000 100%)',
+          background: 'radial-gradient(ellipse at center, #1A0A1F 0%, #000000 100%)',
           position: 'relative',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
+          boxSizing: 'border-box',
         }}
       >
         {/* Subtle Vignette Overlay */}
@@ -354,14 +443,13 @@ export const VideoLessonHero: React.FC<VideoLessonHeroProps> = ({
             position: 'absolute',
             inset: 0,
             pointerEvents: 'none',
-            background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.65) 100%)',
+            background: 'radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.7) 100%)',
             zIndex: 1,
           }}
         />
 
-        {/* Central Content Vertical Stack */}
+        {/* Central Content Area based on Variant */}
         <div
-          className="academy-content-stack"
           style={{
             position: 'relative',
             zIndex: 2,
@@ -371,185 +459,173 @@ export const VideoLessonHero: React.FC<VideoLessonHeroProps> = ({
             alignItems: 'center',
             justifyContent: 'center',
             textAlign: 'center',
-            padding: '40px 32px',
+            padding: '32px 28px',
           }}
         >
-          {/* Subheading: "Lesson 5" */}
-          <div
-            ref={subheadingRef}
-            className="academy-subheading"
-            style={{
-              fontFamily: "'Inter', sans-serif",
-              fontWeight: 500,
-              fontSize: '1.25rem', // 20px
-              lineHeight: 1.2,
-              letterSpacing: 0,
-              color: '#FF5C8D',
-              textTransform: 'none',
-              marginBottom: '32px',
-            }}
-          >
-            {activeLesson.lessonNumber}
-          </div>
+          {/* VARIANT 1: VIDEO PLAYER SCREEN */}
+          {activeVariant === 'video' && (
+            <div style={{ maxWidth: '820px', width: '100%', margin: '0 auto' }}>
+              {/* Chapter Label: "Lesson 5" in muted rose (#F15A8A) */}
+              <div
+                ref={chapterLabelRef}
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontWeight: 500,
+                  fontSize: '1.25rem', // 20px
+                  lineHeight: 1.2,
+                  letterSpacing: 0,
+                  color: '#F15A8A',
+                  textTransform: 'none',
+                  marginBottom: '24px',
+                }}
+              >
+                {activeLesson.lessonNumber}
+              </div>
 
-          {/* Main Heading: "The art of A/B testing" */}
-          <h1
-            ref={headingRef}
-            className="academy-main-heading"
-            style={{
-              fontFamily: "'Inter', sans-serif",
-              fontWeight: 700,
-              fontSize: '5.5rem', // approx 88px
-              lineHeight: 1.05,
-              letterSpacing: 0,
-              color: '#FFFFFF',
-              textTransform: 'none',
-              marginBottom: '24px',
-              maxWidth: '960px',
-              margin: '0 auto 24px auto',
-            }}
-          >
-            {activeLesson.title}
-          </h1>
+              {/* Main Heading: "The art of A/B testing" */}
+              <h1
+                ref={headingRef}
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontWeight: 700,
+                  fontSize: '4.75rem', // scaled cleanly within 900px frame
+                  lineHeight: 1.05,
+                  letterSpacing: 0,
+                  color: '#FFFFFF',
+                  textTransform: 'none',
+                  margin: '0 auto 20px auto',
+                  maxWidth: '780px',
+                }}
+              >
+                {activeLesson.title}
+              </h1>
 
-          {/* Subtitle: "Building a World-Class Outbound Program | Josh Garrison" */}
-          <p
-            ref={subtitleRef}
-            className="academy-subtitle"
-            style={{
-              fontFamily: "'Inter', sans-serif",
-              fontWeight: 400,
-              fontSize: '1.125rem', // 18px
-              lineHeight: 1.3,
-              letterSpacing: 0,
-              color: '#E0E0E0',
-              textTransform: 'none',
-              marginBottom: 0,
-              maxWidth: '800px',
-              margin: '0 auto',
-            }}
-          >
-            {activeLesson.subtitle}
-          </p>
-        </div>
+              {/* Subtitle: "Building a World-Class Outbound Program | Josh Garrison" */}
+              <p
+                ref={subtitleRef}
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontWeight: 400,
+                  fontSize: '1.125rem', // 18px
+                  lineHeight: 1.3,
+                  letterSpacing: 0,
+                  color: '#A0A0A0',
+                  textTransform: 'none',
+                  margin: '0 auto',
+                  maxWidth: '680px',
+                }}
+              >
+                {activeLesson.subtitle}
+              </p>
+            </div>
+          )}
 
-        {/* Academy Watermark Logo in Bottom Right (Watermarked in video area right above controls) */}
-        <div
-          ref={logoRef}
-          style={{
-            position: 'absolute',
-            bottom: '76px',
-            right: '24px',
-            zIndex: 4,
-            pointerEvents: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            marginRight: '24px',
-          }}
-        >
-          <svg
-            height="24"
-            viewBox="0 0 148 28"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            style={{ height: '24px', width: 'auto', display: 'block' }}
-            className="academy-logo-svg"
-          >
-            {/* Stylized 'A' with sharp geometric silhouette and triangle cutout */}
-            <path
-              d="M14 2L26 26H20L17.5 21H10.5L8 26H2L14 2ZM14 9.5L11.7 16.5H16.3L14 9.5Z"
-              fill="#FFFFFF"
-              fillRule="evenodd"
-            />
-            {/* Geometric sans word CADEMY */}
-            <text
-              x="32"
-              y="21"
-              fill="#FFFFFF"
-              fontFamily="'Inter', sans-serif"
-              fontSize="17"
-              fontWeight="800"
-              letterSpacing="0.08em"
-            >
-              CADEMY
-            </text>
-          </svg>
+          {/* VARIANT 2: STAT CARD COMPONENT */}
+          {activeVariant === 'stat-card' && (
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
+              <div
+                style={{
+                  fontSize: '1.125rem',
+                  color: '#F15A8A',
+                  fontWeight: 600,
+                  letterSpacing: '0.04em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                Key Conversion Metric
+              </div>
+              <StatCardVisual
+                statText="84%"
+                hasExtension={true}
+                extensionTitle="Outbound Connect Rate"
+                extensionSubtitle="High-velocity verified investor defense"
+              />
+            </div>
+          )}
+
+          {/* VARIANT 3: CONCENTRIC RINGS VISUAL */}
+          {activeVariant === 'concentric-rings' && (
+            <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <ConcentricRingsVisual />
+              <div
+                style={{
+                  marginTop: '16px',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  color: '#FFFFFF',
+                  letterSpacing: '0.04em',
+                }}
+              >
+                Muted Rose Continuous Sensor Rings
+              </div>
+            </div>
+          )}
         </div>
 
         {/* ============================================================== */}
-        {/* Video Player Controls Dock (56px, #E0E0E0 Background)          */}
+        {/* Video Player Controls Bar (48px, Dark Gray Background)          */}
         {/* ============================================================== */}
         <div
-          ref={controlsRef}
-          className="academy-controls-bar"
+          ref={controlsBarRef}
           style={{
             position: 'relative',
-            zIndex: 5,
-            backgroundColor: '#E0E0E0',
+            zIndex: 10,
+            backgroundColor: '#1E1E1E',
             width: '100%',
-            height: '56px',
-            borderRadius: '0 0 16px 16px',
+            height: '48px',
+            borderBottomLeftRadius: '16px',
+            borderBottomRightRadius: '16px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '0 24px',
+            padding: '0 20px',
             boxSizing: 'border-box',
+            borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+            gap: '14px',
           }}
         >
-          {/* Left Controls: Play/Pause button + Current Time ("0:31") + Progress Bar */}
+          {/* Left Section: Play/Pause button + Timestamp ("0:31") + Progress Bar */}
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
               flex: 1,
-              gap: '14px',
-              marginRight: '20px',
+              gap: '12px',
+              marginRight: '16px',
             }}
           >
             {/* Play/Pause Button */}
-            <button
+            <ControlIconButton
               onClick={() => setIsPlaying(!isPlaying)}
-              style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: 0,
-                color: '#B0B0B0',
-                transition: 'color 0.15s ease',
-              }}
               title={isPlaying ? 'Pause' : 'Play'}
             >
               {isPlaying ? (
-                <Pause style={{ width: '24px', height: '24px', color: '#B0B0B0' }} />
+                <PauseIconSvg size={18} color="#A0A0A0" />
               ) : (
-                <Play style={{ width: '24px', height: '24px', color: '#B0B0B0', fill: '#B0B0B0' }} />
+                <PlayIconSvg size={18} color="#A0A0A0" />
               )}
-            </button>
+            </ControlIconButton>
 
-            {/* Current Time ("0:31") */}
+            {/* Timestamp on Left ("0:31") */}
             <span
               style={{
-                fontFamily: "'Inter', sans-serif",
+                fontFamily: "'Inter', monospace, sans-serif",
                 fontSize: '13px',
                 fontWeight: 500,
-                color: '#707070',
-                minWidth: '36px',
+                color: '#A0A0A0',
+                minWidth: '34px',
                 userSelect: 'none',
               }}
             >
               {formatTime(currentTime)}
             </span>
 
-            {/* Interactive Progress Bar */}
+            {/* Progress Bar (Thin, #F15A8A active fill, #3A3535 inactive track) */}
             <div
-              className="academy-progress-track"
               onClick={handleProgressClick}
               style={{
                 height: '4px',
-                backgroundColor: '#B0B0B0',
+                backgroundColor: '#3A3535',
                 borderRadius: '9999px',
                 flex: 1,
                 position: 'relative',
@@ -559,86 +635,74 @@ export const VideoLessonHero: React.FC<VideoLessonHeroProps> = ({
               title="Seek progress"
             >
               <div
-                className="academy-progress-fill"
                 style={{
                   position: 'absolute',
                   top: 0,
                   left: 0,
                   bottom: 0,
                   width: `${progressPercent}%`,
-                  backgroundColor: '#FF5C8D',
+                  backgroundColor: '#F15A8A',
                   borderRadius: '9999px',
+                  transition: 'width 0.1s linear',
                 }}
               />
             </div>
           </div>
 
-          {/* Right Controls: CC + Settings + Fullscreen */}
+          {/* Right Section: Control Icons (CC, Volume, Settings, Fullscreen) + Academy Logo */}
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '18px',
+              gap: '12px',
             }}
           >
-            {/* CC (Closed Captions) Button */}
-            <button
+            {/* Volume Button */}
+            <ControlIconButton
+              onClick={() => setIsMuted(!isMuted)}
+              title={isMuted ? 'Unmute' : 'Mute'}
+              active={!isMuted}
+            >
+              {isMuted ? (
+                <VolumeMuteIconSvg size={18} color="#A0A0A0" />
+              ) : (
+                <VolumeIconSvg size={18} color="#A0A0A0" />
+              )}
+            </ControlIconButton>
+
+            {/* Captions Button */}
+            <ControlIconButton
               onClick={() => setShowCaptions(!showCaptions)}
-              style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#B0B0B0',
-                opacity: showCaptions ? 1 : 0.6,
-              }}
-              title={showCaptions ? 'Closed Captions Enabled' : 'Closed Captions Disabled'}
+              title={showCaptions ? 'Captions On' : 'Captions Off'}
+              active={showCaptions}
             >
-              <Subtitles style={{ width: '24px', height: '24px', color: '#B0B0B0' }} />
-            </button>
+              <CaptionsIconSvg size={18} color={showCaptions ? '#F15A8A' : '#A0A0A0'} />
+            </ControlIconButton>
 
-            {/* Settings (Gear) Icon */}
-            <button
+            {/* Settings (Gear) Button */}
+            <ControlIconButton
               onClick={() => setShowChapterMenu(!showChapterMenu)}
-              style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#B0B0B0',
-              }}
-              title="Lesson Settings"
+              title="Settings"
             >
-              <SettingsIcon style={{ width: '24px', height: '24px', color: '#B0B0B0' }} />
-            </button>
+              <SettingsIconSvg size={18} color="#A0A0A0" />
+            </ControlIconButton>
 
-            {/* Fullscreen Icon */}
-            <button
+            {/* Fullscreen Button */}
+            <ControlIconButton
               onClick={toggleFullscreen}
-              style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#B0B0B0',
-              }}
-              title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
+              title={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
             >
               {isFullscreen ? (
-                <Minimize2 style={{ width: '24px', height: '24px', color: '#B0B0B0' }} />
+                <ExitFullscreenIconSvg size={18} color="#A0A0A0" />
               ) : (
-                <Maximize2 style={{ width: '24px', height: '24px', color: '#B0B0B0' }} />
+                <FullscreenIconSvg size={18} color="#A0A0A0" />
               )}
-            </button>
+            </ControlIconButton>
+
+            {/* Academy Wordmark Logo on the Right */}
+            <div style={{ marginLeft: '8px' }}>
+              <AcademyLogoSvg height={20} />
+            </div>
           </div>
         </div>
       </div>

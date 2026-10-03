@@ -614,4 +614,49 @@ input:focus, textarea:focus, select:focus {
   }
 }
 
+/* ==========================================================================
+   Academy 900px Video Frame & Visual Components
+   ========================================================================== */
+
+.academy-video-frame {
+  max-width: 900px;
+  width: 90vw;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  overflow: hidden;
+  background: radial-gradient(ellipse at center, #1A0A1F 0%, #000000 100%);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .academy-video-frame {
+    width: 92vw;
+    max-width: 860px;
+  }
+}
+
+@media (max-width: 767px) {
+  .academy-video-frame {
+    width: 96vw;
+    aspect-ratio: auto;
+    min-height: 520px;
+    border-radius: 12px;
+  }
+  .academy-stat-card-group {
+    flex-direction: column !important;
+    gap: 12px;
+  }
+  .academy-stat-card-group > div:nth-child(2) {
+    border-radius: 20px !important;
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: 280px;
+    padding: 16px !important;
+  }
+}
+
+
 
