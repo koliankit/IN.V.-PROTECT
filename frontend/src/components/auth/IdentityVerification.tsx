@@ -230,20 +230,20 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: '#08080B',
+      backgroundColor: '#171717',
       padding: '24px',
-      color: '#f8fafc',
-      fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+      color: '#FFFFFF',
+      position: 'relative',
+      overflow: 'hidden',
     }}>
-      <div style={{
+      <div className="cyber-network-bg" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
+      <div className="glass-panel" style={{
         maxWidth: '480px',
         width: '100%',
-        backgroundColor: '#0d1322',
-        border: '1px solid #1e293b',
-        borderRadius: '16px',
-        padding: '32px',
-        boxShadow: '0 24px 60px rgba(0, 0, 0, 0.7)',
+        borderRadius: '18px',
+        padding: '36px',
         position: 'relative',
+        zIndex: 1,
       }}>
         {/* Go Back button */}
         <button
@@ -251,7 +251,7 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
           style={{
             background: 'none',
             border: 'none',
-            color: '#64748b',
+            color: '#A7A7A7',
             fontSize: '12px',
             display: 'flex',
             alignItems: 'center',
@@ -273,9 +273,9 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
             width: '52px',
             height: '52px',
             borderRadius: '14px',
-            backgroundColor: stage === 'SUCCESS' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(56, 189, 248, 0.12)',
-            border: stage === 'SUCCESS' ? '1px solid rgba(16, 185, 129, 0.4)' : '1px solid rgba(56, 189, 248, 0.3)',
-            color: stage === 'SUCCESS' ? '#10b981' : '#38bdf8',
+            backgroundColor: stage === 'SUCCESS' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(2, 195, 154, 0.08)',
+            border: stage === 'SUCCESS' ? '1px solid rgba(16, 185, 129, 0.4)' : '1px solid rgba(2, 195, 154, 0.30)',
+            color: stage === 'SUCCESS' ? '#10B981' : '#02C39A',
             marginBottom: '12px',
             transition: 'all 0.3s ease',
           }}>
@@ -285,10 +285,10 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
               <Camera style={{ width: '26px', height: '26px' }} />
             )}
           </div>
-          <h2 style={{ fontSize: '20px', fontWeight: 800, margin: '0 0 6px 0', letterSpacing: '0.04em' }}>
+          <h2 style={{ fontSize: '20px', fontWeight: 800, margin: '0 0 6px 0', letterSpacing: '0.04em', color: '#FFFFFF' }}>
             {stage === 'SUCCESS' ? 'IDENTITY CONFIRMED' : 'CAMERA LIVENESS SCAN'}
           </h2>
-          <p style={{ fontSize: '13px', color: '#94a3b8', margin: 0 }}>
+          <p style={{ fontSize: '13px', color: '#A7A7A7', margin: 0 }}>
             {stage === 'SUCCESS'
               ? 'Owner presence cryptographically confirmed'
               : 'Keep your face within the frame for real-time verification'}
@@ -299,8 +299,8 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
         {isUnconfigured && (
           <div
             style={{
-              backgroundColor: 'rgba(239, 68, 68, 0.12)',
-              border: '1px solid rgba(239, 68, 68, 0.45)',
+              backgroundColor: 'rgba(239, 68, 68, 0.10)',
+              border: '1px solid rgba(239, 68, 68, 0.35)',
               borderRadius: '12px',
               padding: '20px',
               marginBottom: '20px',
@@ -312,8 +312,8 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px',
-                backgroundColor: '#ef4444',
-                color: '#ffffff',
+                backgroundColor: '#EF4444',
+                color: '#FFFFFF',
                 padding: '4px 10px',
                 borderRadius: '6px',
                 fontSize: '11px',
@@ -326,32 +326,32 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
               <AlertCircle style={{ width: '14px', height: '14px' }} />
               STATUS: NOT CONFIGURED
             </div>
-            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#f87171', margin: '0 0 8px 0' }}>
+            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#F87171', margin: '0 0 8px 0' }}>
               Real Face / Liveness Provider Not Configured
             </h3>
-            <p style={{ fontSize: '12px', color: '#fca5a5', lineHeight: 1.5, margin: '0 0 16px 0' }}>
+            <p style={{ fontSize: '12px', color: '#FCA5A5', lineHeight: 1.5, margin: '0 0 16px 0' }}>
               No external face verification adapter (AWS Rekognition / Azure Face / KYC Adapter) is configured in <code>.env</code>.
               <br />
-              <strong style={{ color: '#ffffff' }}>IN V PROTECT enforces honest security guarantees: we NEVER fake or simulate biometric verification.</strong>
+              <strong style={{ color: '#FFFFFF' }}>IN V PROTECT enforces honest security guarantees: we NEVER fake or simulate biometric verification.</strong>
             </p>
             <button
               type="button"
               onClick={handleFallbackBypass}
               style={{
                 width: '100%',
-                backgroundColor: '#0284c7',
-                color: '#ffffff',
+                backgroundColor: '#02C39A',
+                color: '#171717',
                 border: 'none',
-                borderRadius: '8px',
-                padding: '12px',
+                borderRadius: '10px',
+                padding: '13px',
                 fontSize: '13px',
-                fontWeight: 700,
+                fontWeight: 800,
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '8px',
-                boxShadow: '0 4px 14px rgba(2, 132, 199, 0.35)',
+                boxShadow: '0 4px 18px rgba(2, 195, 154, 0.35)',
               }}
             >
               <KeyRound style={{ width: '15px', height: '15px' }} />
@@ -390,16 +390,16 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
           borderRadius: '14px',
           overflow: 'hidden',
           border: stage === 'SUCCESS'
-            ? '2px solid #10b981'
+            ? '2px solid #10B981'
             : streamActive
-            ? '2px solid #38bdf8'
-            : '2px solid #1e293b',
+            ? '2px solid #02C39A'
+            : '2px solid rgba(255, 255, 255, 0.12)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           boxShadow: stage === 'SUCCESS'
             ? '0 0 30px rgba(16, 185, 129, 0.3)'
-            : '0 0 25px rgba(56, 189, 248, 0.15)',
+            : '0 0 25px rgba(2, 195, 154, 0.20)',
           transition: 'border 0.3s ease, box-shadow 0.3s ease',
         }}>
           {/* Live Video Feed */}
@@ -426,7 +426,7 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
               flexDirection: 'column',
               alignItems: 'center',
               gap: '10px',
-              color: '#64748b',
+              color: '#A7A7A7',
             }}>
               <Camera style={{ width: '36px', height: '36px', opacity: 0.5 }} />
               <span style={{ fontSize: '12px' }}>
@@ -443,13 +443,13 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
             border: '2px solid transparent',
           }}>
             {/* Top-Left */}
-            <div style={{ position: 'absolute', top: 0, left: 0, width: '20px', height: '20px', borderTop: '3px solid #38bdf8', borderLeft: '3px solid #38bdf8', borderRadius: '3px 0 0 0' }} />
+            <div style={{ position: 'absolute', top: 0, left: 0, width: '20px', height: '20px', borderTop: '3px solid #02C39A', borderLeft: '3px solid #02C39A', borderRadius: '3px 0 0 0' }} />
             {/* Top-Right */}
-            <div style={{ position: 'absolute', top: 0, right: 0, width: '20px', height: '20px', borderTop: '3px solid #38bdf8', borderRight: '3px solid #38bdf8', borderRadius: '0 3px 0 0' }} />
+            <div style={{ position: 'absolute', top: 0, right: 0, width: '20px', height: '20px', borderTop: '3px solid #02C39A', borderRight: '3px solid #02C39A', borderRadius: '0 3px 0 0' }} />
             {/* Bottom-Left */}
-            <div style={{ position: 'absolute', bottom: 0, left: 0, width: '20px', height: '20px', borderBottom: '3px solid #38bdf8', borderLeft: '3px solid #38bdf8', borderRadius: '0 0 0 3px' }} />
+            <div style={{ position: 'absolute', bottom: 0, left: 0, width: '20px', height: '20px', borderBottom: '3px solid #02C39A', borderLeft: '3px solid #02C39A', borderRadius: '0 0 0 3px' }} />
             {/* Bottom-Right */}
-            <div style={{ position: 'absolute', bottom: 0, right: 0, width: '20px', height: '20px', borderBottom: '3px solid #38bdf8', borderRight: '3px solid #38bdf8', borderRadius: '0 0 3px 0' }} />
+            <div style={{ position: 'absolute', bottom: 0, right: 0, width: '20px', height: '20px', borderBottom: '3px solid #02C39A', borderRight: '3px solid #02C39A', borderRadius: '0 0 3px 0' }} />
           </div>
 
           {/* Target Biometric Oval Frame */}
@@ -457,10 +457,10 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
             position: 'absolute',
             width: '160px',
             height: '210px',
-            border: stage === 'SUCCESS' ? '2px solid #10b981' : '2px dashed #38bdf8',
+            border: stage === 'SUCCESS' ? '2px solid #10B981' : '2px dashed #02C39A',
             borderRadius: '50%',
             pointerEvents: 'none',
-            boxShadow: stage === 'SUCCESS' ? '0 0 25px rgba(16, 185, 129, 0.4)' : '0 0 20px rgba(56, 189, 248, 0.3)',
+            boxShadow: stage === 'SUCCESS' ? '0 0 25px rgba(16, 185, 129, 0.4)' : '0 0 20px rgba(2, 195, 154, 0.3)',
             transition: 'all 0.3s ease',
           }} />
 
@@ -472,8 +472,8 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({
                 left: '20px',
                 right: '20px',
                 height: '2px',
-                background: 'linear-gradient(90deg, transparent, #38bdf8, #00f0ff, #38bdf8, transparent)',
-                boxShadow: '0 0 14px #38bdf8, 0 0 20px #00f0ff',
+                background: 'linear-gradient(90deg, transparent, #02C39A, #2ee6bc, #02C39A, transparent)',
+                boxShadow: '0 0 14px #02C39A, 0 0 20px #2ee6bc',
                 top: `${(scanProgress % 90) + 5}%`,
                 transition: 'top 0.1s linear',
                 pointerEvents: 'none',

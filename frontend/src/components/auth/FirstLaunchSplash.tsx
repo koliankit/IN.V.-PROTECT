@@ -1,255 +1,323 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Shield, ArrowRight, Lock, CheckCircle2 } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, FastForward } from 'lucide-react';
 
 interface FirstLaunchSplashProps {
   onGetStarted: () => void;
   onDirectLogin?: () => void;
+  autoAdvance?: boolean;
 }
 
 export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
   onGetStarted,
-  onDirectLogin,
+  autoAdvance = true,
 }) => {
-  // Phase 1: outline (0-300ms), Phase 2: scan (300-700ms), Phase 3: active shield (700-1000ms), Phase 4: full content
-  const [animStage, setAnimStage] = useState<'outline' | 'scanning' | 'active'>('outline');
+  // Phases: 'black' (0-200ms) -> 'video' (200-3400ms) -> 'reveal' (brand headline) -> 'exit'
+  const [phase, setPhase] = useState<'black' | 'video' | 'reveal' | 'exit'>('black');
+  const [videoError, setVideoError] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const hasTriggeredEnd = useRef(false);
 
+  // Transition from black screen to video
   useEffect(() => {
-    const t1 = setTimeout(() => setAnimStage('scanning'), 350);
-    const t2 = setTimeout(() => setAnimStage('active'), 850);
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-    };
+    const tStart = setTimeout(() => {
+      setPhase('video');
+    }, 200);
+
+    return () => clearTimeout(tStart);
   }, []);
+
+  // When phase becomes video, play it
+  useEffect(() => {
+    if (phase === 'video' && videoRef.current) {
+      videoRef.current.currentTime = 0;
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // If browser restricts autoplay, fallback gracefully
+          setVideoError(true);
+        });
+      }
+
+      // Maximum 3.4s presentation duration as requested (2–4 seconds)
+      const timer = setTimeout(() => {
+        handleAdvanceToReveal();
+      }, 3400);
+
+      return () => clearTimeout(timer);
+    }
+  }, [phase]);
+
+  // When in reveal, auto-advance if configured
+  useEffect(() => {
+    if (phase === 'reveal' && autoAdvance) {
+      const exitTimer = setTimeout(() => {
+        handleComplete();
+      }, 2200);
+      return () => clearTimeout(exitTimer);
+    }
+  }, [phase, autoAdvance]);
+
+  const handleAdvanceToReveal = () => {
+    if (hasTriggeredEnd.current) return;
+    hasTriggeredEnd.current = true;
+    setPhase('reveal');
+  };
+
+  const handleComplete = () => {
+    setPhase('exit');
+    setTimeout(() => {
+      onGetStarted();
+    }, 400);
+  };
 
   return (
     <div
-      className="security-grid-bg"
       style={{
-        minHeight: '100vh',
+        position: 'fixed',
+        inset: 0,
+        backgroundColor: '#171717',
+        color: '#FFFFFF',
+        zIndex: 9999,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#070a12',
-        color: '#f8fafc',
-        padding: '24px',
-        position: 'relative',
         overflow: 'hidden',
+        cursor: 'pointer',
+      }}
+      onClick={() => {
+        if (phase === 'video') handleAdvanceToReveal();
+        else if (phase === 'reveal') handleComplete();
       }}
     >
-      {/* Background radial glow */}
-      <div
+      {/* Subtle edge network background */}
+      <div className="cyber-network-bg" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
+
+      {/* Skip button for immediate user control */}
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          handleComplete();
+        }}
         style={{
           position: 'absolute',
-          width: '500px',
-          height: '500px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(6, 182, 212, 0.08) 0%, transparent 70%)',
-          pointerEvents: 'none',
-        }}
-      />
-
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        style={{
-          maxWidth: '460px',
-          width: '100%',
-          textAlign: 'center',
+          top: '24px',
+          right: '28px',
           display: 'flex',
-          flexDirection: 'column',
           alignItems: 'center',
-          zIndex: 1,
+          gap: '6px',
+          background: 'rgba(255, 255, 255, 0.04)',
+          border: '1px solid rgba(255, 255, 255, 0.10)',
+          color: '#A7A7A7',
+          borderRadius: '20px',
+          padding: '6px 14px',
+          fontSize: '11px',
+          fontWeight: 600,
+          cursor: 'pointer',
+          backdropFilter: 'blur(12px)',
+          zIndex: 10,
+          transition: 'all 0.2s ease',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.color = '#FFFFFF';
+          e.currentTarget.style.borderColor = '#02C39A';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.color = '#A7A7A7';
+          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.10)';
         }}
       >
-        {/* Animated Security Shield */}
-        <div
-          style={{
-            position: 'relative',
-            width: '96px',
-            height: '96px',
-            borderRadius: '24px',
-            backgroundColor: animStage === 'active' ? 'rgba(6, 182, 212, 0.08)' : 'rgba(255, 255, 255, 0.02)',
-            border: animStage === 'active' ? '1px solid rgba(6, 182, 212, 0.4)' : '1px solid rgba(255, 255, 255, 0.1)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: '28px',
-            overflow: 'hidden',
-            boxShadow: animStage === 'active' ? '0 0 28px rgba(6, 182, 212, 0.2)' : 'none',
-            transition: 'all 0.4s ease',
-          }}
-          className={animStage === 'active' ? 'animate-breathing' : ''}
-        >
-          {/* Scanning line animation */}
-          {animStage === 'scanning' && <div className="scanner-beam" />}
+        <span>Skip</span>
+        <FastForward style={{ width: '12px', height: '12px' }} />
+      </button>
 
+      <AnimatePresence mode="wait">
+        {/* PHASE: VIDEO ANIMATION */}
+        {phase === 'video' && !videoError && (
           <motion.div
-            initial={{ scale: 0.88, opacity: 0.6 }}
-            animate={{
-              scale: animStage === 'active' ? 1 : 0.92,
-              opacity: animStage === 'active' ? 1 : 0.75,
-            }}
-            transition={{ duration: 0.4 }}
-          >
-            <Shield
-              style={{
-                width: '46px',
-                height: '46px',
-                color: animStage === 'active' ? '#06b6d4' : '#64748b',
-                filter: animStage === 'active' ? 'drop-shadow(0 0 8px rgba(6, 182, 212, 0.5))' : 'none',
-                transition: 'color 0.4s ease',
-              }}
-            />
-          </motion.div>
-        </div>
-
-        {/* Title & Product Positioning */}
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: animStage === 'active' ? 1 : 0.3, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <div
+            key="video-stage"
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.02, filter: 'blur(6px)' }}
+            transition={{ duration: 0.45, ease: 'easeOut' }}
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '4px 10px',
-              borderRadius: '20px',
-              backgroundColor: 'rgba(6, 182, 212, 0.08)',
-              border: '1px solid rgba(6, 182, 212, 0.2)',
-              fontSize: '11px',
-              color: '#22d3ee',
-              fontWeight: 700,
-              textTransform: 'uppercase',
-              letterSpacing: '0.06em',
-              marginBottom: '12px',
-            }}
-          >
-            <CheckCircle2 style={{ width: '12px', height: '12px' }} />
-            SANGYAN 2026 • Investor Shield
-          </div>
-
-          <h1
-            style={{
-              fontSize: '32px',
-              fontWeight: 800,
-              letterSpacing: '-0.03em',
-              color: '#ffffff',
-              margin: '0 0 6px 0',
-            }}
-          >
-            IN V PROTECT
-          </h1>
-          <p
-            style={{
-              fontSize: '15px',
-              fontWeight: 600,
-              color: '#06b6d4',
-              margin: '0 0 16px 0',
-              letterSpacing: '-0.01em',
-            }}
-          >
-            Personal Digital Security Layer
-          </p>
-
-          <p
-            style={{
-              fontSize: '14px',
-              color: '#94a3b8',
-              lineHeight: 1.6,
-              maxWidth: '360px',
-              margin: '0 auto 32px auto',
-            }}
-          >
-            Protect your digital financial communications against manipulative schemes, credential harvesting, and fraudulent claims.
-          </p>
-        </motion.div>
-
-        {/* Action Button */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: animStage === 'active' ? 1 : 0, scale: animStage === 'active' ? 1 : 0.96 }}
-          transition={{ duration: 0.4, delay: 0.35 }}
-          style={{ width: '100%', maxWidth: '320px' }}
-        >
-          <button
-            onClick={onGetStarted}
-            style={{
+              position: 'relative',
               width: '100%',
-              backgroundColor: '#06b6d4',
-              color: '#080c14',
-              fontWeight: 800,
-              fontSize: '14px',
-              padding: '13px 20px',
-              borderRadius: '10px',
+              maxWidth: '720px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '8px',
-              boxShadow: '0 4px 18px rgba(6, 182, 212, 0.32)',
-              letterSpacing: '0.02em',
-              marginBottom: '14px',
+              padding: '20px',
             }}
           >
-            Get Started
-            <ArrowRight style={{ width: '16px', height: '16px' }} />
-          </button>
-
-          {onDirectLogin && (
-            <button
-              onClick={onDirectLogin}
+            <video
+              ref={videoRef}
+              src="/IN_V_PROTECT_logo_cropped.mp4"
+              playsInline
+              muted
+              autoPlay
+              onEnded={handleAdvanceToReveal}
+              onError={() => {
+                setVideoError(true);
+                handleAdvanceToReveal();
+              }}
               style={{
-                background: 'none',
-                border: 'none',
-                color: '#64748b',
-                fontSize: '12px',
-                fontWeight: 600,
-                cursor: 'pointer',
-                padding: '6px',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '4px',
+                width: '100%',
+                maxHeight: '65vh',
+                objectFit: 'contain',
+                borderRadius: '16px',
+                filter: 'drop-shadow(0 0 32px rgba(2, 195, 154, 0.18))',
               }}
             >
-              Already registered? <span style={{ color: '#22d3ee', textDecoration: 'underline' }}>Sign In</span>
-            </button>
-          )}
-        </motion.div>
+              <source src="/assets/IN_V_PROTECT_logo_cropped.mp4" type="video/mp4" />
+              <source src="/IN_V_PROTECT_logo_cropped.mp4" type="video/mp4" />
+            </video>
+          </motion.div>
+        )}
 
-        {/* Security Assurances Footer */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: animStage === 'active' ? 1 : 0 }}
-          transition={{ duration: 0.4, delay: 0.5 }}
-          style={{
-            marginTop: '36px',
-            paddingTop: '20px',
-            borderTop: '1px solid rgba(255, 255, 255, 0.06)',
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: '16px',
-            fontSize: '11px',
-            color: '#64748b',
-            letterSpacing: '0.02em',
-          }}
-        >
-          <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <Lock style={{ width: '11px', height: '11px', color: '#10b981' }} />
-            Secure
-          </span>
-          <span>•</span>
-          <span>Private</span>
-          <span>•</span>
-          <span>User Controlled</span>
-        </motion.div>
-      </motion.div>
+        {/* PHASE: BRAND REVEAL */}
+        {(phase === 'reveal' || videoError) && (
+          <motion.div
+            key="brand-reveal"
+            initial={{ opacity: 0, scale: 0.94, filter: 'blur(8px)' }}
+            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, scale: 1.02, filter: 'blur(4px)' }}
+            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              textAlign: 'center',
+              maxWidth: '540px',
+              padding: '24px',
+              zIndex: 2,
+            }}
+          >
+            {/* Subtle Cybersecurity Emblem / Logo Tag */}
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15, duration: 0.4 }}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '5px 14px',
+                borderRadius: '24px',
+                background: 'rgba(2, 195, 154, 0.08)',
+                border: '1px solid rgba(2, 195, 154, 0.30)',
+                color: '#02C39A',
+                fontSize: '11px',
+                fontWeight: 700,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                marginBottom: '20px',
+                boxShadow: '0 0 16px rgba(2, 195, 154, 0.20)',
+              }}
+            >
+              <span
+                style={{
+                  width: '6px',
+                  height: '6px',
+                  borderRadius: '50%',
+                  backgroundColor: '#02C39A',
+                  boxShadow: '0 0 8px #02C39A',
+                }}
+              />
+              SYSTEM PROTECTED
+            </motion.div>
+
+            {/* Product Title */}
+            <motion.h1
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25, duration: 0.5 }}
+              style={{
+                fontSize: '44px',
+                fontWeight: 900,
+                letterSpacing: '0.04em',
+                color: '#FFFFFF',
+                margin: '0 0 12px 0',
+                textShadow: '0 0 36px rgba(2, 195, 154, 0.35)',
+              }}
+            >
+              IN.V. PROTECT
+            </motion.h1>
+
+            {/* Tagline */}
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35, duration: 0.5 }}
+              style={{
+                fontSize: '17px',
+                fontWeight: 600,
+                color: '#02C39A',
+                margin: '0 0 14px 0',
+                letterSpacing: '0.01em',
+              }}
+            >
+              Personal Digital Security Layer for Investors
+            </motion.p>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.45, duration: 0.5 }}
+              style={{
+                fontSize: '13px',
+                color: '#A7A7A7',
+                lineHeight: 1.6,
+                maxWidth: '420px',
+                margin: '0 auto 28px auto',
+              }}
+            >
+              DETECT • VERIFY • PROTECT • EXPLAIN • RESPOND
+            </motion.p>
+
+            {/* Launch Action Button */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.55, duration: 0.4 }}
+            >
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleComplete();
+                }}
+                style={{
+                  backgroundColor: '#02C39A',
+                  color: '#171717',
+                  fontWeight: 800,
+                  fontSize: '14px',
+                  padding: '12px 28px',
+                  borderRadius: '12px',
+                  border: 'none',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 20px rgba(2, 195, 154, 0.40)',
+                  letterSpacing: '0.02em',
+                  transition: 'all 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-1px)';
+                  e.currentTarget.style.boxShadow = '0 6px 24px rgba(2, 195, 154, 0.55)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'none';
+                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(2, 195, 154, 0.40)';
+                }}
+              >
+                <span>Enter Protection Layer</span>
+                <ArrowRight style={{ width: '16px', height: '16px' }} />
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

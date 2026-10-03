@@ -202,18 +202,20 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: '#070a13',
+      backgroundColor: '#171717',
       padding: '20px',
-      color: '#f8fafc',
+      color: '#FFFFFF',
+      position: 'relative',
+      overflow: 'hidden',
     }}>
-      <div style={{
+      <div className="cyber-network-bg" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
+      <div className="glass-panel" style={{
         maxWidth: '460px',
         width: '100%',
-        backgroundColor: '#0d1322',
-        border: '1px solid #1e293b',
-        borderRadius: '16px',
-        padding: '36px',
-        boxShadow: '0 20px 50px rgba(0, 0, 0, 0.6)',
+        borderRadius: '18px',
+        padding: '38px',
+        position: 'relative',
+        zIndex: 1,
       }}>
         {/* Back Link */}
         <button
@@ -221,7 +223,7 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
           style={{
             background: 'none',
             border: 'none',
-            color: '#64748b',
+            color: '#A7A7A7',
             fontSize: '12px',
             display: 'flex',
             alignItems: 'center',
@@ -243,23 +245,23 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
             width: '54px',
             height: '54px',
             borderRadius: '14px',
-            backgroundColor: 'rgba(56, 189, 248, 0.12)',
-            border: '1px solid rgba(56, 189, 248, 0.3)',
-            color: '#38bdf8',
+            backgroundColor: 'rgba(2, 195, 154, 0.08)',
+            border: '1px solid rgba(2, 195, 154, 0.30)',
+            color: '#02C39A',
             marginBottom: '14px',
           }}>
             <Mail style={{ width: '28px', height: '28px' }} />
           </div>
-          <h2 style={{ fontSize: '20px', fontWeight: 800, margin: '0 0 6px 0', letterSpacing: '0.04em' }}>
+          <h2 style={{ fontSize: '20px', fontWeight: 800, margin: '0 0 6px 0', letterSpacing: '0.04em', color: '#FFFFFF' }}>
             VERIFY YOUR EMAIL
           </h2>
-          <p style={{ fontSize: '13px', color: '#94a3b8', margin: 0 }}>
+          <p style={{ fontSize: '13px', color: '#A7A7A7', margin: 0 }}>
             We sent a verification code to:
           </p>
           <div style={{
             fontSize: '14px',
             fontWeight: 700,
-            color: '#38bdf8',
+            color: '#02C39A',
             marginTop: '4px',
             fontFamily: 'monospace',
           }}>
@@ -436,19 +438,19 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
                     fontSize: '22px',
                     fontWeight: 800,
                     fontFamily: 'monospace',
-                    backgroundColor: '#080d1a',
-                    border: digit ? '2px solid #38bdf8' : '1px solid #1e293b',
+                    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                    border: digit ? '2px solid #02C39A' : '1px solid rgba(255, 255, 255, 0.12)',
                     borderRadius: '10px',
-                    color: '#ffffff',
+                    color: '#FFFFFF',
                     outline: 'none',
-                    boxShadow: digit ? '0 0 10px rgba(56, 189, 248, 0.25)' : 'none',
+                    boxShadow: digit ? '0 0 10px rgba(2, 195, 154, 0.35)' : 'none',
                     transition: 'all 0.15s ease',
                   }}
                 />
               ))}
             </div>
             {autoFilled && (
-              <div style={{ fontSize: '11px', color: '#38bdf8', marginTop: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px' }}>
+              <div style={{ fontSize: '11px', color: '#02C39A', marginTop: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px' }}>
                 <CheckCircle2 style={{ width: '13px', height: '13px' }} />
                 <span>Code auto-filled from developer sandbox environment</span>
               </div>
@@ -460,20 +462,21 @@ export const EmailOtpVerification: React.FC<EmailOtpVerificationProps> = ({
             disabled={loading || digits.some((d) => !d)}
             style={{
               width: '100%',
-              backgroundColor: '#0284c7',
-              color: '#ffffff',
+              backgroundColor: '#02C39A',
+              color: '#171717',
               border: 'none',
-              borderRadius: '8px',
-              padding: '12px',
+              borderRadius: '10px',
+              padding: '13px',
               fontSize: '14px',
-              fontWeight: 700,
+              fontWeight: 800,
               cursor: loading || digits.some((d) => !d) ? 'not-allowed' : 'pointer',
               opacity: digits.some((d) => !d) ? 0.6 : 1,
-              transition: 'background 0.2s',
+              boxShadow: '0 4px 18px rgba(2, 195, 154, 0.35)',
+              transition: 'all 0.2s ease',
               marginBottom: '16px',
             }}
           >
-            {loading ? 'Verifying Code...' : 'VERIFY'}
+            {loading ? 'Verifying Code...' : 'VERIFY & CONTINUE'}
           </button>
         </form>
 

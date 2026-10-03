@@ -612,6 +612,16 @@ if os.path.exists(dist_dir):
             return FileResponse(logo_path)
         raise HTTPException(status_code=404)
 
+    @app.get("/IN_V_PROTECT_logo_cropped.mp4", response_model=None)
+    def get_static_logo_video() -> Response:
+        video_path = os.path.join(dist_dir, "IN_V_PROTECT_logo_cropped.mp4")
+        if os.path.exists(video_path):
+            return FileResponse(video_path, media_type="video/mp4")
+        alt_path = os.path.join(dist_dir, "assets", "IN_V_PROTECT_logo_cropped.mp4")
+        if os.path.exists(alt_path):
+            return FileResponse(alt_path, media_type="video/mp4")
+        raise HTTPException(status_code=404)
+
     @app.get("/", response_model=None)
     def get_spa_root() -> Union[Response, Dict[str, Any]]:
         index_path = os.path.join(dist_dir, "index.html")

@@ -49,23 +49,23 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
   onEmergencyCall,
 }) => {
   const navItems: { id: NavSection; label: string; icon: React.FC<{ style?: React.CSSProperties }>; badge?: number; badgeColor?: string }[] = [
-    { id: 'dashboard', label: 'Dashboard', icon: Activity },
+    { id: 'dashboard', label: 'Overview', icon: Activity },
     { id: 'messages', label: 'Messages', icon: Inbox, badge: messagesCount },
-    { id: 'alerts', label: 'Alerts', icon: AlertOctagon, badge: quarantineCount, badgeColor: '#ef4444' },
-    { id: 'facescan', label: 'Face Scan', icon: Camera },
+    { id: 'alerts', label: 'Alerts', icon: AlertOctagon, badge: quarantineCount, badgeColor: '#EF4444' },
     { id: 'verify', label: 'Verify', icon: ShieldCheck },
     { id: 'evidence', label: 'Evidence', icon: Database },
     { id: 'devices', label: 'Devices', icon: Smartphone },
     { id: 'reports', label: 'Reports', icon: TrendingUp },
     { id: 'settings', label: 'Settings', icon: Settings },
+    { id: 'facescan', label: 'Face Scan', icon: Camera },
   ];
 
   return (
     <aside
       style={{
         width: '240px',
-        backgroundColor: '#090d18',
-        borderRight: '1px solid #1e293b',
+        backgroundColor: '#171717',
+        borderRight: '1px solid rgba(255, 255, 255, 0.08)',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
@@ -77,21 +77,21 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
       }}
     >
       {/* Navigation List */}
-      <div style={{ padding: '16px 10px' }}>
+      <div style={{ padding: '18px 12px' }}>
         <div
           style={{
             fontSize: '10px',
             fontWeight: 800,
             textTransform: 'uppercase',
-            letterSpacing: '0.08em',
-            color: '#475569',
-            padding: '0 12px 10px 12px',
+            letterSpacing: '0.12em',
+            color: '#A7A7A7',
+            padding: '0 12px 12px 12px',
           }}
         >
           Security Hub
         </div>
 
-        <nav style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
           {navItems.map((item) => {
             const isActive = activeNav === item.id;
             const Icon = item.icon;
@@ -106,53 +106,54 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   width: '100%',
-                  padding: '9px 12px 9px 14px',
-                  borderRadius: '8px',
-                  backgroundColor: isActive ? 'rgba(6, 182, 212, 0.08)' : 'transparent',
-                  color: isActive ? '#f8fafc' : '#94a3b8',
+                  padding: '10px 14px',
+                  borderRadius: '10px',
+                  backgroundColor: isActive ? 'rgba(2, 195, 154, 0.08)' : 'transparent',
+                  color: isActive ? '#FFFFFF' : '#A7A7A7',
                   fontSize: '13px',
                   fontWeight: isActive ? 700 : 500,
                   cursor: 'pointer',
                   textAlign: 'left',
-                  border: 'none',
-                  transition: 'background-color 0.15s ease, color 0.15s ease',
+                  border: isActive ? '1px solid rgba(2, 195, 154, 0.20)' : '1px solid transparent',
+                  transition: 'all 0.15s ease',
                 }}
                 onMouseEnter={(e) => {
                   if (!isActive) {
-                    e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.03)';
-                    e.currentTarget.style.color = '#ffffff';
+                    e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.04)';
+                    e.currentTarget.style.color = '#FFFFFF';
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (!isActive) {
                     e.currentTarget.style.backgroundColor = 'transparent';
-                    e.currentTarget.style.color = '#94a3b8';
+                    e.currentTarget.style.color = '#A7A7A7';
                   }
                 }}
               >
-                {/* Active Cyan Indicator Line */}
+                {/* Active Teal Indicator Line */}
                 {isActive && (
                   <div
                     style={{
                       position: 'absolute',
                       left: '0px',
-                      top: '6px',
-                      bottom: '6px',
+                      top: '8px',
+                      bottom: '8px',
                       width: '3px',
                       borderRadius: '0 3px 3px 0',
-                      backgroundColor: '#06b6d4',
-                      boxShadow: '0 0 8px rgba(6, 182, 212, 0.6)',
+                      backgroundColor: '#02C39A',
+                      boxShadow: '0 0 8px rgba(2, 195, 154, 0.8)',
                     }}
                   />
                 )}
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '11px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <Icon
                     style={{
                       width: '16px',
                       height: '16px',
-                      color: isActive ? '#06b6d4' : '#64748b',
+                      color: isActive ? '#02C39A' : '#A7A7A7',
                       flexShrink: 0,
+                      transition: 'color 0.15s ease',
                     }}
                   />
                   <span>{item.label}</span>
@@ -163,10 +164,10 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
                     style={{
                       fontSize: '10px',
                       fontWeight: 800,
-                      padding: '2px 7px',
-                      borderRadius: '10px',
+                      padding: '2px 8px',
+                      borderRadius: '12px',
                       backgroundColor: item.badgeColor ? `${item.badgeColor}22` : 'rgba(255, 255, 255, 0.08)',
-                      color: item.badgeColor || '#94a3b8',
+                      color: item.badgeColor || '#A7A7A7',
                       border: `1px solid ${item.badgeColor ? `${item.badgeColor}44` : 'rgba(255, 255, 255, 0.12)'}`,
                     }}
                   >
@@ -180,7 +181,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
       </div>
 
       {/* Bottom Status & Emergency Helpline Widget */}
-      <div style={{ padding: '14px', borderTop: '1px solid #1e293b' }}>
+      <div style={{ padding: '16px', borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
         {/* National Helpline 1930 */}
         <a
           href="tel:1930"
@@ -188,40 +189,40 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '8px 10px',
-            borderRadius: '8px',
+            padding: '9px 12px',
+            borderRadius: '10px',
             backgroundColor: 'rgba(239, 68, 68, 0.08)',
             border: '1px solid rgba(239, 68, 68, 0.25)',
-            color: '#f87171',
+            color: '#F87171',
             fontSize: '11px',
             fontWeight: 700,
-            marginBottom: '10px',
+            marginBottom: '12px',
             textDecoration: 'none',
+            transition: 'background-color 0.15s ease',
           }}
           onClick={onEmergencyCall}
           title="National Cyber Financial Fraud Helpline (24x7)"
         >
           <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <PhoneCall style={{ width: '12px', height: '12px' }} />
+            <PhoneCall style={{ width: '13px', height: '13px' }} />
             Helpline 1930
           </span>
-          <span style={{ fontSize: '9px', textTransform: 'uppercase', color: '#fca5a5' }}>
-            Citizen Cyber Crime
+          <span style={{ fontSize: '9px', textTransform: 'uppercase', color: '#FCA5A5' }}>
+            Cyber Crime
           </span>
         </a>
 
         {/* Protection Posture Pill */}
         <div
+          className="glass-panel"
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '8px',
-            padding: '8px 10px',
-            borderRadius: '8px',
-            backgroundColor: 'rgba(255, 255, 255, 0.02)',
-            border: '1px solid rgba(255, 255, 255, 0.06)',
+            gap: '10px',
+            padding: '10px 12px',
+            borderRadius: '10px',
             fontSize: '11px',
-            color: '#94a3b8',
+            color: '#A7A7A7',
           }}
         >
           <div
@@ -229,15 +230,15 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
               width: '8px',
               height: '8px',
               borderRadius: '50%',
-              backgroundColor: systemProtected ? '#10b981' : '#f59e0b',
-              boxShadow: systemProtected ? '0 0 8px #10b981' : '0 0 8px #f59e0b',
+              backgroundColor: systemProtected ? '#02C39A' : '#F59E0B',
+              boxShadow: systemProtected ? '0 0 8px #02C39A' : '0 0 8px #F59E0B',
             }}
           />
           <div>
-            <div style={{ fontWeight: 700, color: '#f8fafc', fontSize: '11px' }}>
-              {systemProtected ? 'PROTECTION ACTIVE' : 'EVALUATION MODE'}
+            <div style={{ fontWeight: 700, color: '#FFFFFF', fontSize: '11px' }}>
+              {systemProtected ? 'SYSTEM PROTECTED' : 'EVALUATION MODE'}
             </div>
-            <div style={{ fontSize: '10px', color: '#64748b' }}>
+            <div style={{ fontSize: '10px', color: '#A7A7A7' }}>
               Zero-Credentials Rule Enforced
             </div>
           </div>

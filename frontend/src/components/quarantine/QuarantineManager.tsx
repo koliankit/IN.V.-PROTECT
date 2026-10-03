@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import {
   AlertOctagon,
-  Shield,
-  Lock,
   Trash2,
   PhoneCall,
   CheckCircle2,
   Unlock,
+  ArrowDown,
+  FileText,
 } from 'lucide-react';
 import { SecureMessage } from '../../types';
 
@@ -30,50 +30,48 @@ export const QuarantineManager: React.FC<QuarantineManagerProps> = ({
   const selectedMsg = quarantinedMessages.find((m) => m.id === selectedId) || quarantinedMessages[0];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
       {/* Quarantine Banner */}
       <div
+        className="glass-panel"
         style={{
-          backgroundColor: '#0b101d',
-          border: '1px solid rgba(239, 68, 68, 0.35)',
           borderRadius: '16px',
-          padding: '22px 24px',
+          padding: '24px',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          boxShadow: '0 8px 24px rgba(239, 68, 68, 0.1)',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
           <div
             style={{
-              width: '44px',
-              height: '44px',
+              width: '46px',
+              height: '46px',
               borderRadius: '12px',
-              backgroundColor: 'rgba(239, 68, 68, 0.12)',
-              border: '1px solid rgba(239, 68, 68, 0.35)',
+              backgroundColor: 'rgba(239, 68, 68, 0.10)',
+              border: '1px solid rgba(239, 68, 68, 0.30)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}
           >
-            <Lock style={{ width: '22px', height: '22px', color: '#ef4444' }} />
+            <AlertOctagon style={{ width: '22px', height: '22px', color: '#EF4444' }} />
           </div>
           <div>
-            <h2 style={{ fontSize: '18px', fontWeight: 800, color: '#ffffff', margin: '0 0 2px 0' }}>
+            <h2 style={{ fontSize: '18px', fontWeight: 800, color: '#FFFFFF', margin: '0 0 3px 0' }}>
               Quarantine Isolation Firewall
             </h2>
-            <p style={{ fontSize: '12px', color: '#94a3b8', margin: 0 }}>
+            <p style={{ fontSize: '13px', color: '#A7A7A7', margin: 0 }}>
               High-risk communications are safely isolated to prevent accidental credential leakage or fraudulent payments.
             </p>
           </div>
         </div>
 
         <div style={{ textAlign: 'right' }}>
-          <div style={{ fontSize: '22px', fontWeight: 900, color: '#ef4444' }}>
+          <div style={{ fontSize: '24px', fontWeight: 900, color: '#FFFFFF' }}>
             {quarantinedMessages.length}
           </div>
-          <div style={{ fontSize: '11px', color: '#64748b' }}>
+          <div style={{ fontSize: '11px', color: '#A7A7A7' }}>
             Active Quarantined Items
           </div>
         </div>
@@ -81,24 +79,23 @@ export const QuarantineManager: React.FC<QuarantineManagerProps> = ({
 
       {quarantinedMessages.length === 0 ? (
         <div
+          className="glass-panel"
           style={{
-            backgroundColor: '#0b101d',
-            border: '1px solid #1e293b',
             borderRadius: '16px',
             padding: '48px 24px',
             textAlign: 'center',
           }}
         >
-          <CheckCircle2 style={{ width: '40px', height: '40px', color: '#10b981', margin: '0 auto 12px auto' }} />
-          <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#ffffff', margin: '0 0 6px 0' }}>
+          <CheckCircle2 style={{ width: '42px', height: '42px', color: '#10B981', margin: '0 auto 12px auto' }} />
+          <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#FFFFFF', margin: '0 0 6px 0' }}>
             Quarantine Isolation Vault is Clean
           </h3>
-          <p style={{ fontSize: '12px', color: '#64748b', maxWidth: '380px', margin: '0 auto' }}>
+          <p style={{ fontSize: '13px', color: '#A7A7A7', maxWidth: '380px', margin: '0 auto' }}>
             No quarantined or high-risk communications currently requiring user action.
           </p>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '18px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: '20px' }}>
           {/* List of Quarantined Messages */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {quarantinedMessages.map((msg) => {
@@ -107,19 +104,28 @@ export const QuarantineManager: React.FC<QuarantineManagerProps> = ({
                 <div
                   key={msg.id}
                   onClick={() => setSelectedId(msg.id)}
+                  className="glass-panel"
                   style={{
-                    backgroundColor: isSelected ? 'rgba(239, 68, 68, 0.06)' : '#0b101d',
-                    border: isSelected ? '1px solid #ef4444' : '1px solid #1e293b',
                     borderRadius: '12px',
                     padding: '16px 18px',
                     cursor: 'pointer',
+                    borderColor: isSelected ? 'rgba(239, 68, 68, 0.40)' : 'rgba(255, 255, 255, 0.08)',
+                    backgroundColor: isSelected ? 'rgba(239, 68, 68, 0.04)' : 'rgba(255, 255, 255, 0.03)',
                     transition: 'all 0.15s ease',
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <AlertOctagon style={{ width: '14px', height: '14px', color: '#ef4444' }} />
-                      <strong style={{ fontSize: '13px', color: '#ffffff' }}>
+                      <span
+                        style={{
+                          width: '7px',
+                          height: '7px',
+                          borderRadius: '50%',
+                          backgroundColor: '#EF4444',
+                          boxShadow: '0 0 6px #EF4444',
+                        }}
+                      />
+                      <strong style={{ fontSize: '13px', color: '#FFFFFF' }}>
                         {msg.sender || msg.source_channel || 'High Risk Alert'}
                       </strong>
                     </div>
@@ -127,23 +133,23 @@ export const QuarantineManager: React.FC<QuarantineManagerProps> = ({
                       style={{
                         fontSize: '10px',
                         fontWeight: 800,
-                        padding: '2px 7px',
-                        borderRadius: '4px',
-                        backgroundColor: 'rgba(239, 68, 68, 0.15)',
-                        color: '#f87171',
-                        border: '1px solid rgba(239, 68, 68, 0.3)',
+                        padding: '2px 8px',
+                        borderRadius: '6px',
+                        backgroundColor: 'rgba(239, 68, 68, 0.12)',
+                        color: '#EF4444',
+                        border: '1px solid rgba(239, 68, 68, 0.30)',
                       }}
                     >
                       QUARANTINED
                     </span>
                   </div>
 
-                  <div style={{ fontSize: '12px', color: '#cbd5e1', lineHeight: 1.5, marginBottom: '10px' }}>
+                  <div style={{ fontSize: '12px', color: '#A7A7A7', lineHeight: 1.5, marginBottom: '10px' }}>
                     "{msg.content || msg.snippet}"
                   </div>
 
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '11px', color: '#64748b' }}>
-                    <span>Evidence Preserved ✓</span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '11px', color: '#666666' }}>
+                    <span>Evidence Package Preserved ✓</span>
                     <span>Received: {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                   </div>
                 </div>
@@ -151,122 +157,197 @@ export const QuarantineManager: React.FC<QuarantineManagerProps> = ({
             })}
           </div>
 
-          {/* Detailed Decision Panel */}
+          {/* Detailed Quarantine Decision Flow (Section 12 Flow) */}
           {selectedMsg && (
             <div
+              className="glass-panel"
               style={{
-                backgroundColor: '#0b101d',
-                border: '1px solid #1e293b',
-                borderRadius: '14px',
-                padding: '22px',
+                borderRadius: '16px',
+                padding: '24px',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'space-between',
+                gap: '14px',
               }}
             >
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
-                  <Shield style={{ width: '16px', height: '16px', color: '#ef4444' }} />
-                  <span style={{ fontSize: '13px', fontWeight: 800, color: '#ffffff', textTransform: 'uppercase' }}>
-                    Investor Protection Controls
+              {/* Step 1: HIGH RISK */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '12px 16px',
+                  borderRadius: '10px',
+                  backgroundColor: 'rgba(239, 68, 68, 0.08)',
+                  border: '1px solid rgba(239, 68, 68, 0.25)',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <AlertOctagon style={{ width: '16px', height: '16px', color: '#EF4444' }} />
+                  <span style={{ fontSize: '12px', fontWeight: 800, color: '#EF4444', letterSpacing: '0.06em' }}>
+                    HIGH RISK
                   </span>
                 </div>
+                <span style={{ fontSize: '11px', color: '#FCA5A5' }}>
+                  Threat Threshold Exceeded
+                </span>
+              </div>
 
-                <div
-                  style={{
-                    backgroundColor: '#070a12',
-                    borderRadius: '8px',
-                    padding: '12px 14px',
-                    marginBottom: '16px',
-                    border: '1px solid rgba(239, 68, 68, 0.25)',
-                    fontSize: '12px',
-                  }}
-                >
-                  <div style={{ fontWeight: 700, color: '#f87171', marginBottom: '4px' }}>
-                    Why was this quarantined?
-                  </div>
-                  <div style={{ color: '#cbd5e1', lineHeight: 1.5 }}>
-                    {selectedMsg.detected_signals && selectedMsg.detected_signals.length > 0 ? (
-                      <ul style={{ paddingLeft: '18px', margin: '4px 0 0 0' }}>
-                        {selectedMsg.detected_signals.map((sig: any, i: number) => (
-                          <li key={i}>{typeof sig === 'string' ? sig : sig.signal_name || sig.description}</li>
-                        ))}
-                      </ul>
-                    ) : (
-                      'High-severity scam patterns (unrealistic return promises, credential harvest, or urgent payment pressure) detected.'
-                    )}
-                  </div>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <ArrowDown style={{ width: '14px', height: '14px', color: '#A7A7A7' }} />
+              </div>
+
+              {/* Step 2: QUARANTINE */}
+              <div
+                style={{
+                  padding: '12px 16px',
+                  borderRadius: '10px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.02)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                }}
+              >
+                <div style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', color: '#A7A7A7', letterSpacing: '0.06em', marginBottom: '4px' }}>
+                  QUARANTINE STATUS
                 </div>
-
-                <div style={{ fontSize: '12px', color: '#94a3b8', marginBottom: '18px', lineHeight: 1.5 }}>
-                  <strong style={{ color: '#ffffff' }}>Zero Automatic Actions:</strong> IN V PROTECT never deletes messages or files reports automatically without your explicit consent.
+                <div style={{ fontSize: '13px', color: '#FFFFFF', fontWeight: 600 }}>
+                  Isolated in Sandbox • Credentials Protected
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <button
-                  type="button"
-                  onClick={() => onReportMessage(selectedMsg)}
-                  style={{
-                    width: '100%',
-                    backgroundColor: '#ef4444',
-                    color: '#ffffff',
-                    fontWeight: 800,
-                    fontSize: '12px',
-                    padding: '10px 14px',
-                    borderRadius: '8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px',
-                  }}
-                >
-                  <PhoneCall style={{ width: '14px', height: '14px' }} />
-                  Report to CyberCrime (1930)
-                </button>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <ArrowDown style={{ width: '14px', height: '14px', color: '#A7A7A7' }} />
+              </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+              {/* Step 3: EVIDENCE PACKAGE */}
+              <div
+                style={{
+                  padding: '14px 16px',
+                  borderRadius: '10px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.02)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
+                  <FileText style={{ width: '13px', height: '13px', color: '#02C39A' }} />
+                  <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', color: '#02C39A', letterSpacing: '0.06em' }}>
+                    EVIDENCE PACKAGE
+                  </span>
+                </div>
+
+                <div style={{ fontSize: '12px', color: '#A7A7A7', lineHeight: 1.5 }}>
+                  {selectedMsg.detected_signals && selectedMsg.detected_signals.length > 0 ? (
+                    <ul style={{ paddingLeft: '16px', margin: '4px 0 0 0' }}>
+                      {selectedMsg.detected_signals.map((sig: any, i: number) => (
+                        <li key={i} style={{ color: '#FFFFFF' }}>
+                          {typeof sig === 'string' ? sig : sig.signal_name || sig.name || sig.description}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    'High-urgency scam patterns, unverified return claims, or payment harvest detected.'
+                  )}
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <ArrowDown style={{ width: '14px', height: '14px', color: '#A7A7A7' }} />
+              </div>
+
+              {/* Step 4: USER DECISION (Section 12 Buttons: [ Report ] [ Delete ] [ Release ]) */}
+              <div
+                style={{
+                  padding: '16px',
+                  borderRadius: '12px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                  border: '1px solid rgba(255, 255, 255, 0.10)',
+                }}
+              >
+                <div style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', color: '#FFFFFF', letterSpacing: '0.06em', marginBottom: '6px' }}>
+                  USER DECISION
+                </div>
+                <p style={{ fontSize: '12px', color: '#A7A7A7', margin: '0 0 14px 0', lineHeight: 1.4 }}>
+                  Zero automatic actions taken. You retain full control over this communication.
+                </p>
+
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  {/* [ Report ] */}
                   <button
                     type="button"
-                    onClick={() => onReleaseMessage(selectedMsg.id)}
+                    onClick={() => onReportMessage(selectedMsg)}
                     style={{
-                      backgroundColor: 'rgba(255, 255, 255, 0.04)',
-                      color: '#f8fafc',
-                      border: '1px solid #1e293b',
-                      fontWeight: 600,
+                      flex: 1,
+                      backgroundColor: 'rgba(239, 68, 68, 0.12)',
+                      color: '#F87171',
+                      border: '1px solid rgba(239, 68, 68, 0.35)',
+                      fontWeight: 700,
                       fontSize: '12px',
-                      padding: '9px 12px',
+                      padding: '10px',
                       borderRadius: '8px',
+                      cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       gap: '6px',
+                      transition: 'all 0.15s ease',
                     }}
+                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.20)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.12)')}
                   >
-                    <Unlock style={{ width: '13px', height: '13px', color: '#10b981' }} />
-                    Release
+                    <PhoneCall style={{ width: '13px', height: '13px' }} />
+                    Report
                   </button>
 
+                  {/* [ Delete ] */}
                   <button
                     type="button"
                     onClick={() => onDeleteMessage(selectedMsg.id)}
                     style={{
-                      backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                      color: '#fca5a5',
-                      border: '1px solid rgba(239, 68, 68, 0.25)',
-                      fontWeight: 600,
+                      flex: 1,
+                      backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                      color: '#FFFFFF',
+                      border: '1px solid rgba(255, 255, 255, 0.12)',
+                      fontWeight: 700,
                       fontSize: '12px',
-                      padding: '9px 12px',
+                      padding: '10px',
                       borderRadius: '8px',
+                      cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       gap: '6px',
+                      transition: 'all 0.15s ease',
                     }}
+                    onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#EF4444')}
+                    onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)')}
                   >
                     <Trash2 style={{ width: '13px', height: '13px' }} />
                     Delete
+                  </button>
+
+                  {/* [ Release ] */}
+                  <button
+                    type="button"
+                    onClick={() => onReleaseMessage(selectedMsg.id)}
+                    style={{
+                      flex: 1,
+                      backgroundColor: 'rgba(2, 195, 154, 0.12)',
+                      color: '#02C39A',
+                      border: '1px solid rgba(2, 195, 154, 0.35)',
+                      fontWeight: 700,
+                      fontSize: '12px',
+                      padding: '10px',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '6px',
+                      transition: 'all 0.15s ease',
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(2, 195, 154, 0.20)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(2, 195, 154, 0.12)')}
+                  >
+                    <Unlock style={{ width: '13px', height: '13px' }} />
+                    Release
                   </button>
                 </div>
               </div>

@@ -29,33 +29,38 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      {/* Page Title */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div>
+          <h1
+            style={{
+              fontSize: '18px',
+              fontWeight: 800,
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              color: '#FFFFFF',
+              margin: '0 0 4px 0',
+            }}
+          >
+            SECURITY OVERVIEW
+          </h1>
+          <p style={{ fontSize: '13px', color: '#A7A7A7', margin: 0 }}>
+            Continuous real-time protection for your financial communications
+          </p>
+        </div>
+      </div>
+
       {/* Central Security Status Card */}
       <div
+        className="glass-panel security-grid-bg"
         style={{
-          backgroundColor: '#0b101d',
-          border: '1px solid #1e293b',
           borderRadius: '16px',
-          padding: '36px 24px',
+          padding: '40px 24px',
           textAlign: 'center',
           position: 'relative',
           overflow: 'hidden',
-          boxShadow: '0 12px 32px rgba(0, 0, 0, 0.4)',
         }}
-        className="security-grid-bg"
       >
-        <div
-          style={{
-            fontSize: '11px',
-            fontWeight: 800,
-            textTransform: 'uppercase',
-            letterSpacing: '0.12em',
-            color: '#64748b',
-            marginBottom: '18px',
-          }}
-        >
-          Your Digital Financial Security Posture
-        </div>
-
         {/* Breathing Shield Container */}
         <div
           style={{
@@ -63,42 +68,42 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '24px 36px',
+            padding: '24px 44px',
             borderRadius: '20px',
-            backgroundColor: hasHighRisk ? 'rgba(239, 68, 68, 0.06)' : 'rgba(16, 185, 129, 0.06)',
-            border: hasHighRisk ? '1px solid rgba(239, 68, 68, 0.3)' : '1px solid rgba(16, 185, 129, 0.3)',
-            marginBottom: '16px',
+            backgroundColor: hasHighRisk ? 'rgba(239, 68, 68, 0.06)' : 'rgba(2, 195, 154, 0.06)',
+            border: hasHighRisk ? '1px solid rgba(239, 68, 68, 0.25)' : '1px solid rgba(2, 195, 154, 0.25)',
+            marginBottom: '18px',
           }}
           className="animate-breathing"
         >
           {hasHighRisk ? (
             <ShieldAlert
               style={{
-                width: '54px',
-                height: '54px',
-                color: '#ef4444',
-                filter: 'drop-shadow(0 0 10px rgba(239, 68, 68, 0.4))',
-                marginBottom: '10px',
+                width: '60px',
+                height: '60px',
+                color: '#EF4444',
+                filter: 'drop-shadow(0 0 12px rgba(239, 68, 68, 0.45))',
+                marginBottom: '12px',
               }}
             />
           ) : (
             <ShieldCheck
               style={{
-                width: '54px',
-                height: '54px',
-                color: '#10b981',
-                filter: 'drop-shadow(0 0 10px rgba(16, 185, 129, 0.4))',
-                marginBottom: '10px',
+                width: '60px',
+                height: '60px',
+                color: '#02C39A',
+                filter: 'drop-shadow(0 0 12px rgba(2, 195, 154, 0.45))',
+                marginBottom: '12px',
               }}
             />
           )}
 
           <div
             style={{
-              fontSize: '22px',
+              fontSize: '24px',
               fontWeight: 900,
-              letterSpacing: '0.04em',
-              color: hasHighRisk ? '#fca5a5' : '#a7f3d0',
+              letterSpacing: '0.06em',
+              color: '#FFFFFF',
             }}
           >
             {hasHighRisk ? 'QUARANTINE ACTIVE' : 'PROTECTED'}
@@ -106,30 +111,30 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
 
           <div
             style={{
-              fontSize: '11px',
-              fontWeight: 600,
-              color: '#94a3b8',
-              marginTop: '4px',
+              fontSize: '12px',
+              fontWeight: 500,
+              color: '#A7A7A7',
+              marginTop: '6px',
             }}
           >
             {hasHighRisk
               ? `${riskCount} high-risk threat${riskCount > 1 ? 's' : ''} quarantined`
-              : 'Continuous device firewall inspecting all communications'}
+              : 'Zero credentials collected • All communications verified'}
           </div>
         </div>
 
-        {/* Last Scan Live Timestamp */}
+        {/* Last Security Scan Live Value */}
         <div
           style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '6px',
+            gap: '8px',
             fontSize: '12px',
-            color: '#64748b',
+            color: '#A7A7A7',
           }}
         >
-          <Clock style={{ width: '13px', height: '13px' }} />
-          <span>Last automated scan: <strong style={{ color: '#cbd5e1' }}>{lastScanTime}</strong></span>
+          <Clock style={{ width: '13px', height: '13px', color: '#02C39A' }} />
+          <span>Last security scan: <strong style={{ color: '#FFFFFF' }}>{lastScanTime}</strong></span>
         </div>
       </div>
 
@@ -138,93 +143,114 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '14px',
+          gap: '16px',
         }}
       >
         {/* Trusted Metric */}
         <div
+          className="glass-panel"
           style={{
-            backgroundColor: '#0b101d',
-            border: '1px solid rgba(16, 185, 129, 0.22)',
-            borderRadius: '12px',
-            padding: '16px 20px',
+            borderRadius: '14px',
+            padding: '18px 22px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
           }}
         >
           <div>
-            <div style={{ fontSize: '11px', fontWeight: 700, color: '#10b981', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-              Trusted / Important
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+              <span
+                style={{
+                  width: '7px',
+                  height: '7px',
+                  borderRadius: '50%',
+                  backgroundColor: '#10B981',
+                  boxShadow: '0 0 6px #10B981',
+                }}
+              />
+              <span style={{ fontSize: '11px', fontWeight: 700, color: '#A7A7A7', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                TRUSTED
+              </span>
             </div>
-            <div style={{ fontSize: '26px', fontWeight: 900, color: '#ffffff', marginTop: '2px' }}>
+            <div style={{ fontSize: '28px', fontWeight: 900, color: '#FFFFFF' }}>
               {trustedCount}
             </div>
-            <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>
+            <div style={{ fontSize: '11px', color: '#A7A7A7', marginTop: '2px' }}>
               Verified authentic sources
             </div>
           </div>
           <div
             style={{
-              width: '40px',
-              height: '40px',
-              borderRadius: '10px',
-              backgroundColor: 'rgba(16, 185, 129, 0.1)',
+              width: '42px',
+              height: '42px',
+              borderRadius: '12px',
+              backgroundColor: 'rgba(255, 255, 255, 0.04)',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}
           >
-            <CheckCircle2 style={{ width: '20px', height: '20px', color: '#10b981' }} />
+            <CheckCircle2 style={{ width: '20px', height: '20px', color: '#10B981' }} />
           </div>
         </div>
 
         {/* Review Metric */}
         <div
+          className="glass-panel"
           style={{
-            backgroundColor: '#0b101d',
-            border: '1px solid rgba(245, 158, 11, 0.22)',
-            borderRadius: '12px',
-            padding: '16px 20px',
+            borderRadius: '14px',
+            padding: '18px 22px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
           }}
         >
           <div>
-            <div style={{ fontSize: '11px', fontWeight: 700, color: '#f59e0b', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-              Review / Verify
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+              <span
+                style={{
+                  width: '7px',
+                  height: '7px',
+                  borderRadius: '50%',
+                  backgroundColor: '#F59E0B',
+                  boxShadow: '0 0 6px #F59E0B',
+                }}
+              />
+              <span style={{ fontSize: '11px', fontWeight: 700, color: '#A7A7A7', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                REVIEW
+              </span>
             </div>
-            <div style={{ fontSize: '26px', fontWeight: 900, color: '#ffffff', marginTop: '2px' }}>
+            <div style={{ fontSize: '28px', fontWeight: 900, color: '#FFFFFF' }}>
               {reviewCount}
             </div>
-            <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>
+            <div style={{ fontSize: '11px', color: '#A7A7A7', marginTop: '2px' }}>
               Unverified market claims
             </div>
           </div>
           <div
             style={{
-              width: '40px',
-              height: '40px',
-              borderRadius: '10px',
-              backgroundColor: 'rgba(245, 158, 11, 0.1)',
+              width: '42px',
+              height: '42px',
+              borderRadius: '12px',
+              backgroundColor: 'rgba(255, 255, 255, 0.04)',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}
           >
-            <AlertTriangle style={{ width: '20px', height: '20px', color: '#f59e0b' }} />
+            <AlertTriangle style={{ width: '20px', height: '20px', color: '#F59E0B' }} />
           </div>
         </div>
 
         {/* High Risk Metric */}
         <div
           onClick={onNavigateAlerts}
+          className="glass-panel"
           style={{
-            backgroundColor: '#0b101d',
-            border: '1px solid rgba(239, 68, 68, 0.25)',
-            borderRadius: '12px',
-            padding: '16px 20px',
+            borderRadius: '14px',
+            padding: '18px 22px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -232,43 +258,54 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
           }}
         >
           <div>
-            <div style={{ fontSize: '11px', fontWeight: 700, color: '#ef4444', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-              High Risk / Quarantined
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+              <span
+                style={{
+                  width: '7px',
+                  height: '7px',
+                  borderRadius: '50%',
+                  backgroundColor: '#EF4444',
+                  boxShadow: '0 0 6px #EF4444',
+                }}
+              />
+              <span style={{ fontSize: '11px', fontWeight: 700, color: '#A7A7A7', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                HIGH RISK
+              </span>
             </div>
-            <div style={{ fontSize: '26px', fontWeight: 900, color: '#ffffff', marginTop: '2px' }}>
+            <div style={{ fontSize: '28px', fontWeight: 900, color: '#FFFFFF' }}>
               {riskCount}
             </div>
-            <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>
+            <div style={{ fontSize: '11px', color: '#A7A7A7', marginTop: '2px' }}>
               Scam & harvest indicators
             </div>
           </div>
           <div
             style={{
-              width: '40px',
-              height: '40px',
-              borderRadius: '10px',
-              backgroundColor: 'rgba(239, 68, 68, 0.1)',
+              width: '42px',
+              height: '42px',
+              borderRadius: '12px',
+              backgroundColor: 'rgba(255, 255, 255, 0.04)',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}
           >
-            <AlertOctagon style={{ width: '20px', height: '20px', color: '#ef4444' }} />
+            <AlertOctagon style={{ width: '20px', height: '20px', color: '#EF4444' }} />
           </div>
         </div>
       </div>
 
       {/* Recent Security Events List */}
       <div
+        className="glass-panel"
         style={{
-          backgroundColor: '#0b101d',
-          border: '1px solid #1e293b',
-          borderRadius: '14px',
-          padding: '20px 22px',
+          borderRadius: '16px',
+          padding: '24px',
         }}
       >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-          <div style={{ fontSize: '14px', fontWeight: 700, color: '#ffffff' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+          <div style={{ fontSize: '14px', fontWeight: 700, color: '#FFFFFF' }}>
             Recent Security Events
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -279,18 +316,19 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '4px',
-                  backgroundColor: 'rgba(6, 182, 212, 0.12)',
-                  color: '#22d3ee',
-                  border: '1px solid rgba(6, 182, 212, 0.3)',
-                  borderRadius: '6px',
-                  padding: '3px 8px',
+                  gap: '5px',
+                  backgroundColor: 'rgba(2, 195, 154, 0.08)',
+                  color: '#02C39A',
+                  border: '1px solid rgba(2, 195, 154, 0.25)',
+                  borderRadius: '8px',
+                  padding: '4px 10px',
                   fontSize: '11px',
                   fontWeight: 600,
                   cursor: 'pointer',
+                  transition: 'all 0.15s ease',
                 }}
               >
-                <Search style={{ width: '11px', height: '11px' }} />
+                <Search style={{ width: '12px', height: '12px' }} />
                 Verify Claim
               </button>
             )}
@@ -301,22 +339,23 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '4px',
-                  backgroundColor: 'rgba(99, 102, 241, 0.12)',
-                  color: '#818cf8',
-                  border: '1px solid rgba(99, 102, 241, 0.3)',
-                  borderRadius: '6px',
-                  padding: '3px 8px',
+                  gap: '5px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                  color: '#FFFFFF',
+                  border: '1px solid rgba(255, 255, 255, 0.10)',
+                  borderRadius: '8px',
+                  padding: '4px 10px',
                   fontSize: '11px',
                   fontWeight: 600,
                   cursor: 'pointer',
+                  transition: 'all 0.15s ease',
                 }}
               >
-                <Camera style={{ width: '11px', height: '11px' }} />
+                <Camera style={{ width: '12px', height: '12px' }} />
                 Face Biometrics
               </button>
             )}
-            <span style={{ fontSize: '11px', color: '#64748b' }}>
+            <span style={{ fontSize: '11px', color: '#A7A7A7' }}>
               Live communication streams
             </span>
           </div>
@@ -326,7 +365,7 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
           {recentMessages.slice(0, 5).map((msg) => {
             const isHighRisk = msg.protection_tier === 'Quarantined / High Risk' || msg.risk_level === 'High Concern';
             const isReview = msg.protection_tier === 'Review / Verify' || msg.risk_level === 'Needs Verification';
-            const statusColor = isHighRisk ? '#ef4444' : isReview ? '#f59e0b' : '#10b981';
+            const statusColor = isHighRisk ? '#EF4444' : isReview ? '#F59E0B' : '#10B981';
             const statusLabel = isHighRisk ? 'HIGH RISK' : isReview ? 'REVIEW' : 'TRUSTED';
 
             return (
@@ -337,29 +376,31 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  padding: '10px 14px',
-                  borderRadius: '8px',
+                  padding: '12px 16px',
+                  borderRadius: '10px',
                   backgroundColor: 'rgba(255, 255, 255, 0.02)',
-                  border: '1px solid rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.06)',
                   cursor: onSelectMessage ? 'pointer' : 'default',
-                  transition: 'background-color 0.15s ease',
+                  transition: 'all 0.15s ease',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.04)';
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.02)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.06)';
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, flex: 1 }}>
-                  {/* Subtle Status Dot */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0, flex: 1 }}>
+                  {/* Subtle Status Indicator Dot */}
                   <div
                     style={{
                       width: '8px',
                       height: '8px',
                       borderRadius: '50%',
                       backgroundColor: statusColor,
-                      boxShadow: `0 0 6px ${statusColor}66`,
+                      boxShadow: `0 0 6px ${statusColor}`,
                       flexShrink: 0,
                     }}
                   />
@@ -368,7 +409,7 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
                       style={{
                         fontSize: '13px',
                         fontWeight: 600,
-                        color: '#f8fafc',
+                        color: '#FFFFFF',
                         whiteSpace: 'nowrap',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
@@ -378,8 +419,8 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
                     </div>
                     <div
                       style={{
-                        fontSize: '11px',
-                        color: '#64748b',
+                        fontSize: '12px',
+                        color: '#A7A7A7',
                         whiteSpace: 'nowrap',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
@@ -390,7 +431,7 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0, marginLeft: '12px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexShrink: 0, marginLeft: '14px' }}>
                   <span
                     style={{
                       fontSize: '10px',
@@ -399,13 +440,13 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
                       borderRadius: '6px',
                       backgroundColor: `${statusColor}18`,
                       color: statusColor,
-                      border: `1px solid ${statusColor}33`,
+                      border: `1px solid ${statusColor}44`,
                       letterSpacing: '0.04em',
                     }}
                   >
                     {statusLabel}
                   </span>
-                  <ArrowUpRight style={{ width: '13px', height: '13px', color: '#64748b' }} />
+                  <ArrowUpRight style={{ width: '13px', height: '13px', color: '#A7A7A7' }} />
                 </div>
               </div>
             );

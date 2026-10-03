@@ -1,5 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import {
+  Shield,
+  Activity,
+  Settings,
   ShieldAlert,
   ShieldCheck,
   AlertTriangle,
@@ -665,20 +668,20 @@ export default function App() {
   // =========================================================================
   // VIEW MODE ROUTING: AUTHENTICATION vs CONSOLE
   // =========================================================================
-  if (viewMode === 'auth') {
-    if (!hasSeenSplash) {
-      return (
-        <FirstLaunchSplash
-          onGetStarted={() => {
-            setHasSeenSplash(true);
-            sessionStorage.setItem('in_v_protect_splash_seen', 'true');
-          }}
-        />
-      );
-    }
-
+  if (!hasSeenSplash) {
     return (
-      <div style={{ minHeight: '100vh', backgroundColor: '#070a12', position: 'relative' }}>
+      <FirstLaunchSplash
+        onGetStarted={() => {
+          setHasSeenSplash(true);
+          sessionStorage.setItem('in_v_protect_splash_seen', 'true');
+        }}
+      />
+    );
+  }
+
+  if (viewMode === 'auth') {
+    return (
+      <div style={{ minHeight: '100vh', backgroundColor: '#171717', position: 'relative' }}>
         {renderToastNotification()}
         {authFlowStep === 'FIRST_LAUNCH_REGISTER' && (
           <OwnerRegistration
@@ -750,8 +753,8 @@ export default function App() {
       {/* Main Top Header */}
       <header
         style={{
-          borderBottom: '1px solid var(--border-color)',
-          backgroundColor: 'rgba(15, 23, 42, 0.95)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+          backgroundColor: 'rgba(23, 23, 23, 0.96)',
           backdropFilter: 'blur(12px)',
           position: 'sticky',
           top: 0,
@@ -764,52 +767,44 @@ export default function App() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
             <div
               style={{
+                width: '40px',
+                height: '40px',
+                borderRadius: '11px',
+                backgroundColor: 'rgba(2, 195, 154, 0.08)',
+                border: '1px solid rgba(2, 195, 154, 0.30)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                height: '42px',
-                padding: '4px 10px',
-                borderRadius: '8px',
-                backgroundColor: 'rgba(255, 255, 255, 0.04)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                boxShadow: '0 0 16px rgba(56, 189, 248, 0.12)',
+                boxShadow: '0 0 16px rgba(2, 195, 154, 0.15)',
               }}
+              className="animate-breathing"
             >
-              <img
-                src="/logo.png"
-                alt="SecurityDoor Solutions Logo"
-                style={{
-                  height: '26px',
-                  maxWidth: '160px',
-                  objectFit: 'contain',
-                  display: 'block',
-                }}
-              />
+              <Shield style={{ width: '22px', height: '22px', color: '#02C39A' }} />
             </div>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <h1 style={{ fontSize: '19px', fontWeight: 800, letterSpacing: '-0.02em', margin: 0 }}>
-                  IN V PROTECT <span style={{ color: '#38bdf8' }}>• SANGYAN Hackathon</span>
+                <h1 style={{ fontSize: '18px', fontWeight: 900, letterSpacing: '0.04em', margin: 0, color: '#FFFFFF' }}>
+                  IN.V. PROTECT
                 </h1>
                 <span
                   style={{
                     fontSize: '10px',
                     fontWeight: 700,
                     textTransform: 'uppercase',
-                    backgroundColor: 'rgba(56, 189, 248, 0.15)',
-                    color: '#38bdf8',
+                    backgroundColor: 'rgba(2, 195, 154, 0.08)',
+                    color: '#02C39A',
                     padding: '2px 8px',
                     borderRadius: '12px',
-                    border: '1px solid rgba(56, 189, 248, 0.3)',
+                    border: '1px solid rgba(2, 195, 154, 0.25)',
                     letterSpacing: '0.04em',
                   }}
                 >
-                  Personal Digital Security Layer
+                  Personal Digital Security Layer for Investors
                 </span>
               </div>
-              <p style={{ fontSize: '12px', color: 'var(--text-muted)', margin: 0 }}>
+              <p style={{ fontSize: '12px', color: '#A7A7A7', margin: 0 }}>
                 {language === 'en'
-                  ? 'AI-Powered Scam Detection & Evidence Verification (Continuous Device Firewall)'
+                  ? 'Continuous Device Firewall & Official Regulatory Verification Engine (SEBI, RBI, I4C grounded)'
                   : 'भारतीय निवेशकों के लिए निरंतर डिजिटल वित्तीय सुरक्षा एवं साक्ष्य सत्यापन प्रणाली'}
               </p>
             </div>
@@ -823,14 +818,14 @@ export default function App() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                backgroundColor: 'rgba(16, 185, 129, 0.12)',
-                color: '#10b981',
-                border: '1px solid rgba(16, 185, 129, 0.35)',
+                backgroundColor: 'rgba(2, 195, 154, 0.08)',
+                color: '#02C39A',
+                border: '1px solid rgba(2, 195, 154, 0.30)',
                 padding: '6px 14px',
                 borderRadius: '20px',
                 fontSize: '11px',
                 fontWeight: 800,
-                letterSpacing: '0.05em',
+                letterSpacing: '0.06em',
               }}
             >
               <div
@@ -838,12 +833,12 @@ export default function App() {
                   width: '8px',
                   height: '8px',
                   borderRadius: '50%',
-                  backgroundColor: '#10b981',
-                  boxShadow: '0 0 10px #10b981',
+                  backgroundColor: '#02C39A',
+                  boxShadow: '0 0 10px #02C39A',
                 }}
                 className="animate-breathing"
               />
-              <span>SYSTEM PROTECTED</span>
+              <span>● SYSTEM PROTECTED</span>
             </div>
 
             {/* Smartwatch Wrist Notification Preview */}
@@ -3039,80 +3034,180 @@ export default function App() {
         {/* VIEW 5: EVIDENCE & OFFICIAL SOURCES                            */}
         {/* ============================================================== */}
         {activeNav === 'evidence' && (
-          <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <div>
-              <h2 style={{ fontSize: '20px', fontWeight: 800 }}>Authoritative Regulatory Repositories</h2>
-              <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
-                Official evidence grounding engine connected to published advisories from SEBI, RBI, I4C, and CERT-In.
-              </p>
+          <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <h2 style={{ fontSize: '18px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#FFFFFF', margin: '0 0 4px 0' }}>
+                  OFFICIAL EVIDENCE
+                </h2>
+                <p style={{ fontSize: '13px', color: '#A7A7A7', margin: 0 }}>
+                  Security investigation dossier grounded in authoritative regulatory advisories from SEBI, RBI, I4C, and CERT-In.
+                </p>
+              </div>
+              <span
+                style={{
+                  fontSize: '11px',
+                  fontWeight: 700,
+                  padding: '4px 10px',
+                  borderRadius: '16px',
+                  backgroundColor: 'rgba(2, 195, 154, 0.08)',
+                  color: '#02C39A',
+                  border: '1px solid rgba(2, 195, 154, 0.25)',
+                }}
+              >
+                Zero Fabrications • Real Registries
+              </span>
             </div>
 
-            {/* SEBI ID Instant Verifier Card */}
-            <div style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '20px' }}>
-              <h3 style={{ fontSize: '15px', fontWeight: 700, marginBottom: '8px' }}>SEBI Registration / Intermediary Format Verifier</h3>
-              <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '14px' }}>
-                Test any claimed broker (INZ), research analyst (INH), or investment adviser (INA) code format directly.
+            {/* SEBI ID / Registration Format Instant Verifier Card */}
+            <div className="glass-panel" style={{ borderRadius: '16px', padding: '24px' }}>
+              <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#FFFFFF', margin: '0 0 6px 0' }}>
+                SEBI Registration / Intermediary Format Verifier
+              </h3>
+              <p style={{ fontSize: '12px', color: '#A7A7A7', margin: '0 0 16px 0' }}>
+                Test any claimed broker (INZ), research analyst (INH), or investment adviser (INA) code format directly against SEBI standards.
               </p>
-              <div style={{ display: 'flex', gap: '10px', maxWidth: '600px', marginBottom: '12px' }}>
+              <div style={{ display: 'flex', gap: '10px', maxWidth: '600px', marginBottom: '14px' }}>
                 <input
                   type="text"
                   value={verifyQuery}
                   onChange={(e) => setVerifyQuery(e.target.value)}
                   placeholder="e.g. INA00012345 or Zerodha"
-                  style={{ flex: 1 }}
+                  style={{
+                    flex: 1,
+                    padding: '10px 14px',
+                    fontSize: '13px',
+                    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                    border: '1px solid rgba(255, 255, 255, 0.10)',
+                    borderRadius: '8px',
+                    color: '#FFFFFF',
+                    outline: 'none',
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#02C39A';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.10)';
+                  }}
                 />
                 <button
                   onClick={handleVerifyEntity}
                   disabled={verifyLoading}
-                  style={{ backgroundColor: '#2563eb', color: '#ffffff', padding: '8px 16px', borderRadius: '8px', fontWeight: 700 }}
+                  style={{
+                    backgroundColor: '#02C39A',
+                    color: '#171717',
+                    padding: '10px 20px',
+                    borderRadius: '8px',
+                    fontWeight: 800,
+                    fontSize: '13px',
+                    border: 'none',
+                    cursor: verifyLoading ? 'not-allowed' : 'pointer',
+                  }}
                 >
                   {verifyLoading ? 'Checking...' : 'Verify'}
                 </button>
               </div>
 
               {verifyResult && (
-                <div style={{ backgroundColor: 'var(--bg-card)', padding: '14px', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
-                  <div style={{ fontSize: '13px', fontWeight: 700, color: verifyResult.is_valid_format ? '#34d399' : '#f87171', marginBottom: '4px' }}>
+                <div
+                  style={{
+                    backgroundColor: 'rgba(255, 255, 255, 0.02)',
+                    padding: '16px',
+                    borderRadius: '10px',
+                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                  }}
+                >
+                  <div style={{ fontSize: '13px', fontWeight: 800, color: verifyResult.is_valid_format ? '#10B981' : '#EF4444', marginBottom: '4px' }}>
                     {verifyResult.status}
                   </div>
-                  <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>{verifyResult.advisory}</div>
-                  <a href={verifyResult.official_verification_url} target="_blank" rel="noreferrer" style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <div style={{ fontSize: '12px', color: '#A7A7A7', marginBottom: '10px', lineHeight: 1.5 }}>
+                    {verifyResult.advisory}
+                  </div>
+                  <a
+                    href={verifyResult.official_verification_url}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      fontSize: '12px',
+                      color: '#02C39A',
+                      fontWeight: 600,
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      textDecoration: 'none',
+                    }}
+                  >
                     Confirm on official SEBI register <ExternalLink style={{ width: '12px', height: '12px' }} />
                   </a>
                 </div>
               )}
             </div>
 
-            {/* Source Library Cards */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '14px' }}>
+            {/* Official Evidence Investigation Cards */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '16px' }}>
               {officialSources.map((src) => (
                 <div
                   key={src.source_id}
+                  className="glass-panel"
                   style={{
-                    backgroundColor: 'var(--bg-secondary)',
-                    border: '1px solid var(--border-color)',
-                    borderRadius: '10px',
-                    padding: '16px',
+                    borderRadius: '14px',
+                    padding: '22px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
                   }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                    <span style={{ fontSize: '11px', fontWeight: 700, color: '#38bdf8' }}>{src.publisher}</span>
-                    <span style={{ fontSize: '10px', color: 'var(--text-faint)', backgroundColor: 'var(--bg-card)', padding: '2px 6px', borderRadius: '4px' }}>
-                      {src.source_id}
-                    </span>
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                      <span
+                        style={{
+                          fontSize: '11px',
+                          fontWeight: 800,
+                          padding: '2px 8px',
+                          borderRadius: '4px',
+                          backgroundColor: 'rgba(2, 195, 154, 0.12)',
+                          color: '#02C39A',
+                          border: '1px solid rgba(2, 195, 154, 0.25)',
+                        }}
+                      >
+                        {src.publisher}
+                      </span>
+                      <span style={{ fontSize: '11px', color: '#10B981', fontWeight: 600 }}>
+                        ✓ Source checked
+                      </span>
+                    </div>
+
+                    <h4 style={{ fontSize: '14px', fontWeight: 700, color: '#FFFFFF', margin: '0 0 8px 0' }}>
+                      {src.title}
+                    </h4>
+
+                    <div style={{ fontSize: '12px', color: '#A7A7A7', marginBottom: '16px', lineHeight: 1.6 }}>
+                      {src.description}
+                    </div>
                   </div>
-                  <h4 style={{ fontSize: '14px', fontWeight: 700, marginBottom: '6px' }}>{src.title}</h4>
-                  <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '10px', lineHeight: 1.4 }}>
-                    {src.description}
-                  </p>
-                  <a
-                    href={src.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    style={{ fontSize: '12px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}
-                  >
-                    Open Canonical Official Document <ExternalLink style={{ width: '12px', height: '12px' }} />
-                  </a>
+
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '12px', borderTop: '1px solid rgba(255, 255, 255, 0.06)' }}>
+                    <span style={{ fontSize: '11px', color: '#666666' }}>
+                      {src.source_id} • Official Circular
+                    </span>
+                    <a
+                      href={src.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{
+                        fontSize: '12px',
+                        fontWeight: 700,
+                        color: '#02C39A',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '5px',
+                        textDecoration: 'none',
+                      }}
+                    >
+                      <span>Open Official Source</span>
+                      <ExternalLink style={{ width: '12px', height: '12px' }} />
+                    </a>
+                  </div>
                 </div>
               ))}
             </div>
@@ -5250,6 +5345,102 @@ export default function App() {
         ownerProfile={ownerProfile}
         onLogout={handleLogout}
       />
+
+      {/* Mobile Bottom Navigation Bar (Section 14: Responsive Design) */}
+      <nav className="mobile-bottom-nav">
+        <button
+          type="button"
+          onClick={() => setActiveNav('dashboard')}
+          style={{
+            background: 'none',
+            border: 'none',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '4px',
+            color: activeNav === 'dashboard' ? '#02C39A' : '#A7A7A7',
+            cursor: 'pointer',
+            padding: '6px',
+          }}
+        >
+          <Activity style={{ width: '18px', height: '18px' }} />
+          <span style={{ fontSize: '10px', fontWeight: activeNav === 'dashboard' ? 700 : 500 }}>Home</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveNav('alerts')}
+          style={{
+            background: 'none',
+            border: 'none',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '4px',
+            color: activeNav === 'alerts' || activeNav === 'quarantine' ? '#02C39A' : '#A7A7A7',
+            cursor: 'pointer',
+            padding: '6px',
+            position: 'relative',
+          }}
+        >
+          <AlertOctagon style={{ width: '18px', height: '18px' }} />
+          <span style={{ fontSize: '10px', fontWeight: activeNav === 'alerts' || activeNav === 'quarantine' ? 700 : 500 }}>Alerts</span>
+          {quarantinedMessages.length > 0 && (
+            <span
+              style={{
+                position: 'absolute',
+                top: '2px',
+                right: '10px',
+                width: '6px',
+                height: '6px',
+                borderRadius: '50%',
+                backgroundColor: '#EF4444',
+              }}
+            />
+          )}
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveNav('verify')}
+          style={{
+            background: 'none',
+            border: 'none',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '4px',
+            color: activeNav === 'verify' ? '#02C39A' : '#A7A7A7',
+            cursor: 'pointer',
+            padding: '6px',
+          }}
+        >
+          <ShieldCheck style={{ width: '18px', height: '18px' }} />
+          <span style={{ fontSize: '10px', fontWeight: activeNav === 'verify' ? 700 : 500 }}>Verify</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            if (activeNav === 'settings') setActiveNav('dashboard');
+            else setActiveNav('settings');
+          }}
+          style={{
+            background: 'none',
+            border: 'none',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '4px',
+            color: activeNav === 'settings' || activeNav === 'evidence' || activeNav === 'reports' ? '#02C39A' : '#A7A7A7',
+            cursor: 'pointer',
+            padding: '6px',
+          }}
+        >
+          <Settings style={{ width: '18px', height: '18px' }} />
+          <span style={{ fontSize: '10px', fontWeight: activeNav === 'settings' ? 700 : 500 }}>More</span>
+        </button>
+      </nav>
     </div>
   );
 }
