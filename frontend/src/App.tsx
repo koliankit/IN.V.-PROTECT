@@ -35,6 +35,7 @@ import {
   ChevronLeft,
   TrendingUp,
   UserCheck,
+  Video,
 } from 'lucide-react';
 import {
   AnalysisResponse,
@@ -71,6 +72,7 @@ import { OfficialClaimVerifier } from './components/verify/OfficialClaimVerifier
 import { QuarantineManager } from './components/quarantine/QuarantineManager';
 import { SmartwatchAlertModal } from './components/devices/SmartwatchAlertModal';
 import { FaceScanStudio } from './components/biometrics/FaceScanStudio';
+import { VideoLessonHero } from './components/academy/VideoLessonHero';
 interface DemoExample {
   id: string;
   title: string;
@@ -102,7 +104,8 @@ type NavSection =
   | 'integrations'
   | 'incidents'
   | 'privacy'
-  | 'architecture';
+  | 'architecture'
+  | 'academy';
 
 export default function App() {
   // View Mode: 'console' (Full shield dashboard) | 'auth' (Registration / Login)
@@ -187,6 +190,10 @@ export default function App() {
 
   // Initial Data & Auth Check
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('view') === 'academy' || window.location.hash === '#academy') {
+      setActiveNav('academy');
+    }
     checkAuthStatus();
     fetchDemoExamples();
     fetchOfficialSources();
@@ -679,9 +686,45 @@ export default function App() {
     );
   }
 
+  // Direct Fullscreen Academy Video Lesson View (Reference Spec)
+  if (activeNav === 'academy') {
+    return (
+      <VideoLessonHero
+        onBackToDashboard={() => {
+          setActiveNav('dashboard');
+        }}
+      />
+    );
+  }
+
   if (viewMode === 'auth') {
     return (
       <div style={{ minHeight: '100vh', backgroundColor: '#171717', position: 'relative' }}>
+        {/* Floating Quick Reference Preview Button */}
+        <div style={{ position: 'absolute', top: '16px', right: '20px', zIndex: 100 }}>
+          <button
+            onClick={() => setActiveNav('academy')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              backgroundColor: 'rgba(255, 92, 141, 0.15)',
+              color: '#FF5C8D',
+              border: '1px solid rgba(255, 92, 141, 0.35)',
+              padding: '8px 14px',
+              borderRadius: '20px',
+              fontSize: '12px',
+              fontWeight: 700,
+              cursor: 'pointer',
+              backdropFilter: 'blur(10px)',
+              transition: 'all 0.18s ease',
+            }}
+            title="Preview 16:9 Video Lesson Hero (Josh Garrison Reference Spec)"
+          >
+            <Video style={{ width: '14px', height: '14px' }} />
+            🎓 Video Lesson Hero (16:9)
+          </button>
+        </div>
         {renderToastNotification()}
         {authFlowStep === 'FIRST_LAUNCH_REGISTER' && (
           <OwnerRegistration
@@ -914,6 +957,29 @@ export default function App() {
             >
               <PlayCircle style={{ width: '13px', height: '13px', color: '#FFB020' }} />
               ⚡ 9-Step Threat Demo
+            </button>
+
+            {/* Academy 16:9 Video Lesson Hero Trigger (Josh Garrison Reference Spec) */}
+            <button
+              onClick={() => setActiveNav('academy')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                backgroundColor: 'rgba(255, 92, 141, 0.12)',
+                color: '#FF5C8D',
+                border: '1px solid rgba(255, 92, 141, 0.35)',
+                padding: '6px 12px',
+                borderRadius: '10px',
+                fontSize: '12px',
+                fontWeight: 700,
+                cursor: 'pointer',
+                transition: 'all 0.18s ease',
+              }}
+              title="Open 16:9 Academy Video Player (Josh Garrison Reference)"
+            >
+              <Video style={{ width: '13px', height: '13px', color: '#FF5C8D' }} />
+              🎓 Academy Lesson (16:9)
             </button>
 
             <button
@@ -4921,6 +4987,30 @@ export default function App() {
                           Visit cybercrime.gov.in <ExternalLink style={{ width: '12px', height: '12px' }} />
                         </a>
                       )}
+
+                      <button
+                        onClick={() => {
+                          setShowDemoFlowModal(false);
+                          setActiveNav('academy');
+                        }}
+                        style={{
+                          backgroundColor: 'rgba(255, 92, 141, 0.15)',
+                          color: '#FF5C8D',
+                          border: '1px solid rgba(255, 92, 141, 0.35)',
+                          padding: '8px 14px',
+                          borderRadius: '8px',
+                          fontSize: '12px',
+                          fontWeight: 700,
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                        }}
+                        title="Watch in 16:9 Video Lesson Hero Player"
+                      >
+                        <Video style={{ width: '13px', height: '13px' }} />
+                        16:9 Cinema Player
+                      </button>
 
                       <button
                         onClick={() => setDemoFlowStepIndex(Math.min(demoAttackFlow.steps.length - 1, demoFlowStepIndex + 1))}

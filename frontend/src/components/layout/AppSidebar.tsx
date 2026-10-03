@@ -10,6 +10,7 @@ import {
   Settings,
   PhoneCall,
   Camera,
+  Video,
 } from 'lucide-react';
 
 export type NavSection =
@@ -27,7 +28,8 @@ export type NavSection =
   | 'integrations'
   | 'incidents'
   | 'privacy'
-  | 'architecture';
+  | 'architecture'
+  | 'academy';
 
 interface AppSidebarProps {
   activeNav: string;
@@ -58,6 +60,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
     { id: 'reports', label: 'Reports', icon: TrendingUp },
     { id: 'settings', label: 'Settings', icon: Settings },
     { id: 'facescan', label: 'Face Scan', icon: Camera },
+    { id: 'academy', label: 'Academy (16:9)', icon: Video, badgeColor: '#FF5C8D' },
   ];
 
   return (
