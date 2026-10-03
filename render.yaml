@@ -1,5 +1,4 @@
 services:
-  # Backend: FastAPI
   - type: web
     name: sangyan-ai-backend
     runtime: python
@@ -17,14 +16,12 @@ services:
       - key: SECRET_KEY
         generateValue: true
 
-  # Frontend: React/Vite
   - type: web
     name: sangyan-ai-frontend
     runtime: static
     rootDir: frontend
     buildCommand: npm ci && npm run build
     staticPublishPath: dist
-    plan: free
     routes:
       - type: rewrite
         source: /*
