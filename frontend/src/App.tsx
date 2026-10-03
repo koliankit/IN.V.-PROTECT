@@ -836,8 +836,8 @@ export default function App() {
           onOpenLanding={() => setViewMode('landing')}
         />
 
-        {/* Main Content Area */}
-        <main style={{ flex: 1, padding: '24px 32px', maxWidth: '1440px', overflowX: 'hidden', paddingBottom: '32px' }}>
+        {/* Main Content Area - Full Window Responsive */}
+        <main style={{ flex: 1, padding: '24px 32px', width: '100%', maxWidth: '100%', overflowX: 'hidden', paddingBottom: '32px' }}>
           {/* ============================================================== */}
           {/* VIEW 1: DASHBOARD                                              */}
           {/* ============================================================== */}

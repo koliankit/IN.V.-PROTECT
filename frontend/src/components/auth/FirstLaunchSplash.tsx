@@ -39,10 +39,10 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
         });
       }
 
-      // Maximum 3.4s presentation duration as requested (2–4 seconds)
+      // Allow full video playback (10s) with graceful fallback safety timeout
       const timer = setTimeout(() => {
         handleAdvanceToReveal();
-      }, 3400);
+      }, 10500);
 
       return () => clearTimeout(timer);
     }
@@ -53,7 +53,7 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
     if (phase === 'reveal' && autoAdvance) {
       const exitTimer = setTimeout(() => {
         handleComplete();
-      }, 2200);
+      }, 3000);
       return () => clearTimeout(exitTimer);
     }
   }, [phase, autoAdvance]);
@@ -76,7 +76,9 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
       style={{
         position: 'fixed',
         inset: 0,
-        backgroundColor: 'var(--bg-primary)',
+        width: '100vw',
+        height: '100vh',
+        backgroundColor: '#000000',
         color: '#FFFFFF',
         zIndex: 9999,
         display: 'flex',
@@ -102,59 +104,65 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
           handleComplete();
         }}
         style={{
-          position: 'absolute',
-          top: '24px',
-          right: '28px',
+          position: 'fixed',
+          top: '28px',
+          right: '32px',
           display: 'flex',
           alignItems: 'center',
-          gap: '6px',
-          background: 'rgba(255, 255, 255, 0.04)',
-          border: '1px solid rgba(255, 255, 255, 0.10)',
-          color: '#A7A7A7',
-          borderRadius: '20px',
-          padding: '6px 14px',
-          fontSize: '11px',
-          fontWeight: 600,
+          gap: '8px',
+          background: 'rgba(0, 0, 0, 0.65)',
+          border: '1px solid rgba(255, 255, 255, 0.20)',
+          color: '#FFFFFF',
+          borderRadius: '24px',
+          padding: '8px 18px',
+          fontSize: '12px',
+          fontWeight: 700,
           cursor: 'pointer',
-          backdropFilter: 'blur(12px)',
-          zIndex: 10,
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          zIndex: 100,
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
           transition: 'all 0.2s ease',
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.color = '#FFFFFF';
-          e.currentTarget.style.borderColor = '#e53e3e';
+          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.45)';
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.color = '#A7A7A7';
-          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.10)';
+          e.currentTarget.style.color = '#FFFFFF';
+          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.20)';
         }}
       >
-        <span>Skip</span>
-        <FastForward style={{ width: '12px', height: '12px' }} />
+        <span>Skip Intro</span>
+        <FastForward style={{ width: '13px', height: '13px' }} />
       </button>
 
       <AnimatePresence mode="wait">
-        {/* PHASE: VIDEO ANIMATION */}
+        {/* PHASE: VIDEO ANIMATION (FULL WINDOW) */}
         {phase === 'video' && !videoError && (
           <motion.div
             key="video-stage"
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.02, filter: 'blur(6px)' }}
-            transition={{ duration: 0.45, ease: 'easeOut' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, filter: 'blur(6px)' }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
             style={{
-              position: 'relative',
-              width: '100%',
-              maxWidth: '720px',
+              position: 'absolute',
+              inset: 0,
+              width: '100vw',
+              height: '100vh',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              padding: '20px',
+              backgroundColor: '#000000',
+              overflow: 'hidden',
+              padding: 0,
+              margin: 0,
             }}
           >
             <video
               ref={videoRef}
-              src="/IN_V_PROTECT_logo_cropped.mp4"
+              src="/gemini_generated_video_63beae48.mp4"
               playsInline
               muted
               autoPlay
@@ -164,17 +172,19 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
                 handleAdvanceToReveal();
               }}
               style={{
-                width: '100%',
-                maxHeight: '65vh',
-                objectFit: 'contain',
-                borderRadius: '16px',
-                filter: 'drop-shadow(0 0 32px rgba(229, 62, 62, 0.18))',
+                width: '100vw',
+                height: '100vh',
+                maxWidth: '100vw',
+                maxHeight: '100vh',
+                objectFit: 'cover',
+                borderRadius: 0,
+                display: 'block',
               }}
             >
-              <source src="/IN_V_PROTECT_logo_cropped.mp4" type="video/mp4" />
-              <source src="/assets/IN_V_PROTECT_logo_cropped.mp4" type="video/mp4" />
               <source src="/gemini_generated_video_63beae48.mp4" type="video/mp4" />
+              <source src="/IN_V_PROTECT_logo_cropped.mp4" type="video/mp4" />
               <source src="/assets/gemini_generated_video_63beae48.mp4" type="video/mp4" />
+              <source src="/assets/IN_V_PROTECT_logo_cropped.mp4" type="video/mp4" />
             </video>
           </motion.div>
         )}
