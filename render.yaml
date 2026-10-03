@@ -31,6 +31,10 @@ services:
         value: tesseract
       - key: OCR_MIN_CONFIDENCE
         value: "60.0"
+      - key: CORS_ORIGINS
+        value: '["https://inv-protect-frontend.onrender.com","http://localhost:5173","http://localhost:3000"]'
+      - key: PYTHONUNBUFFERED
+        value: "1"
       # Set these in Render Dashboard → Environment → Secret:
       # - key: LLM_API_KEY
       #   sync: false
@@ -43,6 +47,7 @@ services:
       # - key: SMTP_PASSWORD
       #   sync: false
     healthCheckPath: /health
+
 
   # ─── Frontend: React/Vite Static Site ──────────────────────────────────────
   - type: web
