@@ -11,6 +11,7 @@ import {
   PhoneCall,
   Camera,
   Video,
+  Wifi,
 } from 'lucide-react';
 
 export type NavSection =
@@ -57,6 +58,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
     { id: 'verify', label: 'Verify', icon: ShieldCheck },
     { id: 'evidence', label: 'Evidence', icon: Database },
     { id: 'devices', label: 'Devices', icon: Smartphone },
+    { id: 'integrations', label: 'Integrations', icon: Wifi },
     { id: 'reports', label: 'Reports', icon: TrendingUp },
     { id: 'settings', label: 'Settings', icon: Settings },
     { id: 'facescan', label: 'Face Scan', icon: Camera },

@@ -73,6 +73,7 @@ import { QuarantineManager } from './components/quarantine/QuarantineManager';
 import { SmartwatchAlertModal } from './components/devices/SmartwatchAlertModal';
 import { FaceScanStudio } from './components/biometrics/FaceScanStudio';
 import { VideoLessonHero } from './components/academy/VideoLessonHero';
+import { IntegrationsManager } from './components/integrations/IntegrationsManager';
 interface DemoExample {
   id: string;
   title: string;
@@ -3579,66 +3580,11 @@ export default function App() {
         {/* VIEW 7: INTEGRATIONS                                           */}
         {/* ============================================================== */}
         {activeNav === 'integrations' && (
-          <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <div>
-              <h2 style={{ fontSize: '20px', fontWeight: 800 }}>Communication & Account Ingestion Connectors</h2>
-              <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
-                Sangyan AI does NOT claim magical access to private accounts. Integrations use explicit user authorization,
-                supported OS notification listeners, or transparent simulation stubs.
-              </p>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '16px' }}>
-              {integrations.map((itg) => (
-                <div
-                  key={itg.id}
-                  style={{
-                    backgroundColor: 'var(--bg-secondary)',
-                    border: '1px solid var(--border-color)',
-                    borderRadius: '12px',
-                    padding: '20px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                      <span
-                        style={{
-                          fontSize: '10px',
-                          fontWeight: 800,
-                          padding: '2px 6px',
-                          borderRadius: '4px',
-                          backgroundColor: itg.is_real ? 'rgba(56, 189, 248, 0.15)' : 'rgba(251, 191, 36, 0.15)',
-                          color: itg.is_real ? '#38bdf8' : '#fbbf24',
-                        }}
-                      >
-                        {itg.is_real ? 'REAL CONNECTOR' : 'DEMO / SIMULATED'}
-                      </span>
-                      <span style={{ fontSize: '12px', fontWeight: 700, color: itg.status === 'CONNECTED' ? '#34d399' : '#fbbf24' }}>
-                        {itg.status}
-                      </span>
-                    </div>
-
-                    <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '6px' }}>{itg.name}</h3>
-                    <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '12px', lineHeight: 1.4 }}>
-                      {itg.description}
-                    </p>
-
-                    <div style={{ backgroundColor: 'var(--bg-card)', padding: '10px', borderRadius: '6px', marginBottom: '12px' }}>
-                      <div style={{ fontSize: '11px', color: 'var(--text-faint)', fontWeight: 700 }}>PRIVACY GUARANTEE:</div>
-                      <div style={{ fontSize: '11px', color: 'var(--text-main)', marginTop: '2px' }}>{itg.security_guarantee}</div>
-                    </div>
-                  </div>
-
-                  <div style={{ fontSize: '11px', color: 'var(--text-faint)' }}>
-                    {itg.notes || 'Integration architecture active.'}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <IntegrationsManager
+            integrations={integrations}
+            onRefresh={fetchSecurityData}
+            onShowToast={showToast}
+          />
         )}
 
         {/* ============================================================== */}
