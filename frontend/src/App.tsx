@@ -749,15 +749,18 @@ export default function App() {
       {renderToastNotification()}
 
       {/* Main Top Header */}
+      {/* Main Top Header - Premium Security Command Bar */}
       <header
+        className="glossy-reflection"
         style={{
           borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-          backgroundColor: 'rgba(23, 23, 23, 0.96)',
-          backdropFilter: 'blur(12px)',
+          backgroundColor: 'rgba(8, 11, 15, 0.92)',
+          backdropFilter: 'blur(20px) saturate(140%)',
           position: 'sticky',
           top: 0,
           zIndex: 100,
-          padding: '12px 24px',
+          padding: '12px 28px',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.45)',
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
@@ -765,23 +768,23 @@ export default function App() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
             <div
               style={{
-                width: '40px',
-                height: '40px',
-                borderRadius: '11px',
-                backgroundColor: 'rgba(2, 195, 154, 0.08)',
-                border: '1px solid rgba(2, 195, 154, 0.30)',
+                width: '42px',
+                height: '42px',
+                borderRadius: '12px',
+                backgroundColor: 'rgba(32, 217, 138, 0.08)',
+                border: '1px solid rgba(32, 217, 138, 0.28)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: '0 0 16px rgba(2, 195, 154, 0.15)',
+                boxShadow: '0 0 20px rgba(32, 217, 138, 0.18)',
               }}
               className="animate-breathing"
             >
-              <Shield style={{ width: '22px', height: '22px', color: '#02C39A' }} />
+              <Shield style={{ width: '22px', height: '22px', color: '#20D98A' }} />
             </div>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <h1 style={{ fontSize: '18px', fontWeight: 900, letterSpacing: '0.04em', margin: 0, color: '#FFFFFF' }}>
+                <h1 style={{ fontSize: '18px', fontWeight: 900, letterSpacing: '0.03em', margin: 0, color: '#FFFFFF' }}>
                   IN.V. PROTECT
                 </h1>
                 <span
@@ -789,18 +792,18 @@ export default function App() {
                     fontSize: '10px',
                     fontWeight: 700,
                     textTransform: 'uppercase',
-                    backgroundColor: 'rgba(2, 195, 154, 0.08)',
-                    color: '#02C39A',
-                    padding: '2px 8px',
+                    backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                    color: '#AEB7C2',
+                    padding: '3px 10px',
                     borderRadius: '12px',
-                    border: '1px solid rgba(2, 195, 154, 0.25)',
-                    letterSpacing: '0.04em',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    letterSpacing: '0.05em',
                   }}
                 >
                   Personal Digital Security Layer for Investors
                 </span>
               </div>
-              <p style={{ fontSize: '12px', color: '#A7A7A7', margin: 0 }}>
+              <p style={{ fontSize: '12px', color: '#AEB7C2', margin: 0 }}>
                 {language === 'en'
                   ? 'Continuous Device Firewall & Official Regulatory Verification Engine (SEBI, RBI, I4C grounded)'
                   : 'भारतीय निवेशकों के लिए निरंतर डिजिटल वित्तीय सुरक्षा एवं साक्ष्य सत्यापन प्रणाली'}
@@ -808,22 +811,23 @@ export default function App() {
             </div>
           </div>
 
-          {/* Top Actions */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          {/* Top Actions - Professional Command Controls */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
             {/* System Protected Live Status Indicator */}
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                backgroundColor: 'rgba(2, 195, 154, 0.08)',
-                color: '#02C39A',
-                border: '1px solid rgba(2, 195, 154, 0.30)',
+                backgroundColor: 'rgba(32, 217, 138, 0.08)',
+                color: '#20D98A',
+                border: '1px solid rgba(32, 217, 138, 0.28)',
                 padding: '6px 14px',
                 borderRadius: '20px',
                 fontSize: '11px',
                 fontWeight: 800,
                 letterSpacing: '0.06em',
+                boxShadow: '0 0 12px rgba(32, 217, 138, 0.12)',
               }}
             >
               <div
@@ -831,8 +835,8 @@ export default function App() {
                   width: '8px',
                   height: '8px',
                   borderRadius: '50%',
-                  backgroundColor: '#02C39A',
-                  boxShadow: '0 0 10px #02C39A',
+                  backgroundColor: '#20D98A',
+                  boxShadow: '0 0 10px #20D98A',
                 }}
                 className="animate-breathing"
               />
@@ -847,18 +851,19 @@ export default function App() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
-                backgroundColor: 'rgba(6, 182, 212, 0.12)',
-                color: '#22d3ee',
-                border: '1px solid rgba(6, 182, 212, 0.35)',
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                color: '#FFFFFF',
+                border: '1px solid rgba(255, 255, 255, 0.12)',
                 padding: '6px 12px',
-                borderRadius: '8px',
+                borderRadius: '10px',
                 fontSize: '12px',
                 fontWeight: 700,
                 cursor: 'pointer',
+                transition: 'all 0.18s ease',
               }}
               title="Preview minimal Smartwatch Wrist Alert HUD"
             >
-              <Watch style={{ width: '13px', height: '13px' }} />
+              <Watch style={{ width: '13px', height: '13px', color: '#20D98A' }} />
               Watch Alert
             </button>
 
@@ -869,13 +874,15 @@ export default function App() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
-                backgroundColor: 'rgba(239, 68, 68, 0.15)',
-                color: '#f87171',
-                border: '1px solid rgba(239, 68, 68, 0.35)',
+                backgroundColor: 'rgba(255, 59, 59, 0.08)',
+                color: '#FF5252',
+                border: '1px solid rgba(255, 59, 59, 0.28)',
                 padding: '6px 12px',
-                borderRadius: '8px',
+                borderRadius: '10px',
                 fontSize: '12px',
                 fontWeight: 700,
+                textDecoration: 'none',
+                transition: 'all 0.18s ease',
               }}
               title="National 24x7 Citizen Cyber Financial Fraud Helpline"
             >
@@ -893,17 +900,19 @@ export default function App() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
-                backgroundColor: 'rgba(234, 179, 8, 0.15)',
-                color: '#facc15',
-                border: '1px solid rgba(234, 179, 8, 0.35)',
+                backgroundColor: 'rgba(255, 176, 32, 0.08)',
+                color: '#FFB020',
+                border: '1px solid rgba(255, 176, 32, 0.28)',
                 padding: '6px 12px',
-                borderRadius: '8px',
+                borderRadius: '10px',
                 fontSize: '12px',
                 fontWeight: 700,
+                cursor: 'pointer',
+                transition: 'all 0.18s ease',
               }}
               title="Run 9-Stage Fake SEBI Interception Demonstration"
             >
-              <PlayCircle style={{ width: '13px', height: '13px', color: '#facc15' }} />
+              <PlayCircle style={{ width: '13px', height: '13px', color: '#FFB020' }} />
               ⚡ 9-Step Threat Demo
             </button>
 
@@ -913,16 +922,18 @@ export default function App() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
-                backgroundColor: 'var(--bg-secondary)',
-                color: 'var(--text-main)',
-                border: '1px solid var(--border-color)',
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                color: '#FFFFFF',
+                border: '1px solid rgba(255, 255, 255, 0.12)',
                 padding: '6px 12px',
-                borderRadius: '8px',
+                borderRadius: '10px',
                 fontSize: '12px',
                 fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.18s ease',
               }}
             >
-              <Search style={{ width: '13px', height: '13px', color: '#60a5fa' }} />
+              <Search style={{ width: '13px', height: '13px', color: '#AEB7C2' }} />
               Verify SEBI ID
             </button>
 
@@ -933,17 +944,18 @@ export default function App() {
                 setShowDemoFlowModal(true);
               }}
               style={{
-                backgroundColor: 'rgba(239, 68, 68, 0.15)',
-                color: '#f87171',
-                border: '1px solid rgba(239, 68, 68, 0.35)',
+                backgroundColor: 'rgba(255, 59, 59, 0.08)',
+                color: '#FF5252',
+                border: '1px solid rgba(255, 59, 59, 0.28)',
                 padding: '6px 12px',
-                borderRadius: '8px',
+                borderRadius: '10px',
                 fontSize: '12px',
                 fontWeight: 700,
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
                 cursor: 'pointer',
+                transition: 'all 0.18s ease',
               }}
               title="Run interactive 9-stage scam interception walkthrough"
             >
@@ -958,17 +970,18 @@ export default function App() {
                 setShowOnboardingModal(true);
               }}
               style={{
-                backgroundColor: 'var(--bg-card)',
-                color: '#60a5fa',
-                border: '1px solid var(--border-color)',
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                color: '#AEB7C2',
+                border: '1px solid rgba(255, 255, 255, 0.12)',
                 padding: '6px 12px',
-                borderRadius: '8px',
+                borderRadius: '10px',
                 fontSize: '12px',
                 fontWeight: 600,
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
                 cursor: 'pointer',
+                transition: 'all 0.18s ease',
               }}
             >
               <Sliders style={{ width: '13px', height: '13px' }} />
@@ -976,20 +989,22 @@ export default function App() {
             </button>
 
             {/* 3-Language Selector: English / हिन्दी / Hinglish */}
-            <div style={{ display: 'flex', backgroundColor: 'var(--bg-secondary)', borderRadius: '8px', border: '1px solid var(--border-color)', padding: '2px' }}>
+            <div style={{ display: 'flex', backgroundColor: 'rgba(255, 255, 255, 0.04)', borderRadius: '10px', border: '1px solid rgba(255, 255, 255, 0.10)', padding: '2px' }}>
               {(['en', 'hi', 'hinglish'] as const).map((lang) => (
                 <button
                   key={lang}
                   onClick={() => setLanguage(lang)}
                   style={{
-                    backgroundColor: language === lang ? '#2563eb' : 'transparent',
-                    color: language === lang ? '#ffffff' : 'var(--text-muted)',
+                    backgroundColor: language === lang ? 'rgba(255, 255, 255, 0.12)' : 'transparent',
+                    color: language === lang ? '#FFFFFF' : '#6F7A86',
                     border: 'none',
-                    padding: '4px 8px',
-                    borderRadius: '6px',
+                    padding: '4px 9px',
+                    borderRadius: '8px',
                     fontSize: '11px',
                     fontWeight: 700,
                     textTransform: 'capitalize',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
                   }}
                 >
                   {lang === 'en' ? 'EN' : lang === 'hi' ? 'हिन्दी' : 'Hinglish'}
@@ -1008,7 +1023,6 @@ export default function App() {
             )}
           </div>
         </div>
-
       </header>
 
       {/* Main Container with Professional Sidebar */}
@@ -1049,67 +1063,79 @@ export default function App() {
             {/* 1. SECURITY STATUS & IN V PROTECT SYSTEM BANNER                */}
             {/* ============================================================== */}
             <div
+              className="glass-panel-primary glossy-reflection"
               style={{
-                backgroundColor: 'var(--bg-secondary)',
-                border: '1px solid var(--border-color)',
-                borderRadius: '14px',
-                padding: '24px',
+                borderRadius: '20px',
+                padding: '26px 28px',
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 flexWrap: 'wrap',
-                gap: '18px',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
+                gap: '20px',
+                position: 'relative',
+                overflow: 'hidden',
               }}
             >
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-                  <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#10b981', display: 'inline-block', boxShadow: '0 0 8px #10b981' }} />
-                  <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#10b981' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                  <span
+                    style={{
+                      width: '8px',
+                      height: '8px',
+                      borderRadius: '50%',
+                      backgroundColor: '#20D98A',
+                      boxShadow: '0 0 10px #20D98A',
+                      display: 'inline-block',
+                    }}
+                    className="animate-breathing"
+                  />
+                  <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.10em', color: '#20D98A' }}>
                     CONTINUOUS INVESTOR DEFENSE ACTIVE
                   </span>
-                  <span style={{ fontSize: '11px', color: 'var(--text-faint)' }}>•</span>
-                  <span style={{ fontSize: '11px', fontWeight: 700, color: '#38bdf8' }}>
+                  <span style={{ fontSize: '11px', color: '#6F7A86' }}>•</span>
+                  <span style={{ fontSize: '11px', fontWeight: 700, color: '#AEB7C2' }}>
                     SANGYAN HACKATHON (TRACKS A & E)
                   </span>
                 </div>
-                <h1 style={{ fontSize: '24px', fontWeight: 800, margin: '0 0 6px 0', letterSpacing: '-0.02em' }}>
-                  IN V PROTECT — Personal Digital Security Layer
+                <h1 style={{ fontSize: '24px', fontWeight: 900, margin: '0 0 8px 0', letterSpacing: '-0.02em', color: '#FFFFFF' }}>
+                  IN.V. PROTECT — Personal Digital Security Layer
                 </h1>
-                <p style={{ fontSize: '13px', color: 'var(--text-muted)', maxWidth: '720px', margin: 0, lineHeight: 1.5 }}>
+                <p style={{ fontSize: '13px', color: '#AEB7C2', maxWidth: '720px', margin: 0, lineHeight: 1.55 }}>
                   Autonomous scam resilience and financial communication firewall for Indian investors. Grounded in statutory SEBI, RBI, I4C, and CERT-In advisories.
                 </p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginTop: '12px' }}>
-                  <div style={{ fontSize: '12px', color: 'var(--text-faint)' }}>
-                    Posture Score: <strong style={{ color: '#34d399' }}>{dailyReport?.posture_score || 94}/100</strong>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '18px', marginTop: '14px', flexWrap: 'wrap' }}>
+                  <div style={{ fontSize: '12px', color: '#AEB7C2' }}>
+                    Posture Score: <strong style={{ color: '#20D98A', fontWeight: 800 }}>{dailyReport?.posture_score || 96}/100</strong>
                   </div>
-                  <div style={{ fontSize: '12px', color: 'var(--text-faint)' }}>
-                    Clean Rate: <strong style={{ color: '#38bdf8' }}>{dailyReport?.clean_rate || '98.4%'}</strong>
+                  <div style={{ fontSize: '12px', color: '#AEB7C2' }}>
+                    Clean Rate: <strong style={{ color: '#FFFFFF', fontWeight: 800 }}>{dailyReport?.clean_rate || '98.4%'}</strong>
                   </div>
-                  <div style={{ fontSize: '12px', color: 'var(--text-faint)' }}>
-                    Active Safeguards: <strong style={{ color: '#a78bfa' }}>3 Statutory Engines</strong>
+                  <div style={{ fontSize: '12px', color: '#AEB7C2' }}>
+                    Active Safeguards: <strong style={{ color: '#AEB7C2', fontWeight: 700 }}>3 Statutory Engines</strong>
                   </div>
                 </div>
               </div>
 
-              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                 <button
                   onClick={() => setActiveNav('analyze')}
                   style={{
-                    backgroundColor: '#2563eb',
-                    color: '#ffffff',
-                    padding: '10px 18px',
-                    borderRadius: '8px',
+                    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                    color: '#FFFFFF',
+                    padding: '11px 20px',
+                    borderRadius: '12px',
                     fontSize: '13px',
                     fontWeight: 700,
                     display: 'flex',
                     alignItems: 'center',
                     gap: '8px',
-                    border: 'none',
+                    border: '1px solid rgba(255, 255, 255, 0.16)',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.12)',
                     cursor: 'pointer',
+                    transition: 'all 0.18s ease',
                   }}
                 >
-                  <FileSearch style={{ width: '15px', height: '15px' }} />
+                  <FileSearch style={{ width: '15px', height: '15px', color: '#20D98A' }} />
                   Deep Analysis Studio
                 </button>
                 <button
@@ -1119,17 +1145,19 @@ export default function App() {
                     element?.scrollIntoView({ behavior: 'smooth' });
                   }}
                   style={{
-                    backgroundColor: 'rgba(239, 68, 68, 0.15)',
-                    color: '#f87171',
-                    border: '1px solid rgba(239, 68, 68, 0.3)',
-                    padding: '10px 18px',
-                    borderRadius: '8px',
+                    backgroundColor: 'rgba(255, 59, 59, 0.08)',
+                    color: '#FF5252',
+                    border: '1px solid rgba(255, 59, 59, 0.28)',
+                    padding: '11px 20px',
+                    borderRadius: '12px',
                     fontSize: '13px',
                     fontWeight: 700,
                     display: 'flex',
                     alignItems: 'center',
                     gap: '8px',
+                    boxShadow: '0 4px 16px rgba(255, 59, 59, 0.12)',
                     cursor: 'pointer',
+                    transition: 'all 0.18s ease',
                   }}
                 >
                   <AlertOctagon style={{ width: '15px', height: '15px' }} />
@@ -1139,35 +1167,37 @@ export default function App() {
             </div>
 
             {/* ============================================================== */}
-            {/* 2. METRIC OVERVIEW COUNTERS                                    */}
+            {/* 2. METRIC OVERVIEW COUNTERS (GLOSSY STATUS CARDS)             */}
             {/* ============================================================== */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '14px' }}>
               {[
-                { label: 'Devices Protected', val: overview?.devices_protected ?? 2, color: '#38bdf8', icon: Laptop },
-                { label: 'Connected Sources', val: overview?.connected_sources ?? 6, color: '#60a5fa', icon: Radio },
-                { label: 'Messages Analyzed', val: overview?.messages_analysed ?? messages.length, color: '#a78bfa', icon: Inbox },
-                { label: 'Quarantined High-Risk', val: quarantinedMessages.length, color: '#f87171', icon: AlertOctagon },
-                { label: 'Review / Verify', val: reviewMessages.length, color: '#fbbf24', icon: AlertTriangle },
-                { label: 'Trusted / Important', val: trustedMessages.length, color: '#34d399', icon: CheckCircle2 },
+                { label: 'Devices Protected', val: overview?.devices_protected ?? 2, color: '#FFFFFF', icon: Laptop, tint: 'rgba(255, 255, 255, 0.08)', border: 'rgba(255, 255, 255, 0.10)' },
+                { label: 'Connected Sources', val: overview?.connected_sources ?? 6, color: '#FFFFFF', icon: Radio, tint: 'rgba(255, 255, 255, 0.08)', border: 'rgba(255, 255, 255, 0.10)' },
+                { label: 'Messages Analyzed', val: overview?.messages_analysed ?? messages.length, color: '#FFFFFF', icon: Inbox, tint: 'rgba(255, 255, 255, 0.08)', border: 'rgba(255, 255, 255, 0.10)' },
+                { label: 'Quarantined High-Risk', val: quarantinedMessages.length, color: '#FF5252', icon: AlertOctagon, tint: 'rgba(255, 59, 59, 0.08)', border: 'rgba(255, 59, 59, 0.25)' },
+                { label: 'Review / Verify', val: reviewMessages.length, color: '#FFB020', icon: AlertTriangle, tint: 'rgba(255, 176, 32, 0.08)', border: 'rgba(255, 176, 32, 0.25)' },
+                { label: 'Trusted / Important', val: trustedMessages.length, color: '#20D98A', icon: CheckCircle2, tint: 'rgba(32, 217, 138, 0.08)', border: 'rgba(32, 217, 138, 0.25)' },
               ].map((card, idx) => {
                 const Icon = card.icon;
                 return (
                   <div
                     key={idx}
+                    className="glass-panel"
                     style={{
-                      backgroundColor: 'var(--bg-secondary)',
-                      border: '1px solid var(--border-color)',
-                      borderRadius: '10px',
-                      padding: '16px',
+                      borderRadius: '16px',
+                      padding: '18px 20px',
+                      border: `1px solid ${card.border}`,
+                      backgroundColor: card.tint,
+                      transition: 'transform 0.18s ease, box-shadow 0.18s ease',
                     }}
                   >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                      <span style={{ fontSize: '11px', color: 'var(--text-faint)', textTransform: 'uppercase', fontWeight: 700 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                      <span style={{ fontSize: '10px', color: '#6F7A86', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.08em' }}>
                         {card.label}
                       </span>
                       <Icon style={{ width: '16px', height: '16px', color: card.color }} />
                     </div>
-                    <div style={{ fontSize: '24px', fontWeight: 800, color: card.color }}>{card.val}</div>
+                    <div style={{ fontSize: '26px', fontWeight: 900, color: card.color, letterSpacing: '-0.02em' }}>{card.val}</div>
                   </div>
                 );
               })}
@@ -1177,44 +1207,121 @@ export default function App() {
             {/* 3. INCOMING COMMUNICATION ANALYSIS (CORE ANALYSIS ENGINE)      */}
             {/* ============================================================== */}
             <div
+              className="glass-panel-primary glossy-reflection"
               style={{
-                backgroundColor: 'var(--bg-secondary)',
-                border: '1px solid rgba(56, 189, 248, 0.25)',
-                borderRadius: '14px',
-                padding: '24px',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
+                borderRadius: '20px',
+                padding: '26px 28px',
+                position: 'relative',
               }}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '10px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', flexWrap: 'wrap', gap: '12px' }}>
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Cpu style={{ width: '18px', height: '18px', color: '#38bdf8' }} />
-                    <h2 style={{ fontSize: '16px', fontWeight: 800, margin: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{ width: '28px', height: '28px', borderRadius: '8px', backgroundColor: 'rgba(255, 255, 255, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Cpu style={{ width: '16px', height: '16px', color: '#FFFFFF' }} />
+                    </div>
+                    <h2 style={{ fontSize: '17px', fontWeight: 800, margin: 0, color: '#FFFFFF' }}>
                       Core Analysis Engine — Incoming Communication Inspector
                     </h2>
                   </div>
-                  <p style={{ fontSize: '12px', color: 'var(--text-muted)', margin: '4px 0 0 0' }}>
-                    Pipeline: Read & Normalize → OCR / Text → Language Detection → Claims & Entities → Scam Signals → ML + Rules → Official Verification → Risk Engine
+                  <p style={{ fontSize: '12px', color: '#AEB7C2', margin: '6px 0 0 0' }}>
+                    Multi-stage deterministic & neural inspection pipeline grounded in statutory regulatory databases
                   </p>
                 </div>
                 <span
                   style={{
                     fontSize: '11px',
                     fontWeight: 700,
-                    padding: '4px 10px',
-                    borderRadius: '6px',
-                    backgroundColor: 'rgba(56, 189, 248, 0.1)',
-                    color: '#38bdf8',
-                    border: '1px solid rgba(56, 189, 248, 0.25)',
+                    padding: '4px 12px',
+                    borderRadius: '8px',
+                    backgroundColor: 'rgba(32, 217, 138, 0.08)',
+                    color: '#20D98A',
+                    border: '1px solid rgba(32, 217, 138, 0.28)',
+                    letterSpacing: '0.04em',
                   }}
                 >
                   ZERO OTP INGRESS RULE ENFORCED
                 </span>
               </div>
 
+              {/* Connected Pipeline Flow Nodes (Section 8: 9-Stage Pipeline) */}
+              <div
+                style={{
+                  backgroundColor: 'rgba(0, 0, 0, 0.35)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: '14px',
+                  padding: '16px',
+                  marginBottom: '20px',
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                  <span style={{ fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.10em', color: '#6F7A86' }}>
+                    SOC Pipeline Architecture
+                  </span>
+                  <span style={{ fontSize: '10px', color: '#20D98A', fontWeight: 700 }}>
+                    ● 9 Sequential Verification Stages Active
+                  </span>
+                </div>
+
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(115px, 1fr))',
+                    gap: '8px',
+                    position: 'relative',
+                  }}
+                >
+                  {[
+                    { step: '01', name: 'INCOMING' },
+                    { step: '02', name: 'READ & NORM' },
+                    { step: '03', name: 'OCR / TEXT' },
+                    { step: '04', name: 'LANGUAGE' },
+                    { step: '05', name: 'CLAIMS & ENT' },
+                    { step: '06', name: 'SCAM SIGNALS' },
+                    { step: '07', name: 'ML + RULES' },
+                    { step: '08', name: 'VERIFICATION' },
+                    { step: '09', name: 'RISK ENGINE' },
+                  ].map((node, nIdx) => (
+                    <div
+                      key={nIdx}
+                      style={{
+                        backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                        borderRadius: '8px',
+                        padding: '8px 10px',
+                        textAlign: 'center',
+                        position: 'relative',
+                      }}
+                    >
+                      <div style={{ fontSize: '9px', fontWeight: 800, color: '#6F7A86', marginBottom: '2px' }}>
+                        {node.step}
+                      </div>
+                      <div style={{ fontSize: '10px', fontWeight: 700, color: '#FFFFFF', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {node.name}
+                      </div>
+                      {nIdx < 8 && (
+                        <div
+                          style={{
+                            position: 'absolute',
+                            right: '-6px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            width: '4px',
+                            height: '4px',
+                            borderRadius: '50%',
+                            backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                            zIndex: 2,
+                          }}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               {/* Sample Chips */}
-              <div style={{ display: 'flex', gap: '8px', marginBottom: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
-                <span style={{ fontSize: '11px', color: 'var(--text-faint)', fontWeight: 600 }}>Quick Test Samples:</span>
+              <div style={{ display: 'flex', gap: '8px', marginBottom: '14px', flexWrap: 'wrap', alignItems: 'center' }}>
+                <span style={{ fontSize: '11px', color: '#6F7A86', fontWeight: 600 }}>Quick Test Samples:</span>
                 {[
                   {
                     label: 'Fake Pre-IPO Guarantee (Fraud)',
@@ -1237,14 +1344,15 @@ export default function App() {
                       setQuickAnalyzeResult(null);
                     }}
                     style={{
-                      backgroundColor: 'var(--bg-card)',
-                      color: 'var(--text-muted)',
-                      border: '1px solid var(--border-color)',
-                      padding: '4px 10px',
-                      borderRadius: '6px',
+                      backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                      color: '#AEB7C2',
+                      border: '1px solid rgba(255, 255, 255, 0.10)',
+                      padding: '5px 12px',
+                      borderRadius: '8px',
                       fontSize: '11px',
                       cursor: 'pointer',
-                      fontWeight: 500,
+                      fontWeight: 600,
+                      transition: 'all 0.15s ease',
                     }}
                   >
                     {sample.label}
@@ -1260,22 +1368,23 @@ export default function App() {
                   rows={3}
                   style={{
                     width: '100%',
-                    backgroundColor: '#080d1a',
-                    border: '1px solid #1e293b',
-                    borderRadius: '8px',
-                    padding: '12px 14px',
-                    color: '#f8fafc',
+                    backgroundColor: 'rgba(8, 11, 15, 0.85)',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    borderRadius: '12px',
+                    padding: '14px 16px',
+                    color: '#FFFFFF',
                     fontSize: '13px',
-                    lineHeight: 1.5,
+                    lineHeight: 1.55,
                     fontFamily: 'inherit',
                     outline: 'none',
                     boxSizing: 'border-box',
                     resize: 'vertical',
+                    boxShadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.4)',
                   }}
                 />
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
-                  <div style={{ fontSize: '11px', color: '#64748b' }}>
+                  <div style={{ fontSize: '11px', color: '#6F7A86' }}>
                     🔒 PII Guarantee: OTPs (`[REDACTED_OTP]`), PINs (`[REDACTED_PIN]`), and passwords are never logged, stored, or transmitted.
                   </div>
 
@@ -1289,7 +1398,7 @@ export default function App() {
                         }}
                         style={{
                           backgroundColor: 'transparent',
-                          color: 'var(--text-muted)',
+                          color: '#AEB7C2',
                           border: 'none',
                           fontSize: '12px',
                           cursor: 'pointer',
@@ -1304,10 +1413,11 @@ export default function App() {
                       onClick={handleQuickAnalyze}
                       disabled={quickAnalyzeLoading || !quickAnalyzeText.trim()}
                       style={{
-                        backgroundColor: '#0284c7',
-                        color: '#ffffff',
-                        border: 'none',
-                        borderRadius: '8px',
+                        backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                        color: '#FFFFFF',
+                        border: '1px solid rgba(255, 255, 255, 0.16)',
+                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.12)',
+                        borderRadius: '10px',
                         padding: '10px 20px',
                         fontSize: '13px',
                         fontWeight: 700,
@@ -1315,6 +1425,7 @@ export default function App() {
                         display: 'flex',
                         alignItems: 'center',
                         gap: '8px',
+                        transition: 'all 0.18s ease',
                       }}
                     >
                       {quickAnalyzeLoading ? (
@@ -1324,7 +1435,7 @@ export default function App() {
                         </>
                       ) : (
                         <>
-                          <FileSearch style={{ width: '14px', height: '14px' }} />
+                          <FileSearch style={{ width: '14px', height: '14px', color: '#20D98A' }} />
                           Run Core Scam Inspection
                         </>
                       )}
@@ -1338,44 +1449,45 @@ export default function App() {
                 <div
                   style={{
                     marginTop: '20px',
-                    backgroundColor: '#080d1a',
+                    backgroundColor: 'rgba(8, 11, 15, 0.90)',
                     border: `1px solid ${
                       quickAnalyzeResult.risk_level === 'High Concern'
-                        ? 'rgba(239, 68, 68, 0.4)'
+                        ? 'rgba(255, 59, 59, 0.40)'
                         : quickAnalyzeResult.risk_level === 'Needs Verification'
-                        ? 'rgba(245, 158, 11, 0.4)'
-                        : 'rgba(16, 185, 129, 0.4)'
+                        ? 'rgba(255, 176, 32, 0.40)'
+                        : 'rgba(32, 217, 138, 0.40)'
                     }`,
-                    borderRadius: '10px',
-                    padding: '18px',
+                    borderRadius: '14px',
+                    padding: '20px',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
                   }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap', gap: '8px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                       <span
                         style={{
-                          fontSize: '12px',
+                          fontSize: '11px',
                           fontWeight: 800,
-                          padding: '4px 10px',
-                          borderRadius: '6px',
+                          padding: '4px 12px',
+                          borderRadius: '8px',
                           backgroundColor:
                             quickAnalyzeResult.risk_level === 'High Concern'
-                              ? 'rgba(239, 68, 68, 0.15)'
+                              ? 'rgba(255, 59, 59, 0.12)'
                               : quickAnalyzeResult.risk_level === 'Needs Verification'
-                              ? 'rgba(245, 158, 11, 0.15)'
-                              : 'rgba(16, 185, 129, 0.15)',
+                              ? 'rgba(255, 176, 32, 0.12)'
+                              : 'rgba(32, 217, 138, 0.12)',
                           color:
                             quickAnalyzeResult.risk_level === 'High Concern'
-                              ? '#f87171'
+                              ? '#FF5252'
                               : quickAnalyzeResult.risk_level === 'Needs Verification'
-                              ? '#fbbf24'
-                              : '#34d399',
+                              ? '#FFB020'
+                              : '#20D98A',
                           border: `1px solid ${
                             quickAnalyzeResult.risk_level === 'High Concern'
-                              ? 'rgba(239, 68, 68, 0.3)'
+                              ? 'rgba(255, 59, 59, 0.30)'
                               : quickAnalyzeResult.risk_level === 'Needs Verification'
-                              ? 'rgba(245, 158, 11, 0.3)'
-                              : 'rgba(16, 185, 129, 0.3)'
+                              ? 'rgba(255, 176, 32, 0.30)'
+                              : 'rgba(32, 217, 138, 0.30)'
                           }`,
                         }}
                       >
@@ -1387,64 +1499,64 @@ export default function App() {
                       </span>
 
                       {quickAnalyzeResult.detected_language && (
-                        <span style={{ fontSize: '11px', color: '#94a3b8', backgroundColor: '#1e293b', padding: '3px 8px', borderRadius: '4px' }}>
-                          Language: <strong style={{ color: '#38bdf8' }}>{quickAnalyzeResult.detected_language.toUpperCase()}</strong>
+                        <span style={{ fontSize: '11px', color: '#AEB7C2', backgroundColor: 'rgba(255, 255, 255, 0.06)', padding: '3px 8px', borderRadius: '6px' }}>
+                          Language: <strong style={{ color: '#FFFFFF' }}>{quickAnalyzeResult.detected_language.toUpperCase()}</strong>
                         </span>
                       )}
 
                       {quickAnalyzeResult.pii_redacted_stats && (
-                        <span style={{ fontSize: '11px', color: '#94a3b8', backgroundColor: '#1e293b', padding: '3px 8px', borderRadius: '4px' }}>
-                          PII Scrubbed: <strong style={{ color: '#34d399' }}>{quickAnalyzeResult.pii_redacted_stats.total_redactions} elements</strong>
+                        <span style={{ fontSize: '11px', color: '#AEB7C2', backgroundColor: 'rgba(255, 255, 255, 0.06)', padding: '3px 8px', borderRadius: '6px' }}>
+                          PII Scrubbed: <strong style={{ color: '#20D98A' }}>{quickAnalyzeResult.pii_redacted_stats.total_redactions} elements</strong>
                         </span>
                       )}
                     </div>
 
-                    <div style={{ fontSize: '11px', color: 'var(--text-faint)' }}>
+                    <div style={{ fontSize: '11px', color: '#6F7A86' }}>
                       Confidence: {quickAnalyzeResult.confidence_or_uncertainty?.level ?? 'HIGH'}
                     </div>
                   </div>
 
-                  <p style={{ fontSize: '13px', lineHeight: 1.5, color: '#f8fafc', marginBottom: '14px' }}>
+                  <p style={{ fontSize: '13px', lineHeight: 1.55, color: '#FFFFFF', marginBottom: '14px' }}>
                     {quickAnalyzeResult.explanation}
                   </p>
 
                   {/* Signals & Evidence Grid */}
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '12px' }}>
-                    <div style={{ backgroundColor: '#0d1322', padding: '12px', borderRadius: '8px', border: '1px solid #1e293b' }}>
-                      <div style={{ fontSize: '11px', fontWeight: 700, color: '#cbd5e1', marginBottom: '8px', textTransform: 'uppercase' }}>
+                    <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.03)', padding: '14px', borderRadius: '10px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                      <div style={{ fontSize: '10px', fontWeight: 800, color: '#AEB7C2', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                         Detected Scam Signals ({quickAnalyzeResult.detected_signals.length})
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                         {quickAnalyzeResult.detected_signals.map((sig, sIdx) => (
-                          <div key={sIdx} style={{ fontSize: '12px', color: '#fca5a5', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#ef4444' }} />
+                          <div key={sIdx} style={{ fontSize: '12px', color: '#FF7B7B', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#FF3B3B' }} />
                             <span><strong>{sig.name}:</strong> {sig.description || sig.name}</span>
                           </div>
                         ))}
                         {quickAnalyzeResult.detected_signals.length === 0 && (
-                          <div style={{ fontSize: '12px', color: '#34d399' }}>No predatory scam signals detected.</div>
+                          <div style={{ fontSize: '12px', color: '#20D98A' }}>No predatory scam signals detected.</div>
                         )}
                       </div>
                     </div>
 
-                    <div style={{ backgroundColor: '#0d1322', padding: '12px', borderRadius: '8px', border: '1px solid #1e293b' }}>
-                      <div style={{ fontSize: '11px', fontWeight: 700, color: '#cbd5e1', marginBottom: '8px', textTransform: 'uppercase' }}>
+                    <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.03)', padding: '14px', borderRadius: '10px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                      <div style={{ fontSize: '10px', fontWeight: 800, color: '#AEB7C2', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                         Official Regulatory Verification ({quickAnalyzeResult.evidence.length})
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                         {quickAnalyzeResult.evidence.map((ev, eIdx) => (
-                          <div key={eIdx} style={{ fontSize: '12px', color: '#93c5fd' }}>
+                          <div key={eIdx} style={{ fontSize: '12px', color: '#FFFFFF' }}>
                             <div style={{ fontWeight: 600, display: 'flex', justifyContent: 'space-between' }}>
                               <span>{ev.publisher} — {ev.title}</span>
-                              <span style={{ fontSize: '10px', color: ev.verification_status === 'CONTRADICTED' ? '#f87171' : '#34d399' }}>
+                              <span style={{ fontSize: '10px', color: ev.verification_status === 'CONTRADICTED' ? '#FF5252' : '#20D98A' }}>
                                 {ev.verification_status || 'VERIFIED'}
                               </span>
                             </div>
-                            <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>{ev.passage.slice(0, 110)}...</div>
+                            <div style={{ fontSize: '11px', color: '#AEB7C2', marginTop: '2px' }}>{ev.passage.slice(0, 110)}...</div>
                           </div>
                         ))}
                         {quickAnalyzeResult.evidence.length === 0 && (
-                          <div style={{ fontSize: '12px', color: '#94a3b8' }}>Grounded in standard regulatory knowledge base.</div>
+                          <div style={{ fontSize: '12px', color: '#6F7A86' }}>Grounded in standard regulatory knowledge base.</div>
                         )}
                       </div>
                     </div>
@@ -1452,55 +1564,55 @@ export default function App() {
                 </div>
               )}
             </div>
-
             {/* ============================================================== */}
             {/* 4. 3 PROTECTION TIERS: QUARANTINE / REVIEW / TRUSTED           */}
             {/* ============================================================== */}
             <div
               id="protection-tiers-section"
+              className="glass-panel-primary glossy-reflection"
               style={{
-                backgroundColor: 'var(--bg-secondary)',
-                border: '1px solid var(--border-color)',
-                borderRadius: '14px',
-                padding: '24px',
+                borderRadius: '20px',
+                padding: '26px 28px',
               }}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '16px' }}>
                 <div>
-                  <h2 style={{ fontSize: '17px', fontWeight: 800, margin: 0 }}>
+                  <h2 style={{ fontSize: '18px', fontWeight: 800, margin: 0, color: '#FFFFFF' }}>
                     3 Protection Tiers — Risk Engine Classification
                   </h2>
-                  <p style={{ fontSize: '12px', color: 'var(--text-muted)', margin: '4px 0 0 0' }}>
+                  <p style={{ fontSize: '12px', color: '#AEB7C2', margin: '4px 0 0 0' }}>
                     Communications triaged into Quarantine (High Risk), Review (Verify), and Trusted (Important). Suspicious items are never auto-deleted.
                   </p>
                 </div>
 
-                {/* Tier Switcher Tabs */}
-                <div style={{ display: 'flex', backgroundColor: '#080d1a', borderRadius: '8px', padding: '3px', border: '1px solid #1e293b' }}>
+                {/* Tier Switcher Segmented Control */}
+                <div style={{ display: 'flex', backgroundColor: 'rgba(0, 0, 0, 0.4)', borderRadius: '12px', padding: '4px', border: '1px solid rgba(255, 255, 255, 0.10)' }}>
                   {[
-                    { id: 'quarantine', label: '🛑 Quarantine / High Risk', count: quarantinedMessages.length, color: '#f87171' },
-                    { id: 'review', label: '⚠️ Review / Verify', count: reviewMessages.length, color: '#fbbf24' },
-                    { id: 'trusted', label: '🛡️ Trusted / Important', count: trustedMessages.length, color: '#34d399' },
+                    { id: 'quarantine', label: '🛑 Quarantine / High Risk', count: quarantinedMessages.length, color: '#FF5252' },
+                    { id: 'review', label: '⚠️ Review / Verify', count: reviewMessages.length, color: '#FFB020' },
+                    { id: 'trusted', label: '🛡️ Trusted / Important', count: trustedMessages.length, color: '#20D98A' },
                   ].map((tab) => (
                     <button
                       key={tab.id}
                       onClick={() => setActiveTierTab(tab.id as any)}
                       style={{
-                        backgroundColor: activeTierTab === tab.id ? 'var(--bg-card)' : 'transparent',
-                        color: activeTierTab === tab.id ? tab.color : 'var(--text-muted)',
-                        border: 'none',
-                        borderRadius: '6px',
-                        padding: '6px 14px',
+                        backgroundColor: activeTierTab === tab.id ? 'rgba(255, 255, 255, 0.10)' : 'transparent',
+                        color: activeTierTab === tab.id ? '#FFFFFF' : '#AEB7C2',
+                        border: activeTierTab === tab.id ? '1px solid rgba(255, 255, 255, 0.18)' : '1px solid transparent',
+                        borderRadius: '8px',
+                        padding: '7px 16px',
                         fontSize: '12px',
                         fontWeight: activeTierTab === tab.id ? 700 : 500,
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '6px',
+                        gap: '8px',
+                        boxShadow: activeTierTab === tab.id ? '0 4px 16px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15)' : 'none',
+                        transition: 'all 0.18s ease',
                       }}
                     >
-                      <span>{tab.label}</span>
-                      <span style={{ fontSize: '10px', backgroundColor: 'rgba(255,255,255,0.08)', padding: '1px 6px', borderRadius: '10px' }}>
+                      <span style={{ color: activeTierTab === tab.id ? tab.color : '#AEB7C2' }}>{tab.label}</span>
+                      <span style={{ fontSize: '10px', backgroundColor: 'rgba(255, 255, 255, 0.10)', color: '#FFFFFF', padding: '2px 7px', borderRadius: '10px', fontWeight: 800 }}>
                         {tab.count}
                       </span>
                     </button>
@@ -1510,42 +1622,46 @@ export default function App() {
 
               {/* TIER 1: QUARANTINE / HIGH RISK */}
               {activeTierTab === 'quarantine' && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <div style={{ backgroundColor: 'rgba(239, 68, 68, 0.08)', border: '1px solid rgba(239, 68, 68, 0.25)', borderRadius: '8px', padding: '10px 14px', fontSize: '12px', color: '#fca5a5' }}>
-                    <strong>Quarantine Rule:</strong> High-risk communications are isolated to prevent accidental payment, link clicks, or credential disclosure. <em>IN V PROTECT never automatically deletes communications without explicit investor confirmation.</em>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                  <div style={{ backgroundColor: 'rgba(255, 59, 59, 0.08)', border: '1px solid rgba(255, 59, 59, 0.25)', borderRadius: '12px', padding: '12px 16px', fontSize: '12px', color: '#FF7B7B' }}>
+                    <strong>Quarantine Rule:</strong> High-risk communications are isolated to prevent accidental payment, link clicks, or credential disclosure. <em>IN.V. PROTECT never automatically deletes communications without explicit investor confirmation.</em>
                   </div>
 
                   {quarantinedMessages.map((msg) => (
                     <div
                       key={msg.id}
+                      className="glass-panel"
                       style={{
-                        backgroundColor: 'var(--bg-card)',
-                        border: '1px solid rgba(239, 68, 68, 0.3)',
-                        borderRadius: '10px',
-                        padding: '16px',
+                        backgroundColor: 'rgba(255, 59, 59, 0.04)',
+                        border: '1px solid rgba(255, 59, 59, 0.28)',
+                        borderRadius: '14px',
+                        padding: '18px 20px',
+                        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.35)',
                       }}
                     >
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', flexWrap: 'wrap', gap: '10px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <span style={{ fontSize: '10px', fontWeight: 800, padding: '2px 8px', borderRadius: '4px', backgroundColor: 'rgba(239, 68, 68, 0.15)', color: '#f87171' }}>
+                          <span style={{ fontSize: '10px', fontWeight: 800, padding: '3px 10px', borderRadius: '6px', backgroundColor: 'rgba(255, 59, 59, 0.15)', color: '#FF5252', border: '1px solid rgba(255, 59, 59, 0.35)', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#FF3B3B' }} />
                             QUARANTINED
                           </span>
-                          <strong style={{ fontSize: '13px' }}>{msg.sender}</strong>
-                          <span style={{ fontSize: '11px', color: 'var(--text-faint)' }}>via {msg.source_channel} • {msg.timestamp}</span>
+                          <strong style={{ fontSize: '13px', color: '#FFFFFF' }}>{msg.sender}</strong>
+                          <span style={{ fontSize: '11px', color: '#AEB7C2' }}>via {msg.source_channel} • {msg.timestamp}</span>
                         </div>
 
                         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                           <button
                             onClick={() => setEvidenceModalMessage(msg)}
                             style={{
-                              backgroundColor: 'rgba(56, 189, 248, 0.12)',
-                              color: '#38bdf8',
-                              border: '1px solid rgba(56, 189, 248, 0.3)',
-                              padding: '5px 10px',
-                              borderRadius: '6px',
+                              backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                              color: '#FFFFFF',
+                              border: '1px solid rgba(255, 255, 255, 0.14)',
+                              padding: '6px 12px',
+                              borderRadius: '8px',
                               fontSize: '11px',
                               fontWeight: 600,
                               cursor: 'pointer',
+                              transition: 'all 0.15s ease',
                             }}
                           >
                             Evidence Package
@@ -1553,17 +1669,18 @@ export default function App() {
                           <button
                             onClick={() => setReportConfirmMessage(msg)}
                             style={{
-                              backgroundColor: '#2563eb',
-                              color: '#ffffff',
-                              border: 'none',
-                              padding: '5px 12px',
-                              borderRadius: '6px',
+                              backgroundColor: 'rgba(255, 255, 255, 0.10)',
+                              color: '#FFFFFF',
+                              border: '1px solid rgba(255, 255, 255, 0.18)',
+                              padding: '6px 14px',
+                              borderRadius: '8px',
                               fontSize: '11px',
                               fontWeight: 700,
                               cursor: 'pointer',
                               display: 'flex',
                               alignItems: 'center',
                               gap: '4px',
+                              transition: 'all 0.15s ease',
                             }}
                           >
                             User-Confirmed Report
@@ -1571,14 +1688,15 @@ export default function App() {
                           <button
                             onClick={() => handleMessageAction(msg.id, 'release')}
                             style={{
-                              backgroundColor: 'transparent',
-                              color: '#fbbf24',
-                              border: '1px solid rgba(251, 191, 36, 0.3)',
-                              padding: '5px 10px',
-                              borderRadius: '6px',
+                              backgroundColor: 'rgba(255, 176, 32, 0.08)',
+                              color: '#FFB020',
+                              border: '1px solid rgba(255, 176, 32, 0.30)',
+                              padding: '6px 12px',
+                              borderRadius: '8px',
                               fontSize: '11px',
                               fontWeight: 600,
                               cursor: 'pointer',
+                              transition: 'all 0.15s ease',
                             }}
                           >
                             Release
@@ -1586,14 +1704,15 @@ export default function App() {
                           <button
                             onClick={() => handleMessageAction(msg.id, 'delete')}
                             style={{
-                              backgroundColor: 'rgba(239, 68, 68, 0.15)',
-                              color: '#f87171',
-                              border: '1px solid rgba(239, 68, 68, 0.3)',
-                              padding: '5px 10px',
-                              borderRadius: '6px',
+                              backgroundColor: 'rgba(255, 59, 59, 0.12)',
+                              color: '#FF5252',
+                              border: '1px solid rgba(255, 59, 59, 0.30)',
+                              padding: '6px 12px',
+                              borderRadius: '8px',
                               fontSize: '11px',
                               fontWeight: 600,
                               cursor: 'pointer',
+                              transition: 'all 0.15s ease',
                             }}
                           >
                             Delete
@@ -1601,17 +1720,17 @@ export default function App() {
                         </div>
                       </div>
 
-                      <p style={{ fontSize: '13px', lineHeight: 1.5, color: '#f8fafc', margin: '0 0 10px 0' }}>
+                      <p style={{ fontSize: '13px', lineHeight: 1.55, color: '#FFFFFF', margin: '0 0 12px 0' }}>
                         {msg.content}
                       </p>
 
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px', fontSize: '12px', backgroundColor: '#080d1a', padding: '8px 12px', borderRadius: '6px' }}>
-                        <span style={{ color: '#f87171' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px', fontSize: '12px', backgroundColor: 'rgba(0, 0, 0, 0.35)', padding: '10px 14px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.06)' }}>
+                        <span style={{ color: '#FF7B7B' }}>
                           <strong>Isolation Reason:</strong> {msg.quarantine_reason || 'Critical scam indicators detected.'}
                         </span>
-                        <div style={{ display: 'flex', gap: '6px' }}>
+                        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
                           {msg.detected_signals.map((sig, sIdx) => (
-                            <span key={sIdx} style={{ fontSize: '10px', backgroundColor: 'rgba(239, 68, 68, 0.12)', color: '#fca5a5', padding: '2px 6px', borderRadius: '4px' }}>
+                            <span key={sIdx} style={{ fontSize: '10px', backgroundColor: 'rgba(255, 59, 59, 0.15)', color: '#FF7B7B', padding: '2px 8px', borderRadius: '6px', border: '1px solid rgba(255, 59, 59, 0.25)' }}>
                               {sig.name}
                             </span>
                           ))}
@@ -1621,7 +1740,7 @@ export default function App() {
                   ))}
 
                   {quarantinedMessages.length === 0 && (
-                    <div style={{ padding: '36px', textAlign: 'center', color: 'var(--text-muted)', fontSize: '13px' }}>
+                    <div style={{ padding: '36px', textAlign: 'center', color: '#AEB7C2', fontSize: '13px' }}>
                       No messages in quarantine. Your inbox and notification streams are safe.
                     </div>
                   )}
@@ -1630,42 +1749,46 @@ export default function App() {
 
               {/* TIER 2: REVIEW / VERIFY */}
               {activeTierTab === 'review' && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <div style={{ backgroundColor: 'rgba(245, 158, 11, 0.08)', border: '1px solid rgba(245, 158, 11, 0.25)', borderRadius: '8px', padding: '10px 14px', fontSize: '12px', color: '#fde68a' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                  <div style={{ backgroundColor: 'rgba(255, 176, 32, 0.08)', border: '1px solid rgba(255, 176, 32, 0.25)', borderRadius: '12px', padding: '12px 16px', fontSize: '12px', color: '#FFB020' }}>
                     <strong>Verification Required:</strong> Contains unverified investment claims, unregistered market tipsters, or unverified claims. Inspect evidence before trusting.
                   </div>
 
                   {reviewMessages.map((msg) => (
                     <div
                       key={msg.id}
+                      className="glass-panel"
                       style={{
-                        backgroundColor: 'var(--bg-card)',
-                        border: '1px solid rgba(245, 158, 11, 0.3)',
-                        borderRadius: '10px',
-                        padding: '16px',
+                        backgroundColor: 'rgba(255, 176, 32, 0.04)',
+                        border: '1px solid rgba(255, 176, 32, 0.28)',
+                        borderRadius: '14px',
+                        padding: '18px 20px',
+                        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.35)',
                       }}
                     >
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', flexWrap: 'wrap', gap: '10px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <span style={{ fontSize: '10px', fontWeight: 800, padding: '2px 8px', borderRadius: '4px', backgroundColor: 'rgba(245, 158, 11, 0.15)', color: '#fbbf24' }}>
+                          <span style={{ fontSize: '10px', fontWeight: 800, padding: '3px 10px', borderRadius: '6px', backgroundColor: 'rgba(255, 176, 32, 0.15)', color: '#FFB020', border: '1px solid rgba(255, 176, 32, 0.35)', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#FFB020' }} />
                             REVIEW / VERIFY
                           </span>
-                          <strong style={{ fontSize: '13px' }}>{msg.sender}</strong>
-                          <span style={{ fontSize: '11px', color: 'var(--text-faint)' }}>via {msg.source_channel} • {msg.timestamp}</span>
+                          <strong style={{ fontSize: '13px', color: '#FFFFFF' }}>{msg.sender}</strong>
+                          <span style={{ fontSize: '11px', color: '#AEB7C2' }}>via {msg.source_channel} • {msg.timestamp}</span>
                         </div>
 
                         <div style={{ display: 'flex', gap: '8px' }}>
                           <button
                             onClick={() => setEvidenceModalMessage(msg)}
                             style={{
-                              backgroundColor: 'rgba(56, 189, 248, 0.12)',
-                              color: '#38bdf8',
-                              border: '1px solid rgba(56, 189, 248, 0.3)',
-                              padding: '5px 10px',
-                              borderRadius: '6px',
+                              backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                              color: '#FFFFFF',
+                              border: '1px solid rgba(255, 255, 255, 0.14)',
+                              padding: '6px 12px',
+                              borderRadius: '8px',
                               fontSize: '11px',
                               fontWeight: 600,
                               cursor: 'pointer',
+                              transition: 'all 0.15s ease',
                             }}
                           >
                             Evidence Package
@@ -1673,14 +1796,15 @@ export default function App() {
                           <button
                             onClick={() => handleMessageAction(msg.id, 'mark_safe')}
                             style={{
-                              backgroundColor: 'rgba(16, 185, 129, 0.15)',
-                              color: '#34d399',
-                              border: '1px solid rgba(16, 185, 129, 0.3)',
-                              padding: '5px 10px',
-                              borderRadius: '6px',
+                              backgroundColor: 'rgba(32, 217, 138, 0.08)',
+                              color: '#20D98A',
+                              border: '1px solid rgba(32, 217, 138, 0.28)',
+                              padding: '6px 12px',
+                              borderRadius: '8px',
                               fontSize: '11px',
                               fontWeight: 600,
                               cursor: 'pointer',
+                              transition: 'all 0.15s ease',
                             }}
                           >
                             Mark Safe
@@ -1688,14 +1812,15 @@ export default function App() {
                           <button
                             onClick={() => handleMessageAction(msg.id, 'quarantine')}
                             style={{
-                              backgroundColor: 'rgba(239, 68, 68, 0.15)',
-                              color: '#f87171',
-                              border: '1px solid rgba(239, 68, 68, 0.3)',
-                              padding: '5px 10px',
-                              borderRadius: '6px',
+                              backgroundColor: 'rgba(255, 59, 59, 0.10)',
+                              color: '#FF5252',
+                              border: '1px solid rgba(255, 59, 59, 0.28)',
+                              padding: '6px 12px',
+                              borderRadius: '8px',
                               fontSize: '11px',
                               fontWeight: 600,
                               cursor: 'pointer',
+                              transition: 'all 0.15s ease',
                             }}
                           >
                             Move to Quarantine
@@ -1703,18 +1828,18 @@ export default function App() {
                         </div>
                       </div>
 
-                      <p style={{ fontSize: '13px', lineHeight: 1.5, color: '#f8fafc', margin: '0 0 10px 0' }}>
+                      <p style={{ fontSize: '13px', lineHeight: 1.55, color: '#FFFFFF', margin: '0 0 12px 0' }}>
                         {msg.content}
                       </p>
 
-                      <div style={{ fontSize: '12px', color: '#fbbf24', backgroundColor: '#080d1a', padding: '8px 12px', borderRadius: '6px' }}>
+                      <div style={{ fontSize: '12px', color: '#FFB020', backgroundColor: 'rgba(0, 0, 0, 0.35)', padding: '10px 14px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.06)' }}>
                         <strong>Evaluation:</strong> {msg.snippet}
                       </div>
                     </div>
                   ))}
 
                   {reviewMessages.length === 0 && (
-                    <div style={{ padding: '36px', textAlign: 'center', color: 'var(--text-muted)', fontSize: '13px' }}>
+                    <div style={{ padding: '36px', textAlign: 'center', color: '#AEB7C2', fontSize: '13px' }}>
                       No communications pending review.
                     </div>
                   )}
@@ -1723,47 +1848,50 @@ export default function App() {
 
               {/* TIER 3: TRUSTED / IMPORTANT */}
               {activeTierTab === 'trusted' && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <div style={{ backgroundColor: 'rgba(16, 185, 129, 0.08)', border: '1px solid rgba(16, 185, 129, 0.25)', borderRadius: '8px', padding: '10px 14px', fontSize: '12px', color: '#a7f3d0' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                  <div style={{ backgroundColor: 'rgba(32, 217, 138, 0.08)', border: '1px solid rgba(32, 217, 138, 0.25)', borderRadius: '12px', padding: '12px 16px', fontSize: '12px', color: '#20D98A' }}>
                     <strong>Authorized Communications:</strong> Official notices from SEBI-registered depositories, stock exchanges, or verified financial institutions.
                   </div>
 
                   {trustedMessages.map((msg) => (
                     <div
                       key={msg.id}
+                      className="glass-panel"
                       style={{
-                        backgroundColor: 'var(--bg-card)',
-                        border: '1px solid rgba(16, 185, 129, 0.3)',
-                        borderRadius: '10px',
-                        padding: '16px',
+                        backgroundColor: 'rgba(32, 217, 138, 0.04)',
+                        border: '1px solid rgba(32, 217, 138, 0.28)',
+                        borderRadius: '14px',
+                        padding: '18px 20px',
+                        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.35)',
                       }}
                     >
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', flexWrap: 'wrap', gap: '10px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <span style={{ fontSize: '10px', fontWeight: 800, padding: '2px 8px', borderRadius: '4px', backgroundColor: 'rgba(16, 185, 129, 0.15)', color: '#34d399' }}>
+                          <span style={{ fontSize: '10px', fontWeight: 800, padding: '3px 10px', borderRadius: '6px', backgroundColor: 'rgba(32, 217, 138, 0.15)', color: '#20D98A', border: '1px solid rgba(32, 217, 138, 0.35)', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#20D98A' }} />
                             TRUSTED / IMPORTANT
                           </span>
-                          <strong style={{ fontSize: '13px' }}>{msg.sender}</strong>
-                          <span style={{ fontSize: '11px', color: 'var(--text-faint)' }}>via {msg.source_channel} • {msg.timestamp}</span>
+                          <strong style={{ fontSize: '13px', color: '#FFFFFF' }}>{msg.sender}</strong>
+                          <span style={{ fontSize: '11px', color: '#AEB7C2' }}>via {msg.source_channel} • {msg.timestamp}</span>
                         </div>
 
-                        <span style={{ fontSize: '11px', color: '#34d399', fontWeight: 600 }}>
+                        <span style={{ fontSize: '11px', color: '#20D98A', fontWeight: 700 }}>
                           ✓ Authoritative Source Confirmed
                         </span>
                       </div>
 
-                      <p style={{ fontSize: '13px', lineHeight: 1.5, color: '#f8fafc', margin: '0 0 10px 0' }}>
+                      <p style={{ fontSize: '13px', lineHeight: 1.55, color: '#FFFFFF', margin: '0 0 12px 0' }}>
                         {msg.content}
                       </p>
 
-                      <div style={{ fontSize: '12px', color: '#34d399', backgroundColor: '#080d1a', padding: '8px 12px', borderRadius: '6px' }}>
+                      <div style={{ fontSize: '12px', color: '#20D98A', backgroundColor: 'rgba(0, 0, 0, 0.35)', padding: '10px 14px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.06)' }}>
                         <strong>Verification:</strong> {msg.snippet}
                       </div>
                     </div>
                   ))}
 
                   {trustedMessages.length === 0 && (
-                    <div style={{ padding: '36px', textAlign: 'center', color: 'var(--text-muted)', fontSize: '13px' }}>
+                    <div style={{ padding: '36px', textAlign: 'center', color: '#AEB7C2', fontSize: '13px' }}>
                       No trusted communications recorded yet.
                     </div>
                   )}
@@ -1775,66 +1903,68 @@ export default function App() {
             {/* 5. DAILY SECURITY REPORT & INVESTOR SAFETY REVIEW (2-COL)      */}
             {/* ============================================================== */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: '20px' }}>
-              {/* Daily Security Report */}
+              {/* Daily Security Report (Section 10) */}
               <div
+                className="glass-panel-primary glossy-reflection"
                 style={{
-                  backgroundColor: 'var(--bg-secondary)',
-                  border: '1px solid var(--border-color)',
-                  borderRadius: '14px',
-                  padding: '22px',
+                  borderRadius: '20px',
+                  padding: '26px 28px',
                 }}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <ShieldCheck style={{ width: '18px', height: '18px', color: '#34d399' }} />
-                    <h2 style={{ fontSize: '16px', fontWeight: 800, margin: 0 }}>Daily Security Report</h2>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{ width: '28px', height: '28px', borderRadius: '8px', backgroundColor: 'rgba(32, 217, 138, 0.10)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <ShieldCheck style={{ width: '16px', height: '16px', color: '#20D98A' }} />
+                    </div>
+                    <h2 style={{ fontSize: '17px', fontWeight: 800, margin: 0, color: '#FFFFFF' }}>Daily Security Report</h2>
                   </div>
-                  <span style={{ fontSize: '11px', color: 'var(--text-faint)' }}>
+                  <span style={{ fontSize: '11px', color: '#AEB7C2', backgroundColor: 'rgba(255, 255, 255, 0.05)', padding: '3px 10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
                     {dailyReport?.date || 'Today'}
                   </span>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px', backgroundColor: '#080d1a', padding: '14px', borderRadius: '10px' }}>
-                  <div style={{ textAlign: 'center', minWidth: '70px' }}>
-                    <div style={{ fontSize: '28px', fontWeight: 800, color: '#34d399', lineHeight: 1 }}>
-                      {dailyReport?.posture_score || 94}
+                {/* Large 96 Posture Score Display */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '18px', backgroundColor: 'rgba(0, 0, 0, 0.35)', padding: '16px 20px', borderRadius: '14px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                  <div style={{ textAlign: 'center', minWidth: '90px' }}>
+                    <div style={{ fontSize: '42px', fontWeight: 900, color: '#20D98A', lineHeight: 1, letterSpacing: '-0.03em', textShadow: '0 0 20px rgba(32, 217, 138, 0.35)' }}>
+                      {dailyReport?.posture_score || 96}
                     </div>
-                    <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', marginTop: '4px' }}>
-                      Posture Score
+                    <div style={{ fontSize: '10px', color: '#6F7A86', textTransform: 'uppercase', marginTop: '6px', fontWeight: 800, letterSpacing: '0.10em' }}>
+                      POSTURE SCORE
                     </div>
                   </div>
-                  <div style={{ flex: 1, fontSize: '12px', lineHeight: 1.5, color: '#cbd5e1' }}>
-                    {dailyReport?.executive_summary || 'All protective barriers operational. Zero unquarantined threats.'}
+                  <div style={{ flex: 1, fontSize: '12px', lineHeight: 1.55, color: '#AEB7C2' }}>
+                    {dailyReport?.executive_summary || 'All protective barriers operational. Continuous threat isolation active with zero unquarantined vulnerabilities.'}
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginBottom: '16px', textAlign: 'center' }}>
-                  <div style={{ backgroundColor: 'var(--bg-card)', padding: '10px', borderRadius: '8px' }}>
-                    <div style={{ fontSize: '18px', fontWeight: 700, color: '#38bdf8' }}>{dailyReport?.scans_today || 12}</div>
-                    <div style={{ fontSize: '10px', color: 'var(--text-faint)' }}>Scans Today</div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '18px', textAlign: 'center' }}>
+                  <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.04)', padding: '12px 10px', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                    <div style={{ fontSize: '20px', fontWeight: 800, color: '#FFFFFF' }}>{dailyReport?.scans_today || 4}</div>
+                    <div style={{ fontSize: '10px', color: '#6F7A86', marginTop: '2px', textTransform: 'uppercase', fontWeight: 700 }}>Scans Today</div>
                   </div>
-                  <div style={{ backgroundColor: 'var(--bg-card)', padding: '10px', borderRadius: '8px' }}>
-                    <div style={{ fontSize: '18px', fontWeight: 700, color: '#f87171' }}>{dailyReport?.threats_neutralized || quarantinedMessages.length}</div>
-                    <div style={{ fontSize: '10px', color: 'var(--text-faint)' }}>Neutralized</div>
+                  <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.04)', padding: '12px 10px', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                    <div style={{ fontSize: '20px', fontWeight: 800, color: '#FF5252' }}>{dailyReport?.threats_neutralized ?? 2}</div>
+                    <div style={{ fontSize: '10px', color: '#6F7A86', marginTop: '2px', textTransform: 'uppercase', fontWeight: 700 }}>Neutralized</div>
                   </div>
-                  <div style={{ backgroundColor: 'var(--bg-card)', padding: '10px', borderRadius: '8px' }}>
-                    <div style={{ fontSize: '18px', fontWeight: 700, color: '#34d399' }}>{dailyReport?.clean_rate || '98.4%'}</div>
-                    <div style={{ fontSize: '10px', color: 'var(--text-faint)' }}>Clean Rate</div>
+                  <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.04)', padding: '12px 10px', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                    <div style={{ fontSize: '20px', fontWeight: 800, color: '#20D98A' }}>{dailyReport?.clean_rate || '50.0%'}</div>
+                    <div style={{ fontSize: '10px', color: '#6F7A86', marginTop: '2px', textTransform: 'uppercase', fontWeight: 700 }}>Clear Rate</div>
                   </div>
                 </div>
 
                 <div>
-                  <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-faint)', textTransform: 'uppercase', marginBottom: '8px' }}>
+                  <div style={{ fontSize: '10px', fontWeight: 800, color: '#6F7A86', textTransform: 'uppercase', marginBottom: '10px', letterSpacing: '0.08em' }}>
                     Active Safeguard Protocols
                   </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     {(dailyReport?.active_safeguards || [
                       'Zero-OTP Ingress Quarantine Rule',
                       'Multi-lingual Language & PII Redactor',
                       'SEBI/RBI/I4C Regulatory Evidence RAG',
                     ]).map((sf, idx) => (
-                      <div key={idx} style={{ fontSize: '12px', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <CheckCircle2 style={{ width: '13px', height: '13px', color: '#34d399', flexShrink: 0 }} />
+                      <div key={idx} style={{ fontSize: '12px', color: '#AEB7C2', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <CheckCircle2 style={{ width: '14px', height: '14px', color: '#20D98A', flexShrink: 0 }} />
                         <span>{sf}</span>
                       </div>
                     ))}
@@ -1842,35 +1972,37 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Investor Safety Review */}
+              {/* Investor Safety Review (Section 11: Enterprise Security Checklist) */}
               <div
+                className="glass-panel-primary glossy-reflection"
                 style={{
-                  backgroundColor: 'var(--bg-secondary)',
-                  border: '1px solid var(--border-color)',
-                  borderRadius: '14px',
-                  padding: '22px',
+                  borderRadius: '20px',
+                  padding: '26px 28px',
                 }}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <UserCheck style={{ width: '18px', height: '18px', color: '#38bdf8' }} />
-                    <h2 style={{ fontSize: '16px', fontWeight: 800, margin: 0 }}>Investor Safety Review</h2>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{ width: '28px', height: '28px', borderRadius: '8px', backgroundColor: 'rgba(255, 255, 255, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <UserCheck style={{ width: '16px', height: '16px', color: '#FFFFFF' }} />
+                    </div>
+                    <h2 style={{ fontSize: '17px', fontWeight: 800, margin: 0, color: '#FFFFFF' }}>Investor Safety Review</h2>
                   </div>
-                  <span style={{ fontSize: '11px', color: '#34d399', fontWeight: 700 }}>
+                  <span style={{ fontSize: '11px', color: '#20D98A', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#20D98A' }} />
                     Audited {safetyReview?.last_audited || 'Just now'}
                   </span>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#080d1a', padding: '12px 14px', borderRadius: '10px', marginBottom: '14px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: 'rgba(0, 0, 0, 0.35)', padding: '14px 18px', borderRadius: '12px', marginBottom: '16px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
                   <div>
-                    <div style={{ fontSize: '12px', fontWeight: 700, color: '#f8fafc' }}>
-                      Status: {safetyReview?.overall_status || 'RESILIENT'}
+                    <div style={{ fontSize: '13px', fontWeight: 800, color: '#FFFFFF' }}>
+                      Compliance Status: {safetyReview?.overall_status || 'RESILIENT'}
                     </div>
-                    <div style={{ fontSize: '11px', color: 'var(--text-faint)' }}>
-                      5-Point Investor Digital Hygiene Checklist
+                    <div style={{ fontSize: '11px', color: '#6F7A86' }}>
+                      5-Point Investor Digital Hygiene Security Audit
                     </div>
                   </div>
-                  <div style={{ fontSize: '20px', fontWeight: 800, color: '#38bdf8' }}>
+                  <div style={{ fontSize: '24px', fontWeight: 900, color: '#20D98A', letterSpacing: '-0.02em' }}>
                     {safetyReview?.safety_score || 92}%
                   </div>
                 </div>
@@ -1878,87 +2010,132 @@ export default function App() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {(safetyReview?.checklist || [
                     { id: 'CHK-01', title: 'SEBI Intermediary Verification', status: 'PASSED', description: 'Cross-checked against SEBI registered entities.' },
-                    { id: 'CHK-02', title: 'Zero-OTP / PIN Isolation', status: 'ENFORCED', description: 'Zero banking or broker credential exposure.' },
+                    { id: 'CHK-02', title: 'Zero-OTP / PIN Isolation', status: 'ACTIVE', description: 'Zero banking or broker credential exposure.' },
                     { id: 'CHK-03', title: 'Hardware Passkey & 2FA', status: 'ACTIVE', description: 'Passkey/WebAuthn authenticated owner session.' },
                     { id: 'CHK-04', title: 'Escrow & Direct Merchant UPI', status: 'PASSED', description: 'All merchant transfers checked against NPCI whitelist.' },
-                    { id: 'CHK-05', title: 'Misinformation & Deepfake Scrub', status: 'ACTIVE', description: 'High-yield claims verified against statutory circulars.' },
-                  ]).map((item, idx) => (
-                    <div
-                      key={idx}
-                      style={{
-                        backgroundColor: 'var(--bg-card)',
-                        border: '1px solid var(--border-color)',
-                        borderRadius: '8px',
-                        padding: '10px 12px',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <div>
-                        <div style={{ fontSize: '12px', fontWeight: 700, color: '#f8fafc' }}>{item.title}</div>
-                        <div style={{ fontSize: '11px', color: 'var(--text-faint)' }}>{item.description}</div>
-                      </div>
-                      <span
+                    { id: 'CHK-05', title: 'Misinformation & Deepfake Scrub', status: 'VERIFIED', description: 'High-yield claims verified against statutory circulars.' },
+                  ]).map((item: any, idx: number) => {
+                    const isPassed = item.status === 'PASSED' || item.status === 'ACTIVE';
+                    const isVerified = item.status === 'VERIFIED' || item.status === 'ENFORCED';
+                    const isWarning = item.status === 'WARNING';
+
+                    const pillBg = isPassed
+                      ? 'rgba(32, 217, 138, 0.12)'
+                      : isVerified
+                      ? 'rgba(255, 176, 32, 0.12)'
+                      : isWarning
+                      ? 'rgba(255, 159, 28, 0.12)'
+                      : 'rgba(255, 59, 59, 0.12)';
+
+                    const pillColor = isPassed
+                      ? '#20D98A'
+                      : isVerified
+                      ? '#FFB020'
+                      : isWarning
+                      ? '#FF9F1C'
+                      : '#FF5252';
+
+                    const pillBorder = isPassed
+                      ? 'rgba(32, 217, 138, 0.30)'
+                      : isVerified
+                      ? 'rgba(255, 176, 32, 0.30)'
+                      : isWarning
+                      ? 'rgba(255, 159, 28, 0.30)'
+                      : 'rgba(255, 59, 59, 0.30)';
+
+                    return (
+                      <div
+                        key={idx}
                         style={{
-                          fontSize: '10px',
-                          fontWeight: 800,
-                          padding: '2px 8px',
-                          borderRadius: '4px',
-                          backgroundColor: item.status === 'PASSED' || item.status === 'ENFORCED' || item.status === 'ACTIVE'
-                            ? 'rgba(16, 185, 129, 0.15)'
-                            : 'rgba(245, 158, 11, 0.15)',
-                          color: item.status === 'PASSED' || item.status === 'ENFORCED' || item.status === 'ACTIVE'
-                            ? '#34d399'
-                            : '#fbbf24',
+                          backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                          border: '1px solid rgba(255, 255, 255, 0.08)',
+                          borderRadius: '10px',
+                          padding: '11px 14px',
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          gap: '12px',
                         }}
                       >
-                        {item.status}
-                      </span>
-                    </div>
-                  ))}
+                        <div>
+                          <div style={{ fontSize: '12px', fontWeight: 700, color: '#FFFFFF' }}>{item.title}</div>
+                          <div style={{ fontSize: '11px', color: '#AEB7C2' }}>{item.description}</div>
+                        </div>
+                        <span
+                          style={{
+                            fontSize: '10px',
+                            fontWeight: 800,
+                            padding: '3px 10px',
+                            borderRadius: '6px',
+                            backgroundColor: pillBg,
+                            color: pillColor,
+                            border: `1px solid ${pillBorder}`,
+                            letterSpacing: '0.04em',
+                            flexShrink: 0,
+                          }}
+                        >
+                          {item.status}
+                        </span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
 
             {/* ============================================================== */}
-            {/* 6. SCAM / SPAM TRENDS (TRACK A & TRACK E)                      */}
+            {/* 6. LIVE SCAM & SPAM TRENDS (SECTION 12)                        */}
             {/* ============================================================== */}
             <div
+              className="glass-panel-primary glossy-reflection"
               style={{
-                backgroundColor: 'var(--bg-secondary)',
-                border: '1px solid var(--border-color)',
-                borderRadius: '14px',
-                padding: '24px',
+                borderRadius: '20px',
+                padding: '26px 28px',
               }}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '10px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <TrendingUp style={{ width: '18px', height: '18px', color: '#f87171' }} />
-                    <h2 style={{ fontSize: '17px', fontWeight: 800, margin: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{ width: '28px', height: '28px', borderRadius: '8px', backgroundColor: 'rgba(255, 59, 59, 0.10)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <TrendingUp style={{ width: '16px', height: '16px', color: '#FF5252' }} />
+                    </div>
+                    <h2 style={{ fontSize: '17px', fontWeight: 800, margin: 0, color: '#FFFFFF' }}>
                       Live Scam & Spam Trends — Grounded in SEBI, RBI & I4C Advisories
                     </h2>
+                    <span
+                      style={{
+                        fontSize: '10px',
+                        fontWeight: 800,
+                        padding: '2px 8px',
+                        borderRadius: '6px',
+                        backgroundColor: 'rgba(255, 176, 32, 0.12)',
+                        color: '#FFB020',
+                        border: '1px solid rgba(255, 176, 32, 0.28)',
+                        letterSpacing: '0.06em',
+                      }}
+                    >
+                      DEMO / SIMULATED FEED
+                    </span>
                   </div>
-                  <p style={{ fontSize: '12px', color: 'var(--text-muted)', margin: '4px 0 0 0' }}>
+                  <p style={{ fontSize: '12px', color: '#AEB7C2', margin: '4px 0 0 0' }}>
                     Tracking active threat syndicates targeting Indian retail investors across WhatsApp, Telegram, SMS, and deepfake media.
                   </p>
                 </div>
-                <div style={{ display: 'flex', gap: '6px' }}>
+                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
                   {['SEBI Circular PR 12/2024', 'RBI Advisory DOR.No.STR.REC.47', 'I4C MHA 2024/09'].map((adv, idx) => (
-                    <span key={idx} style={{ fontSize: '10px', color: '#38bdf8', backgroundColor: 'rgba(56, 189, 248, 0.1)', padding: '2px 8px', borderRadius: '4px' }}>
+                    <span key={idx} style={{ fontSize: '10px', color: '#AEB7C2', backgroundColor: 'rgba(255, 255, 255, 0.05)', padding: '3px 8px', borderRadius: '6px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
                       {adv}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '14px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
                 {(scamTrends?.trends || [
                   {
                     trend_id: 'TRD-01',
                     title: 'Fake IPO Allotment & Grey Market Syndicates',
-                    surge_level: '+320% Surge',
+                    surge_level: '+320% Surge (Simulated)',
                     target_vector: 'WhatsApp & Telegram Channels',
                     modus_operandi: 'Scammers promise guaranteed allotment in oversubscribed IPOs via institutional quotas.',
                     regulatory_warning: 'SEBI Circular PR 12/2024 warns retail investors that all IPO applications must flow through ASBA.',
@@ -1968,7 +2145,7 @@ export default function App() {
                   {
                     trend_id: 'TRD-02',
                     title: 'Digital Arrest & Law Enforcement Video Coercion',
-                    surge_level: '+180% Surge',
+                    surge_level: '+180% Surge (Simulated)',
                     target_vector: 'Direct Mobile Calls & Skype/WhatsApp Video',
                     modus_operandi: 'Impersonators posing as CBI/Customs/Police claim money-laundering parcel found in victim name.',
                     regulatory_warning: 'I4C and MHA advisory states that no police or judiciary agency conducts digital arrest.',
@@ -1978,7 +2155,7 @@ export default function App() {
                   {
                     trend_id: 'TRD-03',
                     title: 'Deepfake Celebrity Trading & AI Bot Endorsements',
-                    surge_level: '+240% Surge',
+                    surge_level: '+240% Surge (Simulated)',
                     target_vector: 'Facebook, Instagram & YouTube Ad Feeds',
                     modus_operandi: 'AI-generated voice/video clones of business leaders endorsing automated algorithmic funds.',
                     regulatory_warning: 'SEBI and CERT-In advisories mandate verifying registered intermediary status.',
@@ -1988,94 +2165,103 @@ export default function App() {
                   {
                     trend_id: 'TRD-04',
                     title: 'Guaranteed 40% Monthly Return "Institutional PMS"',
-                    surge_level: '+140% Surge',
+                    surge_level: '+140% Surge (Simulated)',
                     target_vector: 'Telegram Groups & SMS Stock Tips',
                     modus_operandi: 'Claims SEBI registration with forged registration certificates promising guaranteed gains.',
                     regulatory_warning: 'SEBI prohibits any registered entity from offering assured returns or profit sharing.',
                     defensive_advice: 'Any assured return promise is per se illegal under SEBI Regulations.',
                     risk_severity: 'HIGH',
                   },
-                ]).map((trend: any, idx: number) => (
-                  <div
-                    key={idx}
-                    style={{
-                      backgroundColor: 'var(--bg-card)',
-                      border: '1px solid var(--border-color)',
-                      borderRadius: '10px',
-                      padding: '16px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                        <span
-                          style={{
-                            fontSize: '10px',
-                            fontWeight: 800,
-                            padding: '2px 8px',
-                            borderRadius: '4px',
-                            backgroundColor: trend.risk_severity === 'CRITICAL' ? 'rgba(239, 68, 68, 0.15)' : 'rgba(245, 158, 11, 0.15)',
-                            color: trend.risk_severity === 'CRITICAL' ? '#f87171' : '#fbbf24',
-                          }}
-                        >
-                          {trend.risk_severity}
-                        </span>
-                        <span style={{ fontSize: '11px', fontWeight: 700, color: '#f87171' }}>
-                          {trend.surge_level}
-                        </span>
+                ]).map((trend: any, idx: number) => {
+                  const isCritical = trend.risk_severity === 'CRITICAL';
+                  return (
+                    <div
+                      key={idx}
+                      className="glass-panel"
+                      style={{
+                        backgroundColor: isCritical ? 'rgba(255, 59, 59, 0.03)' : 'rgba(255, 176, 32, 0.03)',
+                        border: `1px solid ${isCritical ? 'rgba(255, 59, 59, 0.25)' : 'rgba(255, 176, 32, 0.25)'}`,
+                        borderRadius: '14px',
+                        padding: '18px 20px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.35)',
+                      }}
+                    >
+                      <div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                          <span
+                            style={{
+                              fontSize: '10px',
+                              fontWeight: 800,
+                              padding: '3px 10px',
+                              borderRadius: '6px',
+                              backgroundColor: isCritical ? 'rgba(255, 59, 59, 0.15)' : 'rgba(255, 176, 32, 0.15)',
+                              color: isCritical ? '#FF5252' : '#FF9F1C',
+                              border: `1px solid ${isCritical ? 'rgba(255, 59, 59, 0.35)' : 'rgba(255, 176, 32, 0.35)'}`,
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '5px',
+                            }}
+                          >
+                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: isCritical ? '#FF3B3B' : '#FF9F1C' }} />
+                            {trend.risk_severity}
+                          </span>
+                          <span style={{ fontSize: '11px', fontWeight: 700, color: isCritical ? '#FF5252' : '#FFB020' }}>
+                            {trend.surge_level}
+                          </span>
+                        </div>
+
+                        <h3 style={{ fontSize: '14px', fontWeight: 700, margin: '0 0 6px 0', color: '#FFFFFF' }}>
+                          {trend.title}
+                        </h3>
+
+                        <div style={{ fontSize: '11px', color: '#AEB7C2', marginBottom: '8px' }}>
+                          Vector: <strong style={{ color: '#FFFFFF' }}>{trend.target_vector}</strong>
+                        </div>
+
+                        <p style={{ fontSize: '12px', color: '#AEB7C2', margin: '0 0 12px 0', lineHeight: 1.45 }}>
+                          {trend.modus_operandi}
+                        </p>
                       </div>
 
-                      <h3 style={{ fontSize: '14px', fontWeight: 700, margin: '0 0 6px 0', color: '#f8fafc' }}>
-                        {trend.title}
-                      </h3>
-
-                      <div style={{ fontSize: '11px', color: '#38bdf8', marginBottom: '8px' }}>
-                        Vector: {trend.target_vector}
+                      <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '12px', marginTop: '8px' }}>
+                        <div style={{ fontSize: '11px', color: '#FFFFFF', marginBottom: '4px' }}>
+                          <strong style={{ color: '#20D98A' }}>Defensive Rule:</strong> {trend.defensive_advice}
+                        </div>
+                        <div style={{ fontSize: '10px', color: '#6F7A86' }}>
+                          Authority: {trend.regulatory_warning.slice(0, 75)}...
+                        </div>
                       </div>
-
-                      <p style={{ fontSize: '12px', color: 'var(--text-muted)', margin: '0 0 10px 0', lineHeight: 1.4 }}>
-                        {trend.modus_operandi}
-                      </p>
                     </div>
-
-                    <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '10px', marginTop: '10px' }}>
-                      <div style={{ fontSize: '11px', color: '#cbd5e1', marginBottom: '4px' }}>
-                        <strong>Defensive Rule:</strong> {trend.defensive_advice}
-                      </div>
-                      <div style={{ fontSize: '10px', color: 'var(--text-faint)' }}>
-                        Authority: {trend.regulatory_warning.slice(0, 70)}...
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
             {/* ============================================================== */}
-            {/* 7. CONNECTED SECURITY ENVIRONMENT (6 CHANNELS)                 */}
+            {/* 7. CONNECTED SECURITY ENVIRONMENT (SECTION 13: 6 CHANNELS)     */}
             {/* ============================================================== */}
             <div
+              className="glass-panel-primary glossy-reflection"
               style={{
-                backgroundColor: 'var(--bg-secondary)',
-                border: '1px solid var(--border-color)',
-                borderRadius: '14px',
-                padding: '24px',
+                borderRadius: '20px',
+                padding: '26px 28px',
               }}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '10px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '10px' }}>
                 <div>
-                  <h2 style={{ fontSize: '17px', fontWeight: 800, margin: 0 }}>
+                  <h2 style={{ fontSize: '17px', fontWeight: 800, margin: 0, color: '#FFFFFF' }}>
                     Connected Security Environment — 6 Protected Channels
                   </h2>
-                  <p style={{ fontSize: '12px', color: 'var(--text-muted)', margin: '4px 0 0 0' }}>
+                  <p style={{ fontSize: '12px', color: '#AEB7C2', margin: '4px 0 0 0' }}>
                     Zero-OTP Ingress Guarantee: Sensitive credentials, UPI PINs, ATM PINs, and passwords are never collected, stored, or exposed.
                   </p>
                 </div>
                 <button
                   onClick={() => setActiveNav('integrations')}
-                  style={{ fontSize: '12px', color: '#38bdf8', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600 }}
+                  style={{ fontSize: '12px', color: '#FFFFFF', background: 'rgba(255, 255, 255, 0.06)', border: '1px solid rgba(255, 255, 255, 0.12)', padding: '6px 14px', borderRadius: '8px', cursor: 'pointer', fontWeight: 600, transition: 'all 0.15s ease' }}
                 >
                   Manage Ingestion Posture →
                 </button>
@@ -2084,45 +2270,57 @@ export default function App() {
               <div style={{ overflowX: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
                   <thead>
-                    <tr style={{ borderBottom: '1px solid var(--border-color)', textAlign: 'left', color: 'var(--text-faint)' }}>
-                      <th style={{ padding: '8px 12px' }}>CHANNEL</th>
-                      <th style={{ padding: '8px 12px' }}>CATEGORY</th>
-                      <th style={{ padding: '8px 12px' }}>INTEGRATION POSTURE</th>
-                      <th style={{ padding: '8px 12px' }}>PRIVACY & SENSITIVE DATA BOUNDARY</th>
-                      <th style={{ padding: '8px 12px' }}>STATUS</th>
+                    <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.10)', textAlign: 'left', color: '#6F7A86' }}>
+                      <th style={{ padding: '10px 14px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>CHANNEL</th>
+                      <th style={{ padding: '10px 14px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>CATEGORY</th>
+                      <th style={{ padding: '10px 14px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>INTEGRATION POSTURE</th>
+                      <th style={{ padding: '10px 14px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>PRIVACY & SENSITIVE DATA BOUNDARY</th>
+                      <th style={{ padding: '10px 14px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>STATUS</th>
                     </tr>
                   </thead>
                   <tbody>
                     {integrations.map((itg) => (
-                      <tr key={itg.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                        <td style={{ padding: '10px 12px', fontWeight: 600, color: '#f8fafc' }}>{itg.name}</td>
-                        <td style={{ padding: '10px 12px', color: 'var(--text-muted)' }}>{itg.category}</td>
-                        <td style={{ padding: '10px 12px' }}>
+                      <tr key={itg.id} style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                        <td style={{ padding: '12px 14px', fontWeight: 700, color: '#FFFFFF' }}>{itg.name}</td>
+                        <td style={{ padding: '12px 14px', color: '#AEB7C2' }}>{itg.category}</td>
+                        <td style={{ padding: '12px 14px' }}>
                           <span
                             style={{
                               fontSize: '10px',
-                              fontWeight: 700,
-                              padding: '2px 8px',
-                              borderRadius: '4px',
-                              backgroundColor: itg.is_real ? 'rgba(56, 189, 248, 0.15)' : 'rgba(251, 191, 36, 0.15)',
-                              color: itg.is_real ? '#38bdf8' : '#fbbf24',
-                              border: `1px solid ${itg.is_real ? 'rgba(56, 189, 248, 0.3)' : 'rgba(251, 191, 36, 0.3)'}`,
+                              fontWeight: 800,
+                              padding: '3px 10px',
+                              borderRadius: '6px',
+                              backgroundColor: itg.is_real ? 'rgba(56, 189, 248, 0.12)' : 'rgba(255, 176, 32, 0.12)',
+                              color: itg.is_real ? '#38bdf8' : '#FFB020',
+                              border: `1px solid ${itg.is_real ? 'rgba(56, 189, 248, 0.30)' : 'rgba(255, 176, 32, 0.30)'}`,
+                              letterSpacing: '0.04em',
                             }}
                           >
                             {itg.is_real ? 'REAL CONNECTOR' : 'DEMO / SIMULATED'}
                           </span>
                         </td>
-                        <td style={{ padding: '10px 12px', color: 'var(--text-muted)', fontSize: '12px' }}>
+                        <td style={{ padding: '12px 14px', color: '#AEB7C2', fontSize: '12px' }}>
                           {itg.security_guarantee}
                         </td>
-                        <td style={{ padding: '10px 12px' }}>
+                        <td style={{ padding: '12px 14px' }}>
                           <span
                             style={{
                               fontSize: '11px',
-                              fontWeight: 700,
-                              color: itg.status === 'CONNECTED' ? '#34d399' : itg.status === 'AVAILABLE' ? '#60a5fa' : '#fbbf24',
+                              fontWeight: 800,
+                              color: itg.status === 'CONNECTED' ? '#20D98A' : itg.status === 'AVAILABLE' ? '#AEB7C2' : '#FFB020',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '6px',
                             }}
                           >
+                            <span
+                              style={{
+                                width: '6px',
+                                height: '6px',
+                                borderRadius: '50%',
+                                backgroundColor: itg.status === 'CONNECTED' ? '#20D98A' : itg.status === 'AVAILABLE' ? '#AEB7C2' : '#FFB020',
+                              }}
+                            />
                             {itg.status}
                           </span>
                         </td>

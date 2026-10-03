@@ -1,50 +1,59 @@
 :root {
   /* ==========================================================================
-     IN.V. PROTECT - Official PPT Design System & Tokens
-     Dark Charcoal / Black + White Typography + Teal (#02C39A) Accent + Glass UI
+     IN.V. PROTECT - Premium Glossy Financial-Cybersecurity Design System
+     Obsidian / Dark Slate (#080B0F, #0D1117, #11161C) + Glass Surfaces
+     Pure White Typography + Status Colors (Green, Amber/Orange, Red)
      ========================================================================== */
 
-  /* Backgrounds */
-  --bg-primary: #171717;
-  --bg-secondary: #1e1e1e;
-  --bg-tertiary: #252525;
-  --bg-card: rgba(255, 255, 255, 0.04);
-  --bg-card-hover: rgba(255, 255, 255, 0.07);
+  /* Primary Backgrounds */
+  --bg-primary: #080B0F;
+  --bg-secondary: #0D1117;
+  --bg-tertiary: #11161C;
+  --bg-card: rgba(255, 255, 255, 0.045);
+  --bg-card-hover: rgba(255, 255, 255, 0.075);
 
-  /* Borders & Glass */
+  /* Glass Surfaces & Specular Highlights */
+  --glass-surface: rgba(255, 255, 255, 0.045);
+  --glass-surface-strong: rgba(255, 255, 255, 0.075);
+  --glass-surface-subtle: rgba(255, 255, 255, 0.025);
+  --glass-border: rgba(255, 255, 255, 0.10);
+  --glass-border-strong: rgba(255, 255, 255, 0.12);
+  --glass-inset-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  /* Legacy border mapping */
   --border-color: rgba(255, 255, 255, 0.10);
   --border-subtle: rgba(255, 255, 255, 0.06);
-  --border-teal: rgba(2, 195, 154, 0.35);
 
   /* Typography */
   --text-main: #FFFFFF;
-  --text-secondary: #A7A7A7;
-  --text-muted: #737373;
-  --text-faint: #525252;
+  --text-secondary: #AEB7C2;
+  --text-muted: #6F7A86;
+  --text-faint: #4B5563;
 
-  /* Primary Accent: Teal */
+  /* Subtle Brand Accent (Used selectively for logo & emblem, NOT for general UI status) */
+  --brand-teal: #02C39A;
+  --brand-teal-glow: rgba(2, 195, 154, 0.18);
   --accent-teal: #02C39A;
-  --accent-teal-hover: #02a884;
-  --accent-teal-light: #2ee6bc;
-  --accent-glow: rgba(2, 195, 154, 0.20);
-
-  /* Legacy variable compatibility mapping to Teal */
   --accent-cyan: #02C39A;
-  --accent-cyan-hover: #02a884;
-  --accent-cyan-light: #2ee6bc;
 
-  /* Status Colors (Used strictly for indicators) */
-  --color-trusted: #10B981;
-  --color-trusted-bg: rgba(16, 185, 129, 0.12);
-  --color-trusted-border: rgba(16, 185, 129, 0.30);
+  /* Security Status Colors (Strictly Green / Orange / Red for security states) */
+  --color-trusted: #20D98A;
+  --color-trusted-light: #34E6A1;
+  --color-trusted-bg: rgba(32, 217, 138, 0.08);
+  --color-trusted-border: rgba(32, 217, 138, 0.28);
+  --color-trusted-glow: rgba(32, 217, 138, 0.20);
 
-  --color-review: #F59E0B;
-  --color-review-bg: rgba(245, 158, 11, 0.12);
-  --color-review-border: rgba(245, 158, 11, 0.30);
+  --color-review: #FFB020;
+  --color-review-light: #FF9F1C;
+  --color-review-bg: rgba(255, 176, 32, 0.08);
+  --color-review-border: rgba(255, 176, 32, 0.28);
+  --color-review-glow: rgba(255, 176, 32, 0.20);
 
-  --color-risk: #EF4444;
-  --color-risk-bg: rgba(239, 68, 68, 0.12);
-  --color-risk-border: rgba(239, 68, 68, 0.30);
+  --color-risk: #FF3B3B;
+  --color-risk-light: #FF5252;
+  --color-risk-bg: rgba(255, 59, 59, 0.08);
+  --color-risk-border: rgba(255, 59, 59, 0.30);
+  --color-risk-glow: rgba(255, 59, 59, 0.25);
 
   /* Legacy aliases */
   --color-safe: var(--color-trusted);
@@ -120,60 +129,93 @@ input, textarea, select {
 }
 
 input:focus, textarea:focus, select:focus {
-  border-color: var(--accent-teal);
-  box-shadow: 0 0 0 2px var(--accent-glow);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.10);
 }
 
 /* ==========================================================================
-   Controlled Glassmorphism System
+   Controlled Glossy Glassmorphism System
    ========================================================================== */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.045);
   border: 1px solid rgba(255, 255, 255, 0.10);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 16px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(18px) saturate(130%);
+  -webkit-backdrop-filter: blur(18px) saturate(130%);
+  border-radius: 18px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  position: relative;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+
+.glass-panel:hover {
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.glass-panel-primary {
+  background: rgba(255, 255, 255, 0.065);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border-radius: 20px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.40), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  position: relative;
 }
 
 .glass-panel-subtle {
   background: rgba(255, 255, 255, 0.025);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Subtle Specular Top Reflection */
+.glossy-reflection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.22) 50%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Status Ambient Glow Modifiers */
+.glow-trusted {
+  border-color: rgba(32, 217, 138, 0.30) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.30), 0 0 35px rgba(32, 217, 138, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.10) !important;
+}
+
+.glow-review {
+  border-color: rgba(255, 176, 32, 0.30) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.30), 0 0 35px rgba(255, 176, 32, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.10) !important;
+}
+
+.glow-risk {
+  border-color: rgba(255, 59, 59, 0.35) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.30), 0 0 40px rgba(255, 59, 59, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.10) !important;
 }
 
 /* ==========================================================================
-   Subtle Cybersecurity Hexagonal Network Background on Edges
+   Subtle Cybersecurity Grid Background on Edges
    ========================================================================== */
-@keyframes networkShift {
-  0% {
-    background-position: 0 0, 0 0, 0 0;
-  }
-  50% {
-    background-position: 10px 10px, -10px -10px, 20px 20px;
-  }
-  100% {
-    background-position: 0 0, 0 0, 0 0;
-  }
-}
-
 .cyber-network-bg {
-  background-color: #171717;
+  background-color: #080B0F;
   background-image: 
-    radial-gradient(circle at 5% 15%, rgba(2, 195, 154, 0.04) 0%, transparent 40%),
-    radial-gradient(circle at 95% 85%, rgba(2, 195, 154, 0.035) 0%, transparent 45%),
+    radial-gradient(circle at 10% 15%, rgba(255, 255, 255, 0.02) 0%, transparent 40%),
+    radial-gradient(circle at 90% 85%, rgba(255, 255, 255, 0.015) 0%, transparent 45%),
     linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
   background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
 }
 
 .security-grid-bg {
-  background-color: #171717;
+  background-color: #0D1117;
   background-image: 
-    radial-gradient(circle at 10% 20%, rgba(2, 195, 154, 0.05) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(2, 195, 154, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.02) 0%, transparent 40%),
+    radial-gradient(circle at 85% 80%, rgba(255, 255, 255, 0.015) 0%, transparent 40%),
     linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
   background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
@@ -181,12 +223,12 @@ input:focus, textarea:focus, select:focus {
 
 /* ==========================================================================
    Subtle Shield Breathing Animation
-   scale: 1 → 1.02 → 1 | opacity: 0.85 → 1 → 0.85
+   scale: 1 → 1.02 → 1 | opacity: 0.88 → 1 → 0.88
    ========================================================================== */
 @keyframes breathingShield {
   0% {
     transform: scale(1);
-    opacity: 0.85;
+    opacity: 0.88;
   }
   50% {
     transform: scale(1.02);
@@ -194,7 +236,7 @@ input:focus, textarea:focus, select:focus {
   }
   100% {
     transform: scale(1);
-    opacity: 0.85;
+    opacity: 0.88;
   }
 }
 
@@ -349,7 +391,7 @@ input:focus, textarea:focus, select:focus {
 }
 
 /* ==========================================================================
-   Mobile Bottom Navigation (Section 14: Responsive Design)
+   Mobile Bottom Navigation (Section 14 & 18: Responsive Design)
    ========================================================================== */
 .mobile-bottom-nav {
   display: none;
@@ -362,14 +404,34 @@ input:focus, textarea:focus, select:focus {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 62px;
-    background-color: rgba(23, 23, 23, 0.95);
-    border-top: 1px solid rgba(255, 255, 255, 0.10);
-    backdrop-filter: blur(12px);
+    height: 64px;
+    background-color: rgba(13, 17, 23, 0.92);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
     z-index: 1000;
     align-items: center;
     justify-content: space-around;
-    padding: 0 8px;
+    padding: 0 10px;
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.45);
   }
+}
+
+/* ==========================================================================
+   Pipeline Connecting Flow Line (Section 8: Core Analysis Engine)
+   ========================================================================== */
+@keyframes flowLight {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.pipeline-flow-line {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0%, rgba(32, 217, 138, 0.45) 50%, rgba(255, 255, 255, 0.08) 100%);
+  background-size: 200% 100%;
+  animation: flowLight 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
