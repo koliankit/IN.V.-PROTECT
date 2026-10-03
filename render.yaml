@@ -1,0 +1,71 @@
+## Render Blueprint — IN V PROTECT (Sangyan AI Investor Shield)
+## Deploy: Connect this repo on https://render.com → New → Blueprint
+## Two services: Backend (FastAPI) + Frontend (React/Vite Static Site)
+
+services:
+  # ─── Backend: FastAPI on Uvicorn ───────────────────────────────────────────
+  - type: web
+    name: inv-protect-backend
+    runtime: python
+    rootDir: .
+    buildCommand: pip install --upgrade pip && pip install -r backend/requirements.txt
+    startCommand: uvicorn backend.core.app:app --host 0.0.0.0 --port $PORT
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: LOG_LEVEL
+        value: INFO
+      - key: DATABASE_URL
+        value: sqlite:///./sangyan_shield.db
+      - key: LLM_PROVIDER
+        value: offline_rule_fallback
+      - key: VECTOR_STORE_PROVIDER
+        value: chroma
+      - key: CHROMA_PERSIST_DIR
+        value: ./data/processed/chroma_db
+      - key: EMBEDDING_MODEL_NAME
+        value: all-MiniLM-L6-v2
+      - key: OCR_ENGINE
+        value: tesseract
+      - key: OCR_MIN_CONFIDENCE
+        value: "60.0"
+      # Set these in Render Dashboard → Environment → Secret:
+      # - key: LLM_API_KEY
+      #   sync: false
+      # - key: SMTP_HOST
+      #   sync: false
+      # - key: SMTP_PORT
+      #   sync: false
+      # - key: SMTP_USERNAME
+      #   sync: false
+      # - key: SMTP_PASSWORD
+      #   sync: false
+    healthCheckPath: /health
+
+  # ─── Frontend: React/Vite Static Site ──────────────────────────────────────
+  - type: web
+    name: inv-protect-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    plan: free
+    autoDeploy: true
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache
+      - path: /assets/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+    routes:
+      # SPA fallback — all routes serve index.html
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      # Replace with your actual Render backend URL after first deploy
+      - key: VITE_API_BASE_URL
+        value: https://inv-protect-backend.onrender.com
