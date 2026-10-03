@@ -6,46 +6,54 @@
    ========================================================================== */
 
 :root {
-  /* === CORE SURFACES (Pure black editorial) === */
-  --bg-primary:    #0a0a0a;
-  --bg-secondary:  #0f0f0f;
-  --bg-tertiary:   #141414;
-  --bg-card:       #111111;
-  --bg-card-hover: #161616;
-  --bg-elevated:   #1a1a1a;
+  /* === CORE SURFACES (Dark neutral cybersecurity base) === */
+  --bg-primary:          #080C0F;
+  --bg-secondary:        #10161A;
+  --bg-tertiary:         #151C20;
+  --bg-card:             #10161A;
+  --bg-card-hover:       #151C20;
+  --bg-elevated:         #151C20;
+  --bg-panel:            #10161A;
+  --bg-panel-secondary:  #151C20;
 
-  /* === SINGLE ACCENT: Red (exactly as reference) === */
-  --accent:        #e53e3e;
-  --accent-soft:   #ff5555;
-  --accent-glow:   rgba(229, 62, 62, 0.15);
-  --accent-bg:     rgba(229, 62, 62, 0.08);
-  --accent-border: rgba(229, 62, 62, 0.3);
+  /* === ACCENTS (Restrained: Teal primary, Blue secondary) === */
+  --primary-accent:      #02C39A;
+  --secondary-accent:    #4DA3FF;
+  --accent:              #02C39A;
+  --accent-soft:         #20D98A;
+  --accent-glow:         rgba(2, 195, 154, 0.15);
+  --accent-bg:           rgba(2, 195, 154, 0.08);
+  --accent-border:       rgba(2, 195, 154, 0.28);
 
-  /* === BORDERS (hairline, restrained) === */
-  --border:        rgba(255, 255, 255, 0.07);
-  --border-subtle: rgba(255, 255, 255, 0.04);
-  --border-strong: rgba(255, 255, 255, 0.13);
-  --border-red:    rgba(229, 62, 62, 0.28);
+  /* === BORDERS (Hairline, restrained neutral) === */
+  --border:              rgba(255, 255, 255, 0.10);
+  --border-subtle:       rgba(255, 255, 255, 0.05);
+  --border-strong:       rgba(255, 255, 255, 0.14);
+  --border-red:          rgba(229, 72, 77, 0.35);
 
   /* === TYPOGRAPHY === */
-  --text-primary:   #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.60);
-  --text-muted:     rgba(255, 255, 255, 0.35);
-  --text-faint:     rgba(255, 255, 255, 0.18);
-  --text-accent:    #e53e3e;
+  --text-primary:        #F5F7F8;
+  --text-secondary:      #9AA5AD;
+  --text-muted:          #6F7A86;
+  --text-faint:          #45505A;
+  --text-accent:         #02C39A;
 
-  /* === STATUS COLORS (unified red accent theme) === */
-  --color-trusted:        #e53e3e;
-  --color-trusted-bg:     rgba(229, 62, 62, 0.08);
-  --color-trusted-border: rgba(229, 62, 62, 0.28);
+  /* === STATUS COLORS (Strict: Teal=Trusted, Amber=Review, Red=Threat ONLY) === */
+  --color-trusted:        #02C39A;
+  --color-trusted-bg:     rgba(2, 195, 154, 0.08);
+  --color-trusted-border: rgba(2, 195, 154, 0.28);
 
-  --color-review:         #f59e0b;
-  --color-review-bg:      rgba(245, 158, 11, 0.07);
-  --color-review-border:  rgba(245, 158, 11, 0.22);
+  --color-review:         #F5B942;
+  --color-review-bg:      rgba(245, 185, 66, 0.08);
+  --color-review-border:  rgba(245, 185, 66, 0.28);
 
-  --color-risk:           #ef4444;
-  --color-risk-bg:        rgba(239, 68, 68, 0.07);
-  --color-risk-border:    rgba(239, 68, 68, 0.28);
+  --color-risk:           #E5484D;
+  --color-risk-bg:        rgba(229, 72, 77, 0.08);
+  --color-risk-border:    rgba(229, 72, 77, 0.30);
+
+  --color-critical:       #FF3B30;
+  --color-critical-bg:    rgba(255, 59, 48, 0.10);
+  --color-critical-border:rgba(255, 59, 48, 0.35);
 
   /* === FONTS === */
   --font-sans:    'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -746,6 +754,65 @@ input::placeholder, textarea::placeholder {
 .glow-trusted { box-shadow: none; }
 .cyber-network-bg { background: var(--bg-primary); }
 
+/* ==========================================================================
+   IN.V. PROTECT — SECURITY MONITORING DASHBOARD RESPONSIVE & MOTION
+   ========================================================================== */
+.security-dashboard-container {
+  animation: fadeInDashboard 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInDashboard {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1200px) {
+  .monitoring-grid-container {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .dashboard-right-column {
+    grid-column: span 2 !important;
+  }
+}
+
+@media (max-width: 820px) {
+  .monitoring-grid-container {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .dashboard-right-column {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  /* Mobile Priority Order as specified in requirements:
+     1. Security Status
+     2. Threat Activity
+     3. Security Events
+     4. Verification
+  */
+  .panel-security-status {
+    order: 1 !important;
+  }
+  .panel-threat-activity {
+    order: 2 !important;
+  }
+  .dashboard-right-column {
+    order: 3 !important;
+  }
+  .panel-security-events {
+    order: 1 !important;
+  }
+  .panel-official-verification {
+    order: 2 !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.01ms !important;
@@ -754,3 +821,4 @@ input::placeholder, textarea::placeholder {
     scroll-behavior: auto !important;
   }
 }
+
