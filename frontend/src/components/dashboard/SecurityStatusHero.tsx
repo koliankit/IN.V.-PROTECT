@@ -1,5 +1,14 @@
 import React from 'react';
-import { ShieldAlert, ShieldCheck, Clock, CheckCircle2, AlertTriangle, AlertOctagon, ArrowUpRight, Search, Camera } from 'lucide-react';
+import {
+  Clock,
+  CheckCircle2,
+  AlertTriangle,
+  AlertOctagon,
+  ArrowRight,
+  Laptop,
+  Smartphone,
+  Watch,
+} from 'lucide-react';
 import { SecureMessage } from '../../types';
 
 interface SecurityStatusHeroProps {
@@ -23,540 +32,550 @@ export const SecurityStatusHero: React.FC<SecurityStatusHeroProps> = ({
   onSelectMessage,
   onNavigateVerify,
   onNavigateAlerts,
-  onNavigateFaceScan,
 }) => {
   const hasHighRisk = riskCount > 0;
+  const criticalThreat = recentMessages.find((m) => m.protection_tier === 'Quarantined / High Risk') || recentMessages[0];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
-      {/* Section Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-            <span
-              style={{
-                width: '7px',
-                height: '7px',
-                borderRadius: '50%',
-                backgroundColor: hasHighRisk ? '#FF3B3B' : '#20D98A',
-                boxShadow: `0 0 8px ${hasHighRisk ? '#FF3B3B' : '#20D98A'}`,
-              }}
-            />
-            <h1
-              style={{
-                fontSize: '15px',
-                fontWeight: 800,
-                textTransform: 'uppercase',
-                letterSpacing: '0.08em',
-                color: '#FFFFFF',
-                margin: 0,
-              }}
-            >
-              SECURITY OVERVIEW
-            </h1>
-          </div>
-          <p style={{ fontSize: '13px', color: '#AEB7C2', margin: 0 }}>
-            Continuous real-time threat interception for Indian retail financial communications
-          </p>
-        </div>
-      </div>
-
-      {/* Hero Security Overview Panel (Section 5) */}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+      {/* ============================================================== */}
+      {/* 1. DOMINANT PRIMARY VISUAL AREA: SECURITY STATUS (SECTION 8)    */}
+      {/* ============================================================== */}
       <div
-        className={`glass-panel-primary glossy-reflection ${hasHighRisk ? 'glow-risk' : 'glow-trusted'}`}
         style={{
-          borderRadius: '20px',
-          padding: '42px 28px',
+          backgroundColor: '#0D0D0D',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          borderRadius: '32px',
+          padding: '48px 36px',
           textAlign: 'center',
           position: 'relative',
           overflow: 'hidden',
-          backgroundColor: hasHighRisk ? 'rgba(255, 59, 59, 0.025)' : 'rgba(32, 217, 138, 0.02)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          boxShadow: hasHighRisk
+            ? '0 24px 64px rgba(255, 59, 59, 0.08)'
+            : '0 24px 64px rgba(2, 195, 154, 0.06)',
         }}
       >
-        {/* Ambient Radial Backlight */}
+        {/* Subtle Ambient Depth Glow */}
         <div
           style={{
             position: 'absolute',
-            top: '0%',
+            top: '-20%',
             left: '50%',
             transform: 'translateX(-50%)',
-            width: '420px',
-            height: '240px',
+            width: '540px',
+            height: '280px',
             background: hasHighRisk
-              ? 'radial-gradient(ellipse at 50% 20%, rgba(255, 59, 59, 0.14) 0%, transparent 70%)'
-              : 'radial-gradient(ellipse at 50% 20%, rgba(32, 217, 138, 0.12) 0%, transparent 70%)',
+              ? 'radial-gradient(ellipse at 50% 30%, rgba(255, 59, 59, 0.12) 0%, transparent 70%)'
+              : 'radial-gradient(ellipse at 50% 30%, rgba(2, 195, 154, 0.12) 0%, transparent 70%)',
             pointerEvents: 'none',
             zIndex: 0,
           }}
         />
 
-        {/* Breathing Shield Emblem */}
+        {/* Status Header Badge */}
         <div
           style={{
             display: 'inline-flex',
-            flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'center',
-            padding: '24px 48px',
-            borderRadius: '22px',
-            backgroundColor: hasHighRisk ? 'rgba(255, 59, 59, 0.06)' : 'rgba(32, 217, 138, 0.06)',
-            border: hasHighRisk ? '1px solid rgba(255, 59, 59, 0.28)' : '1px solid rgba(32, 217, 138, 0.28)',
-            boxShadow: hasHighRisk ? '0 8px 32px rgba(255, 59, 59, 0.15)' : '0 8px 32px rgba(32, 217, 138, 0.12)',
-            marginBottom: '18px',
+            gap: '8px',
+            padding: '6px 14px',
+            borderRadius: '24px',
+            backgroundColor: 'rgba(255, 255, 255, 0.04)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            marginBottom: '24px',
             position: 'relative',
             zIndex: 1,
           }}
-          className="animate-breathing"
         >
-          {hasHighRisk ? (
-            <ShieldAlert
-              style={{
-                width: '64px',
-                height: '64px',
-                color: '#FF3B3B',
-                filter: 'drop-shadow(0 0 16px rgba(255, 59, 59, 0.55))',
-                marginBottom: '12px',
-              }}
-            />
-          ) : (
-            <ShieldCheck
-              style={{
-                width: '64px',
-                height: '64px',
-                color: '#20D98A',
-                filter: 'drop-shadow(0 0 16px rgba(32, 217, 138, 0.55))',
-                marginBottom: '12px',
-              }}
-            />
-          )}
-
-          <div
+          <span
             style={{
-              fontSize: '26px',
-              fontWeight: 900,
-              letterSpacing: '0.06em',
-              color: '#FFFFFF',
-              textShadow: '0 2px 10px rgba(0,0,0,0.6)',
+              width: '8px',
+              height: '8px',
+              borderRadius: '50%',
+              backgroundColor: hasHighRisk ? '#FF3B3B' : '#02C39A',
+              boxShadow: `0 0 10px ${hasHighRisk ? '#FF3B3B' : '#02C39A'}`,
+              display: 'inline-block',
+            }}
+          />
+          <span
+            style={{
+              fontSize: '11px',
+              fontWeight: 800,
+              textTransform: 'uppercase',
+              letterSpacing: '0.12em',
+              color: hasHighRisk ? '#FF5252' : '#02C39A',
             }}
           >
-            {hasHighRisk ? 'QUARANTINE ACTIVE' : 'PROTECTED'}
+            YOUR DIGITAL SECURITY STATUS
+          </span>
+        </div>
+
+        {/* Dominant Current Status Title (Large Cinematic Typography 48-60px) */}
+        <h1
+          style={{
+            fontSize: 'clamp(36px, 5vw, 56px)',
+            fontWeight: 800,
+            lineHeight: 1.08,
+            letterSpacing: '-0.02em',
+            color: '#FFFFFF',
+            margin: '0 0 16px 0',
+            maxWidth: '820px',
+            position: 'relative',
+            zIndex: 1,
+            fontFamily: "'Inter', sans-serif",
+          }}
+        >
+          {hasHighRisk ? 'ATTENTION REQUIRED: THREAT ISOLATED' : 'PROTECTED & MONITORED'}
+        </h1>
+
+        {/* Subtitle with generous spacing */}
+        <p
+          style={{
+            fontSize: '15px',
+            lineHeight: 1.6,
+            color: '#A7A7A7',
+            maxWidth: '680px',
+            margin: '0 auto 32px auto',
+            position: 'relative',
+            zIndex: 1,
+            fontFamily: "'Inter', sans-serif",
+          }}
+        >
+          {hasHighRisk
+            ? `${riskCount} high-risk fraudulent solicitation${riskCount > 1 ? 's were' : ' was'} intercepted and isolated in the zero-trust quarantine vault with statutory regulatory evidence.`
+            : 'Zero unverified solicitations active. Continuous multi-vector investor defense is active across your financial communications, SMS, and connected devices.'}
+        </p>
+
+        {/* Restrained Status Pillars: 3 Clean Metric Badges */}
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '12px',
+            marginBottom: '24px',
+            position: 'relative',
+            zIndex: 1,
+          }}
+        >
+          {/* Trusted Metric */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              backgroundColor: 'rgba(32, 217, 138, 0.08)',
+              border: '1px solid rgba(32, 217, 138, 0.22)',
+              padding: '10px 20px',
+              borderRadius: '16px',
+            }}
+          >
+            <CheckCircle2 style={{ width: '16px', height: '16px', color: '#20D98A' }} />
+            <span style={{ fontSize: '13px', fontWeight: 700, color: '#FFFFFF' }}>
+              {trustedCount} Trusted & Authentic
+            </span>
           </div>
 
+          {/* Review Metric */}
           <div
             style={{
-              display: 'inline-flex',
+              display: 'flex',
               alignItems: 'center',
-              gap: '6px',
-              fontSize: '13px',
-              fontWeight: 600,
-              color: hasHighRisk ? '#FF9F9F' : '#A7F3D0',
-              marginTop: '6px',
+              gap: '10px',
+              backgroundColor: 'rgba(255, 176, 32, 0.08)',
+              border: '1px solid rgba(255, 176, 32, 0.22)',
+              padding: '10px 20px',
+              borderRadius: '16px',
             }}
           >
-            <span
-              style={{
-                width: '6px',
-                height: '6px',
-                borderRadius: '50%',
-                backgroundColor: hasHighRisk ? '#FF3B3B' : '#20D98A',
-              }}
-            />
-            {hasHighRisk
-              ? `${riskCount} high-risk threat${riskCount > 1 ? 's' : ''} quarantined`
-              : 'Zero credentials collected • All communications verified'}
+            <AlertTriangle style={{ width: '16px', height: '16px', color: '#FFB020' }} />
+            <span style={{ fontSize: '13px', fontWeight: 700, color: '#FFFFFF' }}>
+              {reviewCount} Under Review
+            </span>
+          </div>
+
+          {/* High Risk Metric */}
+          <div
+            onClick={onNavigateAlerts}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              backgroundColor: hasHighRisk ? 'rgba(255, 59, 59, 0.12)' : 'rgba(255, 255, 255, 0.04)',
+              border: hasHighRisk ? '1px solid rgba(255, 59, 59, 0.35)' : '1px solid rgba(255, 255, 255, 0.08)',
+              padding: '10px 20px',
+              borderRadius: '16px',
+              cursor: onNavigateAlerts ? 'pointer' : 'default',
+            }}
+          >
+            <AlertOctagon style={{ width: '16px', height: '16px', color: hasHighRisk ? '#FF3B3B' : '#A7A7A7' }} />
+            <span style={{ fontSize: '13px', fontWeight: 700, color: hasHighRisk ? '#FF5252' : '#FFFFFF' }}>
+              {riskCount} High Risk Quarantined
+            </span>
           </div>
         </div>
 
-        {/* Last Security Scan Live Value */}
+        {/* Last Heartbeat Telemetry */}
         <div
           style={{
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
             fontSize: '12px',
-            color: '#AEB7C2',
+            color: '#666666',
             position: 'relative',
             zIndex: 1,
           }}
         >
-          <Clock style={{ width: '13px', height: '13px', color: '#AEB7C2' }} />
-          <span>
-            Last security scan:{' '}
-            <strong style={{ color: '#FFFFFF', fontFamily: 'monospace' }}>{lastScanTime}</strong>
-          </span>
+          <Clock style={{ width: '12px', height: '12px', color: '#666666' }} />
+          <span>Continuous protection heartbeat active • Last evaluation {lastScanTime}</span>
         </div>
       </div>
 
-      {/* 3 Metric Cards: Trusted / Review / High Risk (Section 6) */}
+      {/* ============================================================== */}
+      {/* 2. RECENT THREAT OR LATEST ANALYSIS SPOTLIGHT (SECTION 8 & 9)   */}
+      {/* ============================================================== */}
+      {criticalThreat && (
+        <div
+          style={{
+            backgroundColor: '#0D0D0D',
+            border: hasHighRisk
+              ? '1px solid rgba(255, 59, 59, 0.25)'
+              : '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: '24px',
+            padding: '32px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '20px',
+            boxShadow: '0 16px 40px rgba(0, 0, 0, 0.5)',
+          }}
+        >
+          {/* Spotlight Header */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span
+                style={{
+                  fontSize: '10px',
+                  fontWeight: 800,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.1em',
+                  padding: '4px 10px',
+                  borderRadius: '6px',
+                  backgroundColor: hasHighRisk ? 'rgba(255, 59, 59, 0.15)' : 'rgba(2, 195, 154, 0.15)',
+                  color: hasHighRisk ? '#FF5252' : '#02C39A',
+                  border: hasHighRisk ? '1px solid rgba(255, 59, 59, 0.3)' : '1px solid rgba(2, 195, 154, 0.3)',
+                }}
+              >
+                {hasHighRisk ? 'LATEST INTERCEPTED THREAT' : 'LATEST ANALYZED COMMUNICATION'}
+              </span>
+              <span style={{ fontSize: '12px', color: '#666666' }}>•</span>
+              <span style={{ fontSize: '12px', color: '#A7A7A7' }}>
+                Channel: <strong style={{ color: '#FFFFFF' }}>{criticalThreat.source_channel}</strong>
+              </span>
+            </div>
+
+            <div style={{ fontSize: '12px', color: '#666666' }}>
+              ID: {criticalThreat.id} • {criticalThreat.timestamp}
+            </div>
+          </div>
+
+          {/* Threat Title & Sender */}
+          <div>
+            <div style={{ fontSize: '13px', color: '#A7A7A7', marginBottom: '4px' }}>
+              Sender: <span style={{ color: '#FFFFFF', fontWeight: 600 }}>{criticalThreat.sender}</span> ({criticalThreat.sender_identifier})
+            </div>
+            <h3 style={{ fontSize: '20px', fontWeight: 800, color: '#FFFFFF', margin: 0 }}>
+              {criticalThreat.claims?.[0]?.claim_text || 'Impersonation & Unauthorized Financial Solicitation'}
+            </h3>
+          </div>
+
+          {/* Verbatim Content Box */}
+          <div
+            style={{
+              backgroundColor: '#171717',
+              border: '1px solid rgba(255, 255, 255, 0.06)',
+              borderRadius: '14px',
+              padding: '16px 20px',
+              fontSize: '13px',
+              lineHeight: 1.6,
+              color: '#CBD5E1',
+              fontStyle: 'italic',
+            }}
+          >
+            "{criticalThreat.content}"
+          </div>
+
+          {/* Why? Detected Signals Summary */}
+          {criticalThreat.detected_signals && criticalThreat.detected_signals.length > 0 && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#666666' }}>
+                Why This Was Flagged (Regulatory Evidence & Telemetry):
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                {criticalThreat.detected_signals.map((sig, idx) => (
+                  <span
+                    key={idx}
+                    style={{
+                      fontSize: '11px',
+                      backgroundColor: 'rgba(255, 59, 59, 0.08)',
+                      border: '1px solid rgba(255, 59, 59, 0.22)',
+                      color: '#FF9F9F',
+                      padding: '4px 10px',
+                      borderRadius: '8px',
+                      fontWeight: 500,
+                    }}
+                  >
+                    ● {sig.name || sig.description}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Action Row */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', paddingTop: '12px', borderTop: '1px solid rgba(255, 255, 255, 0.06)' }}>
+            <div style={{ fontSize: '12px', color: '#A7A7A7' }}>
+              Recommended: <span style={{ color: '#FFFFFF', fontWeight: 600 }}>Do not share credentials or OTP. Report to CyberCrime 1930.</span>
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px' }}>
+              {onNavigateVerify && (
+                <button
+                  onClick={onNavigateVerify}
+                  style={{
+                    backgroundColor: 'transparent',
+                    color: '#A7A7A7',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    padding: '8px 16px',
+                    borderRadius: '10px',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  Verify Sender ID
+                </button>
+              )}
+
+              {onNavigateAlerts && (
+                <button
+                  onClick={onNavigateAlerts}
+                  style={{
+                    backgroundColor: hasHighRisk ? '#FF3B3B' : '#02C39A',
+                    color: '#FFFFFF',
+                    border: 'none',
+                    padding: '8px 18px',
+                    borderRadius: '10px',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  Inspect in Quarantine Vault
+                  <ArrowRight style={{ width: '13px', height: '13px' }} />
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ============================================================== */}
+      {/* 3. SUPPORTING INFORMATION ROW: RECENT ALERTS & ECOSYSTEM       */}
+      {/* ============================================================== */}
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-          gap: '16px',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gap: '20px',
         }}
       >
-        {/* TRUSTED CARD */}
+        {/* Supporting Card 1: Recent Activity Stream */}
         <div
-          className="glass-panel glossy-reflection"
           style={{
-            borderRadius: '16px',
-            padding: '22px',
-            backgroundColor: 'rgba(32, 217, 138, 0.03)',
-            borderColor: 'rgba(32, 217, 138, 0.22)',
+            backgroundColor: '#0D0D0D',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: '24px',
+            padding: '24px',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
           }}
         >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span
-                style={{
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  backgroundColor: '#20D98A',
-                  boxShadow: '0 0 8px #20D98A',
-                }}
-              />
-              <span
-                style={{
-                  fontSize: '11px',
-                  fontWeight: 800,
-                  color: '#20D98A',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.08em',
-                }}
-              >
-                TRUSTED
-              </span>
-            </div>
-            <div
-              style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: '10px',
-                backgroundColor: 'rgba(32, 217, 138, 0.10)',
-                border: '1px solid rgba(32, 217, 138, 0.25)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <CheckCircle2 style={{ width: '18px', height: '18px', color: '#20D98A' }} />
-            </div>
-          </div>
           <div>
-            <div
-              style={{
-                fontSize: '32px',
-                fontWeight: 900,
-                color: '#FFFFFF',
-                lineHeight: 1,
-                marginBottom: '6px',
-              }}
-            >
-              {trustedCount < 10 ? `0${trustedCount}` : trustedCount}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+              <div style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#666666' }}>
+                Recent Alerts & Feed
+              </div>
+              <span style={{ fontSize: '11px', color: '#02C39A', fontWeight: 600 }}>Live Triage</span>
             </div>
-            <div style={{ fontSize: '12px', color: '#AEB7C2' }}>
-              Verified authentic sources
-            </div>
-          </div>
-        </div>
 
-        {/* REVIEW CARD */}
-        <div
-          className="glass-panel glossy-reflection"
-          style={{
-            borderRadius: '16px',
-            padding: '22px',
-            backgroundColor: 'rgba(255, 176, 32, 0.03)',
-            borderColor: 'rgba(255, 176, 32, 0.22)',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-          }}
-        >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span
-                style={{
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  backgroundColor: '#FFB020',
-                  boxShadow: '0 0 8px #FFB020',
-                }}
-              />
-              <span
-                style={{
-                  fontSize: '11px',
-                  fontWeight: 800,
-                  color: '#FFB020',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.08em',
-                }}
-              >
-                REVIEW
-              </span>
-            </div>
-            <div
-              style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: '10px',
-                backgroundColor: 'rgba(255, 176, 32, 0.10)',
-                border: '1px solid rgba(255, 176, 32, 0.25)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <AlertTriangle style={{ width: '18px', height: '18px', color: '#FFB020' }} />
-            </div>
-          </div>
-          <div>
-            <div
-              style={{
-                fontSize: '32px',
-                fontWeight: 900,
-                color: '#FFFFFF',
-                lineHeight: 1,
-                marginBottom: '6px',
-              }}
-            >
-              {reviewCount < 10 ? `0${reviewCount}` : reviewCount}
-            </div>
-            <div style={{ fontSize: '12px', color: '#AEB7C2' }}>
-              Unverified market claims
-            </div>
-          </div>
-        </div>
-
-        {/* HIGH RISK CARD */}
-        <div
-          onClick={onNavigateAlerts}
-          className="glass-panel glossy-reflection"
-          style={{
-            borderRadius: '16px',
-            padding: '22px',
-            backgroundColor: 'rgba(255, 59, 59, 0.04)',
-            borderColor: 'rgba(255, 59, 59, 0.28)',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            cursor: onNavigateAlerts ? 'pointer' : 'default',
-          }}
-        >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span
-                style={{
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  backgroundColor: '#FF3B3B',
-                  boxShadow: '0 0 8px #FF3B3B',
-                }}
-              />
-              <span
-                style={{
-                  fontSize: '11px',
-                  fontWeight: 800,
-                  color: '#FF3B3B',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.08em',
-                }}
-              >
-                HIGH RISK
-              </span>
-            </div>
-            <div
-              style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: '10px',
-                backgroundColor: 'rgba(255, 59, 59, 0.12)',
-                border: '1px solid rgba(255, 59, 59, 0.30)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <AlertOctagon style={{ width: '18px', height: '18px', color: '#FF3B3B' }} />
-            </div>
-          </div>
-          <div>
-            <div
-              style={{
-                fontSize: '32px',
-                fontWeight: 900,
-                color: '#FFFFFF',
-                lineHeight: 1,
-                marginBottom: '6px',
-              }}
-            >
-              {riskCount < 10 ? `0${riskCount}` : riskCount}
-            </div>
-            <div style={{ fontSize: '12px', color: '#AEB7C2' }}>
-              Scam & harvest indicators
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Recent Security Events Stream (Section 7) */}
-      <div
-        className="glass-panel glossy-reflection"
-        style={{
-          borderRadius: '18px',
-          padding: '24px',
-        }}
-      >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
-          <div>
-            <div style={{ fontSize: '15px', fontWeight: 800, color: '#FFFFFF', letterSpacing: '-0.01em' }}>
-              Recent Security Events
-            </div>
-            <div style={{ fontSize: '12px', color: '#6F7A86', marginTop: '2px' }}>
-              Real-time financial communication stream & audit log
-            </div>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            {onNavigateVerify && (
-              <button
-                type="button"
-                onClick={onNavigateVerify}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '5px',
-                  backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                  color: '#FFFFFF',
-                  border: '1px solid rgba(255, 255, 255, 0.10)',
-                  borderRadius: '8px',
-                  padding: '5px 12px',
-                  fontSize: '11px',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  transition: 'all 0.15s ease',
-                }}
-              >
-                <Search style={{ width: '12px', height: '12px', color: '#AEB7C2' }} />
-                Verify Claim
-              </button>
-            )}
-            {onNavigateFaceScan && (
-              <button
-                type="button"
-                onClick={onNavigateFaceScan}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '5px',
-                  backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                  color: '#FFFFFF',
-                  border: '1px solid rgba(255, 255, 255, 0.10)',
-                  borderRadius: '8px',
-                  padding: '5px 12px',
-                  fontSize: '11px',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  transition: 'all 0.15s ease',
-                }}
-              >
-                <Camera style={{ width: '12px', height: '12px', color: '#AEB7C2' }} />
-                Face Biometrics
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Event List with Clean Subtle Separators */}
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {recentMessages.slice(0, 5).map((msg, index) => {
-            const isHighRisk = msg.protection_tier === 'Quarantined / High Risk' || msg.risk_level === 'High Concern';
-            const isReview = msg.protection_tier === 'Review / Verify' || msg.risk_level === 'Needs Verification';
-            const statusColor = isHighRisk ? '#FF3B3B' : isReview ? '#FFB020' : '#20D98A';
-            const statusLabel = isHighRisk ? 'HIGH RISK' : isReview ? 'REVIEW' : 'TRUSTED';
-
-            return (
-              <div
-                key={msg.id}
-                onClick={() => onSelectMessage && onSelectMessage(msg)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '14px 12px',
-                  borderBottom: index < Math.min(recentMessages.length, 5) - 1 ? '1px solid rgba(255, 255, 255, 0.06)' : 'none',
-                  cursor: onSelectMessage ? 'pointer' : 'default',
-                  transition: 'background-color 0.15s ease',
-                  borderRadius: '8px',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.035)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', minWidth: 0, flex: 1 }}>
-                  {/* Glowing Status Dot */}
-                  <div
-                    style={{
-                      width: '9px',
-                      height: '9px',
-                      borderRadius: '50%',
-                      backgroundColor: statusColor,
-                      boxShadow: `0 0 8px ${statusColor}`,
-                      flexShrink: 0,
-                    }}
-                  />
-                  <div style={{ minWidth: 0, flex: 1 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
-                      <span style={{ fontSize: '13px', fontWeight: 700, color: '#FFFFFF' }}>
-                        {msg.sender || msg.source_channel || 'Financial Message'}
-                      </span>
-                      <span style={{ fontSize: '11px', color: '#6F7A86' }}>
-                        • {msg.source_channel || 'SMS'} • {msg.timestamp || '2 min ago'}
-                      </span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {recentMessages.slice(0, 3).map((msg) => (
+                <div
+                  key={msg.id}
+                  onClick={() => onSelectMessage && onSelectMessage(msg)}
+                  style={{
+                    backgroundColor: '#171717',
+                    border: '1px solid rgba(255, 255, 255, 0.06)',
+                    borderRadius: '12px',
+                    padding: '12px 14px',
+                    cursor: onSelectMessage ? 'pointer' : 'default',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <div style={{ maxWidth: '240px' }}>
+                    <div style={{ fontSize: '12px', fontWeight: 700, color: '#FFFFFF', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {msg.sender}
                     </div>
-                    <div
-                      style={{
-                        fontSize: '12px',
-                        color: '#AEB7C2',
-                        whiteSpace: 'nowrap',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        maxWidth: '560px',
-                      }}
-                    >
-                      {msg.content || msg.snippet}
+                    <div style={{ fontSize: '11px', color: '#A7A7A7', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginTop: '2px' }}>
+                      {msg.snippet || msg.content}
                     </div>
                   </div>
-                </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0, marginLeft: '16px' }}>
                   <span
                     style={{
                       fontSize: '10px',
                       fontWeight: 800,
-                      padding: '3px 8px',
+                      padding: '2px 8px',
                       borderRadius: '6px',
-                      backgroundColor: `${statusColor}18`,
-                      color: statusColor,
-                      border: `1px solid ${statusColor}40`,
-                      letterSpacing: '0.04em',
+                      backgroundColor:
+                        msg.protection_tier === 'Quarantined / High Risk'
+                          ? 'rgba(255, 59, 59, 0.15)'
+                          : msg.protection_tier === 'Review / Verify'
+                          ? 'rgba(255, 176, 32, 0.15)'
+                          : 'rgba(32, 217, 138, 0.15)',
+                      color:
+                        msg.protection_tier === 'Quarantined / High Risk'
+                          ? '#FF5252'
+                          : msg.protection_tier === 'Review / Verify'
+                          ? '#FFB020'
+                          : '#20D98A',
                     }}
                   >
-                    {statusLabel}
+                    {msg.protection_tier === 'Quarantined / High Risk' ? 'QUARANTINE' : msg.protection_tier === 'Review / Verify' ? 'REVIEW' : 'TRUSTED'}
                   </span>
-                  <ArrowUpRight style={{ width: '14px', height: '14px', color: '#6F7A86' }} />
                 </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Supporting Card 2: Connected Ecosystem (PC, Mobile, Smartwatch) */}
+        <div
+          style={{
+            backgroundColor: '#0D0D0D',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: '24px',
+            padding: '24px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}
+        >
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+              <div style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#666666' }}>
+                Protected Investor Devices
               </div>
-            );
-          })}
+              <span style={{ fontSize: '11px', color: '#02C39A', fontWeight: 600 }}>Mutual Zero-Trust</span>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {/* PC Desktop */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#171717', padding: '10px 14px', borderRadius: '12px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <Laptop style={{ width: '16px', height: '16px', color: '#A7A7A7' }} />
+                  <div>
+                    <div style={{ fontSize: '12px', fontWeight: 700, color: '#FFFFFF' }}>Windows 11 Workstation</div>
+                    <div style={{ fontSize: '10px', color: '#666666' }}>Browser & Notification Firewall</div>
+                  </div>
+                </div>
+                <span style={{ fontSize: '10px', fontWeight: 800, color: '#20D98A', backgroundColor: 'rgba(32, 217, 138, 0.12)', padding: '2px 8px', borderRadius: '6px' }}>
+                  PROTECTED
+                </span>
+              </div>
+
+              {/* Smartphone */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#171717', padding: '10px 14px', borderRadius: '12px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <Smartphone style={{ width: '16px', height: '16px', color: '#A7A7A7' }} />
+                  <div>
+                    <div style={{ fontSize: '12px', fontWeight: 700, color: '#FFFFFF' }}>Primary Smartphone</div>
+                    <div style={{ fontSize: '10px', color: '#666666' }}>SMS Interceptor & Biometrics</div>
+                  </div>
+                </div>
+                <span style={{ fontSize: '10px', fontWeight: 800, color: '#20D98A', backgroundColor: 'rgba(32, 217, 138, 0.12)', padding: '2px 8px', borderRadius: '6px' }}>
+                  PROTECTED
+                </span>
+              </div>
+
+              {/* Smartwatch Companion */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#171717', padding: '10px 14px', borderRadius: '12px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <Watch style={{ width: '16px', height: '16px', color: '#A7A7A7' }} />
+                  <div>
+                    <div style={{ fontSize: '12px', fontWeight: 700, color: '#FFFFFF' }}>Wear OS Smartwatch</div>
+                    <div style={{ fontSize: '10px', color: '#666666' }}>Rapid Wrist Haptic Triage</div>
+                  </div>
+                </div>
+                <span style={{ fontSize: '10px', fontWeight: 800, color: '#20D98A', backgroundColor: 'rgba(32, 217, 138, 0.12)', padding: '2px 8px', borderRadius: '6px' }}>
+                  PAIRED
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Supporting Card 3: Statutory Grounded Verification RAG */}
+        <div
+          style={{
+            backgroundColor: '#0D0D0D',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: '24px',
+            padding: '24px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}
+        >
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+              <div style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#666666' }}>
+                Statutory Regulatory Source Feeds
+              </div>
+              <span style={{ fontSize: '11px', color: '#02C39A', fontWeight: 600 }}>Active RAG</span>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {[
+                { name: 'SEBI Official Broker & RIA Registry', desc: 'Entities licensed under SEBI (Intermediaries) Reg.', code: 'SEBI' },
+                { name: 'Reserve Bank of India (RBI)', desc: 'Official NBFC & Sachet Unauthorized Schemes List', code: 'RBI' },
+                { name: 'I4C National Cybercrime Portal', desc: 'Active financial fraud modus operandi repository', code: '1930' },
+              ].map((src, i) => (
+                <div key={i} style={{ backgroundColor: '#171717', padding: '10px 14px', borderRadius: '12px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '12px', fontWeight: 700, color: '#FFFFFF' }}>{src.name}</span>
+                    <span style={{ fontSize: '10px', color: '#02C39A', fontWeight: 700 }}>{src.code}</span>
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#A7A7A7', marginTop: '2px' }}>{src.desc}</div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>

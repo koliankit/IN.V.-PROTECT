@@ -26,6 +26,7 @@ export const QuarantineManager: React.FC<QuarantineManagerProps> = ({
   const [selectedId, setSelectedId] = useState<string | null>(
     quarantinedMessages.length > 0 ? quarantinedMessages[0].id : null
   );
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 
   const selectedMsg = quarantinedMessages.find((m) => m.id === selectedId) || quarantinedMessages[0];
 
@@ -268,88 +269,145 @@ export const QuarantineManager: React.FC<QuarantineManagerProps> = ({
                   Zero automatic actions taken. You retain full control over this communication.
                 </p>
 
-                <div style={{ display: 'flex', gap: '10px' }}>
-                  {/* [ Report ] */}
-                  <button
-                    type="button"
-                    onClick={() => onReportMessage(selectedMsg)}
+                {confirmDeleteId === selectedMsg.id ? (
+                  <div
                     style={{
-                      flex: 1,
-                      backgroundColor: 'rgba(239, 68, 68, 0.12)',
-                      color: '#F87171',
-                      border: '1px solid rgba(239, 68, 68, 0.35)',
-                      fontWeight: 700,
-                      fontSize: '12px',
-                      padding: '10px',
-                      borderRadius: '8px',
-                      cursor: 'pointer',
+                      padding: '14px',
+                      borderRadius: '10px',
+                      backgroundColor: 'rgba(255, 59, 59, 0.08)',
+                      border: '1px solid rgba(255, 59, 59, 0.35)',
                       display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '6px',
-                      transition: 'all 0.15s ease',
+                      flexDirection: 'column',
+                      gap: '12px',
                     }}
-                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.20)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.12)')}
                   >
-                    <PhoneCall style={{ width: '13px', height: '13px' }} />
-                    Report
-                  </button>
+                    <div style={{ fontSize: '12px', color: '#FF7B7B', fontWeight: 600 }}>
+                      ⚠️ <strong>Confirm Permanent Deletion:</strong> Are you sure you want to permanently delete this quarantined communication and its telemetry evidence? This action cannot be reversed.
+                    </div>
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      <button
+                        type="button"
+                        onClick={() => setConfirmDeleteId(null)}
+                        style={{
+                          flex: 1,
+                          backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                          color: '#FFFFFF',
+                          border: '1px solid rgba(255, 255, 255, 0.12)',
+                          padding: '8px 12px',
+                          borderRadius: '8px',
+                          fontSize: '12px',
+                          fontWeight: 600,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          onDeleteMessage(selectedMsg.id);
+                          setConfirmDeleteId(null);
+                        }}
+                        style={{
+                          flex: 1,
+                          backgroundColor: '#FF3B3B',
+                          color: '#FFFFFF',
+                          border: 'none',
+                          padding: '8px 12px',
+                          borderRadius: '8px',
+                          fontSize: '12px',
+                          fontWeight: 700,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        Confirm Delete
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div style={{ display: 'flex', gap: '10px' }}>
+                    {/* [ Report ] */}
+                    <button
+                      type="button"
+                      onClick={() => onReportMessage(selectedMsg)}
+                      style={{
+                        flex: 1,
+                        backgroundColor: 'rgba(239, 68, 68, 0.12)',
+                        color: '#F87171',
+                        border: '1px solid rgba(239, 68, 68, 0.35)',
+                        fontWeight: 700,
+                        fontSize: '12px',
+                        padding: '10px',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '6px',
+                        transition: 'all 0.15s ease',
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.20)')}
+                      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.12)')}
+                    >
+                      <PhoneCall style={{ width: '13px', height: '13px' }} />
+                      Report
+                    </button>
 
-                  {/* [ Delete ] */}
-                  <button
-                    type="button"
-                    onClick={() => onDeleteMessage(selectedMsg.id)}
-                    style={{
-                      flex: 1,
-                      backgroundColor: 'rgba(255, 255, 255, 0.04)',
-                      color: '#FFFFFF',
-                      border: '1px solid rgba(255, 255, 255, 0.12)',
-                      fontWeight: 700,
-                      fontSize: '12px',
-                      padding: '10px',
-                      borderRadius: '8px',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '6px',
-                      transition: 'all 0.15s ease',
-                    }}
-                    onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#EF4444')}
-                    onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)')}
-                  >
-                    <Trash2 style={{ width: '13px', height: '13px' }} />
-                    Delete
-                  </button>
+                    {/* [ Delete ] */}
+                    <button
+                      type="button"
+                      onClick={() => setConfirmDeleteId(selectedMsg.id)}
+                      style={{
+                        flex: 1,
+                        backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                        color: '#FFFFFF',
+                        border: '1px solid rgba(255, 255, 255, 0.12)',
+                        fontWeight: 700,
+                        fontSize: '12px',
+                        padding: '10px',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '6px',
+                        transition: 'all 0.15s ease',
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#EF4444')}
+                      onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)')}
+                    >
+                      <Trash2 style={{ width: '13px', height: '13px' }} />
+                      Delete
+                    </button>
 
-                  {/* [ Release ] */}
-                  <button
-                    type="button"
-                    onClick={() => onReleaseMessage(selectedMsg.id)}
-                    style={{
-                      flex: 1,
-                      backgroundColor: 'rgba(2, 195, 154, 0.12)',
-                      color: '#02C39A',
-                      border: '1px solid rgba(2, 195, 154, 0.35)',
-                      fontWeight: 700,
-                      fontSize: '12px',
-                      padding: '10px',
-                      borderRadius: '8px',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '6px',
-                      transition: 'all 0.15s ease',
-                    }}
-                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(2, 195, 154, 0.20)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(2, 195, 154, 0.12)')}
-                  >
-                    <Unlock style={{ width: '13px', height: '13px' }} />
-                    Release
-                  </button>
-                </div>
+                    {/* [ Release ] */}
+                    <button
+                      type="button"
+                      onClick={() => onReleaseMessage(selectedMsg.id)}
+                      style={{
+                        flex: 1,
+                        backgroundColor: 'rgba(2, 195, 154, 0.12)',
+                        color: '#02C39A',
+                        border: '1px solid rgba(2, 195, 154, 0.35)',
+                        fontWeight: 700,
+                        fontSize: '12px',
+                        padding: '10px',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '6px',
+                        transition: 'all 0.15s ease',
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(2, 195, 154, 0.20)')}
+                      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(2, 195, 154, 0.12)')}
+                    >
+                      <Unlock style={{ width: '13px', height: '13px' }} />
+                      Release
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           )}

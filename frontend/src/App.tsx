@@ -34,8 +34,6 @@ import {
   ChevronRight,
   ChevronLeft,
   TrendingUp,
-  UserCheck,
-  Video,
 } from 'lucide-react';
 import {
   AnalysisResponse,
@@ -72,7 +70,6 @@ import { OfficialClaimVerifier } from './components/verify/OfficialClaimVerifier
 import { QuarantineManager } from './components/quarantine/QuarantineManager';
 import { SmartwatchAlertModal } from './components/devices/SmartwatchAlertModal';
 import { FaceScanStudio } from './components/biometrics/FaceScanStudio';
-import { VideoLessonHero } from './components/academy/VideoLessonHero';
 import { IntegrationsManager } from './components/integrations/IntegrationsManager';
 interface DemoExample {
   id: string;
@@ -105,8 +102,7 @@ type NavSection =
   | 'integrations'
   | 'incidents'
   | 'privacy'
-  | 'architecture'
-  | 'academy';
+  | 'architecture';
 
 export default function App() {
   // View Mode: 'console' (Full shield dashboard) | 'auth' (Registration / Login)
@@ -135,7 +131,6 @@ export default function App() {
   const [dailyReport, setDailyReport] = useState<DailySecurityReport | null>(null);
   const [scamTrends, setScamTrends] = useState<ScamTrendsResponse | null>(null);
   const [safetyReview, setSafetyReview] = useState<InvestorSafetyReview | null>(null);
-  const [activeTierTab, setActiveTierTab] = useState<'quarantine' | 'review' | 'trusted'>('quarantine');
   const [evidenceModalMessage, setEvidenceModalMessage] = useState<SecureMessage | null>(null);
   const [reportConfirmMessage, setReportConfirmMessage] = useState<SecureMessage | null>(null);
   const [reportUserNotes, setReportUserNotes] = useState<string>('');
@@ -191,10 +186,6 @@ export default function App() {
 
   // Initial Data & Auth Check
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('view') === 'academy' || window.location.hash === '#academy') {
-      setActiveNav('academy');
-    }
     checkAuthStatus();
     fetchDemoExamples();
     fetchOfficialSources();
@@ -687,45 +678,9 @@ export default function App() {
     );
   }
 
-  // Direct Fullscreen Academy Video Lesson View (Reference Spec)
-  if (activeNav === 'academy') {
-    return (
-      <VideoLessonHero
-        onBackToDashboard={() => {
-          setActiveNav('dashboard');
-        }}
-      />
-    );
-  }
-
   if (viewMode === 'auth') {
     return (
       <div style={{ minHeight: '100vh', backgroundColor: '#171717', position: 'relative' }}>
-        {/* Floating Quick Reference Preview Button */}
-        <div style={{ position: 'absolute', top: '16px', right: '20px', zIndex: 100 }}>
-          <button
-            onClick={() => setActiveNav('academy')}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              backgroundColor: 'rgba(255, 92, 141, 0.15)',
-              color: '#FF5C8D',
-              border: '1px solid rgba(255, 92, 141, 0.35)',
-              padding: '8px 14px',
-              borderRadius: '20px',
-              fontSize: '12px',
-              fontWeight: 700,
-              cursor: 'pointer',
-              backdropFilter: 'blur(10px)',
-              transition: 'all 0.18s ease',
-            }}
-            title="Preview 16:9 Video Lesson Hero (Josh Garrison Reference Spec)"
-          >
-            <Video style={{ width: '14px', height: '14px' }} />
-            🎓 Video Lesson Hero (16:9)
-          </button>
-        </div>
         {renderToastNotification()}
         {authFlowStep === 'FIRST_LAUNCH_REGISTER' && (
           <OwnerRegistration
@@ -960,28 +915,6 @@ export default function App() {
               ⚡ 9-Step Threat Demo
             </button>
 
-            {/* Academy 16:9 Video Lesson Hero Trigger (Josh Garrison Reference Spec) */}
-            <button
-              onClick={() => setActiveNav('academy')}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                backgroundColor: 'rgba(255, 92, 141, 0.12)',
-                color: '#FF5C8D',
-                border: '1px solid rgba(255, 92, 141, 0.35)',
-                padding: '6px 12px',
-                borderRadius: '10px',
-                fontSize: '12px',
-                fontWeight: 700,
-                cursor: 'pointer',
-                transition: 'all 0.18s ease',
-              }}
-              title="Open 16:9 Academy Video Player (Josh Garrison Reference)"
-            >
-              <Video style={{ width: '13px', height: '13px', color: '#FF5C8D' }} />
-              🎓 Academy Lesson (16:9)
-            </button>
 
             <button
               onClick={() => setShowVerifyModal(true)}
@@ -1126,1279 +1059,287 @@ export default function App() {
                 onNavigateAlerts={() => setActiveNav('alerts')}
                 onNavigateFaceScan={() => setActiveNav('facescan')}
               />
-            {/* ============================================================== */}
-            {/* 1. SECURITY STATUS & IN V PROTECT SYSTEM BANNER                */}
-            {/* ============================================================== */}
-            <div
-              className="glass-panel-primary glossy-reflection"
-              style={{
-                borderRadius: '20px',
-                padding: '26px 28px',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                flexWrap: 'wrap',
-                gap: '20px',
-                position: 'relative',
-                overflow: 'hidden',
-              }}
-            >
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-                  <span
-                    style={{
-                      width: '8px',
-                      height: '8px',
-                      borderRadius: '50%',
-                      backgroundColor: '#20D98A',
-                      boxShadow: '0 0 10px #20D98A',
-                      display: 'inline-block',
-                    }}
-                    className="animate-breathing"
-                  />
-                  <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.10em', color: '#20D98A' }}>
-                    CONTINUOUS INVESTOR DEFENSE ACTIVE
-                  </span>
-                  <span style={{ fontSize: '11px', color: '#6F7A86' }}>•</span>
-                  <span style={{ fontSize: '11px', fontWeight: 700, color: '#AEB7C2' }}>
-                    SANGYAN HACKATHON (TRACKS A & E)
-                  </span>
-                </div>
-                <h1 style={{ fontSize: '24px', fontWeight: 900, margin: '0 0 8px 0', letterSpacing: '-0.02em', color: '#FFFFFF' }}>
-                  IN.V. PROTECT — Personal Digital Security Layer
-                </h1>
-                <p style={{ fontSize: '13px', color: '#AEB7C2', maxWidth: '720px', margin: 0, lineHeight: 1.55 }}>
-                  Autonomous scam resilience and financial communication firewall for Indian investors. Grounded in statutory SEBI, RBI, I4C, and CERT-In advisories.
-                </p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '18px', marginTop: '14px', flexWrap: 'wrap' }}>
-                  <div style={{ fontSize: '12px', color: '#AEB7C2' }}>
-                    Posture Score: <strong style={{ color: '#20D98A', fontWeight: 800 }}>{dailyReport?.posture_score || 96}/100</strong>
-                  </div>
-                  <div style={{ fontSize: '12px', color: '#AEB7C2' }}>
-                    Clean Rate: <strong style={{ color: '#FFFFFF', fontWeight: 800 }}>{dailyReport?.clean_rate || '98.4%'}</strong>
-                  </div>
-                  <div style={{ fontSize: '12px', color: '#AEB7C2' }}>
-                    Active Safeguards: <strong style={{ color: '#AEB7C2', fontWeight: 700 }}>3 Statutory Engines</strong>
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                <button
-                  onClick={() => setActiveNav('analyze')}
-                  style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                    color: '#FFFFFF',
-                    padding: '11px 20px',
-                    borderRadius: '12px',
-                    fontSize: '13px',
-                    fontWeight: 700,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    border: '1px solid rgba(255, 255, 255, 0.16)',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.12)',
-                    cursor: 'pointer',
-                    transition: 'all 0.18s ease',
-                  }}
-                >
-                  <FileSearch style={{ width: '15px', height: '15px', color: '#20D98A' }} />
-                  Deep Analysis Studio
-                </button>
-                <button
-                  onClick={() => {
-                    setActiveTierTab('quarantine');
-                    const element = document.getElementById('protection-tiers-section');
-                    element?.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                  style={{
-                    backgroundColor: 'rgba(255, 59, 59, 0.08)',
-                    color: '#FF5252',
-                    border: '1px solid rgba(255, 59, 59, 0.28)',
-                    padding: '11px 20px',
-                    borderRadius: '12px',
-                    fontSize: '13px',
-                    fontWeight: 700,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    boxShadow: '0 4px 16px rgba(255, 59, 59, 0.12)',
-                    cursor: 'pointer',
-                    transition: 'all 0.18s ease',
-                  }}
-                >
-                  <AlertOctagon style={{ width: '15px', height: '15px' }} />
-                  Quarantine Vault ({quarantinedMessages.length})
-                </button>
-              </div>
-            </div>
-
-            {/* ============================================================== */}
-            {/* 2. METRIC OVERVIEW COUNTERS (GLOSSY STATUS CARDS)             */}
-            {/* ============================================================== */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '14px' }}>
-              {[
-                { label: 'Devices Protected', val: overview?.devices_protected ?? 2, color: '#FFFFFF', icon: Laptop, tint: 'rgba(255, 255, 255, 0.08)', border: 'rgba(255, 255, 255, 0.10)' },
-                { label: 'Connected Sources', val: overview?.connected_sources ?? 6, color: '#FFFFFF', icon: Radio, tint: 'rgba(255, 255, 255, 0.08)', border: 'rgba(255, 255, 255, 0.10)' },
-                { label: 'Messages Analyzed', val: overview?.messages_analysed ?? messages.length, color: '#FFFFFF', icon: Inbox, tint: 'rgba(255, 255, 255, 0.08)', border: 'rgba(255, 255, 255, 0.10)' },
-                { label: 'Quarantined High-Risk', val: quarantinedMessages.length, color: '#FF5252', icon: AlertOctagon, tint: 'rgba(255, 59, 59, 0.08)', border: 'rgba(255, 59, 59, 0.25)' },
-                { label: 'Review / Verify', val: reviewMessages.length, color: '#FFB020', icon: AlertTriangle, tint: 'rgba(255, 176, 32, 0.08)', border: 'rgba(255, 176, 32, 0.25)' },
-                { label: 'Trusted / Important', val: trustedMessages.length, color: '#20D98A', icon: CheckCircle2, tint: 'rgba(32, 217, 138, 0.08)', border: 'rgba(32, 217, 138, 0.25)' },
-              ].map((card, idx) => {
-                const Icon = card.icon;
-                return (
-                  <div
-                    key={idx}
-                    className="glass-panel"
-                    style={{
-                      borderRadius: '16px',
-                      padding: '18px 20px',
-                      border: `1px solid ${card.border}`,
-                      backgroundColor: card.tint,
-                      transition: 'transform 0.18s ease, box-shadow 0.18s ease',
-                    }}
-                  >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                      <span style={{ fontSize: '10px', color: '#6F7A86', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.08em' }}>
-                        {card.label}
-                      </span>
-                      <Icon style={{ width: '16px', height: '16px', color: card.color }} />
-                    </div>
-                    <div style={{ fontSize: '26px', fontWeight: 900, color: card.color, letterSpacing: '-0.02em' }}>{card.val}</div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* ============================================================== */}
-            {/* 3. INCOMING COMMUNICATION ANALYSIS (CORE ANALYSIS ENGINE)      */}
-            {/* ============================================================== */}
-            <div
-              className="glass-panel-primary glossy-reflection"
-              style={{
-                borderRadius: '20px',
-                padding: '26px 28px',
-                position: 'relative',
-              }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', flexWrap: 'wrap', gap: '12px' }}>
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <div style={{ width: '28px', height: '28px', borderRadius: '8px', backgroundColor: 'rgba(255, 255, 255, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <Cpu style={{ width: '16px', height: '16px', color: '#FFFFFF' }} />
-                    </div>
-                    <h2 style={{ fontSize: '17px', fontWeight: 800, margin: 0, color: '#FFFFFF' }}>
-                      Core Analysis Engine — Incoming Communication Inspector
-                    </h2>
-                  </div>
-                  <p style={{ fontSize: '12px', color: '#AEB7C2', margin: '6px 0 0 0' }}>
-                    Multi-stage deterministic & neural inspection pipeline grounded in statutory regulatory databases
-                  </p>
-                </div>
-                <span
-                  style={{
-                    fontSize: '11px',
-                    fontWeight: 700,
-                    padding: '4px 12px',
-                    borderRadius: '8px',
-                    backgroundColor: 'rgba(32, 217, 138, 0.08)',
-                    color: '#20D98A',
-                    border: '1px solid rgba(32, 217, 138, 0.28)',
-                    letterSpacing: '0.04em',
-                  }}
-                >
-                  ZERO OTP INGRESS RULE ENFORCED
-                </span>
-              </div>
-
-              {/* Connected Pipeline Flow Nodes (Section 8: 9-Stage Pipeline) */}
+              {/* ============================================================== */}
+              {/* INSTANT COMMUNICATION SCAN & COMMAND BAR (SECTION 8)           */}
+              {/* ============================================================== */}
               <div
                 style={{
-                  backgroundColor: 'rgba(0, 0, 0, 0.35)',
+                  backgroundColor: '#0D0D0D',
                   border: '1px solid rgba(255, 255, 255, 0.08)',
-                  borderRadius: '14px',
-                  padding: '16px',
-                  marginBottom: '20px',
+                  borderRadius: '24px',
+                  padding: '28px 32px',
+                  position: 'relative',
+                  overflow: 'hidden',
                 }}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                  <span style={{ fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.10em', color: '#6F7A86' }}>
-                    SOC Pipeline Architecture
-                  </span>
-                  <span style={{ fontSize: '10px', color: '#20D98A', fontWeight: 700 }}>
-                    ● 9 Sequential Verification Stages Active
-                  </span>
-                </div>
-
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(115px, 1fr))',
-                    gap: '8px',
-                    position: 'relative',
-                  }}
-                >
-                  {[
-                    { step: '01', name: 'INCOMING' },
-                    { step: '02', name: 'READ & NORM' },
-                    { step: '03', name: 'OCR / TEXT' },
-                    { step: '04', name: 'LANGUAGE' },
-                    { step: '05', name: 'CLAIMS & ENT' },
-                    { step: '06', name: 'SCAM SIGNALS' },
-                    { step: '07', name: 'ML + RULES' },
-                    { step: '08', name: 'VERIFICATION' },
-                    { step: '09', name: 'RISK ENGINE' },
-                  ].map((node, nIdx) => (
-                    <div
-                      key={nIdx}
-                      style={{
-                        backgroundColor: 'rgba(255, 255, 255, 0.04)',
-                        border: '1px solid rgba(255, 255, 255, 0.08)',
-                        borderRadius: '8px',
-                        padding: '8px 10px',
-                        textAlign: 'center',
-                        position: 'relative',
-                      }}
-                    >
-                      <div style={{ fontSize: '9px', fontWeight: 800, color: '#6F7A86', marginBottom: '2px' }}>
-                        {node.step}
-                      </div>
-                      <div style={{ fontSize: '10px', fontWeight: 700, color: '#FFFFFF', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        {node.name}
-                      </div>
-                      {nIdx < 8 && (
-                        <div
-                          style={{
-                            position: 'absolute',
-                            right: '-6px',
-                            top: '50%',
-                            transform: 'translateY(-50%)',
-                            width: '4px',
-                            height: '4px',
-                            borderRadius: '50%',
-                            backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                            zIndex: 2,
-                          }}
-                        />
-                      )}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '12px' }}>
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                      <span
+                        style={{
+                          width: '8px',
+                          height: '8px',
+                          borderRadius: '50%',
+                          backgroundColor: '#02C39A',
+                          boxShadow: '0 0 8px #02C39A',
+                        }}
+                      />
+                      <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#02C39A' }}>
+                        INSTANT THREAT SCANNER
+                      </span>
                     </div>
-                  ))}
-                </div>
-              </div>
+                    <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#FFFFFF', margin: 0 }}>
+                      Evaluate Incoming Communication
+                    </h3>
+                  </div>
 
-              {/* Sample Chips */}
-              <div style={{ display: 'flex', gap: '8px', marginBottom: '14px', flexWrap: 'wrap', alignItems: 'center' }}>
-                <span style={{ fontSize: '11px', color: '#6F7A86', fontWeight: 600 }}>Quick Test Samples:</span>
-                {[
-                  {
-                    label: 'Fake Pre-IPO Guarantee (Fraud)',
-                    text: 'URGENT: Exclusive Pre-IPO allotment for Tata Technologies at 70% discount. 200% return guaranteed within 14 days. Transfer funds to Escrow UPI ID: tatashares@icici immediately. Only 4 slots left.',
-                  },
-                  {
-                    label: 'CBI Digital Arrest Call (Coercion)',
-                    text: 'NOTICE FROM CENTRAL INVESTIGATION BUREAU (CBI): A parcel containing illegal debit cards and narcotics has been intercepted in your name. You are placed under DIGITAL ARREST. Join video call immediately.',
-                  },
-                  {
-                    label: 'CDSL Demat Debit Alert (Legitimate)',
-                    text: 'CDSL Alert: 50 shares of RELIANCE have been debited from your Demat Account 1208160000000000 on 2026-10-02 for exchange settlement. If not executed by you, contact DP.',
-                  },
-                ].map((sample, idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => {
-                      setQuickAnalyzeText(sample.text);
-                      setQuickAnalyzeResult(null);
+                  <span style={{ fontSize: '11px', color: '#A7A7A7' }}>
+                    {overview ? `${overview.devices_protected} Devices Protected • ${overview.messages_analysed} Audited` : 'Zero-Credentials Rule • Statutory DBs Active (SEBI / RBI / I4C)'}
+                  </span>
+                </div>
+
+                {/* Input Bar */}
+                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                  <input
+                    type="text"
+                    value={quickAnalyzeText}
+                    onChange={(e) => setQuickAnalyzeText(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') handleQuickAnalyze();
                     }}
+                    placeholder="Paste suspicious SMS, Telegram channel post, broker tip, or payment link..."
                     style={{
-                      backgroundColor: 'rgba(255, 255, 255, 0.04)',
-                      color: '#AEB7C2',
+                      flex: 1,
+                      minWidth: '260px',
+                      backgroundColor: '#171717',
                       border: '1px solid rgba(255, 255, 255, 0.10)',
-                      padding: '5px 12px',
-                      borderRadius: '8px',
-                      fontSize: '11px',
-                      cursor: 'pointer',
-                      fontWeight: 600,
+                      borderRadius: '12px',
+                      padding: '12px 18px',
+                      color: '#FFFFFF',
+                      fontSize: '13px',
+                      outline: 'none',
+                      fontFamily: "'Inter', sans-serif",
+                      transition: 'border-color 0.15s ease',
+                    }}
+                    onFocus={(e) => (e.currentTarget.style.borderColor = '#02C39A')}
+                    onBlur={(e) => (e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.10)')}
+                  />
+
+                  <button
+                    onClick={handleQuickAnalyze}
+                    disabled={quickAnalyzeLoading || !quickAnalyzeText.trim()}
+                    style={{
+                      backgroundColor: '#02C39A',
+                      color: '#171717',
+                      border: 'none',
+                      borderRadius: '12px',
+                      padding: '12px 24px',
+                      fontWeight: 800,
+                      fontSize: '13px',
+                      cursor: quickAnalyzeLoading || !quickAnalyzeText.trim() ? 'not-allowed' : 'pointer',
+                      opacity: quickAnalyzeLoading || !quickAnalyzeText.trim() ? 0.6 : 1,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      boxShadow: '0 4px 16px rgba(2, 195, 154, 0.25)',
                       transition: 'all 0.15s ease',
                     }}
                   >
-                    {sample.label}
+                    {quickAnalyzeLoading ? (
+                      <>
+                        <RefreshCw style={{ width: '14px', height: '14px', animation: 'spin 1s linear infinite' }} />
+                        <span>Evaluating...</span>
+                      </>
+                    ) : (
+                      <>
+                        <FileSearch style={{ width: '14px', height: '14px', color: '#20D98A' }} />
+                        <span>Instant Scan</span>
+                      </>
+                    )}
                   </button>
-                ))}
-              </div>
+                </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <textarea
-                  value={quickAnalyzeText}
-                  onChange={(e) => setQuickAnalyzeText(e.target.value)}
-                  placeholder="Paste incoming communication (SMS, WhatsApp tip, Telegram group offer, unverified advisory, email alert)... Note: Any actual OTP, UPI PIN, or password will be automatically redacted before processing."
-                  rows={3}
-                  style={{
-                    width: '100%',
-                    backgroundColor: 'rgba(8, 11, 15, 0.85)',
-                    border: '1px solid rgba(255, 255, 255, 0.12)',
-                    borderRadius: '12px',
-                    padding: '14px 16px',
-                    color: '#FFFFFF',
-                    fontSize: '13px',
-                    lineHeight: 1.55,
-                    fontFamily: 'inherit',
-                    outline: 'none',
-                    boxSizing: 'border-box',
-                    resize: 'vertical',
-                    boxShadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.4)',
-                  }}
-                />
+                {/* Quick Scan Result Display */}
+                {quickAnalyzeResult && (
+                  <div
+                    style={{
+                      marginTop: '20px',
+                      backgroundColor: '#171717',
+                      border: `1px solid ${
+                        quickAnalyzeResult.risk_level === 'High Concern'
+                          ? 'rgba(255, 59, 59, 0.40)'
+                          : quickAnalyzeResult.risk_level === 'Needs Verification'
+                          ? 'rgba(255, 176, 32, 0.40)'
+                          : 'rgba(32, 217, 138, 0.40)'
+                      }`,
+                      borderRadius: '16px',
+                      padding: '20px 24px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '12px',
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <span
+                          style={{
+                            fontSize: '11px',
+                            fontWeight: 800,
+                            padding: '4px 12px',
+                            borderRadius: '8px',
+                            backgroundColor:
+                              quickAnalyzeResult.risk_level === 'High Concern'
+                                ? 'rgba(255, 59, 59, 0.15)'
+                                : quickAnalyzeResult.risk_level === 'Needs Verification'
+                                ? 'rgba(255, 176, 32, 0.15)'
+                                : 'rgba(32, 217, 138, 0.15)',
+                            color:
+                              quickAnalyzeResult.risk_level === 'High Concern'
+                                ? '#FF5252'
+                                : quickAnalyzeResult.risk_level === 'Needs Verification'
+                                ? '#FFB020'
+                                : '#20D98A',
+                          }}
+                        >
+                          {quickAnalyzeResult.risk_level === 'High Concern'
+                            ? '🛑 HIGH RISK / QUARANTINED'
+                            : quickAnalyzeResult.risk_level === 'Needs Verification'
+                            ? '⚠️ REVIEW / VERIFICATION NEEDED'
+                            : '🛡️ TRUSTED & VERIFIED'}
+                        </span>
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
-                  <div style={{ fontSize: '11px', color: '#6F7A86' }}>
-                    🔒 PII Guarantee: OTPs (`[REDACTED_OTP]`), PINs (`[REDACTED_PIN]`), and passwords are never logged, stored, or transmitted.
-                  </div>
+                        <span style={{ fontSize: '12px', color: '#A7A7A7' }}>
+                          {quickAnalyzeResult.detected_signals.length} signal{quickAnalyzeResult.detected_signals.length === 1 ? '' : 's'} detected
+                        </span>
+                      </div>
 
-                  <div style={{ display: 'flex', gap: '10px' }}>
-                    {quickAnalyzeText && (
                       <button
-                        type="button"
                         onClick={() => {
-                          setQuickAnalyzeText('');
-                          setQuickAnalyzeResult(null);
+                          setInputText(quickAnalyzeText);
+                          setActiveNav('analyze');
                         }}
                         style={{
                           backgroundColor: 'transparent',
-                          color: '#AEB7C2',
-                          border: 'none',
-                          fontSize: '12px',
-                          cursor: 'pointer',
-                          padding: '6px 12px',
-                        }}
-                      >
-                        Clear
-                      </button>
-                    )}
-                    <button
-                      type="button"
-                      onClick={handleQuickAnalyze}
-                      disabled={quickAnalyzeLoading || !quickAnalyzeText.trim()}
-                      style={{
-                        backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                        color: '#FFFFFF',
-                        border: '1px solid rgba(255, 255, 255, 0.16)',
-                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.12)',
-                        borderRadius: '10px',
-                        padding: '10px 20px',
-                        fontSize: '13px',
-                        fontWeight: 700,
-                        cursor: quickAnalyzeLoading || !quickAnalyzeText.trim() ? 'not-allowed' : 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        transition: 'all 0.18s ease',
-                      }}
-                    >
-                      {quickAnalyzeLoading ? (
-                        <>
-                          <RefreshCw style={{ width: '14px', height: '14px', animation: 'spin 1s linear infinite' }} />
-                          Evaluating Engine...
-                        </>
-                      ) : (
-                        <>
-                          <FileSearch style={{ width: '14px', height: '14px', color: '#20D98A' }} />
-                          Run Core Scam Inspection
-                        </>
-                      )}
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Quick Scan Result Display */}
-              {quickAnalyzeResult && (
-                <div
-                  style={{
-                    marginTop: '20px',
-                    backgroundColor: 'rgba(8, 11, 15, 0.90)',
-                    border: `1px solid ${
-                      quickAnalyzeResult.risk_level === 'High Concern'
-                        ? 'rgba(255, 59, 59, 0.40)'
-                        : quickAnalyzeResult.risk_level === 'Needs Verification'
-                        ? 'rgba(255, 176, 32, 0.40)'
-                        : 'rgba(32, 217, 138, 0.40)'
-                    }`,
-                    borderRadius: '14px',
-                    padding: '20px',
-                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
-                  }}
-                >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                      <span
-                        style={{
-                          fontSize: '11px',
-                          fontWeight: 800,
-                          padding: '4px 12px',
+                          color: '#02C39A',
+                          border: '1px solid rgba(2, 195, 154, 0.3)',
+                          padding: '6px 14px',
                           borderRadius: '8px',
-                          backgroundColor:
-                            quickAnalyzeResult.risk_level === 'High Concern'
-                              ? 'rgba(255, 59, 59, 0.12)'
-                              : quickAnalyzeResult.risk_level === 'Needs Verification'
-                              ? 'rgba(255, 176, 32, 0.12)'
-                              : 'rgba(32, 217, 138, 0.12)',
-                          color:
-                            quickAnalyzeResult.risk_level === 'High Concern'
-                              ? '#FF5252'
-                              : quickAnalyzeResult.risk_level === 'Needs Verification'
-                              ? '#FFB020'
-                              : '#20D98A',
-                          border: `1px solid ${
-                            quickAnalyzeResult.risk_level === 'High Concern'
-                              ? 'rgba(255, 59, 59, 0.30)'
-                              : quickAnalyzeResult.risk_level === 'Needs Verification'
-                              ? 'rgba(255, 176, 32, 0.30)'
-                              : 'rgba(32, 217, 138, 0.30)'
-                          }`,
-                        }}
-                      >
-                        {quickAnalyzeResult.risk_level === 'High Concern'
-                          ? '🛑 QUARANTINE / HIGH RISK'
-                          : quickAnalyzeResult.risk_level === 'Needs Verification'
-                          ? '⚠️ REVIEW / VERIFY'
-                          : '🛡️ TRUSTED / IMPORTANT'}
-                      </span>
-
-                      {quickAnalyzeResult.detected_language && (
-                        <span style={{ fontSize: '11px', color: '#AEB7C2', backgroundColor: 'rgba(255, 255, 255, 0.06)', padding: '3px 8px', borderRadius: '6px' }}>
-                          Language: <strong style={{ color: '#FFFFFF' }}>{quickAnalyzeResult.detected_language.toUpperCase()}</strong>
-                        </span>
-                      )}
-
-                      {quickAnalyzeResult.pii_redacted_stats && (
-                        <span style={{ fontSize: '11px', color: '#AEB7C2', backgroundColor: 'rgba(255, 255, 255, 0.06)', padding: '3px 8px', borderRadius: '6px' }}>
-                          PII Scrubbed: <strong style={{ color: '#20D98A' }}>{quickAnalyzeResult.pii_redacted_stats.total_redactions} elements</strong>
-                        </span>
-                      )}
-                    </div>
-
-                    <div style={{ fontSize: '11px', color: '#6F7A86' }}>
-                      Confidence: {quickAnalyzeResult.confidence_or_uncertainty?.level ?? 'HIGH'}
-                    </div>
-                  </div>
-
-                  <p style={{ fontSize: '13px', lineHeight: 1.55, color: '#FFFFFF', marginBottom: '14px' }}>
-                    {quickAnalyzeResult.explanation}
-                  </p>
-
-                  {/* Signals & Evidence Grid */}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '12px' }}>
-                    <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.03)', padding: '14px', borderRadius: '10px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                      <div style={{ fontSize: '10px', fontWeight: 800, color: '#AEB7C2', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                        Detected Scam Signals ({quickAnalyzeResult.detected_signals.length})
-                      </div>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                        {quickAnalyzeResult.detected_signals.map((sig, sIdx) => (
-                          <div key={sIdx} style={{ fontSize: '12px', color: '#FF7B7B', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#FF3B3B' }} />
-                            <span><strong>{sig.name}:</strong> {sig.description || sig.name}</span>
-                          </div>
-                        ))}
-                        {quickAnalyzeResult.detected_signals.length === 0 && (
-                          <div style={{ fontSize: '12px', color: '#20D98A' }}>No predatory scam signals detected.</div>
-                        )}
-                      </div>
-                    </div>
-
-                    <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.03)', padding: '14px', borderRadius: '10px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                      <div style={{ fontSize: '10px', fontWeight: 800, color: '#AEB7C2', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                        Official Regulatory Verification ({quickAnalyzeResult.evidence.length})
-                      </div>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                        {quickAnalyzeResult.evidence.map((ev, eIdx) => (
-                          <div key={eIdx} style={{ fontSize: '12px', color: '#FFFFFF' }}>
-                            <div style={{ fontWeight: 600, display: 'flex', justifyContent: 'space-between' }}>
-                              <span>{ev.publisher} — {ev.title}</span>
-                              <span style={{ fontSize: '10px', color: ev.verification_status === 'CONTRADICTED' ? '#FF5252' : '#20D98A' }}>
-                                {ev.verification_status || 'VERIFIED'}
-                              </span>
-                            </div>
-                            <div style={{ fontSize: '11px', color: '#AEB7C2', marginTop: '2px' }}>{ev.passage.slice(0, 110)}...</div>
-                          </div>
-                        ))}
-                        {quickAnalyzeResult.evidence.length === 0 && (
-                          <div style={{ fontSize: '12px', color: '#6F7A86' }}>Grounded in standard regulatory knowledge base.</div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-            {/* ============================================================== */}
-            {/* 4. 3 PROTECTION TIERS: QUARANTINE / REVIEW / TRUSTED           */}
-            {/* ============================================================== */}
-            <div
-              id="protection-tiers-section"
-              className="glass-panel-primary glossy-reflection"
-              style={{
-                borderRadius: '20px',
-                padding: '26px 28px',
-              }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '16px' }}>
-                <div>
-                  <h2 style={{ fontSize: '18px', fontWeight: 800, margin: 0, color: '#FFFFFF' }}>
-                    3 Protection Tiers — Risk Engine Classification
-                  </h2>
-                  <p style={{ fontSize: '12px', color: '#AEB7C2', margin: '4px 0 0 0' }}>
-                    Communications triaged into Quarantine (High Risk), Review (Verify), and Trusted (Important). Suspicious items are never auto-deleted.
-                  </p>
-                </div>
-
-                {/* Tier Switcher Segmented Control */}
-                <div style={{ display: 'flex', backgroundColor: 'rgba(0, 0, 0, 0.4)', borderRadius: '12px', padding: '4px', border: '1px solid rgba(255, 255, 255, 0.10)' }}>
-                  {[
-                    { id: 'quarantine', label: '🛑 Quarantine / High Risk', count: quarantinedMessages.length, color: '#FF5252' },
-                    { id: 'review', label: '⚠️ Review / Verify', count: reviewMessages.length, color: '#FFB020' },
-                    { id: 'trusted', label: '🛡️ Trusted / Important', count: trustedMessages.length, color: '#20D98A' },
-                  ].map((tab) => (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTierTab(tab.id as any)}
-                      style={{
-                        backgroundColor: activeTierTab === tab.id ? 'rgba(255, 255, 255, 0.10)' : 'transparent',
-                        color: activeTierTab === tab.id ? '#FFFFFF' : '#AEB7C2',
-                        border: activeTierTab === tab.id ? '1px solid rgba(255, 255, 255, 0.18)' : '1px solid transparent',
-                        borderRadius: '8px',
-                        padding: '7px 16px',
-                        fontSize: '12px',
-                        fontWeight: activeTierTab === tab.id ? 700 : 500,
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        boxShadow: activeTierTab === tab.id ? '0 4px 16px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15)' : 'none',
-                        transition: 'all 0.18s ease',
-                      }}
-                    >
-                      <span style={{ color: activeTierTab === tab.id ? tab.color : '#AEB7C2' }}>{tab.label}</span>
-                      <span style={{ fontSize: '10px', backgroundColor: 'rgba(255, 255, 255, 0.10)', color: '#FFFFFF', padding: '2px 7px', borderRadius: '10px', fontWeight: 800 }}>
-                        {tab.count}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* TIER 1: QUARANTINE / HIGH RISK */}
-              {activeTierTab === 'quarantine' && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                  <div style={{ backgroundColor: 'rgba(255, 59, 59, 0.08)', border: '1px solid rgba(255, 59, 59, 0.25)', borderRadius: '12px', padding: '12px 16px', fontSize: '12px', color: '#FF7B7B' }}>
-                    <strong>Quarantine Rule:</strong> High-risk communications are isolated to prevent accidental payment, link clicks, or credential disclosure. <em>IN.V. PROTECT never automatically deletes communications without explicit investor confirmation.</em>
-                  </div>
-
-                  {quarantinedMessages.map((msg) => (
-                    <div
-                      key={msg.id}
-                      className="glass-panel"
-                      style={{
-                        backgroundColor: 'rgba(255, 59, 59, 0.04)',
-                        border: '1px solid rgba(255, 59, 59, 0.28)',
-                        borderRadius: '14px',
-                        padding: '18px 20px',
-                        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.35)',
-                      }}
-                    >
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', flexWrap: 'wrap', gap: '10px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <span style={{ fontSize: '10px', fontWeight: 800, padding: '3px 10px', borderRadius: '6px', backgroundColor: 'rgba(255, 59, 59, 0.15)', color: '#FF5252', border: '1px solid rgba(255, 59, 59, 0.35)', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
-                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#FF3B3B' }} />
-                            QUARANTINED
-                          </span>
-                          <strong style={{ fontSize: '13px', color: '#FFFFFF' }}>{msg.sender}</strong>
-                          <span style={{ fontSize: '11px', color: '#AEB7C2' }}>via {msg.source_channel} • {msg.timestamp}</span>
-                        </div>
-
-                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                          <button
-                            onClick={() => setEvidenceModalMessage(msg)}
-                            style={{
-                              backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                              color: '#FFFFFF',
-                              border: '1px solid rgba(255, 255, 255, 0.14)',
-                              padding: '6px 12px',
-                              borderRadius: '8px',
-                              fontSize: '11px',
-                              fontWeight: 600,
-                              cursor: 'pointer',
-                              transition: 'all 0.15s ease',
-                            }}
-                          >
-                            Evidence Package
-                          </button>
-                          <button
-                            onClick={() => setReportConfirmMessage(msg)}
-                            style={{
-                              backgroundColor: 'rgba(255, 255, 255, 0.10)',
-                              color: '#FFFFFF',
-                              border: '1px solid rgba(255, 255, 255, 0.18)',
-                              padding: '6px 14px',
-                              borderRadius: '8px',
-                              fontSize: '11px',
-                              fontWeight: 700,
-                              cursor: 'pointer',
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '4px',
-                              transition: 'all 0.15s ease',
-                            }}
-                          >
-                            User-Confirmed Report
-                          </button>
-                          <button
-                            onClick={() => handleMessageAction(msg.id, 'release')}
-                            style={{
-                              backgroundColor: 'rgba(255, 176, 32, 0.08)',
-                              color: '#FFB020',
-                              border: '1px solid rgba(255, 176, 32, 0.30)',
-                              padding: '6px 12px',
-                              borderRadius: '8px',
-                              fontSize: '11px',
-                              fontWeight: 600,
-                              cursor: 'pointer',
-                              transition: 'all 0.15s ease',
-                            }}
-                          >
-                            Release
-                          </button>
-                          <button
-                            onClick={() => handleMessageAction(msg.id, 'delete')}
-                            style={{
-                              backgroundColor: 'rgba(255, 59, 59, 0.12)',
-                              color: '#FF5252',
-                              border: '1px solid rgba(255, 59, 59, 0.30)',
-                              padding: '6px 12px',
-                              borderRadius: '8px',
-                              fontSize: '11px',
-                              fontWeight: 600,
-                              cursor: 'pointer',
-                              transition: 'all 0.15s ease',
-                            }}
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </div>
-
-                      <p style={{ fontSize: '13px', lineHeight: 1.55, color: '#FFFFFF', margin: '0 0 12px 0' }}>
-                        {msg.content}
-                      </p>
-
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px', fontSize: '12px', backgroundColor: 'rgba(0, 0, 0, 0.35)', padding: '10px 14px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.06)' }}>
-                        <span style={{ color: '#FF7B7B' }}>
-                          <strong>Isolation Reason:</strong> {msg.quarantine_reason || 'Critical scam indicators detected.'}
-                        </span>
-                        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                          {msg.detected_signals.map((sig, sIdx) => (
-                            <span key={sIdx} style={{ fontSize: '10px', backgroundColor: 'rgba(255, 59, 59, 0.15)', color: '#FF7B7B', padding: '2px 8px', borderRadius: '6px', border: '1px solid rgba(255, 59, 59, 0.25)' }}>
-                              {sig.name}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-
-                  {quarantinedMessages.length === 0 && (
-                    <div style={{ padding: '36px', textAlign: 'center', color: '#AEB7C2', fontSize: '13px' }}>
-                      No messages in quarantine. Your inbox and notification streams are safe.
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* TIER 2: REVIEW / VERIFY */}
-              {activeTierTab === 'review' && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                  <div style={{ backgroundColor: 'rgba(255, 176, 32, 0.08)', border: '1px solid rgba(255, 176, 32, 0.25)', borderRadius: '12px', padding: '12px 16px', fontSize: '12px', color: '#FFB020' }}>
-                    <strong>Verification Required:</strong> Contains unverified investment claims, unregistered market tipsters, or unverified claims. Inspect evidence before trusting.
-                  </div>
-
-                  {reviewMessages.map((msg) => (
-                    <div
-                      key={msg.id}
-                      className="glass-panel"
-                      style={{
-                        backgroundColor: 'rgba(255, 176, 32, 0.04)',
-                        border: '1px solid rgba(255, 176, 32, 0.28)',
-                        borderRadius: '14px',
-                        padding: '18px 20px',
-                        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.35)',
-                      }}
-                    >
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', flexWrap: 'wrap', gap: '10px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <span style={{ fontSize: '10px', fontWeight: 800, padding: '3px 10px', borderRadius: '6px', backgroundColor: 'rgba(255, 176, 32, 0.15)', color: '#FFB020', border: '1px solid rgba(255, 176, 32, 0.35)', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
-                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#FFB020' }} />
-                            REVIEW / VERIFY
-                          </span>
-                          <strong style={{ fontSize: '13px', color: '#FFFFFF' }}>{msg.sender}</strong>
-                          <span style={{ fontSize: '11px', color: '#AEB7C2' }}>via {msg.source_channel} • {msg.timestamp}</span>
-                        </div>
-
-                        <div style={{ display: 'flex', gap: '8px' }}>
-                          <button
-                            onClick={() => setEvidenceModalMessage(msg)}
-                            style={{
-                              backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                              color: '#FFFFFF',
-                              border: '1px solid rgba(255, 255, 255, 0.14)',
-                              padding: '6px 12px',
-                              borderRadius: '8px',
-                              fontSize: '11px',
-                              fontWeight: 600,
-                              cursor: 'pointer',
-                              transition: 'all 0.15s ease',
-                            }}
-                          >
-                            Evidence Package
-                          </button>
-                          <button
-                            onClick={() => handleMessageAction(msg.id, 'mark_safe')}
-                            style={{
-                              backgroundColor: 'rgba(32, 217, 138, 0.08)',
-                              color: '#20D98A',
-                              border: '1px solid rgba(32, 217, 138, 0.28)',
-                              padding: '6px 12px',
-                              borderRadius: '8px',
-                              fontSize: '11px',
-                              fontWeight: 600,
-                              cursor: 'pointer',
-                              transition: 'all 0.15s ease',
-                            }}
-                          >
-                            Mark Safe
-                          </button>
-                          <button
-                            onClick={() => handleMessageAction(msg.id, 'quarantine')}
-                            style={{
-                              backgroundColor: 'rgba(255, 59, 59, 0.10)',
-                              color: '#FF5252',
-                              border: '1px solid rgba(255, 59, 59, 0.28)',
-                              padding: '6px 12px',
-                              borderRadius: '8px',
-                              fontSize: '11px',
-                              fontWeight: 600,
-                              cursor: 'pointer',
-                              transition: 'all 0.15s ease',
-                            }}
-                          >
-                            Move to Quarantine
-                          </button>
-                        </div>
-                      </div>
-
-                      <p style={{ fontSize: '13px', lineHeight: 1.55, color: '#FFFFFF', margin: '0 0 12px 0' }}>
-                        {msg.content}
-                      </p>
-
-                      <div style={{ fontSize: '12px', color: '#FFB020', backgroundColor: 'rgba(0, 0, 0, 0.35)', padding: '10px 14px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.06)' }}>
-                        <strong>Evaluation:</strong> {msg.snippet}
-                      </div>
-                    </div>
-                  ))}
-
-                  {reviewMessages.length === 0 && (
-                    <div style={{ padding: '36px', textAlign: 'center', color: '#AEB7C2', fontSize: '13px' }}>
-                      No communications pending review.
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* TIER 3: TRUSTED / IMPORTANT */}
-              {activeTierTab === 'trusted' && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                  <div style={{ backgroundColor: 'rgba(32, 217, 138, 0.08)', border: '1px solid rgba(32, 217, 138, 0.25)', borderRadius: '12px', padding: '12px 16px', fontSize: '12px', color: '#20D98A' }}>
-                    <strong>Authorized Communications:</strong> Official notices from SEBI-registered depositories, stock exchanges, or verified financial institutions.
-                  </div>
-
-                  {trustedMessages.map((msg) => (
-                    <div
-                      key={msg.id}
-                      className="glass-panel"
-                      style={{
-                        backgroundColor: 'rgba(32, 217, 138, 0.04)',
-                        border: '1px solid rgba(32, 217, 138, 0.28)',
-                        borderRadius: '14px',
-                        padding: '18px 20px',
-                        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.35)',
-                      }}
-                    >
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', flexWrap: 'wrap', gap: '10px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <span style={{ fontSize: '10px', fontWeight: 800, padding: '3px 10px', borderRadius: '6px', backgroundColor: 'rgba(32, 217, 138, 0.15)', color: '#20D98A', border: '1px solid rgba(32, 217, 138, 0.35)', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
-                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#20D98A' }} />
-                            TRUSTED / IMPORTANT
-                          </span>
-                          <strong style={{ fontSize: '13px', color: '#FFFFFF' }}>{msg.sender}</strong>
-                          <span style={{ fontSize: '11px', color: '#AEB7C2' }}>via {msg.source_channel} • {msg.timestamp}</span>
-                        </div>
-
-                        <span style={{ fontSize: '11px', color: '#20D98A', fontWeight: 700 }}>
-                          ✓ Authoritative Source Confirmed
-                        </span>
-                      </div>
-
-                      <p style={{ fontSize: '13px', lineHeight: 1.55, color: '#FFFFFF', margin: '0 0 12px 0' }}>
-                        {msg.content}
-                      </p>
-
-                      <div style={{ fontSize: '12px', color: '#20D98A', backgroundColor: 'rgba(0, 0, 0, 0.35)', padding: '10px 14px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.06)' }}>
-                        <strong>Verification:</strong> {msg.snippet}
-                      </div>
-                    </div>
-                  ))}
-
-                  {trustedMessages.length === 0 && (
-                    <div style={{ padding: '36px', textAlign: 'center', color: '#AEB7C2', fontSize: '13px' }}>
-                      No trusted communications recorded yet.
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-
-            {/* ============================================================== */}
-            {/* 5. DAILY SECURITY REPORT & INVESTOR SAFETY REVIEW (2-COL)      */}
-            {/* ============================================================== */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: '20px' }}>
-              {/* Daily Security Report (Section 10) */}
-              <div
-                className="glass-panel-primary glossy-reflection"
-                style={{
-                  borderRadius: '20px',
-                  padding: '26px 28px',
-                }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <div style={{ width: '28px', height: '28px', borderRadius: '8px', backgroundColor: 'rgba(32, 217, 138, 0.10)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <ShieldCheck style={{ width: '16px', height: '16px', color: '#20D98A' }} />
-                    </div>
-                    <h2 style={{ fontSize: '17px', fontWeight: 800, margin: 0, color: '#FFFFFF' }}>Daily Security Report</h2>
-                  </div>
-                  <span style={{ fontSize: '11px', color: '#AEB7C2', backgroundColor: 'rgba(255, 255, 255, 0.05)', padding: '3px 10px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                    {dailyReport?.date || 'Today'}
-                  </span>
-                </div>
-
-                {/* Large 96 Posture Score Display */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '18px', backgroundColor: 'rgba(0, 0, 0, 0.35)', padding: '16px 20px', borderRadius: '14px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                  <div style={{ textAlign: 'center', minWidth: '90px' }}>
-                    <div style={{ fontSize: '42px', fontWeight: 900, color: '#20D98A', lineHeight: 1, letterSpacing: '-0.03em', textShadow: '0 0 20px rgba(32, 217, 138, 0.35)' }}>
-                      {dailyReport?.posture_score || 96}
-                    </div>
-                    <div style={{ fontSize: '10px', color: '#6F7A86', textTransform: 'uppercase', marginTop: '6px', fontWeight: 800, letterSpacing: '0.10em' }}>
-                      POSTURE SCORE
-                    </div>
-                  </div>
-                  <div style={{ flex: 1, fontSize: '12px', lineHeight: 1.55, color: '#AEB7C2' }}>
-                    {dailyReport?.executive_summary || 'All protective barriers operational. Continuous threat isolation active with zero unquarantined vulnerabilities.'}
-                  </div>
-                </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '18px', textAlign: 'center' }}>
-                  <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.04)', padding: '12px 10px', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                    <div style={{ fontSize: '20px', fontWeight: 800, color: '#FFFFFF' }}>{dailyReport?.scans_today || 4}</div>
-                    <div style={{ fontSize: '10px', color: '#6F7A86', marginTop: '2px', textTransform: 'uppercase', fontWeight: 700 }}>Scans Today</div>
-                  </div>
-                  <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.04)', padding: '12px 10px', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                    <div style={{ fontSize: '20px', fontWeight: 800, color: '#FF5252' }}>{dailyReport?.threats_neutralized ?? 2}</div>
-                    <div style={{ fontSize: '10px', color: '#6F7A86', marginTop: '2px', textTransform: 'uppercase', fontWeight: 700 }}>Neutralized</div>
-                  </div>
-                  <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.04)', padding: '12px 10px', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                    <div style={{ fontSize: '20px', fontWeight: 800, color: '#20D98A' }}>{dailyReport?.clean_rate || '50.0%'}</div>
-                    <div style={{ fontSize: '10px', color: '#6F7A86', marginTop: '2px', textTransform: 'uppercase', fontWeight: 700 }}>Clear Rate</div>
-                  </div>
-                </div>
-
-                <div>
-                  <div style={{ fontSize: '10px', fontWeight: 800, color: '#6F7A86', textTransform: 'uppercase', marginBottom: '10px', letterSpacing: '0.08em' }}>
-                    Active Safeguard Protocols
-                  </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    {(dailyReport?.active_safeguards || [
-                      'Zero-OTP Ingress Quarantine Rule',
-                      'Multi-lingual Language & PII Redactor',
-                      'SEBI/RBI/I4C Regulatory Evidence RAG',
-                    ]).map((sf, idx) => (
-                      <div key={idx} style={{ fontSize: '12px', color: '#AEB7C2', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <CheckCircle2 style={{ width: '14px', height: '14px', color: '#20D98A', flexShrink: 0 }} />
-                        <span>{sf}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Investor Safety Review (Section 11: Enterprise Security Checklist) */}
-              <div
-                className="glass-panel-primary glossy-reflection"
-                style={{
-                  borderRadius: '20px',
-                  padding: '26px 28px',
-                }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <div style={{ width: '28px', height: '28px', borderRadius: '8px', backgroundColor: 'rgba(255, 255, 255, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <UserCheck style={{ width: '16px', height: '16px', color: '#FFFFFF' }} />
-                    </div>
-                    <h2 style={{ fontSize: '17px', fontWeight: 800, margin: 0, color: '#FFFFFF' }}>Investor Safety Review</h2>
-                  </div>
-                  <span style={{ fontSize: '11px', color: '#20D98A', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '5px' }}>
-                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#20D98A' }} />
-                    Audited {safetyReview?.last_audited || 'Just now'}
-                  </span>
-                </div>
-
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: 'rgba(0, 0, 0, 0.35)', padding: '14px 18px', borderRadius: '12px', marginBottom: '16px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                  <div>
-                    <div style={{ fontSize: '13px', fontWeight: 800, color: '#FFFFFF' }}>
-                      Compliance Status: {safetyReview?.overall_status || 'RESILIENT'}
-                    </div>
-                    <div style={{ fontSize: '11px', color: '#6F7A86' }}>
-                      5-Point Investor Digital Hygiene Security Audit
-                    </div>
-                  </div>
-                  <div style={{ fontSize: '24px', fontWeight: 900, color: '#20D98A', letterSpacing: '-0.02em' }}>
-                    {safetyReview?.safety_score || 92}%
-                  </div>
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  {(safetyReview?.checklist || [
-                    { id: 'CHK-01', title: 'SEBI Intermediary Verification', status: 'PASSED', description: 'Cross-checked against SEBI registered entities.' },
-                    { id: 'CHK-02', title: 'Zero-OTP / PIN Isolation', status: 'ACTIVE', description: 'Zero banking or broker credential exposure.' },
-                    { id: 'CHK-03', title: 'Hardware Passkey & 2FA', status: 'ACTIVE', description: 'Passkey/WebAuthn authenticated owner session.' },
-                    { id: 'CHK-04', title: 'Escrow & Direct Merchant UPI', status: 'PASSED', description: 'All merchant transfers checked against NPCI whitelist.' },
-                    { id: 'CHK-05', title: 'Misinformation & Deepfake Scrub', status: 'VERIFIED', description: 'High-yield claims verified against statutory circulars.' },
-                  ]).map((item: any, idx: number) => {
-                    const isPassed = item.status === 'PASSED' || item.status === 'ACTIVE';
-                    const isVerified = item.status === 'VERIFIED' || item.status === 'ENFORCED';
-                    const isWarning = item.status === 'WARNING';
-
-                    const pillBg = isPassed
-                      ? 'rgba(32, 217, 138, 0.12)'
-                      : isVerified
-                      ? 'rgba(255, 176, 32, 0.12)'
-                      : isWarning
-                      ? 'rgba(255, 159, 28, 0.12)'
-                      : 'rgba(255, 59, 59, 0.12)';
-
-                    const pillColor = isPassed
-                      ? '#20D98A'
-                      : isVerified
-                      ? '#FFB020'
-                      : isWarning
-                      ? '#FF9F1C'
-                      : '#FF5252';
-
-                    const pillBorder = isPassed
-                      ? 'rgba(32, 217, 138, 0.30)'
-                      : isVerified
-                      ? 'rgba(255, 176, 32, 0.30)'
-                      : isWarning
-                      ? 'rgba(255, 159, 28, 0.30)'
-                      : 'rgba(255, 59, 59, 0.30)';
-
-                    return (
-                      <div
-                        key={idx}
-                        style={{
-                          backgroundColor: 'rgba(255, 255, 255, 0.03)',
-                          border: '1px solid rgba(255, 255, 255, 0.08)',
-                          borderRadius: '10px',
-                          padding: '11px 14px',
+                          fontSize: '12px',
+                          fontWeight: 700,
+                          cursor: 'pointer',
                           display: 'flex',
-                          justifyContent: 'space-between',
                           alignItems: 'center',
-                          gap: '12px',
+                          gap: '6px',
                         }}
                       >
-                        <div>
-                          <div style={{ fontSize: '12px', fontWeight: 700, color: '#FFFFFF' }}>{item.title}</div>
-                          <div style={{ fontSize: '11px', color: '#AEB7C2' }}>{item.description}</div>
-                        </div>
-                        <span
-                          style={{
-                            fontSize: '10px',
-                            fontWeight: 800,
-                            padding: '3px 10px',
-                            borderRadius: '6px',
-                            backgroundColor: pillBg,
-                            color: pillColor,
-                            border: `1px solid ${pillBorder}`,
-                            letterSpacing: '0.04em',
-                            flexShrink: 0,
-                          }}
-                        >
-                          {item.status}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-
-            {/* ============================================================== */}
-            {/* 6. LIVE SCAM & SPAM TRENDS (SECTION 12)                        */}
-            {/* ============================================================== */}
-            <div
-              className="glass-panel-primary glossy-reflection"
-              style={{
-                borderRadius: '20px',
-                padding: '26px 28px',
-              }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <div style={{ width: '28px', height: '28px', borderRadius: '8px', backgroundColor: 'rgba(255, 59, 59, 0.10)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <TrendingUp style={{ width: '16px', height: '16px', color: '#FF5252' }} />
+                        Inspect in Studio <ArrowRight style={{ width: '12px', height: '12px' }} />
+                      </button>
                     </div>
-                    <h2 style={{ fontSize: '17px', fontWeight: 800, margin: 0, color: '#FFFFFF' }}>
-                      Live Scam & Spam Trends — Grounded in SEBI, RBI & I4C Advisories
-                    </h2>
-                    <span
-                      style={{
-                        fontSize: '10px',
-                        fontWeight: 800,
-                        padding: '2px 8px',
-                        borderRadius: '6px',
-                        backgroundColor: 'rgba(255, 176, 32, 0.12)',
-                        color: '#FFB020',
-                        border: '1px solid rgba(255, 176, 32, 0.28)',
-                        letterSpacing: '0.06em',
-                      }}
-                    >
-                      DEMO / SIMULATED FEED
-                    </span>
+
+                    <p style={{ fontSize: '13px', lineHeight: 1.6, color: '#FFFFFF', margin: 0 }}>
+                      {quickAnalyzeResult.explanation}
+                    </p>
                   </div>
-                  <p style={{ fontSize: '12px', color: '#AEB7C2', margin: '4px 0 0 0' }}>
-                    Tracking active threat syndicates targeting Indian retail investors across WhatsApp, Telegram, SMS, and deepfake media.
-                  </p>
-                </div>
-                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                  {['SEBI Circular PR 12/2024', 'RBI Advisory DOR.No.STR.REC.47', 'I4C MHA 2024/09'].map((adv, idx) => (
-                    <span key={idx} style={{ fontSize: '10px', color: '#AEB7C2', backgroundColor: 'rgba(255, 255, 255, 0.05)', padding: '3px 8px', borderRadius: '6px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                      {adv}
-                    </span>
-                  ))}
-                </div>
+                )}
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
-                {(scamTrends?.trends || [
+              {/* ============================================================== */}
+              {/* PRIMARY NAVIGATION SHORTCUTS (MINIMAL SECONDARY UI)            */}
+              {/* ============================================================== */}
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+                  gap: '16px',
+                }}
+              >
+                {[
                   {
-                    trend_id: 'TRD-01',
-                    title: 'Fake IPO Allotment & Grey Market Syndicates',
-                    surge_level: '+320% Surge (Simulated)',
-                    target_vector: 'WhatsApp & Telegram Channels',
-                    modus_operandi: 'Scammers promise guaranteed allotment in oversubscribed IPOs via institutional quotas.',
-                    regulatory_warning: 'SEBI Circular PR 12/2024 warns retail investors that all IPO applications must flow through ASBA.',
-                    defensive_advice: 'Never transfer funds to private individual bank accounts for IPO applications.',
-                    risk_severity: 'CRITICAL',
+                    title: 'Deep Threat Analysis',
+                    desc: 'Analyze full messages, screenshot OCR & extracted regulatory assertions.',
+                    icon: FileSearch,
+                    color: '#02C39A',
+                    action: () => setActiveNav('analyze'),
                   },
                   {
-                    trend_id: 'TRD-02',
-                    title: 'Digital Arrest & Law Enforcement Video Coercion',
-                    surge_level: '+180% Surge (Simulated)',
-                    target_vector: 'Direct Mobile Calls & Skype/WhatsApp Video',
-                    modus_operandi: 'Impersonators posing as CBI/Customs/Police claim money-laundering parcel found in victim name.',
-                    regulatory_warning: 'I4C and MHA advisory states that no police or judiciary agency conducts digital arrest.',
-                    defensive_advice: 'Hang up immediately and dial National Cybercrime Helpline 1930.',
-                    risk_severity: 'CRITICAL',
+                    title: 'Official Claim Verifier',
+                    desc: 'Cross-reference claims directly with SEBI, RBI, and I4C databases.',
+                    icon: ShieldCheck,
+                    color: '#20D98A',
+                    action: () => setActiveNav('verify'),
                   },
                   {
-                    trend_id: 'TRD-03',
-                    title: 'Deepfake Celebrity Trading & AI Bot Endorsements',
-                    surge_level: '+240% Surge (Simulated)',
-                    target_vector: 'Facebook, Instagram & YouTube Ad Feeds',
-                    modus_operandi: 'AI-generated voice/video clones of business leaders endorsing automated algorithmic funds.',
-                    regulatory_warning: 'SEBI and CERT-In advisories mandate verifying registered intermediary status.',
-                    defensive_advice: 'Cross-check firm registration number on official SEBI SCORES portal.',
-                    risk_severity: 'HIGH',
+                    title: `Quarantine Vault (${quarantinedMessages.length})`,
+                    desc: 'Review isolated threats safely without risk of credential disclosure.',
+                    icon: AlertOctagon,
+                    color: '#FF3B3B',
+                    action: () => setActiveNav('alerts'),
                   },
                   {
-                    trend_id: 'TRD-04',
-                    title: 'Guaranteed 40% Monthly Return "Institutional PMS"',
-                    surge_level: '+140% Surge (Simulated)',
-                    target_vector: 'Telegram Groups & SMS Stock Tips',
-                    modus_operandi: 'Claims SEBI registration with forged registration certificates promising guaranteed gains.',
-                    regulatory_warning: 'SEBI prohibits any registered entity from offering assured returns or profit sharing.',
-                    defensive_advice: 'Any assured return promise is per se illegal under SEBI Regulations.',
-                    risk_severity: 'HIGH',
+                    title: 'Safety Intelligence Reports',
+                    desc: 'View daily investor risk audits, clean rates, and scam trends.',
+                    icon: TrendingUp,
+                    color: '#FFB020',
+                    action: () => setActiveNav('reports'),
                   },
-                ]).map((trend: any, idx: number) => {
-                  const isCritical = trend.risk_severity === 'CRITICAL';
+                ].map((item, idx) => {
+                  const Icon = item.icon;
                   return (
                     <div
                       key={idx}
-                      className="glass-panel"
+                      onClick={item.action}
                       style={{
-                        backgroundColor: isCritical ? 'rgba(255, 59, 59, 0.03)' : 'rgba(255, 176, 32, 0.03)',
-                        border: `1px solid ${isCritical ? 'rgba(255, 59, 59, 0.25)' : 'rgba(255, 176, 32, 0.25)'}`,
-                        borderRadius: '14px',
-                        padding: '18px 20px',
+                        backgroundColor: '#0D0D0D',
+                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                        borderRadius: '20px',
+                        padding: '24px',
+                        cursor: 'pointer',
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'space-between',
-                        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.35)',
+                        gap: '14px',
+                        transition: 'all 0.18s ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.borderColor = item.color;
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+                        e.currentTarget.style.transform = 'none';
                       }}
                     >
-                      <div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                          <span
-                            style={{
-                              fontSize: '10px',
-                              fontWeight: 800,
-                              padding: '3px 10px',
-                              borderRadius: '6px',
-                              backgroundColor: isCritical ? 'rgba(255, 59, 59, 0.15)' : 'rgba(255, 176, 32, 0.15)',
-                              color: isCritical ? '#FF5252' : '#FF9F1C',
-                              border: `1px solid ${isCritical ? 'rgba(255, 59, 59, 0.35)' : 'rgba(255, 176, 32, 0.35)'}`,
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              gap: '5px',
-                            }}
-                          >
-                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: isCritical ? '#FF3B3B' : '#FF9F1C' }} />
-                            {trend.risk_severity}
-                          </span>
-                          <span style={{ fontSize: '11px', fontWeight: 700, color: isCritical ? '#FF5252' : '#FFB020' }}>
-                            {trend.surge_level}
-                          </span>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <div
+                          style={{
+                            width: '40px',
+                            height: '40px',
+                            borderRadius: '12px',
+                            backgroundColor: `${item.color}15`,
+                            border: `1px solid ${item.color}35`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }}
+                        >
+                          <Icon style={{ width: '20px', height: '20px', color: item.color }} />
                         </div>
-
-                        <h3 style={{ fontSize: '14px', fontWeight: 700, margin: '0 0 6px 0', color: '#FFFFFF' }}>
-                          {trend.title}
-                        </h3>
-
-                        <div style={{ fontSize: '11px', color: '#AEB7C2', marginBottom: '8px' }}>
-                          Vector: <strong style={{ color: '#FFFFFF' }}>{trend.target_vector}</strong>
-                        </div>
-
-                        <p style={{ fontSize: '12px', color: '#AEB7C2', margin: '0 0 12px 0', lineHeight: 1.45 }}>
-                          {trend.modus_operandi}
-                        </p>
+                        <ArrowRight style={{ width: '16px', height: '16px', color: '#666666' }} />
                       </div>
-
-                      <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '12px', marginTop: '8px' }}>
-                        <div style={{ fontSize: '11px', color: '#FFFFFF', marginBottom: '4px' }}>
-                          <strong style={{ color: '#20D98A' }}>Defensive Rule:</strong> {trend.defensive_advice}
-                        </div>
-                        <div style={{ fontSize: '10px', color: '#6F7A86' }}>
-                          Authority: {trend.regulatory_warning.slice(0, 75)}...
-                        </div>
+                      <div>
+                        <h4 style={{ fontSize: '15px', fontWeight: 800, color: '#FFFFFF', margin: '0 0 6px 0' }}>
+                          {item.title}
+                        </h4>
+                        <p style={{ fontSize: '12px', color: '#A7A7A7', margin: 0, lineHeight: 1.5 }}>
+                          {item.desc}
+                        </p>
                       </div>
                     </div>
                   );
                 })}
               </div>
             </div>
-
-            {/* ============================================================== */}
-            {/* 7. CONNECTED SECURITY ENVIRONMENT (SECTION 13: 6 CHANNELS)     */}
-            {/* ============================================================== */}
-            <div
-              className="glass-panel-primary glossy-reflection"
-              style={{
-                borderRadius: '20px',
-                padding: '26px 28px',
-              }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '10px' }}>
-                <div>
-                  <h2 style={{ fontSize: '17px', fontWeight: 800, margin: 0, color: '#FFFFFF' }}>
-                    Connected Security Environment — 6 Protected Channels
-                  </h2>
-                  <p style={{ fontSize: '12px', color: '#AEB7C2', margin: '4px 0 0 0' }}>
-                    Zero-OTP Ingress Guarantee: Sensitive credentials, UPI PINs, ATM PINs, and passwords are never collected, stored, or exposed.
-                  </p>
-                </div>
-                <button
-                  onClick={() => setActiveNav('integrations')}
-                  style={{ fontSize: '12px', color: '#FFFFFF', background: 'rgba(255, 255, 255, 0.06)', border: '1px solid rgba(255, 255, 255, 0.12)', padding: '6px 14px', borderRadius: '8px', cursor: 'pointer', fontWeight: 600, transition: 'all 0.15s ease' }}
-                >
-                  Manage Ingestion Posture →
-                </button>
-              </div>
-
-              <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
-                  <thead>
-                    <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.10)', textAlign: 'left', color: '#6F7A86' }}>
-                      <th style={{ padding: '10px 14px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>CHANNEL</th>
-                      <th style={{ padding: '10px 14px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>CATEGORY</th>
-                      <th style={{ padding: '10px 14px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>INTEGRATION POSTURE</th>
-                      <th style={{ padding: '10px 14px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>PRIVACY & SENSITIVE DATA BOUNDARY</th>
-                      <th style={{ padding: '10px 14px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>STATUS</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {integrations.map((itg) => (
-                      <tr key={itg.id} style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
-                        <td style={{ padding: '12px 14px', fontWeight: 700, color: '#FFFFFF' }}>{itg.name}</td>
-                        <td style={{ padding: '12px 14px', color: '#AEB7C2' }}>{itg.category}</td>
-                        <td style={{ padding: '12px 14px' }}>
-                          <span
-                            style={{
-                              fontSize: '10px',
-                              fontWeight: 800,
-                              padding: '3px 10px',
-                              borderRadius: '6px',
-                              backgroundColor: itg.is_real ? 'rgba(56, 189, 248, 0.12)' : 'rgba(255, 176, 32, 0.12)',
-                              color: itg.is_real ? '#38bdf8' : '#FFB020',
-                              border: `1px solid ${itg.is_real ? 'rgba(56, 189, 248, 0.30)' : 'rgba(255, 176, 32, 0.30)'}`,
-                              letterSpacing: '0.04em',
-                            }}
-                          >
-                            {itg.is_real ? 'REAL CONNECTOR' : 'DEMO / SIMULATED'}
-                          </span>
-                        </td>
-                        <td style={{ padding: '12px 14px', color: '#AEB7C2', fontSize: '12px' }}>
-                          {itg.security_guarantee}
-                        </td>
-                        <td style={{ padding: '12px 14px' }}>
-                          <span
-                            style={{
-                              fontSize: '11px',
-                              fontWeight: 800,
-                              color: itg.status === 'CONNECTED' ? '#20D98A' : itg.status === 'AVAILABLE' ? '#AEB7C2' : '#FFB020',
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              gap: '6px',
-                            }}
-                          >
-                            <span
-                              style={{
-                                width: '6px',
-                                height: '6px',
-                                borderRadius: '50%',
-                                backgroundColor: itg.status === 'CONNECTED' ? '#20D98A' : itg.status === 'AVAILABLE' ? '#AEB7C2' : '#FFB020',
-                              }}
-                            />
-                            {itg.status}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        )}
+          )}
 
         {/* ============================================================== */}
         {/* VIEW 2: SECURE MESSAGES                                        */}
@@ -3287,6 +2228,23 @@ export default function App() {
                       <div style={{ fontSize: '12px', color: '#94a3b8', marginTop: '6px' }}>{tr.description || tr.summary}</div>
                     </div>
                   ))}
+                </div>
+              </div>
+            )}
+            {safetyReview && (
+              <div style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: '14px', padding: '24px' }}>
+                <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '10px', color: '#FFFFFF' }}>Investor Safety Review & Synthesis</h3>
+                <p style={{ fontSize: '13px', color: '#AEB7C2', lineHeight: 1.6, margin: '0 0 14px 0' }}>{safetyReview.summary}</p>
+                <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+                  <div style={{ fontSize: '12px', color: '#AEB7C2' }}>
+                    Status: <strong style={{ color: '#20D98A' }}>{safetyReview.overall_status}</strong>
+                  </div>
+                  <div style={{ fontSize: '12px', color: '#AEB7C2' }}>
+                    Safety Score: <strong style={{ color: '#20D98A' }}>{safetyReview.safety_score}/100</strong>
+                  </div>
+                  <div style={{ fontSize: '12px', color: '#A7A7A7' }}>
+                    Last Audited: {safetyReview.last_audited}
+                  </div>
                 </div>
               </div>
             )}
@@ -4937,12 +3895,12 @@ export default function App() {
                       <button
                         onClick={() => {
                           setShowDemoFlowModal(false);
-                          setActiveNav('academy');
+                          setActiveNav('analyze');
                         }}
                         style={{
-                          backgroundColor: 'rgba(255, 92, 141, 0.15)',
-                          color: '#FF5C8D',
-                          border: '1px solid rgba(255, 92, 141, 0.35)',
+                          backgroundColor: 'rgba(2, 195, 154, 0.12)',
+                          color: '#02C39A',
+                          border: '1px solid rgba(2, 195, 154, 0.35)',
                           padding: '8px 14px',
                           borderRadius: '8px',
                           fontSize: '12px',
@@ -4952,10 +3910,10 @@ export default function App() {
                           alignItems: 'center',
                           gap: '6px',
                         }}
-                        title="Watch in 16:9 Video Lesson Hero Player"
+                        title="Inspect Threat in Analysis Studio"
                       >
-                        <Video style={{ width: '13px', height: '13px' }} />
-                        16:9 Cinema Player
+                        <FileSearch style={{ width: '13px', height: '13px' }} />
+                        Inspect in Studio
                       </button>
 
                       <button

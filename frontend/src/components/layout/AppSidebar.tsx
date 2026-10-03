@@ -10,7 +10,7 @@ import {
   Settings,
   PhoneCall,
   Camera,
-  Video,
+  FileSearch,
   Wifi,
 } from 'lucide-react';
 
@@ -29,8 +29,7 @@ export type NavSection =
   | 'integrations'
   | 'incidents'
   | 'privacy'
-  | 'architecture'
-  | 'academy';
+  | 'architecture';
 
 interface AppSidebarProps {
   activeNav: string;
@@ -53,27 +52,25 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
 }) => {
   const navItems: { id: NavSection; label: string; icon: React.FC<{ style?: React.CSSProperties }>; badge?: number; badgeColor?: string }[] = [
     { id: 'dashboard', label: 'Overview', icon: Activity },
+    { id: 'analyze', label: 'Analyze', icon: FileSearch },
+    { id: 'verify', label: 'Verification', icon: ShieldCheck },
+    { id: 'alerts', label: 'Alerts', icon: AlertOctagon, badge: quarantineCount, badgeColor: '#FF3B3B' },
     { id: 'messages', label: 'Messages', icon: Inbox, badge: messagesCount },
-    { id: 'alerts', label: 'Alerts', icon: AlertOctagon, badge: quarantineCount, badgeColor: '#EF4444' },
-    { id: 'verify', label: 'Verify', icon: ShieldCheck },
     { id: 'evidence', label: 'Evidence', icon: Database },
     { id: 'devices', label: 'Devices', icon: Smartphone },
     { id: 'integrations', label: 'Integrations', icon: Wifi },
     { id: 'reports', label: 'Reports', icon: TrendingUp },
-    { id: 'settings', label: 'Settings', icon: Settings },
     { id: 'facescan', label: 'Face Scan', icon: Camera },
-    { id: 'academy', label: 'Academy (16:9)', icon: Video, badgeColor: '#FF5C8D' },
+    { id: 'settings', label: 'Settings', icon: Settings },
   ];
 
   return (
     <aside
-      className="glossy-reflection"
       style={{
         width: '240px',
-        backgroundColor: 'rgba(13, 17, 23, 0.92)',
-        backdropFilter: 'blur(20px) saturate(140%)',
+        backgroundColor: '#0D0D0D',
         borderRight: '1px solid rgba(255, 255, 255, 0.08)',
-        boxShadow: '4px 0 24px rgba(0, 0, 0, 0.35)',
+        boxShadow: '4px 0 24px rgba(0, 0, 0, 0.5)',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
