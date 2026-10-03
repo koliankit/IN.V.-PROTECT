@@ -1,8 +1,10 @@
 services:
+  # Backend API Web Service (FastAPI + Uvicorn)
   - type: web
     name: sangyan-ai-backend
     runtime: python
     plan: free
+    autoDeploy: true
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /api/health
@@ -16,11 +18,13 @@ services:
       - key: SECRET_KEY
         generateValue: true
 
+  # Frontend Static Site (IN.V. PROTECT - React 18 + Vite SPA)
   - type: web
     name: sangyan-ai-frontend
     runtime: static
     rootDir: frontend
-    buildCommand: npm ci && npm run build
+    autoDeploy: true
+    buildCommand: npm install && npm run build
     staticPublishPath: dist
     routes:
       - type: rewrite
