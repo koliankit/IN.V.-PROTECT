@@ -10,14 +10,14 @@ from backend.core.evidence import EvidenceStore
 
 
 class TestLayer024CertInEvidence(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
         self.file_path = os.path.join(
             self.root_dir, "data", "official", "SRC006_cert_in_online_scams.json"
         )
         self.evidence_store = EvidenceStore(os.path.join(self.root_dir, "data", "official"))
 
-    def test_cert_in_metadata(self):
+    def test_cert_in_metadata(self) -> None:
         self.assertTrue(os.path.isfile(self.file_path))
         with open(self.file_path, "r", encoding="utf-8") as f:
             doc = json.load(f)
@@ -28,7 +28,7 @@ class TestLayer024CertInEvidence(unittest.TestCase):
         self.assertTrue(doc["content_hash"].startswith("sha256:"))
         self.assertGreaterEqual(len(doc["sections"]), 4)
 
-    def test_topics_covered(self):
+    def test_topics_covered(self) -> None:
         with open(self.file_path, "r", encoding="utf-8") as f:
             doc = json.load(f)
 
@@ -38,7 +38,7 @@ class TestLayer024CertInEvidence(unittest.TestCase):
         self.assertIn("urgent", all_text)
         self.assertIn("incident@cert-in.org.in", all_text)
 
-    def test_evidence_retrieval(self):
+    def test_evidence_retrieval(self) -> None:
         results = self.evidence_store.find_evidence_by_keyword("typosquatting")
         self.assertGreaterEqual(len(results), 1)
         self.assertEqual(results[0].source_id, "SRC006")

@@ -7,7 +7,7 @@ import sys
 import unittest
 
 
-def run_all_tests():
+def run_all_tests() -> bool:
     repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
     if repo_root not in sys.path:
         sys.path.insert(0, repo_root)
@@ -32,6 +32,10 @@ def run_all_tests():
 
     runner = unittest.TextTestRunner(verbosity=1)
     result = runner.run(suite)
+    if not result.wasSuccessful():
+        print(f"\n[FAIL] {len(result.failures)} failures, {len(result.errors)} errors:")
+        for item in result.failures + result.errors:
+            print(f"- {item[0]}: {item[1]}")
     return result.wasSuccessful()
 
 

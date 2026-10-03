@@ -9,6 +9,7 @@ import os
 import shutil
 import tempfile
 import unittest
+from typing import Any
 from unittest.mock import MagicMock, patch
 
 from backend.core.dataset_downloader import DatasetDownloader
@@ -19,7 +20,7 @@ from scripts.download_datasets import run_downloader
 
 
 class TestLayer032DatasetDownloader(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.temp_dir = tempfile.mkdtemp()
         self.raw_dir = os.path.join(self.temp_dir, "raw")
         self.manifest_path = os.path.join(self.temp_dir, "manifests", "dataset_downloads.json")
@@ -66,10 +67,10 @@ class TestLayer032DatasetDownloader(unittest.TestCase):
             license_verifier=self.license_verifier,
         )
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         shutil.rmtree(self.temp_dir, ignore_errors=True)
 
-    def test_compute_and_verify_sha256(self):
+    def test_compute_and_verify_sha256(self) -> None:
         sample_file = os.path.join(self.temp_dir, "sample.txt")
         content = b"Sangyan AI Investor Shield Checksum Test Data"
         expected_hash = hashlib.sha256(content).hexdigest()
@@ -84,7 +85,7 @@ class TestLayer032DatasetDownloader(unittest.TestCase):
         self.assertFalse(self.downloader.verify_checksum(sample_file, "bad_hash_value"))
 
     @patch("urllib.request.urlopen")
-    def test_successful_download_and_storage(self, mock_urlopen):
+    def test_successful_download_and_storage(self, mock_urlopen: Any) -> None:
         payload = b"col1,col2\nval1,val2\n"
         mock_resp = MagicMock()
         mock_resp.read.side_effect = [payload, b""]
@@ -110,7 +111,7 @@ class TestLayer032DatasetDownloader(unittest.TestCase):
         self.assertEqual(manifest[0].dataset_id, "TEST_DATASET")
 
     @patch("urllib.request.urlopen")
-    def test_checksum_mismatch_fails_and_removes_temp_file(self, mock_urlopen):
+    def test_checksum_mismatch_fails_and_removes_temp_file(self, mock_urlopen: Any) -> None:
         payload = b"some actual downloaded bytes"
         mock_resp = MagicMock()
         mock_resp.read.side_effect = [payload, b""]
@@ -128,7 +129,7 @@ class TestLayer032DatasetDownloader(unittest.TestCase):
         self.assertIn("Checksum mismatch", rec.error_message or "")
         self.assertFalse(os.path.isfile(os.path.join(self.raw_dir, "bad_data.csv")))
 
-    def test_caching_skips_download_when_checksum_matches(self):
+    def test_caching_skips_download_when_checksum_matches(self) -> None:
         dest_file = os.path.join(self.raw_dir, "cached.csv")
         content = b"already downloaded content"
         file_hash = hashlib.sha256(content).hexdigest()
@@ -146,7 +147,7 @@ class TestLayer032DatasetDownloader(unittest.TestCase):
         self.assertEqual(rec.status, DownloadStatus.CACHED)
         self.assertEqual(rec.sha256_checksum, file_hash)
 
-    def test_sanitize_filename_prevents_traversal(self):
+    def test_sanitize_filename_prevents_traversal(self) -> None:
         clean = self.downloader._sanitize_filename("path/to/nested/safe.csv")
         self.assertEqual(clean, "safe.csv")
 
@@ -156,7 +157,7 @@ class TestLayer032DatasetDownloader(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.downloader._sanitize_filename("..")
 
-    def test_download_approved_dataset_gating(self):
+    def test_download_approved_dataset_gating(self) -> None:
         # 1. Unregistered dataset is rejected
         rec_unregistered = self.downloader.download_approved_dataset(
             dataset_id="NON_EXISTENT_DATASET",
@@ -173,7 +174,7 @@ class TestLayer032DatasetDownloader(unittest.TestCase):
         self.assertEqual(rec_unverified.status, DownloadStatus.FAILED)
         self.assertIn("license verification status is False", rec_unverified.error_message or "")
 
-    def test_cli_dry_run_executes_cleanly(self):
+    def test_cli_dry_run_executes_cleanly(self) -> None:
         exit_code = run_downloader(
             dataset_id=None,
             download_all=True,

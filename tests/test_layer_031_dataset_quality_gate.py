@@ -18,7 +18,7 @@ from backend.schemas.dataset_quality import (
 
 
 class TestLayer031DatasetQualityGate(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.temp_dir = tempfile.mkdtemp()
         self.audit_log_path = os.path.join(self.temp_dir, "dataset_rejections.json")
         self.gate = DatasetQualityGate(
@@ -27,7 +27,7 @@ class TestLayer031DatasetQualityGate(unittest.TestCase):
             unverifiable_label_tolerance=0.0,
         )
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         shutil.rmtree(self.temp_dir, ignore_errors=True)
 
     def _create_valid_candidate(self) -> DatasetCandidate:
@@ -49,7 +49,7 @@ class TestLayer031DatasetQualityGate(unittest.TestCase):
             text_field="text",
         )
 
-    def test_clean_dataset_passes_quality_gate(self):
+    def test_clean_dataset_passes_quality_gate(self) -> None:
         candidate = self._create_valid_candidate()
         report = self.gate.evaluate_dataset(candidate)
 
@@ -59,7 +59,7 @@ class TestLayer031DatasetQualityGate(unittest.TestCase):
         self.assertEqual(report.suspicious_record_count, 0)
         self.assertEqual(report.unverifiable_label_count, 0)
 
-    def test_rejection_unclear_provenance(self):
+    def test_rejection_unclear_provenance(self) -> None:
         candidate = self._create_valid_candidate()
         candidate.provenance_url = None
 
@@ -74,7 +74,7 @@ class TestLayer031DatasetQualityGate(unittest.TestCase):
         self.assertEqual(report2.decision, QualityGateDecision.REJECTED)
         self.assertIn(RejectionReasonCode.UNCLEAR_PROVENANCE, report2.rejection_reasons)
 
-    def test_rejection_unclear_licensing(self):
+    def test_rejection_unclear_licensing(self) -> None:
         candidate = self._create_valid_candidate()
         candidate.license_verified = False
 
@@ -89,7 +89,7 @@ class TestLayer031DatasetQualityGate(unittest.TestCase):
         self.assertEqual(report2.decision, QualityGateDecision.REJECTED)
         self.assertIn(RejectionReasonCode.UNCLEAR_LICENSING, report2.rejection_reasons)
 
-    def test_rejection_excessive_duplication(self):
+    def test_rejection_excessive_duplication(self) -> None:
         candidate = self._create_valid_candidate()
         # Add duplicate records exceeding 20% threshold
         duplicate_record = {
@@ -106,7 +106,7 @@ class TestLayer031DatasetQualityGate(unittest.TestCase):
         self.assertGreater(report.duplication_rate, 0.20)
         self.assertEqual(report.duplicate_count, 3)
 
-    def test_rejection_unverifiable_labels(self):
+    def test_rejection_unverifiable_labels(self) -> None:
         candidate = self._create_valid_candidate()
         # Inject records with missing or ambiguous labels
         candidate.records.append({"id": "rec_unv1", "text": "Message with missing label"})
@@ -118,7 +118,7 @@ class TestLayer031DatasetQualityGate(unittest.TestCase):
         self.assertIn(RejectionReasonCode.UNVERIFIABLE_LABELS, report.rejection_reasons)
         self.assertEqual(report.unverifiable_label_count, 3)
 
-    def test_rejection_suspicious_records(self):
+    def test_rejection_suspicious_records(self) -> None:
         candidate = self._create_valid_candidate()
         # Inject corrupted or malicious payloads
         candidate.records.append({"id": "rec_sus1", "text": "Corrupted text with null byte \x00 in payload", "label": "scam"})
@@ -131,7 +131,7 @@ class TestLayer031DatasetQualityGate(unittest.TestCase):
         self.assertIn(RejectionReasonCode.SUSPICIOUS_RECORDS, report.rejection_reasons)
         self.assertEqual(report.suspicious_record_count, 4)
 
-    def test_multi_failure_captures_all_reasons(self):
+    def test_multi_failure_captures_all_reasons(self) -> None:
         candidate = self._create_valid_candidate()
         candidate.provenance_url = "invalid-url"
         candidate.license_verified = False
@@ -144,7 +144,7 @@ class TestLayer031DatasetQualityGate(unittest.TestCase):
         self.assertIn(RejectionReasonCode.SUSPICIOUS_RECORDS, report.rejection_reasons)
         self.assertIn(RejectionReasonCode.UNVERIFIABLE_LABELS, report.rejection_reasons)
 
-    def test_audit_log_persistence(self):
+    def test_audit_log_persistence(self) -> None:
         candidate = self._create_valid_candidate()
         candidate.license_verified = False
         report = self.gate.evaluate_dataset(candidate)

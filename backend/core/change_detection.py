@@ -28,7 +28,7 @@ class SourceChangeDetector:
         self,
         snapshot_manager: Optional[SourceSnapshotManager] = None,
         change_log_path: Optional[str] = None,
-    ):
+    ) -> None:
         base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
         self.snapshot_manager = snapshot_manager or SourceSnapshotManager()
         self.change_log_path = change_log_path or os.path.join(

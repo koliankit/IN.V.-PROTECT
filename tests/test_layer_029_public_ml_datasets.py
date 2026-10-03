@@ -9,7 +9,7 @@ from backend.ml.dataset_selector import MLDatasetSelector, DatasetSuitability
 
 
 class TestLayer029PublicMLDatasets(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
         self.doc_path = os.path.join(self.root_dir, "docs", "ML_DATASET_EVALUATION.md")
         self.manifest_path = os.path.join(
@@ -17,7 +17,7 @@ class TestLayer029PublicMLDatasets(unittest.TestCase):
         )
         self.selector = MLDatasetSelector(self.manifest_path)
 
-    def test_evaluation_documentation_exists_and_covers_datasets(self):
+    def test_evaluation_documentation_exists_and_covers_datasets(self) -> None:
         self.assertTrue(os.path.isfile(self.doc_path))
         with open(self.doc_path, "r", encoding="utf-8") as f:
             content = f.read()
@@ -27,7 +27,7 @@ class TestLayer029PublicMLDatasets(unittest.TestCase):
         self.assertIn("RECOMMENDED FOR BASELINE", content)
         self.assertIn("REJECTED", content)
 
-    def test_selector_loads_and_verifies_recommendations(self):
+    def test_selector_loads_and_verifies_recommendations(self) -> None:
         self.assertTrue(os.path.isfile(self.manifest_path))
         recommended = self.selector.get_recommended_for_baseline()
         self.assertEqual(len(recommended), 1)
@@ -39,7 +39,7 @@ class TestLayer029PublicMLDatasets(unittest.TestCase):
         self.assertEqual(rejected[0].dataset_id, "DATASET_UNVERIFIED_SCRAPED")
         self.assertIn("Missing", rejected[0].license)
 
-    def test_all_evaluations_have_pros_cons_and_recommendation(self):
+    def test_all_evaluations_have_pros_cons_and_recommendation(self) -> None:
         evals = self.selector.list_all()
         self.assertGreaterEqual(len(evals), 3)
         for e in evals:

@@ -3,7 +3,7 @@ Pydantic Data Schemas for Sangyan AI Investor Shield Result Contract.
 Enforces validation for risk level, uncertainty, detected signals, claims, evidence, and official links.
 """
 from enum import Enum
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from pydantic import BaseModel, Field
 
 
@@ -37,6 +37,9 @@ class DetectedSignal(BaseModel):
     severity: str = Field(..., description="Severity level: low, medium, high, critical.")
     rule_id: Optional[str] = Field(None, description="Identifier of triggering rule if applicable.")
     description: str = Field(..., description="Explanation of why this indicator represents risk.")
+    evidence_text: Optional[str] = Field(None, description="Exact phrase or excerpt triggering the signal.")
+    confidence: Optional[float] = Field(None, ge=0.0, le=1.0, description="Confidence score for this signal.")
+    rule_source: Optional[str] = Field(None, description="Regulatory advisory or statutory reference.")
 
 
 class ExtractedClaim(BaseModel):
@@ -55,6 +58,10 @@ class EvidenceItem(BaseModel):
     url: str = Field(..., description="Verifiable canonical URL of the official source.")
     passage: str = Field(..., description="Exact relevant regulatory passage.")
     relevance_score: Optional[float] = Field(None, ge=0.0, le=1.0)
+    source_name: Optional[str] = Field(None, description="Official statutory repository name.")
+    source_type: Optional[str] = Field("official_advisory", description="Categorical type: official_advisory, official_portal, official_circular.")
+    summary: Optional[str] = Field(None, description="Relevant evidence summary.")
+    verification_status: Optional[str] = Field("Verified from official statutory register", description="Retrieval/verification status.")
 
 
 class OfficialSourceLink(BaseModel):
@@ -86,4 +93,16 @@ class AnalysisResponse(BaseModel):
     )
     official_source_links: List[OfficialSourceLink] = Field(
         default_factory=list, description="Authoritative external verification and reporting links."
+    )
+    protection_tier: Optional[str] = Field(
+        default=None, description="Assigned 3-tier protection bucket: Trusted / Important, Review / Verify, Quarantined / High Risk."
+    )
+    claim_verifications: List[Dict[str, Any]] = Field(
+        default_factory=list, description="Detailed verification status (Supported, Contradicted, Unverified) for extracted claims."
+    )
+    detected_language: Optional[str] = Field(
+        default="English", description="Detected language of incoming communication (English, Hindi, Hinglish, etc.)."
+    )
+    pii_redacted_stats: Optional[Dict[str, int]] = Field(
+        default_factory=dict, description="Count of masked PII and confidential credentials."
     )

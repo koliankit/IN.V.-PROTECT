@@ -89,10 +89,13 @@ def run_change_detection(
             print(f"  [NO CHANGE] Verified identical hash with {result.previous_snapshot_id}")
         elif result.status == ChangeDetectionStatus.VERSION_INCREMENTED:
             diff = result.diff_summary
-            print(
-                f"  [VERSION INCREMENTED] Created {result.new_snapshot_id} "
-                f"(v{diff.previous_version} -> v{diff.new_version}, delta: {diff.byte_delta} bytes)"
-            )
+            if diff:
+                print(
+                    f"  [VERSION INCREMENTED] Created {result.new_snapshot_id} "
+                    f"(v{diff.previous_version} -> v{diff.new_version}, delta: {diff.byte_delta} bytes)"
+                )
+            else:
+                print(f"  [VERSION INCREMENTED] Created {result.new_snapshot_id}")
 
     return exit_code
 

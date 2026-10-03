@@ -10,14 +10,14 @@ from backend.schemas.provenance import AllowedUse
 
 
 class TestLayer018OfficialSourceRegistry(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
         self.manifest_path = os.path.join(
             self.root_dir, "data", "manifests", "official_source_registry.json"
         )
         self.registry = SourceRegistry(self.manifest_path)
 
-    def test_registry_contains_minimum_required_authorities(self):
+    def test_registry_contains_minimum_required_authorities(self) -> None:
         sources = self.registry.list_all()
         self.assertGreaterEqual(len(sources), 8)
 
@@ -29,7 +29,7 @@ class TestLayer018OfficialSourceRegistry(unittest.TestCase):
         self.assertTrue(any("CERT-In" in p for p in publishers))
         self.assertTrue(any("data.gov.in" in p for p in publishers))
 
-    def test_all_official_urls_domain_verified(self):
+    def test_all_official_urls_domain_verified(self) -> None:
         sources = self.registry.list_all()
         allowed_domains = {"gov.in", "org.in"}
         for s in sources:
@@ -39,11 +39,11 @@ class TestLayer018OfficialSourceRegistry(unittest.TestCase):
                 f"Source {s.source_id} URL '{s.url}' is not an authoritative government domain",
             )
 
-    def test_filter_by_use(self):
+    def test_filter_by_use(self) -> None:
         rag_sources = self.registry.filter_by_use(AllowedUse.RAG_EVIDENCE_RULES)
         self.assertGreaterEqual(len(rag_sources), 4)
 
-    def test_get_specific_source(self):
+    def test_get_specific_source(self) -> None:
         src1 = self.registry.get_source("SRC001")
         self.assertIsNotNone(src1)
         self.assertEqual(src1.publisher, "SEBI Investor")

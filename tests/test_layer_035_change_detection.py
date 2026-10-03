@@ -17,7 +17,7 @@ from scripts.detect_source_changes import run_change_detection
 
 
 class TestLayer035ChangeDetection(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.temp_dir = tempfile.mkdtemp()
         self.snapshots_dir = os.path.join(self.temp_dir, "snapshots")
         self.ledger_path = os.path.join(self.temp_dir, "source_snapshots_ledger.json")
@@ -32,7 +32,7 @@ class TestLayer035ChangeDetection(unittest.TestCase):
             change_log_path=self.change_log_path,
         )
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         for root, dirs, files in os.walk(self.temp_dir):
             for f in files:
                 p = os.path.join(root, f)
@@ -42,7 +42,7 @@ class TestLayer035ChangeDetection(unittest.TestCase):
                     pass
         shutil.rmtree(self.temp_dir, ignore_errors=True)
 
-    def test_initial_version_creation(self):
+    def test_initial_version_creation(self) -> None:
         content = b"SEBI Initial Advisory Feb 2024"
         res = self.detector.detect_and_version(
             source_id="SRC001",
@@ -58,7 +58,7 @@ class TestLayer035ChangeDetection(unittest.TestCase):
         self.assertEqual(len(lineage), 1)
         self.assertEqual(lineage[0].version, 1)
 
-    def test_identical_content_returns_no_change(self):
+    def test_identical_content_returns_no_change(self) -> None:
         content = b"Static Statutory Advisory Text"
         self.detector.detect_and_version("SRC002", content, "html")
 
@@ -71,7 +71,7 @@ class TestLayer035ChangeDetection(unittest.TestCase):
         lineage = self.detector.get_version_lineage("SRC002")
         self.assertEqual(len(lineage), 1)
 
-    def test_changed_content_increments_version_and_retains_previous(self):
+    def test_changed_content_increments_version_and_retains_previous(self) -> None:
         v1_bytes = b"Circular Version 1: Original list of unauthorized apps"
         v2_bytes = b"Circular Version 2: Added 15 new unauthorized trading apps and mule accounts"
 
@@ -91,7 +91,7 @@ class TestLayer035ChangeDetection(unittest.TestCase):
         self.assertEqual(lineage[0].version, 1)
         self.assertEqual(lineage[1].version, 2)
 
-    def test_change_log_records_diff_summary(self):
+    def test_change_log_records_diff_summary(self) -> None:
         self.detector.detect_and_version("SRC004", b"Text A", "txt")
         self.detector.detect_and_version("SRC004", b"Text A", "txt")
         self.detector.detect_and_version("SRC004", b"Text B Updated", "txt")
@@ -102,7 +102,7 @@ class TestLayer035ChangeDetection(unittest.TestCase):
         self.assertEqual(history[1].status, ChangeDetectionStatus.NO_CHANGE)
         self.assertEqual(history[2].status, ChangeDetectionStatus.VERSION_INCREMENTED)
 
-    def test_cli_dry_run_executes_cleanly(self):
+    def test_cli_dry_run_executes_cleanly(self) -> None:
         exit_code = run_change_detection(
             source_id=None,
             all_sources=True,

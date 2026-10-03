@@ -53,5 +53,9 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 addopts = "-v --strict-markers -p no:anyio"
 
+[tool.vercel]
+entrypoint = "backend.main:app"
+
+
 
 

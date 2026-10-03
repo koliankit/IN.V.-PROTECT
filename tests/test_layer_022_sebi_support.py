@@ -12,7 +12,7 @@ from backend.core.support import InvestorSupportIndex, SupportChannel
 
 
 class TestLayer022SebiSupport(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
         self.official_file = os.path.join(
             self.root_dir, "data", "official", "SRC004_sebi_investor_support.json"
@@ -20,7 +20,7 @@ class TestLayer022SebiSupport(unittest.TestCase):
         self.store = EvidenceStore(os.path.join(self.root_dir, "data", "official"))
         self.support_index = InvestorSupportIndex(self.store)
 
-    def test_official_document_structure(self):
+    def test_official_document_structure(self) -> None:
         self.assertTrue(os.path.isfile(self.official_file))
         with open(self.official_file, "r", encoding="utf-8") as f:
             doc = json.load(f)
@@ -30,28 +30,32 @@ class TestLayer022SebiSupport(unittest.TestCase):
         self.assertTrue(doc["content_hash"].startswith("sha256:"))
         self.assertGreaterEqual(len(doc["sections"]), 4)
 
-    def test_support_channels_indexed(self):
+    def test_support_channels_indexed(self) -> None:
         channels = self.support_index.list_all_channels()
         self.assertGreaterEqual(len(channels), 4)
 
         scores = self.support_index.get_channel("scores")
         self.assertIsNotNone(scores)
+        assert scores is not None and scores.portal_url is not None
         self.assertIn("scores.sebi.gov.in", scores.portal_url)
         self.assertEqual(scores.source_reference, "SRC004#SEC01_SCORES_PORTAL")
 
         smart_odr = self.support_index.get_channel("smart_odr")
         self.assertIsNotNone(smart_odr)
+        assert smart_odr is not None and smart_odr.portal_url is not None
         self.assertIn("smartodr.in", smart_odr.portal_url)
 
         helpline = self.support_index.get_channel("sebi_helpline")
         self.assertIsNotNone(helpline)
+        assert helpline is not None
         self.assertIn("1800 266 7575", helpline.helpline_numbers)
 
         cybercrime = self.support_index.get_channel("cybercrime_portal")
         self.assertIsNotNone(cybercrime)
+        assert cybercrime is not None
         self.assertIn("1930", cybercrime.helpline_numbers)
 
-    def test_routing_logic_unregistered_vs_registered(self):
+    def test_routing_logic_unregistered_vs_registered(self) -> None:
         # Unregistered fraudulent group -> 1930 & cybercrime portal prioritized
         unreg_routes = self.support_index.get_recommended_routing(suspected_unregistered=True)
         channel_ids = [c.channel_id for c in unreg_routes]

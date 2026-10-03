@@ -36,6 +36,12 @@ class ProvenanceRecord(BaseModel):
     content_hash: str = Field(..., description="Cryptographic SHA-256 hash formatted as sha256:<64 hex chars>")
     source_type: SourceType = Field(..., description="Categorical type of source")
     allowed_use: AllowedUse = Field(..., description="Sanctioned pipeline use")
+    source_name: Optional[str] = Field(None, description="Official registry repository name")
+    authority: Optional[str] = Field(None, description="Statutory authority (e.g. SEBI, RBI, I4C, CERT-In)")
+    official_domain: Optional[str] = Field(None, description="Official authorized domain, e.g. sebi.gov.in")
+    last_verified: Optional[str] = Field(None, description="ISO timestamp of last verification audit")
+    description: Optional[str] = Field(None, description="Overview of authoritative coverage and scope")
+    supported_claim_types: Optional[list[str]] = Field(default_factory=list, description="Claim types verifiable against this source")
 
     @field_validator("content_hash")
     @classmethod

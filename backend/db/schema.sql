@@ -89,3 +89,17 @@ CREATE TABLE IF NOT EXISTS citations (
 CREATE INDEX IF NOT EXISTS idx_citations_chunk_id ON citations(chunk_id);
 CREATE INDEX IF NOT EXISTS idx_citations_source_id ON citations(source_id);
 CREATE INDEX IF NOT EXISTS idx_citations_analysis_id ON citations(analysis_id);
+
+-- 6. Audit Trail for All Inbound Analysis Invocations
+CREATE TABLE IF NOT EXISTS analysis_audit_log (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    submission_id VARCHAR(64) NOT NULL,
+    channel VARCHAR(64),
+    risk_level VARCHAR(64) NOT NULL,
+    confidence REAL,
+    signals_count INTEGER DEFAULT 0,
+    created_at TIMESTAMP NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_audit_log_submission ON analysis_audit_log(submission_id);
+

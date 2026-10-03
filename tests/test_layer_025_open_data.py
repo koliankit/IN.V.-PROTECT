@@ -10,14 +10,14 @@ from backend.core.open_data import CandidateDatasetRegistry, CandidateDataset
 
 
 class TestLayer025OpenData(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
         self.manifest_file = os.path.join(
             self.root_dir, "data", "manifests", "candidate_datasets_registry.json"
         )
         self.registry = CandidateDatasetRegistry(self.manifest_file)
 
-    def test_candidate_registry_file_validity(self):
+    def test_candidate_registry_file_validity(self) -> None:
         self.assertTrue(os.path.isfile(self.manifest_file))
         with open(self.manifest_file, "r", encoding="utf-8") as f:
             data = json.load(f)
@@ -30,7 +30,7 @@ class TestLayer025OpenData(unittest.TestCase):
             self.assertIn("data_type", item)
             self.assertIn("allowed_use", item)
 
-    def test_search_by_keyword(self):
+    def test_search_by_keyword(self) -> None:
         results = self.registry.search_by_keyword("cyber fraud")
         self.assertGreaterEqual(len(results), 1)
         self.assertEqual(results[0].portal, "data.gov.in")
@@ -39,7 +39,7 @@ class TestLayer025OpenData(unittest.TestCase):
         self.assertGreaterEqual(len(helpline_results), 1)
         self.assertIn("I4C", helpline_results[0].ministry_or_department)
 
-    def test_training_eligibility_guard(self):
+    def test_training_eligibility_guard(self) -> None:
         # All aggregate statistics datasets must NOT be eligible as text-classifier training labels
         all_datasets = self.registry.list_all()
         for ds in all_datasets:

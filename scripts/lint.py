@@ -13,7 +13,7 @@ def check_python_files(root_dir: str) -> bool:
     all_clean = True
     py_files_checked = 0
 
-    ignore_dirs = {".git", ".venv", "venv", "__pycache__", "data", "node_modules"}
+    ignore_dirs = {".git", ".venv", "venv", "__pycache__", "data", "node_modules", "build", "dist"}
 
     for dirpath, dirnames, filenames in os.walk(root_dir):
         dirnames[:] = [d for d in dirnames if d not in ignore_dirs]

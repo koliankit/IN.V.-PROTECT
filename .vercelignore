@@ -1,0 +1,15 @@
+.venv
+venv
+__pycache__
+*.pyc
+*.pyo
+.pytest_cache
+build/
+dist/
+Sangyan_AI_Investor_Shield_Build_Pack/
+Sangyan_AI_Investor_Shield_Build_Pack.zip
+tests/
+scripts/
+*.bat
+in_v_protect.spec
+desktop_app.py

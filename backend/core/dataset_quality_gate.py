@@ -25,7 +25,7 @@ class DatasetQualityGate:
         audit_log_path: Optional[str] = None,
         max_duplicate_ratio: float = 0.20,
         unverifiable_label_tolerance: float = 0.0,
-    ):
+    ) -> None:
         if audit_log_path is None:
             base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
             audit_log_path = os.path.join(base_dir, "data", "manifests", "dataset_rejections.json")

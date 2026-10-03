@@ -9,10 +9,10 @@ from backend.schemas.merged_record import MergedDatasetRecord
 
 
 class TestLayer028DatasetProvenance(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.merger = DatasetMerger()
 
-    def test_merge_rejects_missing_dataset_name(self):
+    def test_merge_rejects_missing_dataset_name(self) -> None:
         records = [[{
             "text": "Win free stocks now",
             "canonical_label": "scam",
@@ -25,7 +25,7 @@ class TestLayer028DatasetProvenance(unittest.TestCase):
             self.merger.merge_datasets(records)
         self.assertIn("original_dataset_name", str(ctx.exception))
 
-    def test_merge_rejects_missing_license_information(self):
+    def test_merge_rejects_missing_license_information(self) -> None:
         records = [[{
             "text": "Win free stocks now",
             "canonical_label": "scam",
@@ -39,7 +39,7 @@ class TestLayer028DatasetProvenance(unittest.TestCase):
             self.merger.merge_datasets(records)
         self.assertIn("license_type", str(ctx.exception))
 
-    def test_merge_rejects_missing_original_label_definition(self):
+    def test_merge_rejects_missing_original_label_definition(self) -> None:
         records = [[{
             "text": "Win free stocks now",
             "canonical_label": "scam",
@@ -52,7 +52,7 @@ class TestLayer028DatasetProvenance(unittest.TestCase):
             self.merger.merge_datasets(records)
         self.assertIn("original_label_definition", str(ctx.exception))
 
-    def test_successful_merge_preserves_full_lineage(self):
+    def test_successful_merge_preserves_full_lineage(self) -> None:
         ds1 = [
             {
                 "text": "Claim guaranteed 500% trading profit via VIP group",

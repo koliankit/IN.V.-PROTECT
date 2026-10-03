@@ -10,7 +10,7 @@ from backend.schemas.analysis import EvidenceItem
 
 
 class EvidenceStore:
-    def __init__(self, official_dir: Optional[str] = None):
+    def __init__(self, official_dir: Optional[str] = None) -> None:
         if official_dir is None:
             base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
             official_dir = os.path.join(base_dir, "data", "official")

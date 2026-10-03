@@ -9,7 +9,7 @@ from backend.schemas.provenance import ProvenanceRecord, SourceType, AllowedUse
 
 
 class SourceRegistry:
-    def __init__(self, registry_file: Optional[str] = None):
+    def __init__(self, registry_file: Optional[str] = None) -> None:
         if registry_file is None:
             base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
             registry_file = os.path.join(base_dir, "data", "manifests", "official_source_registry.json")

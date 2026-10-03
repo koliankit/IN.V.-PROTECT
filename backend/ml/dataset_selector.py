@@ -29,7 +29,7 @@ class DatasetEvaluationEntry(BaseModel):
 
 
 class MLDatasetSelector:
-    def __init__(self, manifest_path: Optional[str] = None):
+    def __init__(self, manifest_path: Optional[str] = None) -> None:
         if manifest_path is None:
             base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
             manifest_path = os.path.join(base_dir, "data", "manifests", "ml_datasets_evaluation.json")

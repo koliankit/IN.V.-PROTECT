@@ -20,7 +20,19 @@ from backend.schemas.knowledge_base import (
 class DatabaseManager:
     def __init__(self, db_path: Optional[str] = None):
         base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-        self.db_path = db_path or os.path.join(base_dir, "data", "knowledge_base.db")
+        source_db = os.path.join(base_dir, "data", "knowledge_base.db")
+        if os.getenv("VERCEL") or os.environ.get("AWS_LAMBDA_FUNCTION_NAME"):
+            default_db_dir = "/tmp"
+            tmp_db = os.path.join(default_db_dir, "knowledge_base.db")
+            if not os.path.exists(tmp_db) and os.path.exists(source_db):
+                import shutil
+                try:
+                    shutil.copy2(source_db, tmp_db)
+                except Exception:
+                    pass
+            self.db_path = db_path or os.getenv("SANGYAN_DB_PATH") or tmp_db
+        else:
+            self.db_path = db_path or os.getenv("SANGYAN_DB_PATH") or source_db
         self.schema_path = os.path.join(base_dir, "backend", "db", "schema.sql")
         os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
         self.init_db()
@@ -222,3 +234,11 @@ class DatabaseManager:
                 (chunk_id,),
             ).fetchall()
             return [CitationEntity(**dict(r)) for r in rows]
+
+
+db_manager = DatabaseManager()
+
+
+def get_db_connection() -> sqlite3.Connection:
+    return sqlite3.connect(db_manager.db_path)
+

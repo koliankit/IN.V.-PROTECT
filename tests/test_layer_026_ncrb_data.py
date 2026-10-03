@@ -12,7 +12,7 @@ from backend.core.open_data import CandidateDatasetRegistry
 
 
 class TestLayer026NcrbData(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
         self.file_path = os.path.join(
             self.root_dir, "data", "official", "SRC007_ncrb_cybercrime_context.json"
@@ -22,7 +22,7 @@ class TestLayer026NcrbData(unittest.TestCase):
             os.path.join(self.root_dir, "data", "manifests", "candidate_datasets_registry.json")
         )
 
-    def test_ncrb_metadata_and_hash(self):
+    def test_ncrb_metadata_and_hash(self) -> None:
         self.assertTrue(os.path.isfile(self.file_path))
         with open(self.file_path, "r", encoding="utf-8") as f:
             doc = json.load(f)
@@ -32,7 +32,7 @@ class TestLayer026NcrbData(unittest.TestCase):
         self.assertEqual(doc["allowed_use"], "impact_context")
         self.assertTrue(doc["content_hash"].startswith("sha256:"))
 
-    def test_governance_training_eligibility(self):
+    def test_governance_training_eligibility(self) -> None:
         with open(self.file_path, "r", encoding="utf-8") as f:
             doc = json.load(f)
 
@@ -41,7 +41,7 @@ class TestLayer026NcrbData(unittest.TestCase):
         self.assertFalse(evaluation.get("has_labeled_text_samples"))
         self.assertEqual(evaluation.get("primary_utility"), "macro_risk_context_and_impact_metrics")
 
-    def test_content_and_retrieval(self):
+    def test_content_and_retrieval(self) -> None:
         with open(self.file_path, "r", encoding="utf-8") as f:
             doc = json.load(f)
 

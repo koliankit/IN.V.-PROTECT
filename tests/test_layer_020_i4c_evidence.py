@@ -10,14 +10,14 @@ from backend.core.evidence import EvidenceStore
 
 
 class TestLayer020I4CEvidence(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
         self.file_path = os.path.join(
             self.root_dir, "data", "official", "SRC002_i4c_fake_investment_advisory.json"
         )
         self.evidence_store = EvidenceStore(os.path.join(self.root_dir, "data", "official"))
 
-    def test_i4c_file_metadata(self):
+    def test_i4c_file_metadata(self) -> None:
         self.assertTrue(os.path.isfile(self.file_path))
         with open(self.file_path, "r", encoding="utf-8") as f:
             doc = json.load(f)
@@ -33,7 +33,7 @@ class TestLayer020I4CEvidence(unittest.TestCase):
         self.assertTrue(doc["content_hash"].startswith("sha256:"))
         self.assertGreaterEqual(len(doc["sections"]), 4)
 
-    def test_i4c_sections_contain_reporting_helpline(self):
+    def test_i4c_sections_contain_reporting_helpline(self) -> None:
         with open(self.file_path, "r", encoding="utf-8") as f:
             doc = json.load(f)
 
@@ -42,7 +42,7 @@ class TestLayer020I4CEvidence(unittest.TestCase):
         self.assertIn("cybercrime.gov.in", content_full)
         self.assertIn("mule", content_full.lower())
 
-    def test_evidence_retrieval_finds_i4c_by_helpline(self):
+    def test_evidence_retrieval_finds_i4c_by_helpline(self) -> None:
         results = self.evidence_store.find_evidence_by_keyword("1930")
         self.assertGreaterEqual(len(results), 1)
         self.assertEqual(results[0].source_id, "SRC002")

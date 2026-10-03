@@ -9,7 +9,13 @@
     "retrieved_at": "2026-09-30T12:00:00Z",
     "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "source_type": "official_advisory",
-    "allowed_use": "RAG_evidence_rules"
+    "allowed_use": "RAG_evidence_rules",
+    "source_name": "SEBI Fake Trading App Cautionary Advisory",
+    "authority": "Securities and Exchange Board of India (SEBI)",
+    "official_domain": "sebi.gov.in",
+    "last_verified": "2026-09-30T12:00:00Z",
+    "description": "Official statutory warning regarding fake institutional trading platforms, illegal APK distributions, and guaranteed returns.",
+    "supported_claim_types": ["fake_app", "guaranteed_return", "fii_quota", "registration_claim"]
   },
   {
     "source_id": "SRC002",
@@ -21,7 +27,13 @@
     "retrieved_at": "2026-09-30T12:00:00Z",
     "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "source_type": "official_advisory",
-    "allowed_use": "RAG_evidence_rules"
+    "allowed_use": "RAG_evidence_rules",
+    "source_name": "I4C Cyber Threat Analytics Stock Advisory",
+    "authority": "Indian Cyber Crime Coordination Centre (I4C), MHA",
+    "official_domain": "cybercrime.gov.in",
+    "last_verified": "2026-09-30T12:00:00Z",
+    "description": "National threat advisory on fraudulent stock market websites, malicious trading applications, and 1930 reporting mechanisms.",
+    "supported_claim_types": ["fake_app", "trading_fraud", "cyber_helpline", "withdrawal_blockage"]
   },
   {
     "source_id": "SRC003",
@@ -33,7 +45,13 @@
     "retrieved_at": "2026-09-30T12:00:00Z",
     "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "source_type": "official_portal",
-    "allowed_use": "RAG_evidence_rules"
+    "allowed_use": "RAG_evidence_rules",
+    "source_name": "SEBI Investor Education & Protection Modules",
+    "authority": "Securities and Exchange Board of India (SEBI)",
+    "official_domain": "sebi.gov.in",
+    "last_verified": "2026-09-30T12:00:00Z",
+    "description": "Educational advisories detailing fraud red flags, prohibition of assured returns, and unauthorized advisory channels.",
+    "supported_claim_types": ["guaranteed_return", "stock_tip", "credential_request", "statutory_disclosure"]
   },
   {
     "source_id": "SRC004",
@@ -45,7 +63,13 @@
     "retrieved_at": "2026-09-30T12:00:00Z",
     "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "source_type": "official_portal",
-    "allowed_use": "verification_grievance"
+    "allowed_use": "verification_grievance",
+    "source_name": "SEBI Intermediary Verification & Support Portal",
+    "authority": "Securities and Exchange Board of India (SEBI)",
+    "official_domain": "sebi.gov.in",
+    "last_verified": "2026-09-30T12:00:00Z",
+    "description": "Authoritative register for verifying broker, investment adviser (INA), and research analyst (INH) registration credentials.",
+    "supported_claim_types": ["registration_claim", "intermediary_status", "sebi_approval"]
   },
   {
     "source_id": "SRC005",
@@ -57,7 +81,13 @@
     "retrieved_at": "2026-09-30T12:00:00Z",
     "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "source_type": "official_advisory",
-    "allowed_use": "RAG_evidence_rules"
+    "allowed_use": "RAG_evidence_rules",
+    "source_name": "RBI Financial Awareness Messages (FAME 2024)",
+    "authority": "Reserve Bank of India (RBI)",
+    "official_domain": "rbi.org.in",
+    "last_verified": "2026-09-30T12:00:00Z",
+    "description": "Central bank directives regarding non-disclosure of OTPs, PINs, passwords, and warnings against banking impersonation.",
+    "supported_claim_types": ["otp_request", "password_request", "rbi_approval", "banking_fraud"]
   },
   {
     "source_id": "SRC006",
@@ -69,7 +99,13 @@
     "retrieved_at": "2026-09-30T12:00:00Z",
     "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "source_type": "official_advisory",
-    "allowed_use": "RAG_evidence_rules"
+    "allowed_use": "RAG_evidence_rules",
+    "source_name": "CERT-In Phishing & Online Fraud Alert CIAD-2024-0050",
+    "authority": "Indian Computer Emergency Response Team (CERT-In)",
+    "official_domain": "cert-in.org.in",
+    "last_verified": "2026-09-30T12:00:00Z",
+    "description": "Technical advisory on coercive psychological urgency, fake portal spoofing, and remote access trojan deployment.",
+    "supported_claim_types": ["urgency", "account_suspension", "remote_access", "suspicious_url"]
   },
   {
     "source_id": "SRC007",
@@ -81,7 +117,13 @@
     "retrieved_at": "2026-09-30T12:00:00Z",
     "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "source_type": "open_government_data",
-    "allowed_use": "impact_context"
+    "allowed_use": "impact_context",
+    "source_name": "NCRB Crime in India Statistics Repository",
+    "authority": "National Crime Records Bureau (NCRB) / Open Data",
+    "official_domain": "data.gov.in",
+    "last_verified": "2026-09-30T12:00:00Z",
+    "description": "Official open government datasets documenting national cyber financial crime prevalence and conviction metrics.",
+    "supported_claim_types": ["crime_statistics", "jurisdiction_context"]
   },
   {
     "source_id": "SRC008",
@@ -93,6 +135,12 @@
     "retrieved_at": "2026-09-30T12:00:00Z",
     "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "source_type": "open_government_data",
-    "allowed_use": "impact_context"
+    "allowed_use": "impact_context",
+    "source_name": "Open Government Data Fraud Catalog",
+    "authority": "Government of India Open Data Platform",
+    "official_domain": "data.gov.in",
+    "last_verified": "2026-09-30T12:00:00Z",
+    "description": "Taxonomy of digital fraud keywords, scam typologies, and public awareness metadata.",
+    "supported_claim_types": ["scam_typology", "keyword_index"]
   }
 ]

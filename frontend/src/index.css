@@ -1,0 +1,276 @@
+:root {
+  /* Premium Dark FinTech + Cybersecurity Palette */
+  --bg-primary: #070a12;
+  --bg-secondary: #0b101d;
+  --bg-tertiary: #111827;
+  --bg-card: #0e1526;
+  --bg-card-hover: #151f38;
+  
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.04);
+  --border-cyan: rgba(6, 182, 212, 0.35);
+  
+  --text-main: #f8fafc;
+  --text-secondary: rgba(248, 250, 252, 0.82);
+  --text-muted: #94a3b8;
+  --text-faint: #475569;
+  
+  /* Primary Interaction Accent: Cyan / Teal */
+  --accent-cyan: #06b6d4;
+  --accent-cyan-hover: #0891b2;
+  --accent-cyan-light: #22d3ee;
+  --accent-glow: rgba(6, 182, 212, 0.15);
+  --accent-teal: #14b8a6;
+  --accent-blue: #3b82f6;
+  
+  /* Status Colors */
+  --color-trusted: #10b981;
+  --color-trusted-bg: rgba(16, 185, 129, 0.1);
+  --color-trusted-border: rgba(16, 185, 129, 0.25);
+  
+  --color-review: #f59e0b;
+  --color-review-bg: rgba(245, 158, 11, 0.1);
+  --color-review-border: rgba(245, 158, 11, 0.25);
+  
+  --color-risk: #ef4444;
+  --color-risk-bg: rgba(239, 68, 68, 0.1);
+  --color-risk-border: rgba(239, 68, 68, 0.28);
+
+  /* Legacy aliases for existing components */
+  --color-safe: var(--color-trusted);
+  --color-safe-bg: var(--color-trusted-bg);
+  --color-safe-border: var(--color-trusted-border);
+  --color-warning: var(--color-review);
+  --color-warning-bg: var(--color-review-bg);
+  --color-warning-border: var(--color-review-border);
+  --color-critical: var(--color-risk);
+  --color-critical-bg: var(--color-risk-bg);
+  --color-critical-border: var(--color-risk-border);
+  
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.18s ease, color 0.18s ease;
+}
+
+a:hover {
+  opacity: 0.92;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+input, textarea, select {
+  font-family: inherit;
+  outline: none;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  border-radius: 8px;
+  padding: 10px 14px;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+/* Subtle Breathing Animation (for Status Shield & Protection Pill) */
+@keyframes breathingShield {
+  0% {
+    transform: scale(1);
+    opacity: 0.88;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.88;
+  }
+}
+
+.animate-breathing {
+  animation: breathingShield 3.6s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Subtle Moving Security Grid */
+@keyframes gridMove {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 40px;
+  }
+}
+
+.security-grid-bg {
+  background-image: 
+    linear-gradient(rgba(6, 182, 212, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(6, 182, 212, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  animation: gridMove 24s linear infinite;
+}
+
+/* Scanner Beam Effect */
+@keyframes scanLineAnim {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+.scanner-beam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #06b6d4, #22d3ee, transparent);
+  box-shadow: 0 0 8px #06b6d4;
+  animation: scanLineAnim 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Haptic Pulse Ring (Smartwatch & High Risk Alert) */
+@keyframes hapticRing {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.2;
+  }
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+
+.haptic-ring {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: hapticRing 2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+/* Sidebar Active Indicator Transition */
+.sidebar-indicator {
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: #06b6d4;
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.6);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Sequential Pipeline Step Glow */
+@keyframes stepPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(6, 182, 212, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(6, 182, 212, 0);
+  }
+}
+
+.step-active-pulse {
+  animation: stepPulse 1.8s infinite;
+}
+
+/* GPU Accelerated Fade-In */
+.animate-fade-in {
+  animation: fadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(6, 182, 212, 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

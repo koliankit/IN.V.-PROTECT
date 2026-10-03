@@ -15,7 +15,7 @@ from scripts.parse_official_documents import run_document_parsing
 
 
 class TestLayer036DocumentParser(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.temp_dir = tempfile.mkdtemp()
         self.registry_manifest = os.path.join(self.temp_dir, "official_source_registry.json")
 
@@ -51,10 +51,10 @@ class TestLayer036DocumentParser(unittest.TestCase):
         self.registry = SourceRegistry(self.registry_manifest)
         self.parser = UnifiedDocumentParser(registry=self.registry)
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         shutil.rmtree(self.temp_dir, ignore_errors=True)
 
-    def test_html_parsing_preserves_all_required_attributes(self):
+    def test_html_parsing_preserves_all_required_attributes(self) -> None:
         sample_html = """
         <html>
         <head><title>Official SEBI Advisory on Cyber Scams</title></head>
@@ -98,7 +98,7 @@ class TestLayer036DocumentParser(unittest.TestCase):
             self.assertEqual(b.source_reference, doc.metadata.source_reference)
             self.assertGreater(len(b.text), 5)
 
-    def test_pdf_parsing_preserves_page_numbers_and_headings(self):
+    def test_pdf_parsing_preserves_page_numbers_and_headings(self) -> None:
         # Multi-page simulated PDF byte stream with /Type /Page
         mock_pdf = (
             b"%PDF-1.4\n"
@@ -140,7 +140,7 @@ class TestLayer036DocumentParser(unittest.TestCase):
             self.assertIsNotNone(b.heading)
             self.assertIn("SRC001", b.source_reference)
 
-    def test_json_evidence_parsing(self):
+    def test_json_evidence_parsing(self) -> None:
         sample_json = json.dumps({
             "title": "SEBI Fake Trading Apps",
             "publication_date": "2024-02-26",
@@ -169,7 +169,7 @@ class TestLayer036DocumentParser(unittest.TestCase):
         self.assertEqual(doc.blocks[0].heading, "Telegram VIP Fraud")
         self.assertEqual(len(doc.blocks[0].bullet_points), 1)
 
-    def test_cli_dry_run_executes_cleanly(self):
+    def test_cli_dry_run_executes_cleanly(self) -> None:
         code = run_document_parsing(
             source_id=None,
             all_sources=True,

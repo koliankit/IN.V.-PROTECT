@@ -10,10 +10,10 @@ from backend.schemas.provenance import ProvenanceRecord, SourceType, AllowedUse
 
 
 class TestLayer017ProvenanceRegistry(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
-    def test_json_schema_file_exists_and_has_required_fields(self):
+    def test_json_schema_file_exists_and_has_required_fields(self) -> None:
         schema_path = os.path.join(self.root_dir, "data", "manifests", "provenance_schema.json")
         self.assertTrue(os.path.isfile(schema_path))
         with open(schema_path, "r", encoding="utf-8") as f:
@@ -33,7 +33,7 @@ class TestLayer017ProvenanceRegistry(unittest.TestCase):
         ]
         self.assertEqual(data["required"], expected_fields)
 
-    def test_valid_provenance_record_instantiation(self):
+    def test_valid_provenance_record_instantiation(self) -> None:
         valid_record = ProvenanceRecord(
             source_id="SRC001",
             publisher="SEBI Investor",
@@ -49,7 +49,7 @@ class TestLayer017ProvenanceRegistry(unittest.TestCase):
         self.assertEqual(valid_record.source_id, "SRC001")
         self.assertEqual(valid_record.allowed_use, AllowedUse.RAG_EVIDENCE_RULES)
 
-    def test_invalid_hash_format_raises(self):
+    def test_invalid_hash_format_raises(self) -> None:
         with self.assertRaises(ValueError):
             ProvenanceRecord(
                 source_id="SRC001",

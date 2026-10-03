@@ -78,6 +78,38 @@ class AppSettings(BaseSettings):
         description="Public URL for frontend interface",
     )
 
+    # Production Authentication & Owner Verification
+    JWT_SECRET_KEY: str = Field(
+        default="sangyan-investor-shield-production-secret-key-change-in-env-9921",
+        description="HMAC-SHA256 secret key for signing session JWT tokens",
+    )
+    JWT_ALGORITHM: str = Field(default="HS256", description="JWT signing algorithm")
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(default=60, description="Access token expiration in minutes")
+    REFRESH_TOKEN_EXPIRE_DAYS: int = Field(default=14, description="Refresh token expiration in days")
+
+    # Email OTP Delivery Provider (smtp, resend, or none)
+    EMAIL_PROVIDER: Optional[str] = Field(default=None, description="Transactional email provider: smtp or resend")
+    SMTP_HOST: Optional[str] = Field(default=None, description="SMTP host server")
+    SMTP_PORT: int = Field(default=587, description="SMTP server port")
+    SMTP_USERNAME: Optional[str] = Field(default=None, description="SMTP login username")
+    SMTP_PASSWORD: Optional[str] = Field(default=None, description="SMTP login password")
+    EMAIL_FROM: str = Field(default="security@sangyan.gov.in", description="Sender email address for OTPs")
+    RESEND_API_KEY: Optional[str] = Field(default=None, description="API Key for Resend transactional email")
+
+    # Face & Liveness Verification Provider
+    LIVENESS_PROVIDER_URL: Optional[str] = Field(default=None, description="Enterprise Face Liveness endpoint URL")
+    LIVENESS_API_KEY: Optional[str] = Field(default=None, description="API Key for Face Liveness provider")
+
+    # WebAuthn / Passkey Platform Authenticator
+    WEBAUTHN_RP_ID: str = Field(default="localhost", description="Relying party ID for WebAuthn")
+    WEBAUTHN_RP_NAME: str = Field(default="Sangyan AI Investor Shield", description="Relying party display name")
+
+    # Valid Owner Activation Codes
+    VALID_ACTIVATION_CODES: str = Field(
+        default="SANGYAN-2026,INVESTOR-SHIELD-2026,SANGYAN-ALPHA,SEBI-PROTECT-2026",
+        description="Comma-separated valid beta/enterprise registration activation codes",
+    )
+
     @field_validator("ENVIRONMENT")
     @classmethod
     def validate_environment(cls, v: str) -> str:

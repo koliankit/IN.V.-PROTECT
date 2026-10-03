@@ -19,7 +19,7 @@ from backend.schemas.source_snapshot import SnapshotIntegrityStatus
 
 
 class TestLayer034SourceSnapshot(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.temp_dir = tempfile.mkdtemp()
         self.snapshots_dir = os.path.join(self.temp_dir, "snapshots")
         self.ledger_path = os.path.join(self.temp_dir, "source_snapshots_ledger.json")
@@ -28,7 +28,7 @@ class TestLayer034SourceSnapshot(unittest.TestCase):
             ledger_path=self.ledger_path,
         )
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         # Restore write permissions before cleanup if read-only was set
         for root, dirs, files in os.walk(self.temp_dir):
             for f in files:
@@ -39,7 +39,7 @@ class TestLayer034SourceSnapshot(unittest.TestCase):
                     pass
         shutil.rmtree(self.temp_dir, ignore_errors=True)
 
-    def test_create_initial_snapshot(self):
+    def test_create_initial_snapshot(self) -> None:
         content = b"SEBI Investor Advisory on Telegram VIP Groups - Feb 2024"
         expected_hash = hashlib.sha256(content).hexdigest()
 
@@ -61,7 +61,7 @@ class TestLayer034SourceSnapshot(unittest.TestCase):
         self.assertEqual(len(ledger), 1)
         self.assertEqual(ledger[0].snapshot_id, snapshot.snapshot_id)
 
-    def test_idempotent_recreation_returns_intact(self):
+    def test_idempotent_recreation_returns_intact(self) -> None:
         content = b"Static unchanged circular text"
         snap1, status1 = self.manager.create_snapshot("SRC002", content, "html")
         self.assertEqual(status1, SnapshotIntegrityStatus.NEW_SNAPSHOT)
@@ -74,7 +74,7 @@ class TestLayer034SourceSnapshot(unittest.TestCase):
         # Ledger length remains 1
         self.assertEqual(len(self.manager.list_snapshots("SRC002")), 1)
 
-    def test_silent_overwrite_is_strictly_blocked(self):
+    def test_silent_overwrite_is_strictly_blocked(self) -> None:
         original_content = b"Original Circular Content Version 1.0"
         self.manager.create_snapshot("SRC003", original_content, "pdf")
 
@@ -87,7 +87,7 @@ class TestLayer034SourceSnapshot(unittest.TestCase):
         self.assertIn("Silent overwrite prohibited", str(ctx.exception))
         self.assertIn("SRC003", str(ctx.exception))
 
-    def test_explicit_versioning_preserves_both_revisions(self):
+    def test_explicit_versioning_preserves_both_revisions(self) -> None:
         v1_bytes = b"Circular v1 text"
         v2_bytes = b"Circular v2 amended guidance"
 
@@ -110,7 +110,7 @@ class TestLayer034SourceSnapshot(unittest.TestCase):
         self.assertIsNotNone(latest)
         self.assertEqual(latest.version, 2)
 
-    def test_verify_snapshot_integrity_detects_tampering(self):
+    def test_verify_snapshot_integrity_detects_tampering(self) -> None:
         content = b"Evidence Payload"
         snap, _ = self.manager.create_snapshot("SRC006", content, "txt")
 

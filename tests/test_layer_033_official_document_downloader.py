@@ -21,7 +21,7 @@ from scripts.download_official_documents import run_official_downloader
 
 
 class TestLayer033OfficialDocumentDownloader(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.temp_dir = tempfile.mkdtemp()
         self.raw_dir = os.path.join(self.temp_dir, "raw", "official")
         self.manifest_path = os.path.join(self.temp_dir, "official_document_snapshots.json")
@@ -64,10 +64,10 @@ class TestLayer033OfficialDocumentDownloader(unittest.TestCase):
             registry=self.registry,
         )
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         shutil.rmtree(self.temp_dir, ignore_errors=True)
 
-    def test_html_parser_cleans_tags_and_extracts_headings(self):
+    def test_html_parser_cleans_tags_and_extracts_headings(self) -> None:
         sample_html = """
         <!DOCTYPE html>
         <html>
@@ -100,7 +100,7 @@ class TestLayer033OfficialDocumentDownloader(unittest.TestCase):
         self.assertNotIn("font-size", all_content)
         self.assertIn("guaranteed returns", all_content)
 
-    def test_pdf_parser_extracts_text_streams(self):
+    def test_pdf_parser_extracts_text_streams(self) -> None:
         mock_pdf_stream = (
             b"%PDF-1.4\n"
             b"1 0 obj\n"
@@ -119,11 +119,11 @@ class TestLayer033OfficialDocumentDownloader(unittest.TestCase):
         self.assertGreaterEqual(len(sections), 1)
         self.assertIn("Fraudulent apps simulate market prices", sections[0].content)
 
-    def test_reject_unregistered_source(self):
+    def test_reject_unregistered_source(self) -> None:
         with self.assertRaises(ValueError):
             self.downloader.fetch_and_parse("SRC_UNREGISTERED_999")
 
-    def test_fetch_and_parse_preserves_raw_file_and_hash(self):
+    def test_fetch_and_parse_preserves_raw_file_and_hash(self) -> None:
         mock_html_bytes = b"<h1>Official Portal</h1><p>Grievance lodging steps via SCORES portal.</p>"
         expected_hash = hashlib.sha256(mock_html_bytes).hexdigest()
 
@@ -149,7 +149,7 @@ class TestLayer033OfficialDocumentDownloader(unittest.TestCase):
         self.assertEqual(len(manifest_snapshots), 1)
         self.assertEqual(manifest_snapshots[0].source_id, "SRC004")
 
-    def test_cli_dry_run_executes_cleanly(self):
+    def test_cli_dry_run_executes_cleanly(self) -> None:
         exit_code = run_official_downloader(
             source_id=None,
             all_sources=True,

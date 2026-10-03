@@ -7,7 +7,7 @@ import unittest
 
 
 class TestRepoStructure(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
         self.expected_dirs = [
             "frontend",
@@ -26,7 +26,7 @@ class TestRepoStructure(unittest.TestCase):
             "infra",
         ]
 
-    def test_required_directories_exist(self):
+    def test_required_directories_exist(self) -> None:
         for d in self.expected_dirs:
             path = os.path.join(self.root_dir, *d.split("/"))
             self.assertTrue(
@@ -34,7 +34,7 @@ class TestRepoStructure(unittest.TestCase):
                 f"Required directory '{d}' is missing at {path}",
             )
 
-    def test_root_readme_exists(self):
+    def test_root_readme_exists(self) -> None:
         readme_path = os.path.join(self.root_dir, "README.md")
         self.assertTrue(os.path.isfile(readme_path), "Root README.md is missing")
         with open(readme_path, "r", encoding="utf-8") as f:
@@ -43,7 +43,7 @@ class TestRepoStructure(unittest.TestCase):
         self.assertIn("frontend/", content)
         self.assertIn("backend/", content)
 
-    def test_root_gitignore_exists(self):
+    def test_root_gitignore_exists(self) -> None:
         gitignore_path = os.path.join(self.root_dir, ".gitignore")
         self.assertTrue(os.path.isfile(gitignore_path), "Root .gitignore is missing")
         with open(gitignore_path, "r", encoding="utf-8") as f:

@@ -27,7 +27,7 @@ class CandidateDataset(BaseModel):
 
 
 class CandidateDatasetRegistry:
-    def __init__(self, registry_path: Optional[str] = None):
+    def __init__(self, registry_path: Optional[str] = None) -> None:
         if registry_path is None:
             base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
             registry_path = os.path.join(base_dir, "data", "manifests", "candidate_datasets_registry.json")

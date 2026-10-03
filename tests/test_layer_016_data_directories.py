@@ -7,7 +7,7 @@ import unittest
 
 
 class TestLayer016DataDirectories(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
         self.data_dirs = [
             "data/raw",
@@ -19,14 +19,14 @@ class TestLayer016DataDirectories(unittest.TestCase):
             "data/manifests",
         ]
 
-    def test_all_data_directories_exist_with_gitkeep(self):
+    def test_all_data_directories_exist_with_gitkeep(self) -> None:
         for d in self.data_dirs:
             dir_path = os.path.join(self.root_dir, *d.split("/"))
             self.assertTrue(os.path.isdir(dir_path), f"Directory {d} does not exist")
             gitkeep_path = os.path.join(dir_path, ".gitkeep")
             self.assertTrue(os.path.isfile(gitkeep_path), f".gitkeep missing in {d}")
 
-    def test_data_documentation_exists(self):
+    def test_data_documentation_exists(self) -> None:
         readme_path = os.path.join(self.root_dir, "data", "README.md")
         spec_path = os.path.join(self.root_dir, "docs", "DATA_DIRECTORIES.md")
         self.assertTrue(os.path.isfile(readme_path))

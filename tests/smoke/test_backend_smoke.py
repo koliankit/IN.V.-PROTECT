@@ -9,15 +9,15 @@ from backend.schemas.analysis import AnalysisResponse, RiskLevel, ConfidenceOrUn
 
 
 class TestBackendSmoke(unittest.TestCase):
-    def test_settings_loaded(self):
+    def test_settings_loaded(self) -> None:
         self.assertIsNotNone(settings)
         self.assertEqual(settings.ENVIRONMENT, "development")
 
-    def test_constants_accessible(self):
+    def test_constants_accessible(self) -> None:
         self.assertEqual(PRODUCT_NAME, "Sangyan AI Investor Shield")
         self.assertEqual(PRIMARY_TRACK_CODE, "Track A")
 
-    def test_schemas_constructable(self):
+    def test_schemas_constructable(self) -> None:
         response = AnalysisResponse(
             risk_level=RiskLevel.LOW_CONCERN,
             confidence_or_uncertainty=ConfidenceOrUncertainty(

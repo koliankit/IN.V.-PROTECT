@@ -18,7 +18,7 @@ from scripts.evaluate_retrieval import run_benchmark_cli
 
 
 class TestLayer042RetrievalEvaluation(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.temp_dir = tempfile.mkdtemp()
         self.index_path = os.path.join(self.temp_dir, "test_eval_index.json")
         self.vector_index = VectorIndex(index_path=self.index_path)
@@ -32,7 +32,7 @@ class TestLayer042RetrievalEvaluation(unittest.TestCase):
             embedder=self.embedder,
         )
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         shutil.rmtree(self.temp_dir, ignore_errors=True)
 
     def _seed_test_corpus(self) -> None:
@@ -108,7 +108,7 @@ class TestLayer042RetrievalEvaluation(unittest.TestCase):
         ]
         self.vector_index.add_batch(items)
 
-    def test_evaluation_set_contains_minimum_queries(self):
+    def test_evaluation_set_contains_minimum_queries(self) -> None:
         queries = self.evaluator.load_benchmark_queries()
         self.assertGreaterEqual(len(queries), 8)
         for q in queries:
@@ -116,7 +116,7 @@ class TestLayer042RetrievalEvaluation(unittest.TestCase):
             self.assertGreaterEqual(len(q.query_text), 15)
             self.assertGreaterEqual(len(q.target_source_ids), 1)
 
-    def test_single_query_evaluation_computes_hit_and_mrr(self):
+    def test_single_query_evaluation_computes_hit_and_mrr(self) -> None:
         q = RetrievalBenchmarkQuery(
             query_id="TEST_Q01",
             query_text="VIP Telegram trading groups promising guaranteed returns",
@@ -133,7 +133,7 @@ class TestLayer042RetrievalEvaluation(unittest.TestCase):
         self.assertEqual(metric.reciprocal_rank, 1.0)
         self.assertGreater(metric.recall_at_5, 0.0)
 
-    def test_single_query_miss_evaluates_zero_hit_and_mrr(self):
+    def test_single_query_miss_evaluates_zero_hit_and_mrr(self) -> None:
         q = RetrievalBenchmarkQuery(
             query_id="TEST_Q_MISS",
             query_text="Unrelated culinary discussion on making pizza dough",
@@ -149,7 +149,7 @@ class TestLayer042RetrievalEvaluation(unittest.TestCase):
         self.assertEqual(metric.reciprocal_rank, 0.0)
         self.assertEqual(metric.recall_at_5, 0.0)
 
-    def test_run_benchmark_computes_aggregate_metrics(self):
+    def test_run_benchmark_computes_aggregate_metrics(self) -> None:
         report = self.evaluator.run_benchmark(top_k=5)
         self.assertGreaterEqual(report.total_queries, 8)
         self.assertGreaterEqual(report.hit_rate_at_1, 0.0)
@@ -161,7 +161,7 @@ class TestLayer042RetrievalEvaluation(unittest.TestCase):
         # Check that individual query metrics are attached
         self.assertEqual(len(report.query_metrics), report.total_queries)
 
-    def test_cli_dry_run_executes_cleanly(self):
+    def test_cli_dry_run_executes_cleanly(self) -> None:
         code = run_benchmark_cli(top_k=5, dry_run=True)
         self.assertEqual(code, 0)
 

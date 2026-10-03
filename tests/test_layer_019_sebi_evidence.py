@@ -10,14 +10,14 @@ from backend.core.evidence import EvidenceStore
 
 
 class TestLayer019SebiEvidence(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
         self.file_path = os.path.join(
             self.root_dir, "data", "official", "SRC001_sebi_fake_trading_apps.json"
         )
         self.evidence_store = EvidenceStore(os.path.join(self.root_dir, "data", "official"))
 
-    def test_sebi_file_metadata(self):
+    def test_sebi_file_metadata(self) -> None:
         self.assertTrue(os.path.isfile(self.file_path))
         with open(self.file_path, "r", encoding="utf-8") as f:
             doc = json.load(f)
@@ -33,7 +33,7 @@ class TestLayer019SebiEvidence(unittest.TestCase):
         self.assertIn("retrieved_at", doc)
         self.assertGreaterEqual(len(doc["sections"]), 4)
 
-    def test_sebi_sections_have_page_and_content(self):
+    def test_sebi_sections_have_page_and_content(self) -> None:
         with open(self.file_path, "r", encoding="utf-8") as f:
             doc = json.load(f)
 
@@ -45,7 +45,7 @@ class TestLayer019SebiEvidence(unittest.TestCase):
             self.assertIn("key_takeaways", sec)
             self.assertGreater(len(sec["content"]), 20)
 
-    def test_evidence_retrieval_finds_guaranteed_return_evidence(self):
+    def test_evidence_retrieval_finds_guaranteed_return_evidence(self) -> None:
         results = self.evidence_store.find_evidence_by_keyword("guaranteed")
         self.assertGreaterEqual(len(results), 1)
         self.assertEqual(results[0].source_id, "SRC001")

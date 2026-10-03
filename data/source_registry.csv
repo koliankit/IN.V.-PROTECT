@@ -1,0 +1,12 @@
+source_id,publisher,title,url,license,version_date,intended_use,verification_status,is_official_evidence,is_ml_training
+SRC001,SEBI Investor,Fake Trading App Scam Landscape,https://investor.sebi.gov.in/pdf/Fake%20trading%20app%20scam%20Landscape.pdf,Government Public Advisory,2024-02-26,RAG_evidence_rules,VERIFIED,true,false
+SRC002,I4C / National Cyber Crime Threat Analytics Unit,Advisory: Fake Stock Market Investment Websites/Apps,https://cybercrime.gov.in/pdf/Advisories/ADVISORY%20TAU-ADV-001%20%2822.04.2024%29.pdf,Government Public Advisory,2024-04-22,RAG_evidence_rules,VERIFIED,true,false
+SRC003,SEBI Investor,Investor Awareness Video Modules,https://investor.sebi.gov.in/inv_aware_edu_videos.html,Government Public Portal,2024-01-15,RAG_evidence_rules,VERIFIED,true,false
+SRC004,SEBI Investor,Investor Support,https://investor.sebi.gov.in/Investor-support.html,Government Public Portal,2024-01-01,verification_grievance,VERIFIED,true,false
+SRC005,RBI,Financial Awareness Messages,https://www.rbi.org.in/commonperson/images/FAME202426022024.pdf,Government Public Advisory,2024-02-26,RAG_evidence_rules,VERIFIED,true,false
+SRC006,CERT-In,Preventing Online Scams,https://www.cert-in.org.in/s2cMainServlet?VLCODE=CIAD-2024-0050&pageid=PUBVLNOTES02,Government Public Advisory,2024-05-10,RAG_evidence_rules,VERIFIED,true,false
+SRC007,data.gov.in / NCRB,Crime in India 2023,https://www.data.gov.in/catalog/crime-india-2023,GODL-India,2023-12-01,impact_context,VERIFIED,true,false
+SRC008,data.gov.in,Fraud keyword catalog/resources,https://ap.data.gov.in/keywords/Fraud,GODL-India,2023-10-15,impact_context,VERIFIED,true,false
+SRC009,UCI Machine Learning Repository,SMS Spam Collection Dataset,https://archive.ics.uci.edu/dataset/228/sms%2Bspam%2Bcollection,CC-BY-4.0,2012-06-01,baseline_classifier_training,VERIFIED,false,true
+SRC010,Academic Community Research,Curated Indian Cyber Fraud Messages,https://github.com/academic-cyber-research/indian-scam-corpus,CC-BY-NC-4.0,2024-03-01,evaluation_and_context,VERIFIED,false,false
+SRC011,Anti-Fraud Community Volunteers,Hinglish Task & Investment Scam Telemetry,https://github.com/anti-fraud-in/task-scams-hinglish,MIT License,2024-04-10,evaluation_and_context,VERIFIED,false,false

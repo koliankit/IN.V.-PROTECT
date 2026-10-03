@@ -22,7 +22,7 @@ class SupportChannel(BaseModel):
 
 
 class InvestorSupportIndex:
-    def __init__(self, store: Optional[EvidenceStore] = None):
+    def __init__(self, store: Optional[EvidenceStore] = None) -> None:
         self.evidence_store = store or evidence_store
         self._channels: Dict[str, SupportChannel] = {}
         self.index_support_guidance()

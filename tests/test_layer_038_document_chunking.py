@@ -19,7 +19,7 @@ from scripts.chunk_documents import run_chunking_process
 
 
 class TestLayer038DocumentChunking(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.chunker = DocumentChunker(
             config=ChunkingConfig(
                 max_chunk_size_chars=300,
@@ -78,7 +78,7 @@ class TestLayer038DocumentChunking(unittest.TestCase):
             full_text=f"{b1.text}\n\n{b2.text}",
         )
 
-    def test_every_chunk_retains_required_fields(self):
+    def test_every_chunk_retains_required_fields(self) -> None:
         doc = self._create_sample_parsed_document()
         result = self.chunker.chunk_parsed_document(doc)
 
@@ -100,7 +100,7 @@ class TestLayer038DocumentChunking(unittest.TestCase):
             self.assertGreaterEqual(chunk.token_count_approx, 2)
             self.assertGreaterEqual(chunk.chunk_index, 0)
 
-    def test_page_and_section_attribution_accuracy(self):
+    def test_page_and_section_attribution_accuracy(self) -> None:
         doc = self._create_sample_parsed_document()
         result = self.chunker.chunk_parsed_document(doc)
 
@@ -118,7 +118,7 @@ class TestLayer038DocumentChunking(unittest.TestCase):
             self.assertIn("Page 2", c.page_or_section)
             self.assertIn("Payment Routing", c.section_title)
 
-    def test_short_block_produces_single_chunk(self):
+    def test_short_block_produces_single_chunk(self) -> None:
         chunks = self.chunker.chunk_block(
             source_id="SRC004",
             document_id="DOC_SRC004_12345678",
@@ -134,7 +134,7 @@ class TestLayer038DocumentChunking(unittest.TestCase):
         self.assertEqual(c.page_or_section, "Page 1 / Grievance Redressal")
         self.assertIn("SCORES portal", c.text)
 
-    def test_cli_dry_run_executes_cleanly(self):
+    def test_cli_dry_run_executes_cleanly(self) -> None:
         code = run_chunking_process(
             source_id=None,
             all_sources=True,
@@ -145,3 +145,4 @@ class TestLayer038DocumentChunking(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

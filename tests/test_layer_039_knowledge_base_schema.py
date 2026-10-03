@@ -20,15 +20,15 @@ from backend.schemas.knowledge_base import (
 
 
 class TestLayer039KnowledgeBaseSchema(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.temp_dir = tempfile.mkdtemp()
         self.db_path = os.path.join(self.temp_dir, "test_kb.db")
         self.db = DatabaseManager(db_path=self.db_path)
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         shutil.rmtree(self.temp_dir, ignore_errors=True)
 
-    def test_schema_creates_all_five_tables(self):
+    def test_schema_creates_all_five_tables(self) -> None:
         with self.db.get_connection() as conn:
             tables = conn.execute(
                 "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name"
@@ -39,7 +39,7 @@ class TestLayer039KnowledgeBaseSchema(unittest.TestCase):
         for exp in expected:
             self.assertIn(exp, table_names)
 
-    def test_foreign_key_enforcement_blocks_orphaned_document(self):
+    def test_foreign_key_enforcement_blocks_orphaned_document(self) -> None:
         # Attempting to insert a document with non-existent source_id must fail
         doc = DocumentEntity(
             document_id="DOC_ORPHAN",
@@ -52,7 +52,7 @@ class TestLayer039KnowledgeBaseSchema(unittest.TestCase):
         with self.assertRaises(sqlite3.IntegrityError):
             self.db.insert_document(doc)
 
-    def test_foreign_key_enforcement_blocks_orphaned_chunk(self):
+    def test_foreign_key_enforcement_blocks_orphaned_chunk(self) -> None:
         # Insert source first
         src = SourceEntity(
             source_id="SRC001",
@@ -78,7 +78,7 @@ class TestLayer039KnowledgeBaseSchema(unittest.TestCase):
         with self.assertRaises(sqlite3.IntegrityError):
             self.db.insert_chunk(chunk)
 
-    def test_end_to_end_relational_chain(self):
+    def test_end_to_end_relational_chain(self) -> None:
         # 1. Source
         src = SourceEntity(
             source_id="SRC001",
@@ -165,7 +165,7 @@ class TestLayer039KnowledgeBaseSchema(unittest.TestCase):
         self.assertEqual(len(retrieved_citations), 1)
         self.assertEqual(retrieved_citations[0].relevance_score, 0.94)
 
-    def test_cascading_delete(self):
+    def test_cascading_delete(self) -> None:
         # Insert source, doc, and chunk
         src = SourceEntity(
             source_id="SRC002",

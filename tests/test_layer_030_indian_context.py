@@ -14,14 +14,14 @@ from backend.schemas.indian_context import (
 
 
 class TestLayer030IndianContext(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
         self.doc_path = os.path.join(self.root_dir, "docs", "INDIAN_CONTEXT_DATASETS.md")
         self.manifest_path = os.path.join(
             self.root_dir, "data", "manifests", "indian_context_datasets.json"
         )
 
-    def test_documentation_exists(self):
+    def test_documentation_exists(self) -> None:
         self.assertTrue(os.path.isfile(self.doc_path))
         with open(self.doc_path, "r", encoding="utf-8") as f:
             content = f.read()
@@ -29,7 +29,7 @@ class TestLayer030IndianContext(unittest.TestCase):
         self.assertIn("Official Regulator Sources", content)
         self.assertIn("Community Research Datasets", content)
 
-    def test_manifest_loads_and_enforces_tier_separation(self):
+    def test_manifest_loads_and_enforces_tier_separation(self) -> None:
         self.assertTrue(os.path.isfile(self.manifest_path))
         with open(self.manifest_path, "r", encoding="utf-8") as f:
             raw_entries = json.load(f)
@@ -57,7 +57,7 @@ class TestLayer030IndianContext(unittest.TestCase):
         self.assertGreaterEqual(community_count, 1)
         self.assertGreaterEqual(official_count, 1)
 
-    def test_pydantic_validator_blocks_cross_tier_spoofing(self):
+    def test_pydantic_validator_blocks_cross_tier_spoofing(self) -> None:
         # Attempting to label a community dataset as official government must raise ValueError
         with self.assertRaises(ValueError):
             IndianContextDatasetRecord(

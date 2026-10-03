@@ -11,14 +11,14 @@ from backend.schemas.dataset_license import DatasetLicenseRecord
 
 
 class TestLayer027DatasetLicense(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
         self.manifest_file = os.path.join(
             self.root_dir, "data", "manifests", "dataset_licenses.json"
         )
         self.verifier = DatasetLicenseVerifier(self.manifest_file)
 
-    def test_manifest_loads_and_validates(self):
+    def test_manifest_loads_and_validates(self) -> None:
         self.assertTrue(os.path.isfile(self.manifest_file))
         records = self.verifier.list_all()
         self.assertGreaterEqual(len(records), 2)
@@ -29,9 +29,10 @@ class TestLayer027DatasetLicense(unittest.TestCase):
             self.assertGreaterEqual(len(rec.record_structure), 2)
             self.assertGreaterEqual(len(rec.permitted_uses), 1)
 
-    def test_uci_spam_license_verification(self):
+    def test_uci_spam_license_verification(self) -> None:
         uci = self.verifier.get_record("DATASET_UCI_SPAM")
         self.assertIsNotNone(uci)
+        assert uci is not None and uci.attribution_text is not None
         self.assertEqual(uci.license_type, "CC-BY-4.0")
         self.assertTrue(uci.attribution_required)
         self.assertIn("Almeida", uci.attribution_text)
@@ -40,8 +41,9 @@ class TestLayer027DatasetLicense(unittest.TestCase):
         self.assertTrue(valid)
         self.assertIn("verified", msg.lower())
 
-    def test_reject_unverified_or_forbidden_use(self):
+    def test_reject_unverified_or_forbidden_use(self) -> None:
         uci = self.verifier.get_record("DATASET_UCI_SPAM")
+        assert uci is not None
         # Attempting unpermitted use
         valid, msg = self.verifier.verify_dataset_inclusion(uci, "unauthorized_commercial_resale")
         self.assertFalse(valid)
