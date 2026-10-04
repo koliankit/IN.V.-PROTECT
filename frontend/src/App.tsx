@@ -800,6 +800,7 @@ export default function App() {
               messages={messages}
               incidents={incidents}
               dailyReport={dailyReport}
+              officialSources={officialSources}
               lastScanTime="Just now"
               onSelectMessage={(msg) => {
                 setSelectedMessage(msg);
