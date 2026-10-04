@@ -57,6 +57,9 @@ class DeviceStatus(BaseModel):
 
 class IntegrationStatus(str, Enum):
     CONNECTED = "CONNECTED"
+    CONNECTING = "CONNECTING"
+    DISCONNECTED = "DISCONNECTED"
+    NOT_CONFIGURED = "NOT CONFIGURED"
     AVAILABLE = "AVAILABLE"
     NOT_CONNECTED = "NOT CONNECTED"
     DEMO = "DEMO / SIMULATED"
@@ -65,7 +68,7 @@ class IntegrationStatus(str, Enum):
 class IntegrationSource(BaseModel):
     id: str
     name: str
-    category: str = Field(..., description="BANK, BROKER, PAYMENT, EMAIL, MESSAGING, BROWSER, DEVICE")
+    category: str = Field(..., description="BANK, BROKER, PAYMENT, EMAIL, MESSAGING, BROWSER, DEVICE, SMS, NOTIFICATIONS, SCREENSHOTS")
     status: IntegrationStatus
     description: str
     supported_channels: List[str]
@@ -73,19 +76,22 @@ class IntegrationSource(BaseModel):
     security_guarantee: str
     is_real: bool = False
     notes: Optional[str] = None
+    account_identifier: Optional[str] = None
+    auth_type: Optional[str] = None
+    last_sync: Optional[str] = None
 
 
 class SecureMessage(BaseModel):
     id: str
     sender: str
     sender_identifier: str
-    source_channel: str = Field(..., description="SMS, Email, WhatsApp, Telegram, Bank Alert, Broker, Browser")
+    source_channel: str = Field(..., description="SMS, Email, WhatsApp, Telegram, Bank Alert, Broker, Browser, Notification, Screenshot")
     timestamp: str
     content: str
     snippet: str
     risk_level: RiskLevel
     protection_tier: ProtectionTier
-    status: str = Field(default="ACTIVE", description="ACTIVE, QUARANTINED, RELEASED, DELETED, MARKED_SAFE")
+    status: str = Field(default="ACTIVE", description="ACTIVE, QUARANTINED, RELEASED, DELETED, MARKED_SAFE, ARCHIVED, IMPORTANT")
     detected_signals: List[DetectedSignal] = Field(default_factory=list)
     claims: List[VerifiedClaimItem] = Field(default_factory=list)
     evidence: List[EvidenceItem] = Field(default_factory=list)
@@ -93,6 +99,14 @@ class SecureMessage(BaseModel):
     explanation: str
     quarantine_reason: Optional[str] = None
     is_demo: bool = False
+    # Live Communication Security Layer additions:
+    claimed_source: Optional[str] = None
+    actual_sender: Optional[str] = None
+    sender_verification: Optional[str] = "UNVERIFIED"  # "VERIFIED", "NOT VERIFIED", "CONTRADICTED", "UNVERIFIED"
+    sender_verification_evidence: Optional[str] = None
+    is_important: bool = False
+    is_archived: bool = False
+    report_id: Optional[str] = None
 
 
 class IncidentRecord(BaseModel):
@@ -110,7 +124,34 @@ class IncidentRecord(BaseModel):
     recommended_action: str
     official_reporting_channels: List[Dict[str, str]]
     evidence_package: Dict[str, Any]
-    status: str = Field(default="OPEN", description="OPEN, REPORTED, RESOLVED, DISMISSED")
+    status: str = Field(default="OPEN", description="OPEN, REPORTED, RESOLVED, DISMISSED, REPORTED_BY_USER")
+    # Live Communication Security Layer additions:
+    claimed_source: Optional[str] = None
+    actual_sender: Optional[str] = None
+    verification_summary: Optional[str] = None
+    user_action_taken: Optional[str] = None
+
+
+class AssistantChatRequest(BaseModel):
+    query: str = Field(..., min_length=1, description="Investor question or command for the security assistant.")
+    current_message_id: Optional[str] = Field(None, description="ID of currently viewed or selected message for contextual inquiry.")
+    chat_history: Optional[List[Dict[str, str]]] = Field(default_factory=list, description="Recent conversation turns.")
+
+
+class AssistantChatResponse(BaseModel):
+    response: str
+    suggested_actions: List[Dict[str, Any]] = Field(default_factory=list)
+    context_message_id: Optional[str] = None
+    context_message_summary: Optional[Dict[str, Any]] = None
+    references: List[Dict[str, str]] = Field(default_factory=list)
+
+
+class IncomingSimulationPayload(BaseModel):
+    source_channel: str = Field("SMS", description="Source channel: Email, SMS, Notification, Browser, Screenshot, Financial Alert")
+    sender: str = Field("Unknown Sender", description="Sender handle or displayed header")
+    sender_identifier: str = Field("+919876543210", description="Actual identifier (e.g. phone number, email address, domain)")
+    claimed_source: Optional[str] = Field(None, description="Claimed entity (e.g. SEBI, RBI, Zerodha, HDFC Bank)")
+    content: str = Field(..., min_length=1, description="Message body or communication text")
 
 
 class SecurityOverview(BaseModel):

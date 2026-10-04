@@ -52,6 +52,9 @@ from backend.schemas.security_hub import (
     DeviceStatus,
     PrivacyStatus,
     SecuritySettings,
+    AssistantChatRequest,
+    AssistantChatResponse,
+    IncomingSimulationPayload,
 )
 
 from contextlib import asynccontextmanager
@@ -582,6 +585,96 @@ def report_quarantined_message(message_id: str) -> Dict[str, Any]:
     if not res.get("success"):
         raise HTTPException(status_code=400, detail=res.get("error", "Reporting action failed"))
     return res
+
+
+# ============================================================================
+# LIVE COMMUNICATION SECURITY LAYER & SECURITY INBOX ENDPOINTS
+# ============================================================================
+
+@app.get("/api/communication-sources", response_model=List[IntegrationSource])
+def get_communication_sources() -> List[IntegrationSource]:
+    """Returns connected communication sources with honest authorization states."""
+    return security_hub.get_integrations()
+
+
+class ConnectSourceRequest(BaseModel):
+    account_identifier: Optional[str] = None
+
+
+@app.post("/api/communication-sources/{source_id}/connect", response_model=IntegrationSource)
+def connect_communication_source_endpoint(source_id: str, req: Optional[ConnectSourceRequest] = None) -> IntegrationSource:
+    """Authorizes an incoming communication source (OAuth flow for email, mobile service pairing)."""
+    try:
+        ident = req.account_identifier if req else None
+        return security_hub.connect_source(source_id, ident)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.post("/api/communication-sources/{source_id}/disconnect", response_model=IntegrationSource)
+def disconnect_communication_source_endpoint(source_id: str) -> IntegrationSource:
+    """Disconnects an authorized communication source."""
+    try:
+        return security_hub.disconnect_source(source_id)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.post("/api/communication-sources/simulate")
+def simulate_incoming_communication_endpoint(payload: IncomingSimulationPayload) -> Dict[str, Any]:
+    """
+    Ingests a simulated communication through the exact same production AI pipeline.
+    Tagged as DEMO / SIMULATED.
+    """
+    msg = security_hub.simulate_incoming_communication(payload)
+    return msg.model_dump()
+
+
+class MessagePreserveRequest(BaseModel):
+    action: str = Field(..., description="Action: keep, mark_important, archive")
+
+
+@app.post("/api/messages/{message_id}/preserve")
+def preserve_message_endpoint(message_id: str, req: MessagePreserveRequest) -> Dict[str, Any]:
+    """Preserves legitimate/important communications or archives them."""
+    res = security_hub.perform_message_action(message_id, req.action)
+    if not res.get("success"):
+        raise HTTPException(status_code=400, detail=res.get("error", "Action failed"))
+    return res
+
+
+class GenerateReportRequest(BaseModel):
+    user_action: Optional[str] = None
+
+
+@app.post("/api/messages/{message_id}/generate-report")
+def generate_incident_report_endpoint(message_id: str, req: Optional[GenerateReportRequest] = None) -> Dict[str, Any]:
+    """Generates a complete, evidence-grounded security incident report."""
+    try:
+        user_action = req.user_action if req else None
+        return security_hub.generate_incident_report(message_id, user_action)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.get("/api/messages/{message_id}/report-export")
+def export_incident_report_endpoint(message_id: str) -> Dict[str, Any]:
+    """Exports structured report data and printable formatted text."""
+    try:
+        return security_hub.generate_incident_report(message_id)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.post("/api/assistant/chat", response_model=AssistantChatResponse)
+def security_assistant_chat_endpoint(req: AssistantChatRequest) -> AssistantChatResponse:
+    """Context-aware AI security assistant for queries, explanations, and report generation."""
+    return security_hub.answer_assistant_query(
+        query=req.query,
+        current_message_id=req.current_message_id,
+        chat_history=req.chat_history,
+    )
+
 
 
 # ============================================================================

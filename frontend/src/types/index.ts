@@ -3,7 +3,14 @@
  * Strict TypeScript models matching the backend analysis and personal digital security layer contract.
  */
 
-export type RiskLevel = 'Low Concern' | 'Needs Verification' | 'High Concern';
+export type RiskLevel =
+  | 'Low Concern'
+  | 'Needs Verification'
+  | 'High Concern'
+  | 'low'
+  | 'review'
+  | 'high'
+  | string;
 
 export type ConfidenceLevel = 'high' | 'moderate' | 'uncertain';
 
@@ -115,14 +122,17 @@ export interface DeviceStatus {
 export interface IntegrationSource {
   id: string;
   name: string;
-  category: 'BANK' | 'BROKER' | 'PAYMENT' | 'EMAIL' | 'MESSAGING' | 'BROWSER' | 'DEVICE';
-  status: 'CONNECTED' | 'AVAILABLE' | 'NOT CONNECTED' | 'DEMO / SIMULATED';
+  category: string;
+  status: 'CONNECTED' | 'CONNECTING' | 'DISCONNECTED' | 'NOT CONFIGURED' | 'AVAILABLE' | 'NOT CONNECTED' | 'DEMO / SIMULATED';
   description: string;
   supported_channels: string[];
   data_access_level: string;
   security_guarantee: string;
   is_real: boolean;
   notes?: string | null;
+  account_identifier?: string | null;
+  auth_type?: string | null;
+  last_sync?: string | null;
 }
 
 export interface SecureMessage {
@@ -135,7 +145,7 @@ export interface SecureMessage {
   snippet: string;
   risk_level: RiskLevel;
   protection_tier: ProtectionTier;
-  status: 'ACTIVE' | 'QUARANTINED' | 'RELEASED' | 'DELETED' | 'MARKED_SAFE';
+  status: 'ACTIVE' | 'QUARANTINED' | 'RELEASED' | 'DELETED' | 'MARKED_SAFE' | 'IMPORTANT' | 'ARCHIVED';
   detected_signals: DetectedSignal[];
   claims: VerifiedClaimItem[];
   evidence: EvidenceItem[];
@@ -143,6 +153,13 @@ export interface SecureMessage {
   explanation: string;
   quarantine_reason?: string | null;
   is_demo: boolean;
+  claimed_source?: string | null;
+  actual_sender?: string | null;
+  sender_verification?: 'VERIFIED' | 'NOT VERIFIED' | 'CONTRADICTED' | 'UNVERIFIED' | string | null;
+  sender_verification_evidence?: string | null;
+  is_important?: boolean;
+  is_archived?: boolean;
+  report_id?: string | null;
 }
 
 export interface IncidentRecord {
@@ -165,7 +182,85 @@ export interface IncidentRecord {
     instruction: string;
   }>;
   evidence_package: Record<string, any>;
-  status: 'OPEN' | 'REPORTED' | 'RESOLVED' | 'DISMISSED';
+  status: 'OPEN' | 'REPORTED' | 'RESOLVED' | 'DISMISSED' | 'REPORTED_BY_USER';
+  claimed_source?: string | null;
+  actual_sender?: string | null;
+  verification_summary?: string | null;
+  user_action_taken?: string | null;
+}
+
+export interface AssistantChatRequest {
+  query: string;
+  current_message_id?: string | null;
+  chat_history?: Array<{ role: string; text: string }>;
+}
+
+export interface AssistantChatResponse {
+  response: string;
+  suggested_actions?: Array<{
+    label: string;
+    action: string;
+    incident_id?: string;
+    message_id?: string;
+    url?: string;
+    query?: string;
+  }>;
+  context_message_id?: string | null;
+  context_message_summary?: {
+    id: string;
+    source_channel: string;
+    sender: string;
+    claimed_source?: string | null;
+    actual_sender?: string | null;
+    risk_level: string;
+    protection_tier: string;
+    sender_verification?: string | null;
+    signals: string[];
+  } | null;
+  references?: Array<{ title: string; publisher: string; url: string }>;
+}
+
+export interface SecurityIncidentReport {
+  title: string;
+  incident_id: string;
+  message_id: string;
+  timestamp: string;
+  source: string;
+  sender_claimed: string;
+  sender_actual: string;
+  original_message: string;
+  detected_threats: string[];
+  extracted_claims: string[];
+  risk_level: string;
+  official_verification: {
+    claimed_source: string;
+    status: string;
+    evidence: string;
+  };
+  evidence: Array<{
+    publisher: string;
+    title: string;
+    passage: string;
+    url: string;
+  }>;
+  urls_and_entities: string[];
+  recommended_action: string;
+  user_action: string;
+  report_status: string;
+  statutory_reporting_portals: Array<{
+    name: string;
+    url: string;
+    helpline?: string;
+  }>;
+  formatted_text: string;
+}
+
+export interface IncomingSimulationPayload {
+  source_channel: string;
+  sender: string;
+  sender_identifier: string;
+  claimed_source?: string;
+  content: string;
 }
 
 export interface SecurityOverview {

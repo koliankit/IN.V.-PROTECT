@@ -30,7 +30,6 @@ import {
 } from 'lucide-react';
 import {
   AnalysisResponse,
-  RiskLevel,
   ProtectionTier,
   SecureMessage,
   IncidentRecord,
@@ -45,6 +44,8 @@ import {
   DailySecurityReport,
   ScamTrendsResponse,
   InvestorSafetyReview,
+  SecurityIncidentReport,
+  IncomingSimulationPayload,
 } from './types';
 import { AuthFlowStep, OwnerProfile } from './types/auth';
 import { OwnerRegistration } from './components/auth/OwnerRegistration';
@@ -63,6 +64,11 @@ import { FaceScanStudio } from './components/biometrics/FaceScanStudio';
 import { VideoLessonHero } from './components/academy/VideoLessonHero';
 import { LandingPage } from './components/landing/LandingPage';
 import { AppTopBar } from './components/layout/AppTopBar';
+import { SecurityInbox } from './components/inbox/SecurityInbox';
+import { ConnectedSourcesView } from './components/sources/ConnectedSourcesView';
+import { FloatingSecurityAssistant } from './components/assistant/FloatingSecurityAssistant';
+import { SecurityIncidentReportModal } from './components/reports/SecurityIncidentReportModal';
+import { SimulateIncomingModal } from './components/inbox/SimulateIncomingModal';
 interface DemoExample {
   id: string;
   title: string;
@@ -170,6 +176,18 @@ export default function App() {
   const [pendingRegSandboxOtp, setPendingRegSandboxOtp] = useState<string | null>(null);
   const [showDeviceModal, setShowDeviceModal] = useState<boolean>(false);
   const [showSecurityPrivacyModal, setShowSecurityPrivacyModal] = useState<boolean>(false);
+
+  // Live Communication Layer States
+  const [showSimulateModal, setShowSimulateModal] = useState<boolean>(false);
+  const [activeIncidentReport, setActiveIncidentReport] = useState<SecurityIncidentReport | null>(null);
+  const [inAppAlert, setInAppAlert] = useState<{
+    id: string;
+    type: 'high_risk' | 'important';
+    title: string;
+    message: string;
+    actionLabel: string;
+    onAction: () => void;
+  } | null>(null);
 
   // Initial Data & Auth Check
   useEffect(() => {
@@ -422,6 +440,199 @@ export default function App() {
     }
   };
 
+  // Preserve / Triage Action for Live Communications
+  const handlePreserveMessage = async (
+    messageId: string,
+    action: 'keep' | 'mark_important' | 'archive' | 'release' | 'delete' | 'quarantine'
+  ) => {
+    try {
+      const token = localStorage.getItem('sangyan_access_token');
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+
+      const res = await fetch(`/api/messages/${messageId}/preserve`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ action }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast(data.message || `Action ${action} recorded in forensic ledger.`);
+        if (selectedMessage && selectedMessage.id === messageId) {
+          if (action === 'delete') {
+            setSelectedMessage(null);
+          } else {
+            setSelectedMessage((prev) =>
+              prev
+                ? {
+                    ...prev,
+                    is_important: action === 'mark_important' || action === 'keep' ? true : prev.is_important,
+                    is_archived: action === 'archive' ? true : prev.is_archived,
+                    protection_tier: data.tier || prev.protection_tier,
+                    status: action === 'release' ? 'RELEASED' : prev.status,
+                  }
+                : null
+            );
+          }
+        }
+        fetchSecurityData();
+      } else {
+        showToast(data.detail || data.error || 'Failed to update message status.');
+      }
+    } catch {
+      showToast('Error communicating with security backend.');
+    }
+  };
+
+  // Generate Formal Incident Report for High-Risk Communication
+  const handleGenerateIncidentReport = async (msg: SecureMessage) => {
+    try {
+      const token = localStorage.getItem('sangyan_access_token');
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+
+      const res = await fetch(`/api/messages/${msg.id}/generate-report`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ user_notes: 'Investor requested formal regulatory incident report.' }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success && data.report) {
+        setActiveIncidentReport(data.report);
+        showToast(`Incident Report ${data.report.incident_id} generated.`);
+        fetchSecurityData();
+      } else {
+        showToast(data.detail || data.error || 'Failed to generate incident report.');
+      }
+    } catch {
+      showToast('Network error while generating incident report.');
+    }
+  };
+
+  // Simulate Incoming Communication (Demo Mode)
+  const handleSimulateIncomingMessage = async (payload: IncomingSimulationPayload) => {
+    try {
+      const token = localStorage.getItem('sangyan_access_token');
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+
+      const res = await fetch('/api/communication-sources/simulate', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setShowSimulateModal(false);
+        await fetchSecurityData();
+
+        const msg = data.message as SecureMessage;
+        if (msg.risk_level === 'high' || msg.protection_tier === 'Quarantined / High Risk') {
+          const topSig = msg.detected_signals?.[0]?.name || 'Suspicious payload detected';
+          setInAppAlert({
+            id: msg.id,
+            type: 'high_risk',
+            title: '🔴 HIGH-RISK MESSAGE DETECTED',
+            message: `${topSig} in incoming ${msg.source_channel}.`,
+            actionLabel: 'REVIEW',
+            onAction: () => {
+              setSelectedMessage(msg);
+              setActiveNav('messages');
+            },
+          });
+        } else if (msg.is_important || msg.risk_level === 'low') {
+          setInAppAlert({
+            id: msg.id,
+            type: 'important',
+            title: '🟢 IMPORTANT MESSAGE',
+            message: `Official investor communication received via ${msg.source_channel}.`,
+            actionLabel: 'VIEW',
+            onAction: () => {
+              setSelectedMessage(msg);
+              setActiveNav('messages');
+            },
+          });
+        }
+        showToast(`Incoming ${msg.source_channel} analyzed via live security pipeline.`);
+      } else {
+        showToast(data.detail || data.error || 'Simulation failed.');
+      }
+    } catch {
+      showToast('Error communicating with simulation engine.');
+    }
+  };
+
+  // Connect Communication Source
+  const handleConnectSource = async (sourceId: string, accountIdentifier?: string) => {
+    try {
+      const token = localStorage.getItem('sangyan_access_token');
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+
+      const res = await fetch(`/api/communication-sources/${sourceId}/connect`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ account_identifier: accountIdentifier }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast(data.message || 'Source connected successfully.');
+        await fetchSecurityData();
+      } else {
+        showToast(data.detail || data.error || 'Connection authorization failed.');
+      }
+    } catch {
+      showToast('Network error authorizing source connection.');
+    }
+  };
+
+  // Disconnect Communication Source
+  const handleDisconnectSource = async (sourceId: string) => {
+    try {
+      const token = localStorage.getItem('sangyan_access_token');
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+
+      const res = await fetch(`/api/communication-sources/${sourceId}/disconnect`, {
+        method: 'POST',
+        headers,
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast(data.message || 'Source disconnected.');
+        await fetchSecurityData();
+      } else {
+        showToast(data.detail || data.error || 'Failed to disconnect source.');
+      }
+    } catch {
+      showToast('Network error disconnecting source.');
+    }
+  };
+
+  // Open Report from Assistant or Navigation
+  const handleOpenReportFromAssistant = async (reportId: string, message?: SecureMessage) => {
+    const targetMsg =
+      message ||
+      messages.find(
+        (m) =>
+          m.report_id === reportId ||
+          m.id === reportId ||
+          m.id === reportId.replace('INC-', '')
+      );
+    if (targetMsg) {
+      await handleGenerateIncidentReport(targetMsg);
+    } else if (messages.length > 0) {
+      const highRisk = messages.find((m) => m.risk_level === 'high') || messages[0];
+      await handleGenerateIncidentReport(highRisk);
+    } else {
+      showToast('No active incident record found.');
+    }
+  };
+
   // Trigger Smartwatch Companion Alert Simulation
   const handleTriggerWatchAlert = async () => {
     try {
@@ -549,29 +760,11 @@ export default function App() {
   };
 
   // Helper Styling
-  const getRiskBadge = (level: RiskLevel | string) => {
-    if (level === 'High Concern' || level === 'Quarantined / High Risk') {
-      return { bg: 'rgba(239, 68, 68, 0.15)', color: '#f87171', border: 'rgba(239, 68, 68, 0.35)', icon: ShieldAlert, label: 'High Concern' };
-    }
-    if (level === 'Needs Verification' || level === 'Review / Verify') {
-      return { bg: 'rgba(245, 158, 11, 0.15)', color: '#fbbf24', border: 'rgba(245, 158, 11, 0.35)', icon: AlertTriangle, label: 'Needs Verification' };
-    }
-    return { bg: 'rgba(229, 62, 62, 0.15)', color: '#e53e3e', border: 'rgba(229, 62, 62, 0.35)', icon: ShieldCheck, label: 'Low Concern' };
-  };
-
   const getTierColor = (tier: ProtectionTier | string) => {
     if (tier === 'Quarantined / High Risk') return '#f87171';
     if (tier === 'Review / Verify') return '#fbbf24';
     return '#e53e3e';
   };
-
-  const filteredMessages = messages.filter((m) => {
-    if (activeMessageTier === 'all') return true;
-    if (activeMessageTier === 'important') return m.protection_tier === 'Trusted / Important';
-    if (activeMessageTier === 'review') return m.protection_tier === 'Review / Verify';
-    if (activeMessageTier === 'quarantine') return m.protection_tier === 'Quarantined / High Risk';
-    return true;
-  });
 
   const quarantinedMessages = messages.filter((m) => m.protection_tier === 'Quarantined / High Risk' || m.risk_level === 'High Concern');
   const reviewMessages = messages.filter((m) => m.protection_tier === 'Review / Verify' || m.risk_level === 'Needs Verification');
@@ -813,266 +1006,22 @@ export default function App() {
             />
           )}
 
-        {/* VIEW 2: SECURE MESSAGES                                        */}
+        {/* ============================================================== */}
+        {/* VIEW 2: SECURITY INBOX (LIVE COMMUNICATION LAYER)               */}
         {/* ============================================================== */}
         {activeNav === 'messages' && (
-          <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            {/* Real-Time Message Analysis Sequential Pipeline */}
-            <MessageAnalysisPipeline
-              onAnalyzeText={async (text) => {
-                const res = await fetch('/api/analyze', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ text, channel: 'manual_submission', language }),
-                });
-                if (!res.ok) throw new Error('Analysis request failed');
-                const d = await res.json();
-                fetchSecurityData();
-                return d;
-              }}
-              onAnalyzeImage={async (file) => {
-                const fd = new FormData();
-                fd.append('file', file);
-                fd.append('channel', 'screenshot');
-                fd.append('language', language);
-                const res = await fetch('/api/analyze-upload', { method: 'POST', body: fd });
-                if (!res.ok) throw new Error('Screenshot analysis failed');
-                const d = await res.json();
-                fetchSecurityData();
-                return d;
-              }}
-              onQuarantineMessage={(_text, _analysis) => {
-                fetchSecurityData();
-                setActiveNav('alerts');
-              }}
+          <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <SecurityInbox
+              messages={messages}
+              sources={integrations}
+              activeTier={activeMessageTier}
+              onSelectTier={setActiveMessageTier}
+              onInspectMessage={(msg) => setSelectedMessage(msg)}
+              onPreserveAction={handlePreserveMessage}
+              onGenerateReport={handleGenerateIncidentReport}
+              onOpenSimulateModal={() => setShowSimulateModal(true)}
+              onOpenConnectedSources={() => setActiveNav('integrations')}
             />
-
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-              <div>
-                <h2 style={{ fontSize: '20px', fontWeight: 800 }}>Continuous Financial Communication Stream</h2>
-                <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
-                  All incoming communications evaluated against regulatory fraud signatures and sorted into 3 tiers.
-                </p>
-              </div>
-
-              {/* Tier Filter Tabs */}
-              <div style={{ display: 'flex', gap: '6px', backgroundColor: 'var(--bg-secondary)', padding: '4px', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
-                {[
-                  { id: 'all', label: 'All Stream', count: messages.length },
-                  { id: 'important', label: '🟢 Important / Trusted', count: messages.filter(m => m.protection_tier === 'Trusted / Important').length },
-                  { id: 'review', label: '🟡 Review / Verify', count: messages.filter(m => m.protection_tier === 'Review / Verify').length },
-                  { id: 'quarantine', label: '🔴 Quarantined Threats', count: quarantinedMessages.length },
-                ].map((tier) => (
-                  <button
-                    key={tier.id}
-                    onClick={() => setActiveMessageTier(tier.id)}
-                    style={{
-                      padding: '6px 12px',
-                      borderRadius: '6px',
-                      fontSize: '12px',
-                      fontWeight: 600,
-                      backgroundColor: activeMessageTier === tier.id ? 'var(--bg-card)' : 'transparent',
-                      color: activeMessageTier === tier.id ? '#ffffff' : 'var(--text-muted)',
-                    }}
-                  >
-                    {tier.label} ({tier.count})
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Message List Grid */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {filteredMessages.map((msg) => {
-                const badge = getRiskBadge(msg.risk_level);
-                return (
-                  <div
-                    key={msg.id}
-                    style={{
-                      backgroundColor: 'var(--bg-secondary)',
-                      border: `1px solid ${msg.protection_tier === 'Quarantined / High Risk' ? 'rgba(239, 68, 68, 0.35)' : 'var(--border-color)'}`,
-                      borderRadius: '10px',
-                      padding: '16px',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'flex-start',
-                      gap: '16px',
-                      flexWrap: 'wrap',
-                    }}
-                  >
-                    <div style={{ flex: 1, minWidth: '280px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-                        <span
-                          style={{
-                            fontSize: '11px',
-                            fontWeight: 700,
-                            padding: '2px 8px',
-                            borderRadius: '4px',
-                            backgroundColor: 'var(--bg-card)',
-                            border: '1px solid var(--border-color)',
-                            color: '#e53e3e',
-                          }}
-                        >
-                          {msg.source_channel}
-                        </span>
-                        <span style={{ fontSize: '13px', fontWeight: 700 }}>{msg.sender}</span>
-                        <span style={{ fontSize: '11px', color: 'var(--text-faint)' }}>{msg.timestamp}</span>
-                        <span
-                          style={{
-                            fontSize: '11px',
-                            fontWeight: 700,
-                            padding: '2px 8px',
-                            borderRadius: '4px',
-                            backgroundColor: badge.bg,
-                            color: badge.color,
-                            border: `1px solid ${badge.border}`,
-                            marginLeft: 'auto',
-                          }}
-                        >
-                          {badge.label}
-                        </span>
-                        <span
-                          style={{
-                            fontSize: '11px',
-                            fontWeight: 700,
-                            color: getTierColor(msg.protection_tier),
-                          }}
-                        >
-                          {msg.protection_tier}
-                        </span>
-                      </div>
-
-                      <p style={{ fontSize: '13px', color: 'var(--text-main)', marginBottom: '10px', lineHeight: 1.5 }}>
-                        {msg.content}
-                      </p>
-
-                      {/* Signals & Verification Badges */}
-                      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                        {msg.detected_signals.map((sig, sidx) => (
-                          <span
-                            key={sidx}
-                            style={{
-                              fontSize: '11px',
-                              backgroundColor: 'rgba(239, 68, 68, 0.15)',
-                              color: '#f87171',
-                              border: '1px solid rgba(239, 68, 68, 0.3)',
-                              padding: '2px 8px',
-                              borderRadius: '6px',
-                              fontWeight: 600,
-                            }}
-                          >
-                            ⚠ {sig.name}
-                          </span>
-                        ))}
-                        {msg.claims.map((clm, cidx) => (
-                          <span
-                            key={cidx}
-                            style={{
-                              fontSize: '11px',
-                              backgroundColor: 'var(--bg-card)',
-                              color: clm.verification_status === 'Contradicted' ? '#f87171' : clm.verification_status === 'Supported' ? '#e53e3e' : '#fbbf24',
-                              border: '1px solid var(--border-color)',
-                              padding: '2px 8px',
-                              borderRadius: '6px',
-                            }}
-                          >
-                            Claim: {clm.verification_status}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Actions */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                      <button
-                        onClick={() => setSelectedMessage(msg)}
-                        style={{
-                          backgroundColor: '#e53e3e',
-                          color: '#ffffff',
-                          padding: '7px 14px',
-                          borderRadius: '6px',
-                          fontSize: '12px',
-                          fontWeight: 600,
-                        }}
-                      >
-                        Inspect Analysis
-                      </button>
-
-                      {msg.protection_tier === 'Quarantined / High Risk' ? (
-                        <>
-                          <button
-                            onClick={() => handleMessageAction(msg.id, 'release')}
-                            style={{
-                              backgroundColor: 'rgba(251, 191, 36, 0.15)',
-                              color: '#fbbf24',
-                              border: '1px solid rgba(251, 191, 36, 0.3)',
-                              padding: '6px 12px',
-                              borderRadius: '6px',
-                              fontSize: '11px',
-                              fontWeight: 600,
-                            }}
-                          >
-                            Release from Quarantine
-                          </button>
-                          <button
-                            onClick={() => {
-                              const inc = incidents.find(i => i.incident_id.includes(msg.id.replace('MSG-', '')));
-                              if (inc) setReportingIncident(inc);
-                              else showToast('Incident package ready. Direct to 1930.');
-                            }}
-                            style={{
-                              backgroundColor: 'rgba(239, 68, 68, 0.15)',
-                              color: '#f87171',
-                              border: '1px solid rgba(239, 68, 68, 0.3)',
-                              padding: '6px 12px',
-                              borderRadius: '6px',
-                              fontSize: '11px',
-                              fontWeight: 600,
-                            }}
-                          >
-                            Report Suspect (1930)
-                          </button>
-                        </>
-                      ) : (
-                        <button
-                          onClick={() => handleMessageAction(msg.id, 'quarantine')}
-                          style={{
-                            backgroundColor: 'rgba(239, 68, 68, 0.12)',
-                            color: '#f87171',
-                            border: '1px solid rgba(239, 68, 68, 0.3)',
-                            padding: '6px 12px',
-                            borderRadius: '6px',
-                            fontSize: '11px',
-                            fontWeight: 600,
-                          }}
-                        >
-                          Quarantine
-                        </button>
-                      )}
-
-                      <button
-                        onClick={() => handleMessageAction(msg.id, 'delete')}
-                        style={{
-                          backgroundColor: 'transparent',
-                          color: 'var(--text-faint)',
-                          padding: '4px 10px',
-                          fontSize: '11px',
-                          textAlign: 'center',
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-
-              {filteredMessages.length === 0 && (
-                <div style={{ padding: '36px', textAlign: 'center', color: 'var(--text-muted)', backgroundColor: 'var(--bg-secondary)', borderRadius: '12px' }}>
-                  No communications found in this tier.
-                </div>
-              )}
-            </div>
           </div>
         )}
 
@@ -1989,68 +1938,18 @@ export default function App() {
         )}
 
         {/* ============================================================== */}
-        {/* VIEW 7: INTEGRATIONS                                           */}
+        {/* ============================================================== */}
+        {/* VIEW 7: CONNECTED SOURCES (AUTHORIZED COMMUNICATION CHANNELS)   */}
         {/* ============================================================== */}
         {activeNav === 'integrations' && (
           <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <div>
-              <h2 style={{ fontSize: '20px', fontWeight: 800 }}>Communication & Account Ingestion Connectors</h2>
-              <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
-                Sangyan AI does NOT claim magical access to private accounts. Integrations use explicit user authorization,
-                supported OS notification listeners, or transparent simulation stubs.
-              </p>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '16px' }}>
-              {integrations.map((itg) => (
-                <div
-                  key={itg.id}
-                  style={{
-                    backgroundColor: 'var(--bg-secondary)',
-                    border: '1px solid var(--border-color)',
-                    borderRadius: '12px',
-                    padding: '20px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                      <span
-                        style={{
-                          fontSize: '10px',
-                          fontWeight: 800,
-                          padding: '2px 6px',
-                          borderRadius: '4px',
-                          backgroundColor: itg.is_real ? 'rgba(56, 189, 248, 0.15)' : 'rgba(251, 191, 36, 0.15)',
-                          color: itg.is_real ? '#38bdf8' : '#fbbf24',
-                        }}
-                      >
-                        {itg.is_real ? 'REAL CONNECTOR' : 'DEMO / SIMULATED'}
-                      </span>
-                      <span style={{ fontSize: '12px', fontWeight: 700, color: itg.status === 'CONNECTED' ? '#e53e3e' : '#fbbf24' }}>
-                        {itg.status}
-                      </span>
-                    </div>
-
-                    <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '6px' }}>{itg.name}</h3>
-                    <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '12px', lineHeight: 1.4 }}>
-                      {itg.description}
-                    </p>
-
-                    <div style={{ backgroundColor: 'var(--bg-card)', padding: '10px', borderRadius: '6px', marginBottom: '12px' }}>
-                      <div style={{ fontSize: '11px', color: 'var(--text-faint)', fontWeight: 700 }}>PRIVACY GUARANTEE:</div>
-                      <div style={{ fontSize: '11px', color: 'var(--text-main)', marginTop: '2px' }}>{itg.security_guarantee}</div>
-                    </div>
-                  </div>
-
-                  <div style={{ fontSize: '11px', color: 'var(--text-faint)' }}>
-                    {itg.notes || 'Integration architecture active.'}
-                  </div>
-                </div>
-              ))}
-            </div>
+            <ConnectedSourcesView
+              sources={integrations}
+              onRefresh={fetchSecurityData}
+              onConnect={handleConnectSource}
+              onDisconnect={handleDisconnectSource}
+              onOpenSimulateModal={() => setShowSimulateModal(true)}
+            />
           </div>
         )}
 
@@ -2814,99 +2713,286 @@ export default function App() {
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
               <div>
-                <span style={{ fontSize: '11px', fontWeight: 800, color: getTierColor(selectedMessage.protection_tier) }}>
-                  {selectedMessage.protection_tier.toUpperCase()}
+                <span
+                  style={{
+                    fontSize: '11px',
+                    fontWeight: 800,
+                    fontFamily: 'var(--font-mono)',
+                    padding: '2px 8px',
+                    borderRadius: '4px',
+                    backgroundColor:
+                      selectedMessage.risk_level === 'high'
+                        ? 'rgba(239, 68, 68, 0.2)'
+                        : selectedMessage.risk_level === 'review'
+                        ? 'rgba(214, 158, 46, 0.2)'
+                        : 'rgba(56, 161, 105, 0.2)',
+                    color:
+                      selectedMessage.risk_level === 'high'
+                        ? '#feb2b2'
+                        : selectedMessage.risk_level === 'review'
+                        ? '#fbd38d'
+                        : '#9ae6b4',
+                    border: `1px solid ${
+                      selectedMessage.risk_level === 'high'
+                        ? 'rgba(239, 68, 68, 0.4)'
+                        : selectedMessage.risk_level === 'review'
+                        ? 'rgba(214, 158, 46, 0.4)'
+                        : 'rgba(56, 161, 105, 0.4)'
+                    }`,
+                    display: 'inline-block',
+                    marginBottom: '4px',
+                  }}
+                >
+                  RISK: {selectedMessage.risk_level.toUpperCase()} • {selectedMessage.protection_tier.toUpperCase()}
                 </span>
                 <h3 style={{ fontSize: '18px', fontWeight: 800, margin: 0 }}>Message Security Assessment</h3>
               </div>
-              <button onClick={() => setSelectedMessage(null)} style={{ background: 'none', color: 'var(--text-faint)' }}>
+              <button
+                onClick={() => setSelectedMessage(null)}
+                style={{ background: 'none', border: 'none', color: 'var(--text-faint)', cursor: 'pointer', padding: '4px' }}
+              >
                 <X style={{ width: '20px', height: '20px' }} />
               </button>
             </div>
 
-            <div style={{ backgroundColor: 'var(--bg-card)', padding: '14px', borderRadius: '8px', marginBottom: '14px' }}>
-              <div style={{ fontSize: '12px', color: 'var(--text-faint)', marginBottom: '4px' }}>
-                Sender: <strong>{selectedMessage.sender}</strong> ({selectedMessage.source_channel} • {selectedMessage.timestamp})
+            {/* Source & Channel Telemetry Banner */}
+            <div
+              style={{
+                backgroundColor: 'rgba(15, 20, 31, 0.75)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                borderRadius: '8px',
+                padding: '12px 14px',
+                marginBottom: '14px',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
+                gap: '8px',
+                fontSize: '11px',
+              }}
+            >
+              <div>
+                <span style={{ color: 'var(--text-faint)', display: 'block', textTransform: 'uppercase', fontSize: '9px', fontWeight: 700 }}>
+                  Channel
+                </span>
+                <span style={{ fontWeight: 700, color: '#38bdf8' }}>{selectedMessage.source_channel}</span>
               </div>
-              <p style={{ fontSize: '13px', color: 'var(--text-main)', margin: 0, lineHeight: 1.5 }}>
+              <div>
+                <span style={{ color: 'var(--text-faint)', display: 'block', textTransform: 'uppercase', fontSize: '9px', fontWeight: 700 }}>
+                  Claimed Source
+                </span>
+                <span style={{ fontWeight: 700, color: '#ffffff' }}>{selectedMessage.claimed_source || selectedMessage.sender}</span>
+              </div>
+              <div>
+                <span style={{ color: 'var(--text-faint)', display: 'block', textTransform: 'uppercase', fontSize: '9px', fontWeight: 700 }}>
+                  Actual Sender
+                </span>
+                <span style={{ fontWeight: 700, color: '#e2e8f0', fontFamily: 'var(--font-mono)' }}>{selectedMessage.actual_sender || selectedMessage.sender}</span>
+              </div>
+              <div>
+                <span style={{ color: 'var(--text-faint)', display: 'block', textTransform: 'uppercase', fontSize: '9px', fontWeight: 700 }}>
+                  Timestamp
+                </span>
+                <span style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>{selectedMessage.timestamp}</span>
+              </div>
+            </div>
+
+            {/* Official Source Verification Box (Prompt Section 5 & 14) */}
+            <div
+              style={{
+                backgroundColor:
+                  selectedMessage.sender_verification === 'VERIFIED'
+                    ? 'rgba(56, 161, 105, 0.1)'
+                    : 'rgba(239, 68, 68, 0.1)',
+                border: `1px solid ${
+                  selectedMessage.sender_verification === 'VERIFIED'
+                    ? 'rgba(56, 161, 105, 0.3)'
+                    : 'rgba(239, 68, 68, 0.3)'
+                }`,
+                borderRadius: '8px',
+                padding: '12px 14px',
+                marginBottom: '14px',
+                fontSize: '12px',
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                <span style={{ fontWeight: 800, textTransform: 'uppercase', fontSize: '10px', letterSpacing: '0.06em', color: selectedMessage.sender_verification === 'VERIFIED' ? '#9ae6b4' : '#feb2b2' }}>
+                  OFFICIAL SOURCE VERIFICATION
+                </span>
+                <span
+                  style={{
+                    fontWeight: 800,
+                    fontSize: '10px',
+                    fontFamily: 'var(--font-mono)',
+                    padding: '2px 8px',
+                    borderRadius: '4px',
+                    backgroundColor: selectedMessage.sender_verification === 'VERIFIED' ? 'rgba(56, 161, 105, 0.25)' : 'rgba(239, 68, 68, 0.25)',
+                    color: selectedMessage.sender_verification === 'VERIFIED' ? '#48bb78' : '#f56565',
+                  }}
+                >
+                  {selectedMessage.sender_verification || 'NOT VERIFIED'}
+                </span>
+              </div>
+              <div style={{ color: '#cbd5e0', lineHeight: 1.4 }}>
+                <strong>Evidence Finding:</strong> {selectedMessage.sender_verification_evidence || (selectedMessage.sender_verification === 'VERIFIED' ? 'Authoritative regulatory registry confirms sender domain and signature.' : 'Official source records do not match the sender identifier or message link.')}
+              </div>
+            </div>
+
+            {/* Original Message Content */}
+            <div style={{ backgroundColor: 'var(--bg-card)', padding: '14px', borderRadius: '8px', marginBottom: '14px' }}>
+              <div style={{ fontSize: '11px', color: 'var(--text-faint)', textTransform: 'uppercase', fontWeight: 700, marginBottom: '6px' }}>
+                Message Content:
+              </div>
+              <p style={{ fontSize: '13px', color: 'var(--text-main)', margin: 0, lineHeight: 1.5, wordBreak: 'break-word' }}>
                 {selectedMessage.content}
               </p>
             </div>
 
-            {selectedMessage.quarantine_reason && (
-              <div style={{ backgroundColor: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.3)', padding: '12px', borderRadius: '8px', color: '#f87171', fontSize: '13px', marginBottom: '14px' }}>
-                <strong>Quarantine Reason:</strong> {selectedMessage.quarantine_reason}
+            {/* Detected Fraud Signals */}
+            {selectedMessage.detected_signals && selectedMessage.detected_signals.length > 0 && (
+              <div style={{ marginBottom: '14px' }}>
+                <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-faint)', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  Detected Threat Signals ({selectedMessage.detected_signals.length}):
+                </div>
+                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                  {selectedMessage.detected_signals.map((sig, sidx) => (
+                    <span
+                      key={sidx}
+                      style={{
+                        fontSize: '11px',
+                        backgroundColor: 'rgba(239, 68, 68, 0.15)',
+                        color: '#f87171',
+                        border: '1px solid rgba(239, 68, 68, 0.3)',
+                        padding: '3px 8px',
+                        borderRadius: '6px',
+                        fontWeight: 600,
+                      }}
+                    >
+                      • {sig.name} ({sig.confidence}%)
+                    </span>
+                  ))}
+                </div>
               </div>
             )}
 
             {/* Claims & Verification */}
-            <div style={{ marginBottom: '14px' }}>
-              <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--text-faint)', textTransform: 'uppercase', marginBottom: '6px' }}>
-                Extracted Claims & Official Verification:
-              </div>
-              {selectedMessage.claims.map((clm, i) => (
-                <div key={i} style={{ backgroundColor: 'var(--bg-card)', padding: '10px', borderRadius: '6px', marginBottom: '6px', fontSize: '12px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
-                    <span style={{ fontWeight: 600 }}>"{clm.claim_text}"</span>
-                    <span style={{ fontWeight: 700, color: clm.verification_status === 'Contradicted' ? '#f87171' : clm.verification_status === 'Supported' ? '#e53e3e' : '#fbbf24' }}>
-                      {clm.verification_status}
-                    </span>
-                  </div>
-                  <div style={{ color: 'var(--text-muted)' }}>{clm.verification_notes}</div>
-                </div>
-              ))}
-            </div>
-
-            {/* Evidence items */}
-            {selectedMessage.evidence.length > 0 && (
+            {selectedMessage.claims && selectedMessage.claims.length > 0 && (
               <div style={{ marginBottom: '14px' }}>
-                <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--text-faint)', textTransform: 'uppercase', marginBottom: '6px' }}>
-                  Authoritative Evidence Passages:
+                <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-faint)', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  Extracted Claims & Authoritative Verification:
                 </div>
-                {selectedMessage.evidence.map((ev, i) => (
+                {selectedMessage.claims.map((clm, i) => (
                   <div key={i} style={{ backgroundColor: 'var(--bg-card)', padding: '10px', borderRadius: '6px', marginBottom: '6px', fontSize: '12px' }}>
-                    <div style={{ fontWeight: 700, color: '#e53e3e' }}>{ev.publisher} — {ev.title}</div>
-                    <div style={{ color: 'var(--text-muted)', marginTop: '2px' }}>"{ev.passage}"</div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
+                      <span style={{ fontWeight: 600 }}>&ldquo;{clm.claim_text}&rdquo;</span>
+                      <span style={{ fontWeight: 700, color: clm.verification_status === 'Contradicted' ? '#f87171' : clm.verification_status === 'Supported' ? '#38a169' : '#fbbf24' }}>
+                        {clm.verification_status}
+                      </span>
+                    </div>
+                    <div style={{ color: 'var(--text-muted)' }}>{clm.verification_notes}</div>
                   </div>
                 ))}
               </div>
             )}
 
-            {/* Actions Bar */}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', borderTop: '1px solid var(--border-color)', paddingTop: '14px' }}>
-              {selectedMessage.protection_tier === 'Quarantined / High Risk' ? (
-                <>
-                  <button
-                    onClick={() => handleMessageAction(selectedMessage.id, 'release')}
-                    style={{ backgroundColor: 'var(--bg-card)', color: '#fbbf24', border: '1px solid rgba(251, 191, 36, 0.3)', padding: '8px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: 700 }}
-                  >
-                    Release to Review
-                  </button>
-                  <button
-                    onClick={() => {
-                      const inc = incidents.find(i => i.incident_id.includes(selectedMessage.id.replace('MSG-', '')));
-                      if (inc) setReportingIncident(inc);
-                      else showToast('Directing to National Cybercrime Helpline 1930.');
-                    }}
-                    style={{ backgroundColor: '#e53e3e', color: '#ffffff', padding: '8px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: 700 }}
-                  >
-                    Report Suspect (1930)
-                  </button>
-                </>
-              ) : (
+            {/* Authoritative Evidence Items */}
+            {selectedMessage.evidence && selectedMessage.evidence.length > 0 && (
+              <div style={{ marginBottom: '14px' }}>
+                <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-faint)', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  Authoritative Evidence Passages:
+                </div>
+                {selectedMessage.evidence.map((ev, i) => (
+                  <div key={i} style={{ backgroundColor: 'var(--bg-card)', padding: '10px', borderRadius: '6px', marginBottom: '6px', fontSize: '12px' }}>
+                    <div style={{ fontWeight: 700, color: '#e53e3e' }}>{ev.publisher} — {ev.title}</div>
+                    <div style={{ color: 'var(--text-muted)', marginTop: '2px' }}>&ldquo;{ev.passage}&rdquo;</div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Actions Bar (Preserve, Report, Quarantine, Delete) */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px', borderTop: '1px solid var(--border-color)', paddingTop: '14px' }}>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                 <button
-                  onClick={() => handleMessageAction(selectedMessage.id, 'quarantine')}
-                  style={{ backgroundColor: 'rgba(239, 68, 68, 0.15)', color: '#f87171', border: '1px solid rgba(239, 68, 68, 0.3)', padding: '8px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: 700 }}
+                  type="button"
+                  onClick={() => handlePreserveMessage(selectedMessage.id, 'mark_important')}
+                  style={{
+                    backgroundColor: 'rgba(56, 161, 105, 0.15)',
+                    color: '#48bb78',
+                    border: '1px solid rgba(56, 161, 105, 0.3)',
+                    padding: '8px 12px',
+                    borderRadius: '6px',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                  }}
                 >
-                  Quarantine Message
+                  ✓ Keep / Mark Important
                 </button>
-              )}
-              <button
-                onClick={() => handleMessageAction(selectedMessage.id, 'delete')}
-                style={{ backgroundColor: 'rgba(239, 68, 68, 0.15)', color: '#f87171', padding: '8px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: 700 }}
-              >
-                Delete
-              </button>
+
+                <button
+                  type="button"
+                  onClick={() => handlePreserveMessage(selectedMessage.id, 'archive')}
+                  style={{
+                    backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                    color: '#cbd5e0',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    padding: '8px 12px',
+                    borderRadius: '6px',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                  }}
+                >
+                  Archive
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handleGenerateIncidentReport(selectedMessage)}
+                  style={{
+                    backgroundColor: '#e53e3e',
+                    color: '#ffffff',
+                    border: 'none',
+                    padding: '8px 14px',
+                    borderRadius: '6px',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  <FileText style={{ width: '13px', height: '13px' }} />
+                  Generate Report
+                </button>
+              </div>
+
+              <div style={{ display: 'flex', gap: '8px' }}>
+                {selectedMessage.protection_tier === 'Quarantined / High Risk' ? (
+                  <button
+                    type="button"
+                    onClick={() => handlePreserveMessage(selectedMessage.id, 'release')}
+                    style={{ backgroundColor: 'var(--bg-card)', color: '#fbbf24', border: '1px solid rgba(251, 191, 36, 0.3)', padding: '8px 12px', borderRadius: '6px', fontSize: '12px', fontWeight: 700, cursor: 'pointer' }}
+                  >
+                    Release from Quarantine
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => handlePreserveMessage(selectedMessage.id, 'quarantine')}
+                    style={{ backgroundColor: 'rgba(239, 68, 68, 0.15)', color: '#f87171', border: '1px solid rgba(239, 68, 68, 0.3)', padding: '8px 12px', borderRadius: '6px', fontSize: '12px', fontWeight: 700, cursor: 'pointer' }}
+                  >
+                    Quarantine Message
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => handlePreserveMessage(selectedMessage.id, 'delete')}
+                  style={{ backgroundColor: 'transparent', color: '#718096', border: '1px solid rgba(255,255,255,0.08)', padding: '8px 12px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -4037,6 +4123,126 @@ export default function App() {
         ownerProfile={ownerProfile}
         onLogout={handleLogout}
       />
+
+      {/* Floating Security Assistant (Prompt Sections 10-13) */}
+      <FloatingSecurityAssistant
+        selectedMessage={selectedMessage}
+        onClearSelectedMessage={() => setSelectedMessage(null)}
+        onOpenReport={handleOpenReportFromAssistant}
+        onNavigateSection={(sec) => setActiveNav(sec as any)}
+      />
+
+      {/* Security Incident Report Modal (Prompt Sections 8 & 9) */}
+      <SecurityIncidentReportModal
+        report={activeIncidentReport}
+        onClose={() => setActiveIncidentReport(null)}
+      />
+
+      {/* Simulate Incoming Communication Modal (Prompt Section 23 Demo Mode) */}
+      <SimulateIncomingModal
+        isOpen={showSimulateModal}
+        onClose={() => setShowSimulateModal(false)}
+        onSimulate={handleSimulateIncomingMessage}
+      />
+
+      {/* Subtle In-App Security Notification (Prompt Section 16) */}
+      {inAppAlert && (
+        <div
+          role="alert"
+          style={{
+            position: 'fixed',
+            top: '72px',
+            right: '24px',
+            zIndex: 9998,
+            backgroundColor: inAppAlert.type === 'high_risk' ? '#180a0a' : '#08160f',
+            border: `1px solid ${
+              inAppAlert.type === 'high_risk' ? 'rgba(239, 68, 68, 0.5)' : 'rgba(72, 187, 120, 0.5)'
+            }`,
+            borderRadius: '10px',
+            padding: '14px 18px',
+            maxWidth: '380px',
+            boxShadow: '0 12px 32px rgba(0, 0, 0, 0.65)',
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '12px',
+            animation: 'fadeIn 0.2s ease-out',
+          }}
+        >
+          <div style={{ flex: 1 }}>
+            <div
+              style={{
+                fontSize: '11px',
+                fontWeight: 800,
+                fontFamily: 'var(--font-mono)',
+                color: inAppAlert.type === 'high_risk' ? '#feb2b2' : '#9ae6b4',
+                letterSpacing: '0.06em',
+                marginBottom: '4px',
+              }}
+            >
+              {inAppAlert.title}
+            </div>
+            <p
+              style={{
+                fontSize: '12.5px',
+                color: '#e2e8f0',
+                lineHeight: 1.4,
+                margin: '0 0 10px 0',
+              }}
+            >
+              &ldquo;{inAppAlert.message}&rdquo;
+            </p>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button
+                type="button"
+                onClick={() => {
+                  inAppAlert.onAction();
+                  setInAppAlert(null);
+                }}
+                style={{
+                  backgroundColor: inAppAlert.type === 'high_risk' ? '#e53e3e' : '#38a169',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '6px',
+                  padding: '5px 12px',
+                  fontSize: '11px',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                }}
+              >
+                {inAppAlert.actionLabel}
+              </button>
+              <button
+                type="button"
+                onClick={() => setInAppAlert(null)}
+                style={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                  color: '#a0aec0',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  borderRadius: '6px',
+                  padding: '5px 10px',
+                  fontSize: '11px',
+                  cursor: 'pointer',
+                }}
+              >
+                Dismiss
+              </button>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => setInAppAlert(null)}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: '#718096',
+              cursor: 'pointer',
+              padding: '2px',
+            }}
+          >
+            <X style={{ width: '16px', height: '16px' }} />
+          </button>
+        </div>
+      )}
     </div>
   );
 }

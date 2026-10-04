@@ -150,10 +150,18 @@ export const SecurityMonitoringDashboard: React.FC<SecurityMonitoringDashboardPr
   // Real-Time Events Filtering
   const filteredEvents = useMemo(() => {
     return messages.filter((m) => {
+      const risk = (m.risk_level || '').toLowerCase();
+      const tier = (m.protection_tier || '').toLowerCase();
       if (eventFilter === 'ALL') return true;
-      if (eventFilter === 'HIGH') return m.risk_level === 'High Concern' || m.protection_tier === 'Quarantined / High Risk';
-      if (eventFilter === 'REVIEW') return m.risk_level === 'Needs Verification' || m.protection_tier === 'Review / Verify';
-      if (eventFilter === 'LOW') return m.risk_level === 'Low Concern' || m.protection_tier === 'Trusted / Important';
+      if (eventFilter === 'HIGH') {
+        return risk.includes('high') || tier.includes('high') || tier.includes('quarantin');
+      }
+      if (eventFilter === 'REVIEW') {
+        return risk.includes('review') || risk.includes('need') || tier.includes('review') || tier.includes('verify');
+      }
+      if (eventFilter === 'LOW') {
+        return risk.includes('low') || risk.includes('safe') || tier.includes('trust') || tier.includes('import');
+      }
       return true;
     });
   }, [messages, eventFilter]);

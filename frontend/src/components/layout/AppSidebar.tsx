@@ -12,6 +12,8 @@ import {
   Camera,
   Video,
   Globe,
+  Radio,
+  FileSearch,
 } from 'lucide-react';
 
 export type NavSection =
@@ -55,12 +57,14 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
 }) => {
   const navItems: { id: NavSection; label: string; icon: React.FC<{ style?: React.CSSProperties }>; badge?: number; badgeColor?: string }[] = [
     { id: 'dashboard', label: 'Overview', icon: Activity },
-    { id: 'messages', label: 'Messages', icon: Inbox, badge: messagesCount },
+    { id: 'analyze', label: 'Analyze', icon: FileSearch },
+    { id: 'messages', label: 'Security Inbox', icon: Inbox, badge: messagesCount },
+    { id: 'integrations', label: 'Connected Sources', icon: Radio },
+    { id: 'verify', label: 'Verification', icon: ShieldCheck },
     { id: 'alerts', label: 'Alerts', icon: AlertOctagon, badge: quarantineCount, badgeColor: 'var(--color-risk)' },
-    { id: 'verify', label: 'Verify', icon: ShieldCheck },
-    { id: 'evidence', label: 'Evidence', icon: Database },
     { id: 'devices', label: 'Devices', icon: Smartphone },
     { id: 'reports', label: 'Reports', icon: TrendingUp },
+    { id: 'evidence', label: 'Evidence', icon: Database },
     { id: 'settings', label: 'Settings', icon: Settings },
     { id: 'facescan', label: 'Face Scan', icon: Camera },
     { id: 'academy', label: 'Academy', icon: Video },
