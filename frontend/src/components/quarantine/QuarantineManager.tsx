@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import {
   AlertOctagon,
   Trash2,
@@ -7,6 +7,10 @@ import {
   Unlock,
   ArrowDown,
   FileText,
+  AlertTriangle,
+  Info,
+  ExternalLink,
+  ShieldAlert,
 } from 'lucide-react';
 import { SecureMessage } from '../../types';
 
@@ -16,6 +20,13 @@ interface QuarantineManagerProps {
   onDeleteMessage: (messageId: string) => void;
   onReportMessage: (msg: SecureMessage) => void;
 }
+
+const SIGNAL_SEVERITY_COLOR: Record<string, string> = {
+  critical: '#FF4757',
+  high: '#EF4444',
+  medium: '#F5B942',
+  low: '#9AA5AD',
+};
 
 export const QuarantineManager: React.FC<QuarantineManagerProps> = ({
   quarantinedMessages,
@@ -28,6 +39,21 @@ export const QuarantineManager: React.FC<QuarantineManagerProps> = ({
   );
 
   const selectedMsg = quarantinedMessages.find((m) => m.id === selectedId) || quarantinedMessages[0];
+
+  // Derive a numeric risk score from confidence or signals for display
+  const getRiskScore = (msg: SecureMessage): number | null => {
+    if (!msg) return null;
+    // If there are signals, estimate from severity counts
+    const signals = msg.detected_signals || [];
+    if (signals.length === 0) return null;
+    const severityScore = signals.reduce((acc, s) => {
+      if (s.severity === 'critical') return acc + 25;
+      if (s.severity === 'high') return acc + 18;
+      if (s.severity === 'medium') return acc + 10;
+      return acc + 5;
+    }, 0);
+    return Math.min(99, Math.max(60, severityScore));
+  };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
@@ -128,6 +154,17 @@ export const QuarantineManager: React.FC<QuarantineManagerProps> = ({
                       <strong style={{ fontSize: '13px', color: '#FFFFFF' }}>
                         {msg.sender || msg.source_channel || 'High Risk Alert'}
                       </strong>
+                      {/* DEMO badge */}
+                      {msg.is_demo && (
+                        <span style={{
+                          fontSize: '9px', fontWeight: 800, padding: '1px 6px',
+                          borderRadius: '4px', backgroundColor: 'rgba(168, 85, 247, 0.15)',
+                          color: '#c084fc', border: '1px solid rgba(168, 85, 247, 0.3)',
+                          letterSpacing: '0.06em',
+                        }}>
+                          DEMO
+                        </span>
+                      )}
                     </div>
                     <span
                       style={{
@@ -157,7 +194,7 @@ export const QuarantineManager: React.FC<QuarantineManagerProps> = ({
             })}
           </div>
 
-          {/* Detailed Quarantine Decision Flow (Section 12 Flow) */}
+          {/* Detailed Quarantine Decision Panel */}
           {selectedMsg && (
             <div
               className="glass-panel"
@@ -167,9 +204,11 @@ export const QuarantineManager: React.FC<QuarantineManagerProps> = ({
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '14px',
+                overflowY: 'auto',
+                maxHeight: '80vh',
               }}
             >
-              {/* Step 1: HIGH RISK */}
+              {/* Step 1: HIGH RISK badge */}
               <div
                 style={{
                   display: 'flex',
@@ -185,6 +224,11 @@ export const QuarantineManager: React.FC<QuarantineManagerProps> = ({
                   <AlertOctagon style={{ width: '16px', height: '16px', color: '#EF4444' }} />
                   <span style={{ fontSize: '12px', fontWeight: 800, color: '#EF4444', letterSpacing: '0.06em' }}>
                     HIGH RISK
+                    {getRiskScore(selectedMsg) !== null && (
+                      <span style={{ marginLeft: '8px', color: '#FCA5A5' }}>
+                        — {getRiskScore(selectedMsg)}/100
+                      </span>
+                    )}
                   </span>
                 </div>
                 <span style={{ fontSize: '11px', color: '#FCA5A5' }}>
@@ -196,7 +240,157 @@ export const QuarantineManager: React.FC<QuarantineManagerProps> = ({
                 <ArrowDown style={{ width: '14px', height: '14px', color: '#A7A7A7' }} />
               </div>
 
-              {/* Step 2: QUARANTINE */}
+              {/* ── WHY THIS IS HIGH RISK section ── */}
+              {selectedMsg.detected_signals && selectedMsg.detected_signals.length > 0 && (
+                <div
+                  style={{
+                    padding: '16px',
+                    borderRadius: '10px',
+                    backgroundColor: 'rgba(239, 68, 68, 0.04)',
+                    border: '1px solid rgba(239, 68, 68, 0.18)',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '12px' }}>
+                    <ShieldAlert style={{ width: '14px', height: '14px', color: '#EF4444' }} />
+                    <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', color: '#EF4444', letterSpacing: '0.08em' }}>
+                      WHY THIS IS HIGH RISK
+                    </span>
+                  </div>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    {/* Detected signals with per-signal evidence */}
+                    <div style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', color: '#6B7280', letterSpacing: '0.06em', marginBottom: '2px' }}>
+                      Detected Signals:
+                    </div>
+                    {selectedMsg.detected_signals.map((sig, i) => (
+                      <div
+                        key={sig.id || i}
+                        style={{
+                          padding: '10px 12px',
+                          borderRadius: '8px',
+                          backgroundColor: 'rgba(0,0,0,0.25)',
+                          border: `1px solid ${SIGNAL_SEVERITY_COLOR[sig.severity] || '#4A5568'}30`,
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '4px' }}>
+                          <span style={{
+                            width: '6px', height: '6px', borderRadius: '50%', flexShrink: 0,
+                            backgroundColor: SIGNAL_SEVERITY_COLOR[sig.severity] || '#9AA5AD',
+                            boxShadow: `0 0 6px ${SIGNAL_SEVERITY_COLOR[sig.severity] || '#9AA5AD'}`,
+                          }} />
+                          <span style={{
+                            fontSize: '12px', fontWeight: 700,
+                            color: SIGNAL_SEVERITY_COLOR[sig.severity] || '#FFFFFF',
+                          }}>
+                            {sig.name}
+                          </span>
+                          <span style={{
+                            fontSize: '9px', fontWeight: 800,
+                            padding: '1px 5px', borderRadius: '3px',
+                            backgroundColor: `${SIGNAL_SEVERITY_COLOR[sig.severity]}20`,
+                            color: SIGNAL_SEVERITY_COLOR[sig.severity] || '#9AA5AD',
+                            border: `1px solid ${SIGNAL_SEVERITY_COLOR[sig.severity]}40`,
+                            textTransform: 'uppercase', letterSpacing: '0.06em',
+                          }}>
+                            {sig.severity}
+                          </span>
+                        </div>
+                        {sig.description && (
+                          <div style={{ fontSize: '11px', color: '#9AA5AD', lineHeight: 1.45, marginLeft: '13px' }}>
+                            {sig.description}
+                          </div>
+                        )}
+                        {sig.evidence_text && (
+                          <div style={{
+                            marginTop: '6px', marginLeft: '13px',
+                            padding: '6px 10px', borderRadius: '5px',
+                            backgroundColor: 'rgba(239, 68, 68, 0.06)',
+                            border: '1px solid rgba(239, 68, 68, 0.15)',
+                            fontSize: '11px', color: '#FCA5A5',
+                            fontFamily: 'var(--font-mono)', lineHeight: 1.4,
+                          }}>
+                            <span style={{ color: '#6B7280', marginRight: '4px' }}>Evidence:</span>
+                            "{sig.evidence_text}"
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* WHY IT MATTERS section */}
+                  {selectedMsg.explanation && (
+                    <div style={{ marginTop: '14px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '8px' }}>
+                        <Info style={{ width: '13px', height: '13px', color: '#F5B942' }} />
+                        <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', color: '#F5B942', letterSpacing: '0.08em' }}>
+                          WHY IT MATTERS
+                        </span>
+                      </div>
+                      <div style={{
+                        padding: '12px 14px', borderRadius: '8px',
+                        backgroundColor: 'rgba(245, 185, 66, 0.05)',
+                        border: '1px solid rgba(245, 185, 66, 0.18)',
+                        fontSize: '12px', color: '#D1D5DB', lineHeight: 1.55,
+                      }}>
+                        {selectedMsg.explanation}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Official source links if available */}
+                  {selectedMsg.evidence && selectedMsg.evidence.length > 0 && (
+                    <div style={{ marginTop: '12px' }}>
+                      <div style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', color: '#6B7280', letterSpacing: '0.06em', marginBottom: '6px' }}>
+                        Supporting Evidence:
+                      </div>
+                      {selectedMsg.evidence.slice(0, 2).map((ev, i) => (
+                        <a
+                          key={i}
+                          href={ev.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          style={{
+                            display: 'flex', alignItems: 'center', gap: '6px',
+                            padding: '7px 10px', borderRadius: '6px', marginBottom: '4px',
+                            backgroundColor: 'rgba(2, 195, 154, 0.06)',
+                            border: '1px solid rgba(2, 195, 154, 0.18)',
+                            textDecoration: 'none', color: '#02C39A', fontSize: '11px',
+                          }}
+                        >
+                          <ExternalLink style={{ width: '11px', height: '11px', flexShrink: 0 }} />
+                          <span>{ev.publisher} — {ev.title}</span>
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Fallback if no signals (shouldn't normally happen) */}
+              {(!selectedMsg.detected_signals || selectedMsg.detected_signals.length === 0) && (
+                <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: 'rgba(239, 68, 68, 0.05)', border: '1px solid rgba(239, 68, 68, 0.18)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '8px' }}>
+                    <AlertTriangle style={{ width: '13px', height: '13px', color: '#EF4444' }} />
+                    <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', color: '#EF4444', letterSpacing: '0.08em' }}>
+                      WHY THIS IS HIGH RISK
+                    </span>
+                  </div>
+                  <div style={{ fontSize: '12px', color: '#A7A7A7', lineHeight: 1.5 }}>
+                    {selectedMsg.quarantine_reason || 'High-urgency scam patterns, unverified return claims, or payment harvest signals detected by rule engine.'}
+                  </div>
+                  {selectedMsg.explanation && (
+                    <div style={{ marginTop: '10px', padding: '10px 12px', borderRadius: '7px', backgroundColor: 'rgba(245, 185, 66, 0.05)', border: '1px solid rgba(245, 185, 66, 0.2)', fontSize: '12px', color: '#D1D5DB', lineHeight: 1.5 }}>
+                      {selectedMsg.explanation}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <ArrowDown style={{ width: '14px', height: '14px', color: '#A7A7A7' }} />
+              </div>
+
+              {/* QUARANTINE STATUS */}
               <div
                 style={{
                   padding: '12px 16px',
@@ -211,13 +405,18 @@ export const QuarantineManager: React.FC<QuarantineManagerProps> = ({
                 <div style={{ fontSize: '13px', color: '#FFFFFF', fontWeight: 600 }}>
                   Isolated in Sandbox • Credentials Protected
                 </div>
+                {selectedMsg.is_demo && (
+                  <div style={{ marginTop: '4px', fontSize: '11px', color: '#c084fc', fontWeight: 600 }}>
+                    ⚡ SIMULATED INPUT — Ran through real analysis pipeline
+                  </div>
+                )}
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <ArrowDown style={{ width: '14px', height: '14px', color: '#A7A7A7' }} />
               </div>
 
-              {/* Step 3: EVIDENCE PACKAGE */}
+              {/* EVIDENCE PACKAGE */}
               <div
                 style={{
                   padding: '14px 16px',
@@ -252,7 +451,7 @@ export const QuarantineManager: React.FC<QuarantineManagerProps> = ({
                 <ArrowDown style={{ width: '14px', height: '14px', color: '#A7A7A7' }} />
               </div>
 
-              {/* Step 4: USER DECISION (Section 12 Buttons: [ Report ] [ Delete ] [ Release ]) */}
+              {/* USER DECISION */}
               <div
                 style={{
                   padding: '16px',
@@ -269,7 +468,7 @@ export const QuarantineManager: React.FC<QuarantineManagerProps> = ({
                 </p>
 
                 <div style={{ display: 'flex', gap: '10px' }}>
-                  {/* [ Report ] */}
+                  {/* [ Report ] — generates real incident report */}
                   <button
                     type="button"
                     onClick={() => onReportMessage(selectedMsg)}
@@ -289,7 +488,7 @@ export const QuarantineManager: React.FC<QuarantineManagerProps> = ({
                       gap: '6px',
                       transition: 'all 0.15s ease',
                     }}
-                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.20)')}
+                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.22)')}
                     onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.12)')}
                   >
                     <PhoneCall style={{ width: '13px', height: '13px' }} />
@@ -343,7 +542,7 @@ export const QuarantineManager: React.FC<QuarantineManagerProps> = ({
                       gap: '6px',
                       transition: 'all 0.15s ease',
                     }}
-                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(229, 62, 62, 0.20)')}
+                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(229, 62, 62, 0.22)')}
                     onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(229, 62, 62, 0.12)')}
                   >
                     <Unlock style={{ width: '13px', height: '13px' }} />

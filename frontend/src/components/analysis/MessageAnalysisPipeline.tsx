@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   CheckCircle2,
   Upload,
@@ -42,6 +42,13 @@ export const MessageAnalysisPipeline: React.FC<MessageAnalysisPipelineProps> = (
 }) => {
   const [inputText, setInputText] = useState(initialText);
   const [activeTab, setActiveTab] = useState<'text' | 'image'>('text');
+
+  useEffect(() => {
+    if (initialText) {
+      setInputText(initialText);
+      setActiveTab('text');
+    }
+  }, [initialText]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 

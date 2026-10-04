@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { ArrowRight, FastForward, Shield, Zap, Eye, CheckCircle2, Lock, AlertTriangle, ChevronRight } from "lucide-react";
 
@@ -471,12 +471,12 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
                         style={{
                           display: "flex", alignItems: "center", gap: 9,
                           padding: "11px 13px", borderRadius: 11, textAlign: "left",
-                          background: isHovered ? "rgba(10,18,22,0.92)" : "rgba(6,12,16,0.68)",
-                          border: `1px solid ${isHovered ? demo.color + "50" : "rgba(255,255,255,0.07)"}`,
+                          background: isHovered ? "rgba(255,255,255,0.14)" : "rgba(255,255,255,0.07)",
+                          border: `1px solid ${isHovered ? demo.color : "rgba(255,255,255,0.18)"}`,
                           cursor: "pointer",
                           boxShadow: isHovered
-                            ? `0 8px 28px rgba(0,0,0,0.5), 0 0 22px ${demo.glow}, inset 0 1px 0 rgba(255,255,255,0.09)`
-                            : "0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)",
+                            ? `0 8px 28px rgba(0,0,0,0.5), 0 0 22px ${demo.glow}, inset 0 1px 0 rgba(255,255,255,0.2)`
+                            : "0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08)",
                           backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)",
                           transition: "all 0.22s cubic-bezier(0.16,1,0.3,1)",
                           position: "relative", overflow: "hidden",
@@ -498,7 +498,7 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
                           <div style={{ fontSize: 9, fontWeight: 800, color: demo.color, letterSpacing: "0.1em", fontFamily: "'JetBrains Mono', monospace", marginBottom: 2 }}>
                             {demo.label}
                           </div>
-                          <div style={{ fontSize: 10.5, fontWeight: 600, color: "#B8C5CC", lineHeight: 1.35, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" as const }}>
+                          <div style={{ fontSize: 11, fontWeight: 700, color: "#FFFFFF", lineHeight: 1.35, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" as const }}>
                             {demo.title}
                           </div>
                         </div>

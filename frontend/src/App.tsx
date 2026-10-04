@@ -27,6 +27,7 @@ import {
   ChevronRight,
   ChevronLeft,
   Video,
+  Zap,
 } from 'lucide-react';
 import {
   AnalysisResponse,
@@ -382,19 +383,43 @@ export default function App() {
       const res = await fetch('/api/demo-examples');
       if (res.ok) setDemoExamples(await res.json());
     } catch {
-      // Fallback demo examples
+      // Fallback demo examples (all 6 canonical cases)
       setDemoExamples([
         {
           id: 'demo-1',
-          title: 'Guaranteed Return Scam',
+          title: 'DEMO EXAMPLE 1: Guaranteed Return Scam',
           channel: 'whatsapp',
-          text: 'Invest ₹10,000 today and earn guaranteed returns of ₹50,000 within 7 days. This opportunity is 100% risk-free and approved by SEBI.',
+          text: 'LIMITED TIME INVESTMENT OPPORTUNITY. Invest ₹10,000 today and earn guaranteed returns of ₹50,000 within 7 days. This opportunity is 100% risk-free and officially approved by SEBI. Offer expires tonight. Send the payment immediately.',
         },
         {
           id: 'demo-2',
-          title: 'OTP & Password Theft',
+          title: 'DEMO EXAMPLE 2: OTP / Demat Credential Harvesting',
           channel: 'sms',
           text: 'URGENT SECURITY ALERT: Dear customer, your Demat account verification is pending. Please share your Demat login password and 6-digit OTP to complete verification immediately or your account will be suspended.',
+        },
+        {
+          id: 'demo-3',
+          title: 'DEMO EXAMPLE 3: Fake Trading App / APK Sideload',
+          channel: 'telegram',
+          text: 'Exclusive Institutional FII Quota available for retail investors. Download our official institutional VIP trading app from http://fake-terminal.com/app.apk to access guaranteed upper circuit allocations before market open.',
+        },
+        {
+          id: 'demo-4',
+          title: 'DEMO EXAMPLE 4: Payment-Before-Withdrawal Extortion',
+          channel: 'whatsapp',
+          text: 'Congratulations! Your ledger balance has grown to ₹4,50,000. To withdraw your profits to your personal bank account, you must first pay a ₹25,000 release processing fee and 10% margin deposit.',
+        },
+        {
+          id: 'demo-5',
+          title: 'DEMO EXAMPLE 5: Legitimate Investor Awareness Message',
+          channel: 'web',
+          text: 'Mutual fund investments are subject to market risks. Read all scheme related documents carefully before investing. Verify all broker and research analyst registration details on the official SEBI portal.',
+        },
+        {
+          id: 'demo-6',
+          title: 'DEMO EXAMPLE 6: Ambiguous Financial Message',
+          channel: 'telegram',
+          text: 'Alpha Research (claiming SEBI RA Reg INH000099999) providing technical intraday levels for Nifty 50 and Bank Nifty. Please verify trading setup and risk-reward ratio before taking positions.',
         },
       ]);
     }
@@ -1059,38 +1084,177 @@ export default function App() {
               }}
               initialText={inputText}
             />
-            {/* 1-Click Interactive Test Cases */}
-            <section>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-                <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-faint)', letterSpacing: '0.05em' }}>
-                  ⚡ 1-Click Interactive Test Cases:
-                </span>
+            {/* 1-Click Interactive Test Cases - Light & High-Visibility */}
+            <section
+              style={{
+                backgroundColor: '#F8FAFC',
+                border: '1px solid #E2E8F0',
+                borderRadius: '12px',
+                padding: '16px 20px',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.28), 0 1px 3px rgba(0, 0, 0, 0.08)',
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginBottom: '12px',
+                  flexWrap: 'wrap',
+                  gap: '8px',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                  <span
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      backgroundColor: '#FEF3C7',
+                      border: '1px solid #FDE68A',
+                      color: '#B45309',
+                      fontSize: '11px',
+                      fontWeight: 800,
+                      textTransform: 'uppercase',
+                      padding: '4px 10px',
+                      borderRadius: '6px',
+                      letterSpacing: '0.05em',
+                      fontFamily: "'JetBrains Mono', monospace",
+                    }}
+                  >
+                    <Zap style={{ width: '13px', height: '13px', color: '#D97706' }} />
+                    1-Click Interactive Test Cases
+                  </span>
+                  <span style={{ fontSize: '12px', color: '#475569', fontWeight: 600 }}>
+                    Click any scenario below to test instant multi-signal threat verification:
+                  </span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span
+                    style={{
+                      fontSize: '10px',
+                      fontWeight: 700,
+                      color: '#0F766E',
+                      backgroundColor: '#CCFBF1',
+                      border: '1px solid #99F6E4',
+                      borderRadius: '5px',
+                      padding: '3px 8px',
+                      fontFamily: "'JetBrains Mono', monospace",
+                      letterSpacing: '0.04em',
+                    }}
+                  >
+                    6 PRESETS READY
+                  </span>
+                </div>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '10px' }}>
+
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                  gap: '10px',
+                }}
+              >
                 {demoExamples.map((demo) => {
-                  const isHigh = demo.title.includes('High Concern') || demo.title.includes('Scam') || demo.title.includes('Theft');
-                  const isVerification = demo.title.includes('Needs Verification') || demo.title.includes('Ambiguous');
-                  const color = isHigh ? '#f87171' : isVerification ? '#fbbf24' : '#e53e3e';
+                  const titleLower = demo.title.toLowerCase();
+                  const isScamOrHigh =
+                    titleLower.includes('scam') ||
+                    titleLower.includes('theft') ||
+                    titleLower.includes('harvest') ||
+                    titleLower.includes('apk') ||
+                    titleLower.includes('extortion') ||
+                    titleLower.includes('high');
+                  const isLegitOrSafe =
+                    titleLower.includes('legitimate') ||
+                    titleLower.includes('awareness') ||
+                    titleLower.includes('safe') ||
+                    titleLower.includes('official');
+
+                  const dotColor = isScamOrHigh ? '#EF4444' : isLegitOrSafe ? '#10B981' : '#F59E0B';
+                  const tagLabel = isScamOrHigh ? 'HIGH RISK' : isLegitOrSafe ? 'SAFE' : 'REVIEW';
+                  const tagBg = isScamOrHigh ? '#FEF2F2' : isLegitOrSafe ? '#ECFDF5' : '#FFFBEB';
+                  const tagBorder = isScamOrHigh ? '#FECACA' : isLegitOrSafe ? '#A7F3D0' : '#FDE68A';
+                  const tagColor = isScamOrHigh ? '#DC2626' : isLegitOrSafe ? '#059669' : '#D97706';
+
                   return (
                     <button
                       key={demo.id}
-                      onClick={() => handleLoadDemo(demo)}
+                      type="button"
+                      onClick={() => {
+                        handleLoadDemo(demo);
+                        showToast(`Loaded "${demo.title}" into analysis pipeline`);
+                      }}
                       style={{
-                        backgroundColor: 'var(--bg-secondary)',
-                        border: '1px solid var(--border-color)',
-                        padding: '10px 14px',
-                        borderRadius: '8px',
+                        backgroundColor: '#FFFFFF',
+                        border: '1px solid #CBD5E1',
+                        padding: '11px 14px',
+                        borderRadius: '9px',
                         textAlign: 'left',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
+                        gap: '10px',
+                        cursor: 'pointer',
+                        boxShadow: '0 2px 5px rgba(0, 0, 0, 0.06)',
+                        transition: 'all 0.18s cubic-bezier(0.16, 1, 0.3, 1)',
+                        color: '#0F172A',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = '#F1F5F9';
+                        e.currentTarget.style.borderColor = '#94A3B8';
+                        e.currentTarget.style.transform = 'translateY(-1px)';
+                        e.currentTarget.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.12)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = '#FFFFFF';
+                        e.currentTarget.style.borderColor = '#CBD5E1';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.06)';
                       }}
                     >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: color }} />
-                        <span style={{ fontSize: '12px', fontWeight: 700 }}>{demo.title}</span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '9px', minWidth: 0 }}>
+                        <span
+                          style={{
+                            width: '9px',
+                            height: '9px',
+                            borderRadius: '50%',
+                            backgroundColor: dotColor,
+                            boxShadow: `0 0 8px ${dotColor}88`,
+                            flexShrink: 0,
+                          }}
+                        />
+                        <span
+                          style={{
+                            fontSize: '12.5px',
+                            fontWeight: 700,
+                            color: '#0F172A',
+                            lineHeight: 1.35,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
+                          {demo.title}
+                        </span>
                       </div>
-                      <ArrowRight style={{ width: '14px', height: '14px', color: 'var(--text-faint)' }} />
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
+                        <span
+                          style={{
+                            fontSize: '9px',
+                            fontWeight: 800,
+                            letterSpacing: '0.06em',
+                            color: tagColor,
+                            backgroundColor: tagBg,
+                            border: `1px solid ${tagBorder}`,
+                            borderRadius: '4px',
+                            padding: '2px 6px',
+                            fontFamily: "'JetBrains Mono', monospace",
+                          }}
+                        >
+                          {tagLabel}
+                        </span>
+                        <ArrowRight style={{ width: '13px', height: '13px', color: '#64748B' }} />
+                      </div>
                     </button>
                   );
                 })}
@@ -1449,7 +1613,11 @@ export default function App() {
               quarantinedMessages={quarantinedMessages}
               onReleaseMessage={(id) => handleMessageAction(id, 'release')}
               onDeleteMessage={(id) => handleMessageAction(id, 'delete')}
-              onReportMessage={(msg) => setReportConfirmMessage(msg)}
+              onReportMessage={(msg) => {
+                // Directly generate and open the incident report modal
+                setSelectedMessage(msg);
+                handleGenerateIncidentReport(msg);
+              }}
             />
             <div
               style={{
@@ -1613,21 +1781,31 @@ export default function App() {
                   ACTIVE DEFENSE
                 </span>
               </div>
+              {!dailyReport && (
+                <div style={{ marginBottom: '12px', padding: '7px 14px', borderRadius: '7px', backgroundColor: 'rgba(168, 85, 247, 0.08)', border: '1px solid rgba(168, 85, 247, 0.25)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ fontSize: '10px', fontWeight: 800, color: '#c084fc', letterSpacing: '0.08em' }}>⚡ DEMO ENVIRONMENT</span>
+                  <span style={{ fontSize: '11px', color: '#9AA5AD' }}>— Showing session-based counts. Scores computed by backend once authenticated.</span>
+                </div>
+              )}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
                 <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
                   <div style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase', fontWeight: 800 }}>Security Posture Score</div>
-                  <div style={{ fontSize: '28px', fontWeight: 900, color: '#e53e3e', marginTop: '6px' }}>{dailyReport?.posture_score || 94}/100</div>
-                  <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '4px' }}>High resilience to digital fraud attacks</div>
+                  <div style={{ fontSize: '28px', fontWeight: 900, color: '#e53e3e', marginTop: '6px' }}>
+                    {dailyReport?.posture_score !== undefined ? `${dailyReport.posture_score}/100` : <span style={{ fontSize: '14px', color: '#c084fc' }}>DEMO</span>}
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '4px' }}>{dailyReport ? 'High resilience to digital fraud attacks' : 'Score calculated from real session data'}</div>
                 </div>
                 <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
                   <div style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase', fontWeight: 800 }}>Clean Stream Rate</div>
-                  <div style={{ fontSize: '28px', fontWeight: 900, color: '#06b6d4', marginTop: '6px' }}>{dailyReport?.clean_rate || '98.4%'}</div>
-                  <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '4px' }}>Verified communications delivered safely</div>
+                  <div style={{ fontSize: '28px', fontWeight: 900, color: '#06b6d4', marginTop: '6px' }}>
+                    {dailyReport?.clean_rate || (messages.length > 0 ? `${Math.round((trustedMessages.length / messages.length) * 100)}%` : <span style={{ fontSize: '14px', color: '#c084fc' }}>DEMO</span>)}
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '4px' }}>Verified communications in this session</div>
                 </div>
                 <div style={{ backgroundColor: 'var(--bg-card)', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
                   <div style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase', fontWeight: 800 }}>Threats Isolated</div>
                   <div style={{ fontSize: '28px', fontWeight: 900, color: '#ef4444', marginTop: '6px' }}>{quarantinedMessages.length}</div>
-                  <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '4px' }}>Suspicious messages moved to quarantine</div>
+                  <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '4px' }}>Suspicious messages in quarantine this session</div>
                 </div>
               </div>
             </div>
@@ -1651,6 +1829,73 @@ export default function App() {
                 </div>
               </div>
             )}
+
+            {/* ── INCIDENT REPORTS Subsection ── */}
+            <div style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: '14px', padding: '24px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <FileText style={{ width: '18px', height: '18px', color: '#e53e3e' }} />
+                  <h3 style={{ fontSize: '16px', fontWeight: 700, margin: 0 }}>INCIDENT REPORTS</h3>
+                </div>
+                <span style={{ fontSize: '10px', fontWeight: 800, color: '#e53e3e', backgroundColor: 'rgba(229, 62, 62, 0.12)', padding: '3px 10px', borderRadius: '4px', letterSpacing: '0.06em' }}>
+                  {incidents.length} GENERATED
+                </span>
+              </div>
+              <p style={{ fontSize: '12px', color: 'var(--text-muted)', margin: '0 0 16px 0' }}>
+                Formally generated incident reports from detected fraud communications. Each report preserves the full forensic evidence package.
+              </p>
+              {incidents.length === 0 ? (
+                <div style={{ padding: '32px', textAlign: 'center', color: 'var(--text-muted)', backgroundColor: 'var(--bg-card)', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
+                  No incident reports generated yet. When you click "Report" on a quarantined message, the formal incident dossier will appear here.
+                </div>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {incidents.slice(0, 10).map((inc) => {
+                    const isHigh = inc.severity === 'HIGH' || inc.severity === 'CRITICAL';
+                    const incColor = inc.severity === 'CRITICAL' ? '#FF4757' : isHigh ? '#EF4444' : '#F5B942';
+                    return (
+                      <div key={inc.incident_id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderRadius: '10px', backgroundColor: 'var(--bg-card)', border: `1px solid ${incColor}25` }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <span style={{ fontSize: '12px', fontWeight: 800, color: incColor, fontFamily: 'var(--font-mono)' }}>{inc.incident_id}</span>
+                              <span style={{ fontSize: '9px', fontWeight: 800, padding: '1px 6px', borderRadius: '3px', backgroundColor: `${incColor}20`, color: incColor, border: `1px solid ${incColor}40`, letterSpacing: '0.06em' }}>
+                                {inc.severity}
+                              </span>
+                              <span style={{ fontSize: '9px', fontWeight: 700, padding: '1px 6px', borderRadius: '3px', backgroundColor: 'rgba(239,68,68,0.10)', color: '#F87171', border: '1px solid rgba(239,68,68,0.25)', letterSpacing: '0.06em' }}>
+                                {inc.status}
+                              </span>
+                            </div>
+                            <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                              {inc.source_channel} • {inc.sender} • {new Date(inc.timestamp).toLocaleDateString()}
+                            </div>
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const msg = messages.find(m => m.id === inc.incident_id.replace('IVP-', 'MSG-') || m.report_id === inc.incident_id || m.sender === inc.sender);
+                            if (msg) handleGenerateIncidentReport(msg);
+                            else showToast(`Incident ${inc.incident_id} — evidence preserved in vault.`);
+                          }}
+                          style={{
+                            display: 'flex', alignItems: 'center', gap: '6px',
+                            padding: '7px 14px', borderRadius: '7px',
+                            backgroundColor: 'rgba(229, 62, 62, 0.10)',
+                            border: '1px solid rgba(229, 62, 62, 0.30)',
+                            color: '#F87171', fontSize: '11px', fontWeight: 700,
+                            cursor: 'pointer',
+                          }}
+                        >
+                          <FileText style={{ width: '12px', height: '12px' }} />
+                          View Report
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </div>
         )}
 
