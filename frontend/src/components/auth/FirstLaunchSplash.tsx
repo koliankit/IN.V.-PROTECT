@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, FastForward, Terminal } from 'lucide-react';
+import { ArrowRight, FastForward, Terminal, Sparkles } from 'lucide-react';
 
 interface FirstLaunchSplashProps {
   onGetStarted: () => void;
@@ -159,16 +159,59 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
         else if (phase === 'reveal') handleComplete();
       }}
     >
-      {/* Subtle Ambient Depth & Grid */}
-      <div
+      {/* Dynamic Glowing Ambient Orbs for Glassmorphism Backlight */}
+      <motion.div
+        animate={{
+          scale: [1, 1.25, 1],
+          x: [0, 40, 0],
+          y: [0, -30, 0],
+          opacity: [0.15, 0.28, 0.15],
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
         style={{
           position: 'absolute',
-          inset: 0,
-          background:
-            'radial-gradient(circle at 50% 50%, rgba(2, 195, 154, 0.06) 0%, transparent 70%)',
+          top: '20%',
+          left: '28%',
+          width: '500px',
+          height: '500px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(2, 195, 154, 0.35) 0%, transparent 70%)',
+          filter: 'blur(70px)',
           pointerEvents: 'none',
         }}
       />
+
+      <motion.div
+        animate={{
+          scale: [1, 1.3, 1],
+          x: [0, -40, 0],
+          y: [0, 40, 0],
+          opacity: [0.10, 0.22, 0.10],
+        }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: 'easeInOut',
+          delay: 1,
+        }}
+        style={{
+          position: 'absolute',
+          bottom: '20%',
+          right: '25%',
+          width: '550px',
+          height: '550px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(77, 163, 255, 0.25) 0%, transparent 70%)',
+          filter: 'blur(80px)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* Subtle Technical Matrix Grid */}
       <div
         style={{
           position: 'absolute',
@@ -180,7 +223,7 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
         }}
       />
 
-      {/* Skip Intro Button */}
+      {/* Frosted Glass Skip Intro Button */}
       <button
         type="button"
         onClick={(e) => {
@@ -194,27 +237,31 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
-          background: 'rgba(16, 22, 26, 0.8)',
-          border: '1px solid rgba(255, 255, 255, 0.12)',
-          color: '#9AA5AD',
+          background: 'rgba(16, 22, 26, 0.55)',
+          border: '1px solid rgba(255, 255, 255, 0.16)',
+          color: '#F5F7F8',
           borderRadius: '24px',
-          padding: '8px 18px',
+          padding: '9px 20px',
           fontSize: '12px',
           fontWeight: 700,
           cursor: 'pointer',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
           zIndex: 100,
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
-          transition: 'all 0.2s ease',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.color = '#F5F7F8';
-          e.currentTarget.style.borderColor = 'rgba(2, 195, 154, 0.4)';
+          e.currentTarget.style.backgroundColor = 'rgba(16, 22, 26, 0.8)';
+          e.currentTarget.style.borderColor = 'rgba(2, 195, 154, 0.5)';
+          e.currentTarget.style.boxShadow =
+            '0 8px 32px rgba(0, 0, 0, 0.55), 0 0 15px rgba(2, 195, 154, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.25)';
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.color = '#9AA5AD';
-          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)';
+          e.currentTarget.style.backgroundColor = 'rgba(16, 22, 26, 0.55)';
+          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.16)';
+          e.currentTarget.style.boxShadow =
+            '0 8px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.15)';
         }}
       >
         <span>Skip Intro</span>
@@ -222,23 +269,27 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
       </button>
 
       <AnimatePresence mode="wait">
-        {/* PHASE 1: KINETIC TERMINAL TEXT DECRYPTION ANIMATION */}
+        {/* PHASE 1: FROSTED GLASS TERMINAL STAGE */}
         {phase === 'terminal' && (
           <motion.div
             key="terminal-stage"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.96, filter: 'blur(8px)' }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.96, filter: 'blur(12px)' }}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
             style={{
               width: '90%',
-              maxWidth: '620px',
-              backgroundColor: '#10161A',
-              border: '1px solid rgba(2, 195, 154, 0.25)',
-              borderRadius: '14px',
-              padding: '24px 28px',
-              boxShadow: '0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(2, 195, 154, 0.08)',
+              maxWidth: '640px',
+              backgroundColor: 'rgba(16, 22, 26, 0.60)',
+              backdropFilter: 'blur(28px)',
+              WebkitBackdropFilter: 'blur(28px)',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
+              borderRadius: '20px',
+              padding: '28px 32px',
+              boxShadow:
+                '0 30px 80px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.20), 0 0 40px rgba(2, 195, 154, 0.12)',
               zIndex: 2,
+              position: 'relative',
             }}
           >
             {/* Terminal Window Header */}
@@ -247,13 +298,13 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                paddingBottom: '14px',
-                marginBottom: '16px',
+                paddingBottom: '16px',
+                marginBottom: '18px',
                 borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Terminal style={{ width: '15px', height: '15px', color: '#02C39A' }} />
+                <Terminal style={{ width: '16px', height: '16px', color: '#02C39A' }} />
                 <span
                   style={{
                     fontFamily: "'JetBrains Mono', monospace",
@@ -267,20 +318,27 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
                 </span>
               </div>
               <div style={{ display: 'flex', gap: '6px' }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#E5484D' }} />
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#F5B942' }} />
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#02C39A' }} />
+                <span style={{ width: '9px', height: '9px', borderRadius: '50%', backgroundColor: '#E5484D', boxShadow: '0 0 6px #E5484D' }} />
+                <span style={{ width: '9px', height: '9px', borderRadius: '50%', backgroundColor: '#F5B942', boxShadow: '0 0 6px #F5B942' }} />
+                <span style={{ width: '9px', height: '9px', borderRadius: '50%', backgroundColor: '#02C39A', boxShadow: '0 0 6px #02C39A' }} />
               </div>
             </div>
 
-            {/* Stepped Animated Log Lines */}
+            {/* Inner Glass Console Screen */}
             <div
               style={{
+                backgroundColor: 'rgba(0, 0, 0, 0.35)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                border: '1px solid rgba(255, 255, 255, 0.06)',
+                borderRadius: '12px',
+                padding: '16px 20px',
                 fontFamily: "'JetBrains Mono', monospace",
                 fontSize: '12px',
-                lineHeight: 1.8,
+                lineHeight: 1.85,
                 color: '#9AA5AD',
-                minHeight: '130px',
+                minHeight: '140px',
+                boxShadow: 'inset 0 2px 8px rgba(0, 0, 0, 0.4)',
               }}
             >
               {terminalLines.slice(0, terminalStep + 1).map((line, idx) => {
@@ -313,6 +371,7 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
                           height: '14px',
                           backgroundColor: '#02C39A',
                           marginLeft: '2px',
+                          boxShadow: '0 0 8px #02C39A',
                         }}
                       />
                     )}
@@ -321,8 +380,8 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
               })}
             </div>
 
-            {/* Loading Progress Bar */}
-            <div style={{ marginTop: '18px' }}>
+            {/* Loading Progress Bar with Glass Track */}
+            <div style={{ marginTop: '20px' }}>
               <div
                 style={{
                   display: 'flex',
@@ -339,17 +398,18 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
               <div
                 style={{
                   width: '100%',
-                  height: '4px',
-                  backgroundColor: '#151C20',
-                  borderRadius: '2px',
+                  height: '5px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                  borderRadius: '3px',
                   overflow: 'hidden',
+                  border: '1px solid rgba(255, 255, 255, 0.05)',
                 }}
               >
                 <motion.div
                   style={{
                     height: '100%',
                     backgroundColor: '#02C39A',
-                    boxShadow: '0 0 10px #02C39A',
+                    boxShadow: '0 0 12px #02C39A',
                     width: `${progressVal}%`,
                     transition: 'width 0.15s ease',
                   }}
@@ -359,22 +419,44 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
           </motion.div>
         )}
 
-        {/* PHASE 2: BRAND REVEAL WITH ADVANCED KINETIC TEXT ANIMATION */}
+        {/* PHASE 2: BRAND REVEAL IN FROSTED GLASS COMMAND MODULE */}
         {phase === 'reveal' && (
           <motion.div
             key="brand-reveal"
-            initial={{ opacity: 0, scale: 0.92, filter: 'blur(10px)' }}
+            initial={{ opacity: 0, scale: 0.92, filter: 'blur(14px)' }}
             animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-            exit={{ opacity: 0, scale: 1.04, filter: 'blur(6px)' }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            exit={{ opacity: 0, scale: 1.04, filter: 'blur(8px)' }}
+            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
             style={{
               textAlign: 'center',
-              maxWidth: '680px',
-              padding: '32px 24px',
+              maxWidth: '720px',
+              width: '92%',
+              padding: '42px 36px',
               zIndex: 2,
+              backgroundColor: 'rgba(16, 22, 26, 0.60)',
+              backdropFilter: 'blur(30px)',
+              WebkitBackdropFilter: 'blur(30px)',
+              border: '1px solid rgba(255, 255, 255, 0.14)',
+              borderRadius: '24px',
+              boxShadow:
+                '0 32px 90px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.20), 0 0 50px rgba(2, 195, 154, 0.12)',
+              position: 'relative',
             }}
           >
-            {/* Cybersecurity Status Badge */}
+            {/* Top Subtle Specular Edge Refraction */}
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: '15%',
+                right: '15%',
+                height: '1px',
+                background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent)',
+                pointerEvents: 'none',
+              }}
+            />
+
+            {/* Frosted Cybersecurity Status Pill */}
             <motion.div
               initial={{ opacity: 0, y: -12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -383,17 +465,19 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '6px 16px',
+                padding: '6px 18px',
                 borderRadius: '24px',
                 background: 'rgba(2, 195, 154, 0.08)',
-                border: '1px solid rgba(2, 195, 154, 0.30)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                border: '1px solid rgba(2, 195, 154, 0.35)',
                 color: '#02C39A',
                 fontSize: '11px',
                 fontWeight: 700,
                 letterSpacing: '0.14em',
                 textTransform: 'uppercase',
                 marginBottom: '24px',
-                boxShadow: '0 0 20px rgba(2, 195, 154, 0.15)',
+                boxShadow: '0 0 24px rgba(2, 195, 154, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
               }}
             >
               <span
@@ -406,22 +490,23 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
                 }}
               />
               <span>SYSTEM PROTECTED • SEBI &amp; RBI GROUNDED</span>
+              <Sparkles style={{ width: '12px', height: '12px', color: '#02C39A' }} />
             </motion.div>
 
-            {/* Kinetic Decrypted Product Title */}
+            {/* Kinetic Decrypted Product Title with Glowing Text */}
             <motion.h1
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.55 }}
               style={{
-                fontSize: 'clamp(46px, 6vw, 68px)',
+                fontSize: 'clamp(44px, 5.8vw, 68px)',
                 fontWeight: 900,
                 letterSpacing: '-0.02em',
                 color: '#FFFFFF',
                 margin: '0 0 16px 0',
                 fontFamily: "'Inter', sans-serif",
                 lineHeight: 1.08,
-                textShadow: '0 0 40px rgba(2, 195, 154, 0.25)',
+                textShadow: '0 0 50px rgba(2, 195, 154, 0.35)',
               }}
             >
               <span
@@ -442,10 +527,10 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35, duration: 0.5 }}
               style={{
-                fontSize: 'clamp(17px, 2vw, 20px)',
+                fontSize: 'clamp(16px, 1.8vw, 19px)',
                 fontWeight: 600,
                 color: '#02C39A',
-                margin: '0 0 24px 0',
+                margin: '0 0 28px 0',
                 letterSpacing: '0.01em',
                 fontFamily: "'Inter', sans-serif",
               }}
@@ -453,13 +538,13 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
               {taglineScramble || 'Personal Digital Security Layer for Investors'}
             </motion.p>
 
-            {/* 5 Security Pillars Animated Staggered Badges */}
+            {/* 5 Security Pillars in Frosted Glass Badges */}
             <div
               style={{
                 display: 'flex',
                 justifyContent: 'center',
                 flexWrap: 'wrap',
-                gap: '8px',
+                gap: '10px',
                 marginBottom: '36px',
               }}
             >
@@ -470,24 +555,30 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   transition={{ delay: 0.45 + pIdx * 0.08, duration: 0.35 }}
                   style={{
-                    backgroundColor: '#10161A',
-                    border: '1px solid rgba(255, 255, 255, 0.10)',
-                    padding: '5px 12px',
-                    borderRadius: '6px',
+                    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                    backdropFilter: 'blur(16px)',
+                    WebkitBackdropFilter: 'blur(16px)',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    padding: '6px 14px',
+                    borderRadius: '8px',
                     fontSize: '11px',
                     fontWeight: 700,
                     letterSpacing: '0.08em',
-                    color: '#9AA5AD',
+                    color: '#F5F7F8',
                     fontFamily: "'JetBrains Mono', monospace",
-                    transition: 'all 0.2s ease',
+                    boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.10)',
+                    transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
                   }}
                   whileHover={{
                     scale: 1.05,
-                    borderColor: '#02C39A',
+                    backgroundColor: 'rgba(2, 195, 154, 0.10)',
+                    borderColor: 'rgba(2, 195, 154, 0.4)',
                     color: '#02C39A',
+                    boxShadow:
+                      '0 4px 16px rgba(0, 0, 0, 0.4), 0 0 15px rgba(2, 195, 154, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
                   }}
                 >
-                  <span style={{ color: '#02C39A', marginRight: '4px' }}>•</span>
+                  <span style={{ color: '#02C39A', marginRight: '6px' }}>•</span>
                   {pillar}
                 </motion.div>
               ))}
@@ -510,24 +601,27 @@ export const FirstLaunchSplash: React.FC<FirstLaunchSplashProps> = ({
                   color: '#080C0F',
                   fontWeight: 800,
                   fontSize: '14px',
-                  padding: '14px 32px',
+                  padding: '14px 34px',
                   borderRadius: '12px',
                   border: 'none',
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '10px',
                   cursor: 'pointer',
-                  boxShadow: '0 4px 25px rgba(2, 195, 154, 0.35)',
+                  boxShadow:
+                    '0 6px 28px rgba(2, 195, 154, 0.40), inset 0 1px 0 rgba(255, 255, 255, 0.4)',
                   letterSpacing: '0.02em',
                   transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 6px 30px rgba(2, 195, 154, 0.55)';
+                  e.currentTarget.style.boxShadow =
+                    '0 8px 36px rgba(2, 195, 154, 0.60), inset 0 1px 0 rgba(255, 255, 255, 0.5)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'none';
-                  e.currentTarget.style.boxShadow = '0 4px 25px rgba(2, 195, 154, 0.35)';
+                  e.currentTarget.style.boxShadow =
+                    '0 6px 28px rgba(2, 195, 154, 0.40), inset 0 1px 0 rgba(255, 255, 255, 0.4)';
                 }}
               >
                 <span>Enter Protection Layer</span>
