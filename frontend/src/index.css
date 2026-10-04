@@ -736,7 +736,19 @@ input::placeholder, textarea::placeholder {
 .chapter-eyebrow { display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 20px; }
 .chapter-eyebrow-bullet { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
 .editorial-display-heading { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.04em; line-height: 1.05; color: #FFFFFF; }
-.editorial-headline-gradient { background: linear-gradient(180deg, #FFFFFF 40%, rgba(255,255,255,0.7) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.editorial-headline-gradient {
+  background: linear-gradient(135deg, #FFFFFF 0%, #02C39A 50%, #FFFFFF 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: headlineShimmer 6s ease-in-out infinite;
+}
+
+@keyframes headlineShimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 .editorial-panel { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); position: relative; transition: border-color var(--duration) ease; }
 .editorial-panel:hover { border-color: var(--border-strong); }
 .editorial-panel-warm { background: var(--bg-card); border: 1px solid var(--accent-border); border-radius: var(--radius-lg); }
