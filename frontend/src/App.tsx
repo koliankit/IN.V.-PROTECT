@@ -53,7 +53,6 @@ import { IdentityVerification } from './components/auth/IdentityVerification';
 import { SecureLogin } from './components/auth/SecureLogin';
 import { DeviceManagerModal } from './components/auth/DeviceManagerModal';
 import { SecurityPrivacyModal } from './components/auth/SecurityPrivacyModal';
-import { FirstLaunchSplash } from './components/auth/FirstLaunchSplash';
 import { AppSidebar } from './components/layout/AppSidebar';
 import { SecurityMonitoringDashboard } from './components/dashboard/SecurityMonitoringDashboard';
 import { MessageAnalysisPipeline } from './components/analysis/MessageAnalysisPipeline';
@@ -104,10 +103,7 @@ export default function App() {
   const [activeNav, setActiveNav] = useState<NavSection>('dashboard');
   const [language, setLanguage] = useState<'en' | 'hi' | 'hinglish'>('en');
 
-  // Splash & Smartwatch HUD States
-  const [hasSeenSplash, setHasSeenSplash] = useState<boolean>(() => {
-    return sessionStorage.getItem('in_v_protect_splash_seen') === 'true';
-  });
+  // Smartwatch HUD State
   const [showSmartwatchModal, setShowSmartwatchModal] = useState<boolean>(false);
 
   // Security Hub Live State
@@ -639,16 +635,6 @@ export default function App() {
   // =========================================================================
   // VIEW MODE ROUTING: AUTHENTICATION vs CONSOLE
   // =========================================================================
-  if (!hasSeenSplash) {
-    return (
-      <FirstLaunchSplash
-        onGetStarted={() => {
-          setHasSeenSplash(true);
-          sessionStorage.setItem('in_v_protect_splash_seen', 'true');
-        }}
-      />
-    );
-  }
 
   // Direct Fullscreen Academy Video Lesson View (Reference Spec)
   if (activeNav === 'academy') {
