@@ -82,14 +82,20 @@ export const SecurityMonitoringDashboard: React.FC<SecurityMonitoringDashboardPr
   // Strict semantic color system:
   // Normal (>=80) = Teal (#02C39A)
   // Review (50-79) = Amber (#F5B942)
-  // High risk (<50) = Red (#E5484D)
-  const scoreColor = calculatedScore >= 80 ? '#02C39A' : calculatedScore >= 50 ? '#F5B942' : '#E5484D';
-  const scoreStatusLabel = calculatedScore >= 80 ? 'PROTECTED' : calculatedScore >= 50 ? 'REVIEW' : 'HIGH RISK';
-  const scoreSubLabel = calculatedScore >= 80 ? 'OPTIMAL DEFENSE' : calculatedScore >= 50 ? 'ATTENTION REQUIRED' : 'ELEVATED RISK DETECTED';
+  // High risk (<50 or hasHighRisk) = Red (#E5484D)
+  const isHighRisk = hasHighRisk || calculatedScore < 50;
+  const isReview = !isHighRisk && (reviewCount > 0 || calculatedScore < 80);
+  const scoreColor = isHighRisk ? '#E5484D' : isReview ? '#F5B942' : '#02C39A';
+  const scoreStatusLabel = isHighRisk ? 'HIGH RISK' : isReview ? 'REVIEW' : 'PROTECTED';
+  const scoreSubLabel = isHighRisk
+    ? `${riskCount} Threat${riskCount > 1 ? 's' : ''} Isolated in Quarantine`
+    : isReview
+    ? `${reviewCount} Communication${reviewCount > 1 ? 's' : ''} Under Review`
+    : 'Zero Threat Signatures Detected';
 
   // Current risk label and color (Red ONLY when actual high risk exists)
   const currentRiskColor = hasHighRisk ? '#E5484D' : reviewCount > 0 ? '#F5B942' : '#02C39A';
-  const currentRiskLabel = hasHighRisk ? 'HIGH RISK' : reviewCount > 0 ? 'REVIEW' : 'PROTECTED';
+  const currentRiskLabel = hasHighRisk ? 'HIGH RISK' : reviewCount > 0 ? 'REVIEW' : 'LOW RISK';
 
   // 24-Hour Time-Series Data Points for Threat Activity Chart
   const activityData = useMemo(() => {
@@ -136,8 +142,8 @@ export const SecurityMonitoringDashboard: React.FC<SecurityMonitoringDashboardPr
   const suspiciousLinePath = createSvgPath(suspiciousPoints);
   const verifiedAreaPath = `${verifiedLinePath} L ${verifiedPoints[verifiedPoints.length - 1].x} ${chartHeight - paddingY} L ${verifiedPoints[0].x} ${chartHeight - paddingY} Z`;
 
-  // Hero Radial Gauge Calculations (Radius = 68px, circumference ~ 427.26px)
-  const radius = 68;
+  // Hero Radial Gauge Calculations (Radius = 74px, circumference ~ 464.95px)
+  const radius = 74;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (calculatedScore / 100) * circumference;
 
@@ -833,16 +839,18 @@ export const SecurityMonitoringDashboard: React.FC<SecurityMonitoringDashboardPr
             </span>
           </div>
 
-          {/* Radial Instrument Gauge (Diameter: 175px) */}
-          <div style={{ position: 'relative', width: '175px', height: '175px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '4px 0' }}>
-            <svg width="175" height="175" viewBox="0 0 175 175" style={{ transform: 'rotate(-90deg)' }}>
+          {/* Radial Instrument Gauge (Diameter: 190px) */}
+          <div style={{ position: 'relative', width: '190px', height: '190px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '4px 0 2px 0' }}>
+            <svg width="190" height="190" viewBox="0 0 190 190" style={{ transform: 'rotate(-90deg)' }}>
               {/* Outer Precision Ticks */}
               {Array.from({ length: 36 }).map((_, i) => {
                 const angle = (i * 10 * Math.PI) / 180;
-                const x1 = 87.5 + 80 * Math.cos(angle);
-                const y1 = 87.5 + 80 * Math.sin(angle);
-                const x2 = 87.5 + 74 * Math.cos(angle);
-                const y2 = 87.5 + 74 * Math.sin(angle);
+                const isQuadrant = i % 9 === 0;
+                const tickLen = isQuadrant ? 8 : 5;
+                const x1 = 95 + 88 * Math.cos(angle);
+                const y1 = 95 + 88 * Math.sin(angle);
+                const x2 = 95 + (88 - tickLen) * Math.cos(angle);
+                const y2 = 95 + (88 - tickLen) * Math.sin(angle);
                 return (
                   <line
                     key={i}
@@ -850,40 +858,54 @@ export const SecurityMonitoringDashboard: React.FC<SecurityMonitoringDashboardPr
                     y1={y1}
                     x2={x2}
                     y2={y2}
-                    stroke="rgba(255, 255, 255, 0.08)"
-                    strokeWidth="1.2"
+                    stroke={isQuadrant ? 'rgba(255, 255, 255, 0.22)' : 'rgba(255, 255, 255, 0.08)'}
+                    strokeWidth={isQuadrant ? '1.5' : '1'}
                   />
                 );
               })}
 
               {/* Background Circular Track */}
               <circle
-                cx="87.5"
-                cy="87.5"
+                cx="95"
+                cy="95"
                 r={radius}
                 fill="none"
                 stroke="#151C20"
-                strokeWidth="9"
+                strokeWidth="8"
               />
 
               {/* Progress Value Arc */}
               <circle
-                cx="87.5"
-                cy="87.5"
+                cx="95"
+                cy="95"
                 r={radius}
                 fill="none"
                 stroke={scoreColor}
-                strokeWidth="9"
+                strokeWidth="8"
                 strokeDasharray={circumference}
                 strokeDashoffset={strokeDashoffset}
                 strokeLinecap="round"
                 style={{
                   transition: 'stroke-dashoffset 0.8s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.3s ease',
+                  filter: `drop-shadow(0 0 6px ${scoreColor}60)`,
                 }}
               />
+
+              {/* Leading Head Pin at the arc's leading edge */}
+              {calculatedScore > 0 && (() => {
+                const angleRad = -Math.PI / 2 + (calculatedScore / 100) * 2 * Math.PI;
+                const tipX = 95 + radius * Math.cos(angleRad);
+                const tipY = 95 + radius * Math.sin(angleRad);
+                return (
+                  <g style={{ transform: 'rotate(90deg)', transformOrigin: '95px 95px' }}>
+                    <circle cx={tipX} cy={tipY} r="7" fill={scoreColor} opacity="0.35" />
+                    <circle cx={tipX} cy={tipY} r="3.5" fill="#FFFFFF" stroke={scoreColor} strokeWidth="1.5" />
+                  </g>
+                );
+              })()}
             </svg>
 
-            {/* Inner Digital Readout (48–64px as specified) */}
+            {/* Inner Digital Readout (Clean, Spaced, NO Overlapping Text) */}
             <div
               style={{
                 position: 'absolute',
@@ -892,11 +914,12 @@ export const SecurityMonitoringDashboard: React.FC<SecurityMonitoringDashboardPr
                 alignItems: 'center',
                 justifyContent: 'center',
                 textAlign: 'center',
+                pointerEvents: 'none',
               }}
             >
               <div
                 style={{
-                  fontSize: '52px',
+                  fontSize: '44px',
                   fontWeight: 900,
                   color: '#F5F7F8',
                   letterSpacing: '-0.04em',
@@ -905,33 +928,55 @@ export const SecurityMonitoringDashboard: React.FC<SecurityMonitoringDashboardPr
                 }}
               >
                 {calculatedScore}
-                <span style={{ fontSize: '22px', color: '#9AA5AD', fontWeight: 600 }}>%</span>
+                <span style={{ fontSize: '18px', color: '#9AA5AD', fontWeight: 600 }}>%</span>
               </div>
               <div
                 style={{
-                  fontSize: '11px',
-                  fontWeight: 700,
-                  letterSpacing: '0.06em',
-                  color: '#9AA5AD',
-                  textTransform: 'uppercase',
-                  marginTop: '4px',
-                }}
-              >
-                {scoreStatusLabel}
-              </div>
-              <div
-                style={{
-                  fontSize: '10px',
-                  fontWeight: 700,
-                  letterSpacing: '0.04em',
+                  marginTop: '8px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  padding: '3px 10px',
+                  borderRadius: '16px',
+                  backgroundColor: `${scoreColor}18`,
+                  border: `1px solid ${scoreColor}45`,
                   color: scoreColor,
-                  marginTop: '2px',
+                  fontSize: '10px',
+                  fontWeight: 800,
+                  letterSpacing: '0.08em',
+                  fontFamily: "'JetBrains Mono', monospace",
                   textTransform: 'uppercase',
                 }}
               >
-                ● {scoreSubLabel}
+                <span
+                  style={{
+                    width: '5px',
+                    height: '5px',
+                    borderRadius: '50%',
+                    backgroundColor: scoreColor,
+                    boxShadow: `0 0 6px ${scoreColor}`,
+                  }}
+                />
+                <span>{scoreStatusLabel}</span>
               </div>
             </div>
+          </div>
+
+          {/* Context Explanatory Line (Cleanly positioned outside the circle) */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px',
+              fontSize: '11px',
+              color: isHighRisk ? '#E5484D' : isReview ? '#F5B942' : '#9AA5AD',
+              fontWeight: 600,
+              margin: '4px 0 10px 0',
+              textAlign: 'center',
+            }}
+          >
+            <span>{scoreSubLabel}</span>
           </div>
 
           {/* Sub-Gauge Threat & Posture Strip */}
@@ -946,7 +991,7 @@ export const SecurityMonitoringDashboard: React.FC<SecurityMonitoringDashboardPr
               gridTemplateColumns: 'repeat(3, 1fr)',
               gap: '6px',
               textAlign: 'center',
-              margin: '4px 0 8px 0',
+              marginBottom: '10px',
             }}
           >
             <div>
@@ -989,10 +1034,21 @@ export const SecurityMonitoringDashboard: React.FC<SecurityMonitoringDashboardPr
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <ShieldCheck style={{ width: '13px', height: '13px', color: '#02C39A' }} />
+              <ShieldCheck style={{ width: '14px', height: '14px', color: '#02C39A' }} />
               <span>Zero-OTP Safeguard Active</span>
             </div>
-            <span style={{ color: '#02C39A', fontWeight: 700 }}>Continuous Shield</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+              <span
+                style={{
+                  width: '6px',
+                  height: '6px',
+                  borderRadius: '50%',
+                  backgroundColor: '#02C39A',
+                  boxShadow: '0 0 6px #02C39A',
+                }}
+              />
+              <span style={{ color: '#02C39A', fontWeight: 700 }}>Continuous Shield</span>
+            </div>
           </div>
         </div>
 
